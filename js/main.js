@@ -12,6 +12,9 @@ function update(){
   if(sc){ if(sc.seg.touches) model.warn.unshift("Der Umriss berührt den Bildrand. Das Gerät sollte ganz auf dem Foto sein.");
     drawPhoto(sc,model.info); $("detect").textContent=model.info.text;
     if(model.mode!==effMode){ effMode=model.mode; renderFields(); } }
+  // Nur Schraubenanzahlen anbieten, die auf die Rückwand passen
+  if(model.screw){ const av=model.screw.avail, changed=av.join()!==screwAvail.join();
+    screwAvail=av; if(v.holes&&model.screw.n&&v.sn!==model.screw.n){ v.sn=model.screw.n; renderFields(); } else if(changed) renderFields(); }
   const b=model.bb, vol=(b[1]-b[0]+4)*(b[3]-b[2]+4)*(b[5]-b[4]+4);
   const wall=v.t||v.P||3;
   const h=Math.max(0.8,Math.min(Math.cbrt(vol/260000),wall*0.7));

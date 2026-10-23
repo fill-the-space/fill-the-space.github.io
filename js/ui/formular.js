@@ -8,7 +8,7 @@ function renderTypes(){
   $("typeHint").textContent=HALTERUNGEN[state.type].hint;
 }
 function renderFields(){
-  const box=$("fields"), v=state.v[state.type]; box.innerHTML="";
+  const box=$("fields"), v=state.v[state.type], focus=document.activeElement&&box.contains(document.activeElement)?document.activeElement.id:null; box.innerHTML="";
   $("konturPanel").hidden = state.type!=="individuell";
   if(state.type==="individuell"&&!photo.canvas) setPhotoSample("gun");
   const mk=(f)=>{
@@ -16,7 +16,7 @@ function renderFields(){
     const id=`f-${state.type}-${f.k}`;
     if(f.c==="seg"){ const w=document.createElement("div"); w.style.cssText="display:flex;flex-direction:column;gap:4px";
       const l=document.createElement("span"); l.className="seg-label"; l.textContent=f.l; const s=document.createElement("div"); s.className="seg"; s.setAttribute("role","group"); s.setAttribute("aria-label",f.l);
-      f.o.forEach(([val,lab])=>{ const b=document.createElement("button"); b.type="button"; b.id=id+"-"+val; b.textContent=lab; b.setAttribute("aria-pressed",String(v[f.k]===val));
+      (f.oShow?f.o.filter(([val])=>f.oShow(val,v)):f.o).forEach(([val,lab])=>{ const b=document.createElement("button"); b.type="button"; b.id=id+"-"+val; b.textContent=lab; b.setAttribute("aria-pressed",String(v[f.k]===val));
         b.addEventListener("click",()=>{ v[f.k]=val; renderFields(); schedule(); }); s.appendChild(b); });
       w.append(l,s); return w; }
     if(f.c==="check"){ const l=document.createElement("label"); l.className="check"; const i=document.createElement("input"); i.type="checkbox"; i.id=id; i.checked=!!v[f.k];
@@ -36,5 +36,7 @@ function renderFields(){
       box.appendChild(r); continue; }
     const el=mk(f); if(el) box.appendChild(el);
   }
+  // Beim Tippen nicht aus dem Feld fallen, wenn die Felder neu aufgebaut werden
+  if(focus&&$(focus)) $(focus).focus();
 }
 function renderAll(){ renderTypes(); renderFields(); schedule(); }

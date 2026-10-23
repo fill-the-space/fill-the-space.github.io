@@ -20,10 +20,11 @@ function buildAblage(p,ghostKind){
   const minW=N+2*s+2*(P+12); if(W<minW){W=minW;warn.push(`Breite auf ${f2(W)} mm erhöht, damit Stützen neben die Aussparung passen.`);}
   if(ring){ const minD=N+2*s+rim+P+5; if(Dp<minD){Dp=minD;warn.push(`Ablagetiefe auf ${f2(Dp)} mm erhöht, damit der Ring Platz hat.`);} }
   else { if(L<half+5){L=half+5;} if(Dp<L+15){Dp=L+15;warn.push(`Ablagetiefe auf ${f2(Dp)} mm erhöht, damit hinter dem Schlitz genug Material bleibt.`);} }
-  if(Hp<P+30){Hp=P+30;warn.push(`Plattenhöhe auf ${f2(Hp)} mm erhöht, damit die Schrauben Platz haben.`);}
+  const sc=screwSpec(p,P,warn), hMin=Math.max(30,p.holes?screwMinPlate(sc):0);
+  if(Hp<P+hMin){Hp=P+hMin;warn.push(`Plattenhöhe auf ${mmDE(Hp)} mm erhöht, damit die Schrauben ${RAND} mm Abstand zum Rand haben.`);}
   const cx=W/2, yc= ring ? Dp-rim-half : Dp-L+half;
   const Dg=Dp*0.75, Hg=Math.min(Hp-P,Dp*0.75), z0=Hp-P;
-  const gx=[4,W-4-P], sc=screwSpec(p,P,warn), holes=screwLayout(p,sc,W*0.3,W*0.7,(Hp-P)*0.45,0,Hp-P,warn);
+  const gx=[4,W-4-P], plan=screwPlan(p,sc,0,W,0,Hp-P,warn), holes=plan.pts;
   const tri=[[0,z0],[Dg,z0],[0,z0-Hg]];
   const ap2=(x,y)=> ring ? hyp(x-cx,y-yc)-half : Math.min(hyp(x-cx,y-yc)-half, rr2(x,y,cx,(yc+Dp+10)/2,half,(Dp+10-yc)/2,0));
   const f=(x,y,z)=>{
@@ -49,5 +50,5 @@ function buildAblage(p,ghostKind){
            {k:"cyl",x:cx,y:y0+200,r:N*0.32,z0:Hp+12,z1:Hp+56,ax:"y",len:45},
            {k:"box",x0:cx-N*0.8,x1:cx+N*0.8,y0:Math.max(P+3,yc-58),y1:Math.max(P+3,yc-58)+116,z0:Hp-190,z1:Hp-115}]; }
   else ghost=[{k:"cyl",x:cx,y:yc,r:N/2,z0:Hp-100,z1:Hp+60}];
-  return {f,bb:[0,W,0,Dp,0,Hp],dims:[W,Dp,Hp],scad:S.join("\n"),ghost,dir:"Rückwand unten",warn};
+  return {f,bb:[0,W,0,Dp,0,Hp],dims:[W,Dp,Hp],scad:S.join("\n"),ghost,dir:"Rückwand unten",warn,screw:plan};
 }

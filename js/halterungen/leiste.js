@@ -20,12 +20,14 @@ function buildLeiste(p){
   if(a<p.d+2*s+3){a=p.d+2*s+3;warn.push(`Lochabstand auf ${f2(a)} mm erhöht, damit Stege zwischen den Löchern bleiben.`);}
   if(wd<P+r+2){wd=P+r+2;warn.push(`Wandabstand auf ${f2(wd)} mm erhöht.`);}
   const th= p.blind ? p.depth+3 : P;
-  let Hp=p.Hp; if(Hp<th+25){Hp=th+25;warn.push(`Plattenhöhe auf ${f2(Hp)} mm erhöht.`);}
   const margin=Math.max(a/2, r+P+6), W=(n-1)*a+2*margin;
+  // Platte nur für Schrauben erhöhen, wenn sie auch in der Breite Platz haben
+  const sc=screwSpec(p,P,warn), forScrews=p.holes&&W>=screwMinPlate(sc), hMin=Math.max(25,forScrews?screwMinPlate(sc):0);
+  let Hp=p.Hp; if(Hp<th+hMin){Hp=th+hMin;warn.push(`Plattenhöhe auf ${mmDE(Hp)} mm erhöht${forScrews?`, damit die Schrauben ${RAND} mm Abstand zum Rand haben`:""}.`);}
   const rim=Math.max(6,P), Dp=wd+r+rim, z0=Hp-th;
   const xs=[...Array(n)].map((_,i)=>margin+i*a);
   const Dg=Dp*0.8, Hg=Math.min(Hp-th,Dp*0.8), gx=[2,W-2-P], tri=[[0,z0],[Dg,z0],[0,z0-Hg]];
-  const sc=screwSpec(p,P,warn), holes=screwLayout(p,sc,W*0.25,W*0.75,(Hp-th)*0.45,0,Hp-th,warn);
+  const plan=screwPlan(p,sc,0,W,0,Hp-th,warn), holes=plan.pts;
   const hz0 = p.blind ? Hp-p.depth : z0-5;
   const f=(x,y,z)=>{
     let d=box3(x,y,z,0,W,0,P,0,Hp);
@@ -48,5 +50,5 @@ function buildLeiste(p){
   const ghost=[];
   xs.forEach(x=>{ if(p.blind) ghost.push({k:"cyl",x,y:wd,r:p.d/2,z0:hz0,z1:hz0+80});
     else ghost.push({k:"cyl",x,y:wd,r:p.d/2*0.55,z0:Hp-100,z1:Hp},{k:"cyl",x,y:wd,r:Math.min(a*0.42,p.d*1.5),z0:Hp+2,z1:Hp+95}); });
-  return {f,bb:[0,W,0,Dp,0,Hp],dims:[W,Dp,Hp],scad:S.join("\n"),ghost,dir:"Rückwand unten",warn};
+  return {f,bb:[0,W,0,Dp,0,Hp],dims:[W,Dp,Hp],scad:S.join("\n"),ghost,dir:"Rückwand unten",warn,screw:plan};
 }

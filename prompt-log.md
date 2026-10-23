@@ -555,3 +555,34 @@ const SCHRAUB_FELDER=[
 **Betroffene Dateien:** keine
 
 **Commit-Nachricht:** Prompt 30: Hinweis zum Zwischenspeicher protokolliert
+
+---
+
+## Prompt 31 – 2 cm Randabstand, Schrauben mittig (23.10.2026)
+
+**Prompt:**
+> Das finde ich schon ganz okay. Wichtig wäre noch, dass Sachen, die nicht funktionieren nicht angezeigt werden. D.h. es sollte immer circa 2 cm Abstand vom Schraubenbohrloch zum Rand sein. Ist das nicht gegeben? Sollte das nicht möglich sein. Wichtig wäre auch, dass die Schrauben entweder eher an der Oberseite oder mittig zentriert angebracht werden. Wenn man jetzt von zwei auf vier Schrauben stellt, wird oft einfach nur eine Reihe weiter unten angefügt. Die Schraubenlöcher sind dann aber nicht mehr zentral im Bauteil.
+
+**Was sich geändert hat:**
+- Jedes Schraubloch hat jetzt mindestens 20 mm Abstand zum Rand der Rückwand, gemessen von der Kante des Bohrlochs.
+- Die Schrauben sitzen immer mittig auf der Rückwand. Zwei oder drei Schrauben bilden eine waagerechte Reihe in der Mitte. Vier Schrauben bilden ein Rechteck um die Mitte, wenn die Rückwand hoch genug ist, sonst eine mittige Reihe. Es wird keine Reihe mehr nur unten angehängt.
+- Bei „Anzahl Schrauben“ erscheinen nur noch die Knöpfe, die auf die aktuelle Rückwand passen. Ein schmaler Köcher bietet z. B. nur 1 Schraube an. Macht man das Gerät breiter, erscheinen 2, 3 und 4 automatisch. Passt gar keine Schraube, verschwinden die Schrauben-Einstellungen, und ein Hinweis nennt die nötige Mindestgröße.
+- Bei Ablage, Leiste und Individuell wird die Platte bei Bedarf automatisch etwas höher, damit eine Schraubenreihe mit 2 cm Abstand Platz hat. Die Leiste ist dadurch standardmäßig 51 statt 45 mm hoch.
+- Damit beim Tippen einer Breite der Cursor nicht aus dem Feld springt, wenn die Schrauben-Knöpfe neu aufgebaut werden, bleibt das Eingabefeld aktiv.
+- Selbst gefunden und behoben: Bei einer sehr schmalen Leiste wurde die Platte für Schrauben erhöht, die in der Breite gar nicht passten. Jetzt wird nur erhöht, wenn die Schrauben auch wirklich Platz haben.
+- Getestet: 108 Fälle mit verschiedenen Größen, Schrauben und Anzahlen. In keinem liegt ein Loch näher als 20 mm am Rand, und die Löcher sind immer mittig verteilt.
+
+**Betroffene Dateien:** js/halterungen/schrauben.js, koecher.js, ablage.js, leiste.js, individuell.js, js/ui/formular.js, js/main.js, index.html (Versionsnummer 31)
+
+**Wichtigster Code-Ausschnitt:** (js/halterungen/schrauben.js)
+```js
+const m=RAND+s.hole/2, gap=s.dk+4;          // RAND = 20 mm
+const X0=x0+m, X1=x1-m, Z0=z0+m, Z1=z1-m;   // erlaubte Fläche für Lochmitten
+...
+else if(n===2) pts=[[X0,zm],[X1,zm]];       // mittige Reihe
+else pts = grid ? [[X0,Z1],[X1,Z1],[X0,Z0],[X1,Z0]] : …   // Rechteck um die Mitte
+```
+
+**Screenshot:** prompt-log-bilder/31-vorher.jpg / 31-nachher.jpg
+
+**Commit-Nachricht:** Prompt 31: 2 cm Randabstand, Schrauben mittig, nur passende Anzahl

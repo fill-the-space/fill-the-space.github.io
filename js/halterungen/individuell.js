@@ -42,10 +42,10 @@ function buildIndividuell(p,seg){
   const nw=sh.n1-sh.n0+2*s, supL=Math.min(sh.availL,30), supR=Math.min(sh.availR,30);
   if(Math.min(supL,supR)<3) warn.push("Das Gerät liegt nur auf einer Seite auf und kann kippen. Prüfe, ob der Schwerpunkt über der Auflage liegt.");
   const armL=Math.max(supL,P+12), armR=Math.max(supR,P+12), W=armL+nw+armR;
-  const rim=6, D=P+T+2*s+rim, th=Math.max(4,P), Hp=th+40, ridge=front?4:0;
+  const sc=screwSpec(p,P,warn), rim=6, D=P+T+2*s+rim, th=Math.max(4,P), Hp=th+Math.max(40,p.holes?screwMinPlate(sc):0), ridge=front?4:0;
   const sx0=armL, sx1=armL+nw, sy0=P, sy1=front?D+6:D-rim;
   const Dg=D*0.75, Hg=Math.min(Hp-th,D*0.75), gx=[2,W-2-P], tri=[[0,Hp-th],[Dg,Hp-th],[0,Hp-th-Hg]];
-  const hx=(armL>=18&&armR>=18)?[armL/2,W-armR/2]:[W*0.22,W*0.78], sc=screwSpec(p,P,warn), holes=screwLayout(p,sc,hx[0],hx[1],(Hp-th)*0.45,0,Hp-th,warn);
+  const plan=screwPlan(p,sc,0,W,0,Hp-th,warn), holes=plan.pts;
   const slot2=(x,y)=>rr2(x,y,(sx0+sx1)/2,(sy0+sy1)/2,(sx1-sx0)/2,(sy1-sy0)/2,front?0:Math.min(4,nw/2));
   const f=(x,y,z)=>{
     let d=box3(x,y,z,0,W,0,P,0,Hp);
@@ -66,7 +66,7 @@ function buildIndividuell(p,seg){
     ...gx.map(gg=>`    translate([${f2(gg)}, 0, 0]) stuetze();`),`  }`];
   S.push(...screwSCAD(holes,sc,"P + 2","P"));
   S.push(`}`);
-  return {f,bb:[0,W,0,D,0,Hp+ridge],dims:[W,D,Hp+ridge],scad:S.join("\n"),dir:"Rückwand unten",warn,mode:"haengen",
+  return {f,bb:[0,W,0,D,0,Hp+ridge],dims:[W,D,Hp+ridge],scad:S.join("\n"),dir:"Rückwand unten",warn,mode:"haengen",screw:plan,
     ghost:[ghostOf(armL+s-sh.n0,P+s,Hp-sh.zS)],
     info:{...info,lineRowPx:g.rowPx(sh.zS),text:`Auflagekante ${Math.round(sh.zS-g.zLow)} mm über dem unteren Ende erkannt. Der schmale Teil darunter ist ${Math.round(sh.n1-sh.n0)} mm breit und hängt durch den Schlitz.`}};
 }

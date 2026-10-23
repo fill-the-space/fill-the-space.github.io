@@ -26,7 +26,7 @@ function buildKoecher(p){
   const win = lip < Ho-t-1;
   const cw=Math.min(12,p.B*0.4), round=p.shape==="rund";
   // Bei runder Innenseite liegt der Kopf nicht plan auf, deshalb ohne Senkung
-  const sc=screwSpec(p,t,warn,!round), holes=screwLayout(p,sc,Wo*0.3,Wo*0.7,t+(Ho-t)*0.6,t,Ho,warn);
+  const sc=screwSpec(p,t,warn,!round), plan=screwPlan(p,sc,0,Wo,0,Ho,warn), holes=plan.pts;
   const f=(x,y,z)=>{
     let d=ext(Math.min(rr2(x,y,cx,cy,Wo/2,Do/2,ri+t), rr2(x,y,cx,cy/2,Wo/2,cy/2,0)),z,0,Ho);
     d=Math.max(d,-ext(rr2(x,y,cx,cy,iw/2,id/2,ri),z,t,Ho+5));
@@ -45,5 +45,5 @@ function buildKoecher(p){
   if(p.slot) L.push(`  // Kabelschlitz`,`  translate([cx - ${f2(cw/2)}, cy - ${f2(id*0.15)}, -1]) cube([${f2(cw)}, Do, wand + 1.01]);`);
   L.push(`}`);
   const ghost=[{k:"rr",cx,cy,w:p.B,d:p.T,r:Math.max(0,ri-p.s),z0:t,z1:t+p.H}];
-  return {f,bb:[0,Wo,0,Do,0,Ho],dims:[Wo,Do,Ho],scad:L.join("\n"),ghost,dir:"Boden unten",warn};
+  return {f,bb:[0,Wo,0,Do,0,Ho],dims:[Wo,Do,Ho],scad:L.join("\n"),ghost,dir:"Boden unten",warn,screw:plan};
 }
