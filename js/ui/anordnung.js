@@ -7,7 +7,7 @@ const PLAN_ART={
   halterung:{kind:"wand", name:"Wand", knopf:"An der Wand", ort:"an der Wand", rand:"der Wand", dazu:"An die Wand hängen", size:[["W","Breite"],["H","Höhe"]], b:"von unten", gap:20, raster:100,
     hint:"Trag ein, wie groß die freie Wandfläche ist. „Teil hinzufügen“ hängt die Halterung aus dem Formular an die Wand. Teile mit der Maus oder dem Finger verschieben, sie rasten an den Kanten der anderen Teile ein. Ein angetipptes Teil ist ausgewählt: Änderungen im Formular gelten dann nur für dieses Teil. Für eine weitere Halterung wieder „Teil hinzufügen“ oder „Duplizieren“ drücken und das neue Teil anpassen. Auf eine freie Stelle tippen hebt die Auswahl auf."},
   box:{kind:"kasten", name:"Kasten", knopf:"Im Kasten", ort:"im Kasten", rand:"des Kastens", dazu:"In den Kasten legen", size:[["L","Länge"],["B","Breite"],["H","Höhe"]], b:"von vorne", gap:0, raster:50,
-    hint:"Trag die Innenmaße deines Kastens ein, z. B. einer Schublade, Kiste oder eines Regalfachs. „Teil hinzufügen“ stellt die Box aus dem Formular hinein, die Ansicht zeigt sie von oben, vorne ist unten. Boxen mit der Maus oder dem Finger verschieben, sie rasten an den Kanten der anderen Boxen ein. „Drehen“ dreht die ausgewählte Box um 90°. „Stapeln“ stellt die ausgewählte Box auf eine andere, am liebsten auf eine gleich große. Das geht nur mit stapelbaren Boxen, also Boxen mit Stapelfuß und ohne Deckel: der Stapelbox und dem Sortierkasten mit „Stapelbar“. In der Ansicht von oben ist jede gestapelte Box etwas kleiner gezeichnet und mit ▲ markiert: Wer die oberste Box zieht, nimmt sie vom Stapel; wer die untere Box am Rand greift, verschiebt den ganzen Stapel. Stapelboxen greifen mit ihrem Fuß in die Box darunter, wenn beide gleich groß sind. Ein angetipptes Teil ist ausgewählt: Änderungen im Formular gelten dann nur für diese Box. Auf eine freie Stelle tippen hebt die Auswahl auf."}
+    hint:"Trag die Innenmaße deines Kastens ein, z. B. einer Schublade, Kiste oder eines Regalfachs. „Teil hinzufügen“ stellt die Box aus dem Formular hinein, die Ansicht zeigt sie von oben, vorne ist unten. Boxen mit der Maus oder dem Finger verschieben, sie rasten an den Kanten der anderen Boxen ein. „Drehen“ dreht die ausgewählte Box um 90°. „Stapeln“ stellt die ausgewählte Box auf eine andere, am liebsten auf eine gleich große. Das geht nur mit stapelbaren Boxen (Stapelbox, Sortierkasten und Deckelbox mit „Stapelbar“) und nur mit gleich großen Boxen der gleichen Art, genau übereinander. Am einfachsten: Box auswählen, „Duplizieren“, dann „Stapeln“. In der Ansicht von oben ist jede gestapelte Box etwas kleiner gezeichnet und mit ▲ markiert: Wer die oberste Box zieht, nimmt sie vom Stapel; wer die untere Box am Rand greift, verschiebt den ganzen Stapel. Stapelboxen greifen mit ihrem Fuß in die Box darunter, wenn beide gleich groß sind. Ein angetipptes Teil ist ausgewählt: Änderungen im Formular gelten dann nur für diese Box. Auf eine freie Stelle tippen hebt die Auswahl auf."}
 };
 const planCache=new Map();
 const plan=()=>state.plan[state.page], planArt=()=>PLAN_ART[state.page];
@@ -39,12 +39,14 @@ function freeSpot(w,h,rects){
   return {a:Math.max(0,Math.min(g,CW-w)), b:wand?Math.max(0,CH-h-g):g};
 }
 /* Stapel im Kasten: Höhe z jeder Box und auf welchen Boxen sie steht (rest). Erst alle Boxen am Boden, dann die gestapelten
-   in der Reihenfolge, in der sie gestapelt wurden. Eine Stapelbox greift mit ihrem Fuß in eine gleich große, offene Box darunter. */
+   in der Reihenfolge, in der sie gestapelt wurden. Gestapelt werden nur gleich große Boxen der gleichen Art, genau übereinander;
+   der Fuß der oberen Box greift in den Rand der unteren. */
 const hoehe=r=>r.e.bb[5]-r.e.bb[4];
-const greift=(r,o)=>r.e.box&&r.e.box.stack&&o.e.box&&o.e.box.stack&&!o.e.box.lid&&[r.a-o.a,r.b-o.b,r.w-o.w,r.h-o.h].every(d=>Math.abs(d)<0.5);
-// Stapelbar: Box mit Stapelfuß und ohne Deckel (Stapelbox, Sortierkasten mit „Stapelbar“). Nur solche Boxen kommen auf andere,
+const gleich=(r,o)=>r.it.type===o.it.type&&Math.abs(r.w-o.w)<0.5&&Math.abs(r.h-o.h)<0.5;
+const greift=(r,o)=>stapelbar(r)&&stapelbar(o)&&gleich(r,o)&&Math.abs(r.a-o.a)<0.5&&Math.abs(r.b-o.b)<0.5;
+// Stapelbar: Box mit Stapelfuß (Stapelbox, Sortierkasten und Deckelbox mit „Stapelbar“). Nur solche Boxen kommen auf andere,
 // und nur auf solche wird gestapelt. Eine nicht stapelbare Box mit stack steht am Boden.
-const stapelbar=r=>!!(r.e.box&&r.e.box.stack&&!r.e.box.lid);
+const stapelbar=r=>!!(r.e.box&&r.e.box.stack);
 let planMsg="";
 function planLayout(rects){
   const L=new Map(), kasten=planArt().kind!=="wand", done=[];
@@ -84,8 +86,8 @@ $("planStack").addEventListener("click",()=>{ const P=plan(), it=P.items.find(i=
   const rects=P.items.map(planRect), me=rects.find(r=>r.it===it), others=rects.filter(r=>r.it!==it);
   if(it.stack){ it.stack=false; const floor=others.filter(r=>!r.it.stack); if(floor.some(o=>hit(me,o))){ const s=freeSpot(me.w,me.h,floor); it.a=s.a; it.b=s.b; } }
   else { if(!stapelbar(me)) return;
-    const L=planLayout(rects), frei=others.filter(o=>stapelbar(o)&&![...L].some(([k,l])=>k!==it.id&&l.rest.includes(o.it.id)));
-    if(!others.some(o=>hit(me,o))&&!frei.length){ planMsg="Im Kasten gibt es keine stapelbare Box, auf die diese Box gestellt werden kann."; drawPlan(); return; }
+    const L=planLayout(rects), frei=others.filter(o=>stapelbar(o)&&gleich(me,o)&&![...L].some(([k,l])=>k!==it.id&&l.rest.includes(o.it.id)));
+    if(!others.some(o=>hit(me,o))&&!frei.length){ planMsg="Gestapelt werden nur gleich große Boxen der gleichen Art, und hier ist keine frei. Am einfachsten: „Duplizieren“ und dann die Kopie „Stapeln“."; drawPlan(); return; }
     if(!others.some(o=>hit(me,o))){ const gleich=o=>Math.abs(o.w-me.w)<0.5&&Math.abs(o.h-me.h)<0.5;
       const o=frei.find(gleich)||frei.sort((x,y)=>L.get(y.it.id).z-L.get(x.it.id).z)[0];
       it.a=o.a+(o.w-me.w)/2; it.b=o.b+(o.h-me.h)/2; clampItem(it); }
@@ -139,7 +141,8 @@ function drawPlan(){
       if(hit(r,o)&&zr.z<zo.z+hoehe(o)-0.01&&zo.z<zr.z+hoehe(r)-0.01&&!zr.rest.includes(o.it.id)&&!zo.rest.includes(r.it.id)){ bad.add(r.it.id); bad.add(o.it.id); warn.push(`Teil ${i+1} und Teil ${j+1} überlappen.`); } }
     if(r.a<-0.01||r.b<-0.01||r.a+r.w>CW+0.01||r.b+r.h>CH+0.01){ bad.add(r.it.id); warn.push(`Teil ${i+1} ragt über den Rand ${A.rand}.`); }
     if(!wand&&r.it.stack&&!stapelbar(r)) warn.push(`Teil ${i+1} ist nicht stapelbar und steht deshalb am Boden.`);
-    const falsch=Z(r).rest.filter(id=>!stapelbar(rects.find(o=>o.it.id===id)));
+    const unter=Z(r).rest.map(id=>rects.find(o=>o.it.id===id)), falsch=unter.filter(o=>!stapelbar(o)).map(o=>o.it.id), schief=unter.filter(o=>stapelbar(o)&&!greift(r,o));
+    if(schief.length){ bad.add(r.it.id); warn.push(`Teil ${i+1} passt nicht genau auf Teil ${schief.map(o=>nr(o.it)).join(" und ")}. Gestapelt werden nur gleich große Boxen der gleichen Art, genau übereinander.`); }
     if(falsch.length){ bad.add(r.it.id); warn.push(`Teil ${i+1} steht auf Teil ${falsch.map(id=>P.items.findIndex(x=>x.id===id)+1).join(" und ")}, ${falsch.length>1?"die nicht stapelbar sind":"das nicht stapelbar ist"}.`); }
     const top=Z(r).z+hoehe(r); if(!wand&&top>P.H+0.01){ bad.add(r.it.id); warn.push(Z(r).z>0?`Der Stapel mit Teil ${i+1} ist ${mm(top)} mm hoch, der Kasten nur ${mm(P.H)} mm.`:`Teil ${i+1} ist ${mm(top)} mm hoch, der Kasten nur ${mm(P.H)} mm.`); } });
   const boden=rects.filter(r=>Z(r).z===0), used=boden.reduce((s,r)=>s+Math.max(0,Math.min(r.a+r.w,CW)-Math.max(r.a,0))*Math.max(0,Math.min(r.b+r.h,CH)-Math.max(r.b,0)),0);
@@ -178,7 +181,7 @@ function drawPlan(){
   $("planStack").textContent=it&&it.stack?"Auf den Boden":"Stapeln"; if(it&&!it.stack&&!stapelbar(meR)) $("planStack").disabled=true;
   $("planPos").hidden=!it;
   if(it){ const ins=$("planPos").querySelectorAll("input"); [it.a,it.b].forEach((x,k)=>{ if(document.activeElement!==ins[k]) ins[k].value=Math.round(x); }); }
-  const nichtStapelbar = it&&!wand&&!stapelbar(meR) ? (HALTERUNGEN[it.type].fields.some(f=>f.k==="stack") ? " Zum Stapeln im Formular „Stapelbar“ einschalten." : meR.e.box&&meR.e.box.lid ? " Boxen mit Deckel lassen sich nicht stapeln." : "") : "";
+  const nichtStapelbar = it&&!wand&&!stapelbar(meR) ? (HALTERUNGEN[it.type].fields.some(f=>f.k==="stack") ? " Zum Stapeln im Formular „Stapelbar“ einschalten." : "") : "";
   $("planSel").textContent = planMsg ? planMsg : it ? `Teil ${nr(it)} ist ausgewählt. Änderungen im Formular gelten nur für dieses Teil. Zum Verschieben ziehen.${nichtStapelbar}` : P.items.length ? "Kein Teil ausgewählt. Gestrichelt: das Teil aus dem Formular, das „Teil hinzufügen“ dort hinlegt. Ein Teil antippen, um es zu verschieben oder zu ändern." : `Noch leer. Gestrichelt siehst du, wo das Teil aus dem Formular hinkäme. Stell im Formular ${wand?"eine Halterung":"eine Box"} ein und drück „Teil hinzufügen“. Oder unter „Einzelteil“ das Teil ansehen und dort „${A.dazu}“ drücken.`;
   planMsg="";
   const fs=$("formSel"); fs.hidden=false;

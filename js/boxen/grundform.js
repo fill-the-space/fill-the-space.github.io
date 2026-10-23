@@ -1,6 +1,6 @@
 /* ---------- Boxen: gemeinsame Grundform ----------
    Rechteckige Box mit abgerundeten Ecken (Außenmaße L × B × H), Wand t, Boden tb.
-   Optionen o: stack (Fuß zum Stapeln), lid ("steck" oder "schiebe", Deckel wird neben die Box gelegt),
+   Optionen o: stack (Fuß zum Stapeln), lid ("steck", "schiebe" oder "einlege", Deckel wird neben die Box gelegt),
    grips (Griffmulden an den Schmalseiten), label (Beschriftungsfeld vorne), fx/fy (Fächer in Länge/Breite). */
 const BOX_SPIEL=0.3;     // mm Luft zwischen Teilen, die ineinander passen
 const BOX_FUSS=3;        // mm Höhe des Stapelfußes
@@ -21,11 +21,15 @@ function buildBox(p,o){
   const sh=o.stack?BOX_FUSS:0, z0=sh+tb;                       // Innenboden
   if(H<z0+5){ warn.push(`Die Box ist zu niedrig für Boden${sh?" und Stapelfuß":""}. Mindestens ${mmDE(z0+5)} mm Höhe wählen.`); }
   const shape=(x,y,inset)=>rr2(x,y,cx,cy,L/2-inset,B/2-inset,Math.max(0,r-inset));
+  // Stapelbar mit Deckel: Der Deckel liegt so tief, dass über ihm der Fuß der nächsten Box Platz hat
+  const frei=o.stack&&lid?BOX_FUSS+0.4:0;
   // Schiebedeckel: Nut in den Längswänden, vorne (x = 0) offen
-  const tl=2, gd=Math.min(1.2,t-0.8), zg1=H-1.2, zg0=zg1-tl-c;
+  const tl=2, gd=Math.min(1.2,t-0.8), zg1=H-1.2-frei, zg0=zg1-tl-c;
+  // Einlegedeckel: flache Platte liegt innen auf einem schmalen Absatz (unten 45° schräg, druckt ohne Stützen)
+  const tp=Math.max(1.6,t), le=1.5, zl=H-frei-tp;
   // Fächer: Trennwände bis knapp unter den Rand (Platz für Deckelrand oder Stapelfuß der nächsten Box)
   const fx=Math.max(1,Math.round(p.fx||1)), fy=Math.max(1,Math.round(p.fy||1)), td=Math.max(1.2,t*0.75);
-  const top=lid==="steck"?H-BOX_STECK-0.5:lid==="schiebe"?zg0-0.5:o.stack?H-sh-0.5:H;
+  const top=lid==="steck"?H-BOX_STECK-0.5:lid==="schiebe"?zg0-0.5:lid==="einlege"?zl-le-0.5:o.stack?H-sh-0.5:H;
   const xs=[...Array(fx-1)].map((_,i)=>t+(i+1)*(L-2*t)/fx), ys=[...Array(fy-1)].map((_,i)=>t+(i+1)*(B-2*t)/fy);
   // Griffmulde und Beschriftungsfeld
   const gw=Math.min(40,B*0.45), gh=Math.min(14,(H-z0)*0.4), lw=Math.min(60,L*0.5), lh=Math.min(15,(H-z0)*0.3);
@@ -34,6 +38,7 @@ function buildBox(p,o){
     d=Math.max(d,-ext(shape(x,y,t),z,z0,H+5));
     for(const xi of xs) d=Math.min(d,Math.max(box3(x,y,z,xi-td/2,xi+td/2,t-0.5,B-t+0.5,z0-0.5,top),shape(x,y,0)));
     for(const yi of ys) d=Math.min(d,Math.max(box3(x,y,z,t-0.5,L-t+0.5,yi-td/2,yi+td/2,z0-0.5,top),shape(x,y,0)));
+    if(lid==="einlege"){ const di=shape(x,y,t); d=Math.min(d,Math.max(-le-di,z-zl,(zl-le-di-z)*0.7071,z0-z,shape(x,y,0))); }
     if(lid==="schiebe"){ d=Math.max(d,-box3(x,y,z,-1,L-t+gd,t-gd,B-t+gd,zg0,zg1)); d=Math.max(d,-box3(x,y,z,-1,t+0.01,t-gd,B-t+gd,zg0,H+1)); }
     if(o.grips){ const g=ext(rr2(y,z,cy,H,gw/2,gh,Math.min(gw/2,gh)),x,-1,t+1), g2=ext(rr2(y,z,cy,H,gw/2,gh,Math.min(gw/2,gh)),x,L-t-1,L+1); d=Math.max(d,-g,-g2); }
     if(o.label) d=Math.max(d,-box3(x,y,z,cx-lw/2,cx+lw/2,-1,0.6,H-6-lh,H-6));
@@ -48,10 +53,15 @@ function buildBox(p,o){
     // Deckelplatte mit Griffrille vorne
     lidF=(x,y,z)=>{ const Y=y-oy; let d=box3(x,Y,z,0,lx,t-gd+c,t-gd+c+ly,0,th); d=Math.max(d,-box3(x,Y,z,6,9,t+4,t-gd+c+ly-4+0,th-0.6,th+1)); return d; };
     bb=[0,L,0,2*B+10,0,H]; }
+  if(lid==="einlege"){ const ox=L+10, gy=t+c+12;
+    // Platte mit Griffloch vorne
+    lidF=(x,y,z)=>{ const X=x-ox; return Math.max(ext(shape(X,y,t+c),z,0,tp),-(hyp(X-cx,y-gy)-8)); };
+    bb=[0,2*L+10,0,B,0,H]; }
   const fAll=lidF?(x,y,z)=>Math.min(f(x,y,z),lidF(x,y,z)):f;
   // Für die Anordnung im Kasten: Box mit geschlossenem Deckel statt Box und Deckel nebeneinander
   let plan={f,bb:[0,L,0,B,0,H]};
   if(lid==="steck"){ const ox=L+10, tp=Math.max(1.6,t); plan={f:(x,y,z)=>Math.min(f(x,y,z),lidF(x+ox,y,H+tp-z)),bb:[0,L,0,B,0,H+tp]}; }
+  if(lid==="einlege"){ const ox=L+10; plan={f:(x,y,z)=>Math.min(f(x,y,z),lidF(x+ox,y,z-zl)),bb:[0,L,0,B,0,H]}; }
   if(lid==="schiebe"){ const oy=B+10; plan={f:(x,y,z)=>Math.min(f(x,y,z),lidF(x,y+oy,z-zg0-c)),bb:[0,L,0,B,0,H]}; }
 
   const innen=[L-2*t,B-2*t,H-z0], liter=Math.max(0,innen[0]*innen[1]*innen[2])/1e6;

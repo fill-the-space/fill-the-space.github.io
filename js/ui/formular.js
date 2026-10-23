@@ -27,7 +27,7 @@ function renderFields(){
         b.addEventListener("click",()=>{ v[f.k]=val; renderFields(); schedule(); }); s.appendChild(b); });
       w.append(l,s); return w; }
     if(f.c==="check"){ const l=document.createElement("label"); l.className="check"; const i=document.createElement("input"); i.type="checkbox"; i.id=id; i.checked=!!v[f.k];
-      i.addEventListener("change",()=>{ v[f.k]=i.checked; if(HALTERUNGEN[state.type].fields.some(x=>x.show)) renderFields(); schedule(); }); l.append(i,document.createTextNode(" "+f.l)); return l; }
+      i.addEventListener("change",()=>{ v[f.k]=i.checked; if(f.on) f.on(v); if(f.on||HALTERUNGEN[state.type].fields.some(x=>x.show||x.oShow)) renderFields(); schedule(); }); l.append(i,document.createTextNode(" "+f.l)); return l; }
     if(f.c==="range"){ const w=document.createElement("div"); w.className="slider"; const sp=document.createElement("span"); sp.textContent=f.l; const o=document.createElement("output"); o.id=id+"-out";
       const i=document.createElement("input"); i.type="range"; i.id=id; i.min=typeof f.min==="function"?f.min(v):f.min; i.max=typeof f.max==="function"?f.max(v):f.max; i.step=f.step; i.value=v[f.k];
       const upd=()=>{ o.textContent = f.fmt ? f.fmt(+v[f.k],v) : `${(+v[f.k]).toLocaleString("de-DE",{maximumFractionDigits:1})} ${f.u}`; };

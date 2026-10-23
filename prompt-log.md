@@ -1320,3 +1320,26 @@ if(sel&&sel.type===state.type) sel.v=clone(v);
 **Screenshot:** prompt-log-bilder/64-nicht-stapelbar.jpg
 
 **Commit-Nachricht:** Prompt 64: Nur stapelbare Boxen stapeln
+
+---
+
+## Prompt 65 – Nur Gleiches stapeln, Deckelbox stapelbar (23.10.2026)
+
+**Prompt:**
+> es sollten sich nur gleich große boxen, stapeln lassen und von der gleichen Art. Es wäre gut, wenn die Box mit der Deckel auch die Option hätte, Stapelbar zu sein
+
+**Was sich geändert hat:**
+- Gestapelt werden nur noch Boxen der gleichen Art mit gleicher Grundfläche, genau übereinander. „Stapeln“ sucht eine passende freie Box. Gibt es keine, steht dort: „Am einfachsten: „Duplizieren“ und dann die Kopie „Stapeln“.“
+- Liegt eine Box schief oder auf einer anderen Art oder Größe, wird sie rot, und es kommt eine Warnung.
+- Die Deckelbox hat jetzt die Option „Stapelbar (Fuß unten)“. Dann sitzt der Deckel etwas tiefer, und über ihm greift der Fuß der nächsten Box in den Rand.
+  - Das geht mit dem Schiebedeckel: Seine Nut liegt dann 3,4 mm tiefer.
+  - Das geht mit dem neuen **Einlegedeckel**: eine flache Platte mit Griffloch, die innen auf einem schmalen Absatz liegt. Der Absatz ist unten 45° schräg und druckt ohne Stützen.
+  - Der Steckdeckel ist nicht stapelbar, weil sein Rand oben übersteht. Schaltet man „Stapelbar“ ein, wird daraus automatisch ein Einlegedeckel, und der Steckdeckel wird ausgeblendet.
+- Geprüft: Beide stapelbaren Deckelboxen ergeben geschlossene Netze. Zwei gestapelte 50-mm-Deckelboxen sind zusammen 97 mm hoch.
+- Kleiner Fehler beim Testen: Nach dem Einschalten von „Stapelbar“ wurde die Deckelauswahl erst nicht neu angezeigt. Der Steckdeckel stand noch da. Sofort behoben.
+
+**Betroffene Dateien:** index.html (Versionsnummer 65), js/boxen/grundform.js, js/boxen/deckelbox.js, js/ui/anordnung.js, js/ui/formular.js
+
+**Screenshot:** prompt-log-bilder/65-einlegedeckel.jpg / 65-deckelbox-gestapelt.jpg
+
+**Commit-Nachricht:** Prompt 65: Nur Gleiches stapeln, Deckelbox stapelbar
