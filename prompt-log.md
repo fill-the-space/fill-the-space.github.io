@@ -252,3 +252,89 @@ function saveFile(name,blob){
 **Betroffene Dateien:** keine neuen Änderungen an der App
 
 **Commit-Nachricht:** Prompt 7–11: Projekt aufgeteilt, Speichern im Browser, Pages vorbereitet (enthält auch diesen Eintrag)
+
+---
+
+## Prompt 13 – Online-Prüfung (23.10.2026)
+
+**Prompt:**
+> Ich habe umbenannt, gepusht und Pages eingeschaltet. Prüf bitte, ob die App online läuft, und schreib die Etappen-Zusammenfassung.
+
+**Entscheidung:**
+- Claude hat GitHub und die Pages-Adresse geprüft. Die App war noch nicht online: Die Adresse lioba-source.github.io/halterungs-generator lieferte „nicht gefunden“. Das Repository hieß auf GitHub weiterhin „halterungs-generato_app“, der letzte Upload stammte vom Vormittag vor Beginn der Arbeit in Claude Code, und Pages war dort ausgeschaltet. Der lokale Commit aus Prompt 12 war noch nicht hochgeladen.
+- Die Etappen-Zusammenfassung wird deshalb erst geschrieben, wenn die App wirklich online läuft.
+- Fehler: Zum dritten Mal sind Schritte in GitHub Desktop bzw. auf github.com nicht angekommen, obwohl sie als erledigt gemeldet wurden. Lehre für die Präsentation: Nach jedem Schritt das Ergebnis prüfen, z. B. im Reiter „History“ oder auf der GitHub-Seite.
+
+**Betroffene Dateien:** prompt-log.md
+
+**Commit-Nachricht:** Prompt 13–18: Repository umbenannt, Pages eingeschaltet
+
+---
+
+## Prompt 14 – Kann Claude umbenennen? (23.10.2026)
+
+**Prompt:**
+> Kannst du das selber umbenennen
+
+**Entscheidung:**
+- Claude kann GitHub über den Browser-Bereich der Claude-App bedienen, braucht dafür aber eine Anmeldung. Passwörter darf Claude nicht selbst eingeben, deshalb meldet sich Lioba an.
+
+**Betroffene Dateien:** keine
+
+---
+
+## Prompt 15 – Anmeldung im falschen Browser (23.10.2026)
+
+**Prompt:**
+> Ich bin jetzt im Browser auf Github angemeldet.
+
+**Entscheidung:**
+- Fehler: Die Anmeldung war in einem anderen Browser passiert, nicht im Browser-Bereich von Claude. Dort zeigte GitHub weiter „Sign in“. Claude hat die Anmeldeseite im Browser-Bereich geöffnet.
+
+**Betroffene Dateien:** keine
+
+---
+
+## Prompt 16 – Repository umbenannt (23.10.2026)
+
+**Prompt:**
+> Ich habe mich jetzt im Browser-Bereich von Claude angemeldet. Benenne das Repository um.
+
+**Was sich geändert hat:**
+- Claude hat das Repository auf GitHub von „halterungs-generato_app“ in „halterungs-generator“ umbenannt. Die neue Adresse ist github.com/lioba-source/halterungs-generator.
+- Der Projektordner zeigt jetzt auf die neue Adresse, GitHub Desktop lädt also künftig dorthin hoch.
+- Kleiner Stolperer: Der erste Klick auf „Rename“ kam zu früh, weil GitHub noch prüfte, ob der Name frei ist. Erst der zweite Klick hat funktioniert.
+- Noch offen: Hochladen (Push) und GitHub Pages.
+
+**Betroffene Dateien:** keine Dateien der App (nur die Projekteinstellung „Remote-Adresse“)
+
+**Commit-Nachricht:** Prompt 13–18: Repository umbenannt, Pages eingeschaltet
+
+---
+
+## Prompt 17 – GitHub Pages eingeschaltet (23.10.2026)
+
+**Prompt:**
+> Ich habe in GitHub Desktop committet und gepusht. Schalte bitte GitHub Pages ein und prüfe, ob die App online läuft.
+
+**Was sich geändert hat:**
+- Claude hat GitHub Pages im Browser-Bereich eingeschaltet: Quelle ist der Branch „main“, Ordner „/ (root)“. GitHub hat die Einstellung bestätigt.
+- Fehler: Der Push war wieder nicht angekommen. Auf GitHub lag weiterhin nur der erste Commit, und der Commit „Prompt 13–16“ fehlte auch im Projektordner. Die App ist deshalb noch nicht online, die Pages-Adresse liefert „nicht gefunden“. Sobald der Push durch ist, baut GitHub die Seite automatisch.
+
+**Betroffene Dateien:** keine Dateien der App (Einstellung auf GitHub)
+
+**Commit-Nachricht:** Prompt 13–18: Repository umbenannt, Pages eingeschaltet
+
+---
+
+## Prompt 18 – Claude pusht (23.10.2026)
+
+**Prompt:**
+> Ja, committe das Protokoll und pushe du beide Commits. Prüf danach, ob die App online läuft, und schreib die Etappen-Zusammenfassung.
+
+**Entscheidung:**
+- Weil der Push aus GitHub Desktop mehrmals nicht angekommen war, hat Claude das Protokoll committet und beide Commits selbst zu GitHub hochgeladen.
+
+**Betroffene Dateien:** prompt-log.md
+
+**Commit-Nachricht:** Prompt 13–18: Repository umbenannt, Pages eingeschaltet
