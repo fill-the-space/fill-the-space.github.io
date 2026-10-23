@@ -19,7 +19,7 @@ html,body{overflow-x:hidden}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;font-variant-numeric:tabular-nums}
 .wrap{max-width:1180px;margin:0 auto;padding-block:28px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:22px}
 /* Kopfband über die ganze Fensterbreite */
-header{position:relative;margin-top:-28px;padding:44px 0 40px;border-bottom:2px solid var(--line);background:var(--bg);box-shadow:0 0 0 100vmax var(--bg);clip-path:inset(0 -100vmax);overflow:visible}
+header{position:relative;margin-top:-28px;padding:44px 0 20px;border-bottom:2px solid var(--line);background:var(--bg);box-shadow:0 0 0 100vmax var(--bg);clip-path:inset(0 -100vmax);overflow:visible}
 /* Op-Art: Kreise aus Streifen rechts im Kopf */
 header::after{content:"";position:absolute;right:-40px;top:50%;width:260px;height:260px;transform:translateY(-50%);border-radius:50%;background:repeating-radial-gradient(circle,var(--ink) 0 9px,transparent 9px 18px);opacity:.9;pointer-events:none;-webkit-mask:linear-gradient(90deg,#000 40%,transparent);mask:linear-gradient(90deg,#000 40%,transparent)}
 @media (max-width:620px){header::after{width:160px;height:160px;right:-60px}}
@@ -106,8 +106,8 @@ textarea#scad{width:100%;box-sizing:border-box;min-height:160px;font:12px var(--
 .btn:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--shadow)}
 .btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--shadow)}
 
-/* Seitenumschalter Halterungen / Boxen im Kopf */
-.pages{position:relative;z-index:1;display:grid;width:fit-content;min-width:min(420px,100%);margin-top:30px;background:var(--panel);box-shadow:4px 4px 0 var(--shadow)}
+/* Seitenumschalter Halterungen / Boxen im Kopf; Abstand zur Linie wie der Umschalter Einzelteil darunter (22 px) */
+.pages{position:relative;z-index:1;display:grid;width:fit-content;min-width:min(420px,100%);margin-top:28px;background:var(--panel);box-shadow:4px 4px 0 var(--shadow)}
 .pages button{font:800 14px var(--display);text-transform:uppercase;letter-spacing:.03em;padding:14px 26px}
 @media (max-width:480px){.pages{margin-top:24px}.pages button{font-size:13px;padding:12px 14px}}
 /* Auswahl der Art: weniger runde Ecken, damit zweizeilige Namen nicht abgeschnitten werden; auf dem Handy kleiner */

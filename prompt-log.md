@@ -1380,3 +1380,21 @@ if(sel&&sel.type===state.type) sel.v=clone(v);
 **Screenshot:** prompt-log-bilder/67-vorher.jpg / 67-nachher.jpg / 67-nachher-handy.jpg
 
 **Commit-Nachricht:** Prompt 67: Kopfbereich aufgeräumt
+
+---
+
+## Prompt 68 – Gleicher Abstand zur Linie (23.10.2026)
+
+**Prompt:**
+> Das gefällt mir noch nicht. Kannst du die butten Halterung und Boxen im genau den selben Abstand machen zu der Linie wie den Button Einzelteil, im Kasten
+
+**Was sich geändert hat:**
+- Der Umschalter „Halterungen / Boxen“ hat jetzt genau 22 px Abstand zur Trennlinie. Das ist derselbe Abstand wie zwischen der Linie und dem Umschalter „Einzelteil / Im Kasten“ darunter. Vorher waren es 42 px.
+- Im Browser nachgemessen: über der Linie 22 px, unter der Linie 22 px, auf dem Desktop und auf dem Handy.
+- Fehler aus Prompt 67: Der Abstand unter dem Umschalter war zu groß geraten. Der Kopf wirkte dadurch nicht ausgewogen.
+
+**Betroffene Dateien:** index.html (Versionsnummer 68), css/style.css
+
+**Screenshot:** prompt-log-bilder/68-nachher.jpg / 68-nachher-handy.jpg
+
+**Commit-Nachricht:** Prompt 68: Gleicher Abstand zur Linie
