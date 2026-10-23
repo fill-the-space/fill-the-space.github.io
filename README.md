@@ -4,7 +4,7 @@ Der Halterungs-Generator heißt jetzt „FILL THE SPACE“. Seit dem 23.10.2026 
 
 Erzeugt Wandhalterungen für den 3D-Drucker: Halterungsart wählen, Maße mit Schiebereglern und Feldern einstellen (alle Längen in Millimetern), Halterung in 3D ansehen und als STL-Datei speichern.
 
-**App öffnen:** https://lioba-source.github.io/fill-the-space/ (lässt sich auf dem Handy über „Zum Home-Bildschirm“ wie eine App installieren)
+**App öffnen:** https://fill-the-space.netlify.app/ (lässt sich auf dem Handy über „Zum Home-Bildschirm“ wie eine App installieren)
 
 Lokal ausprobieren: `index.html` im Finder doppelklicken.
 

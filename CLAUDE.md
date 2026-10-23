@@ -2,7 +2,8 @@
 
 Web-App ohne Build-Schritt: `index.html` lädt die Skripte aus `js/` der Reihe nach (klassische `<script>`-Tags, keine Module), damit sie per Doppelklick und auf GitHub Pages läuft. Aufbau und „Neue Halterungsart hinzufügen“ stehen in der README.
 
-- Live: https://lioba-source.github.io/fill-the-space/ (GitHub Pages, Branch `main`, Ordner `/`)
+- Live: https://fill-the-space.netlify.app/ (Netlify, veröffentlicht bei jedem Push auf `main` automatisch; Einstellungen in `netlify.toml`)
+- Zusätzlich noch GitHub Pages: https://lioba-source.github.io/fill-the-space/ (enthält den Kontonamen, den Lioba nicht in der Adresse haben möchte)
 - Repository: https://github.com/lioba-source/fill-the-space (bis 23.10.2026 „halterungs-generator“; die alte Pages-Adresse funktioniert nicht mehr)
 - **Versionsnummer:** Alle eigenen Dateien werden in `index.html` mit `?v=<Prompt-Nr.>` geladen. Bei jeder Änderung an CSS oder JS die Nummer überall in `index.html` hochsetzen, sonst mischen Browser alte und neue Dateien aus dem Zwischenspeicher.
 - Die Seite muss außerhalb von Claude funktionieren: keine `window.claude`-Funktionen voraussetzen, Änderungen im Browser über einen lokalen Server testen (`.claude/launch.json`, Port 8766).
@@ -13,7 +14,7 @@ Web-App ohne Build-Schritt: `index.html` lädt die Skripte aus `js/` der Reihe n
 - **Protokoll:** Nach jedem Prompt, der etwas ändert oder eine wichtige Entscheidung auslöst, mit dem Skill `app-prompt-protokoll` einen Eintrag an `prompt-log.md` anhängen, ohne dass Lioba darum bitten muss. Den Prompt im genauen Wortlaut übernehmen, Fehler ehrlich festhalten, nach einer Etappe eine Zusammenfassung schreiben. Die Nummern laufen weiter; die letzte steht am Ende von `prompt-log.md`.
 - **Commit:** Nach jeder Änderung selbst lokal committen, mit der Commit-Nachricht aus dem Protokoll (Format „Prompt <Nr.>: <Titel>“). Lioba hat das ausdrücklich so gewünscht.
 - **Push:** Nach jedem Commit selbst pushen (siehe unten), Lioba muss nichts klicken.
-- **Prüfen statt glauben:** Nach jedem Push mit `git fetch` und auf der Live-Seite prüfen, ob die Änderung angekommen ist. GitHub Pages speichert Dateien etwa 10 Minuten zwischen.
+- **Prüfen statt glauben:** Nach jedem Push mit `git fetch` und auf der Live-Seite (Netlify) prüfen, ob die Änderung angekommen ist. Netlify braucht meist unter einer Minute.
 
 ## Zugang zum Pushen
 

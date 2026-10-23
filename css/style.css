@@ -163,8 +163,8 @@ label.num input[type=text]{font:500 15px var(--body)}
   body:not(.plan-on) .view{align-self:stretch}
   body:not(.plan-on) .bed{position:sticky;top:14px;z-index:3}
 }
-/* Handy: Knopf „3D“ unten rechts, Vorschau als Leiste unten */
-.bed-fab{position:fixed;right:16px;bottom:16px;z-index:59;padding:12px 18px}
+/* Handy: Knopf „3D“ unten links (rechts blendet Netlify sein Feld „Powered by Netlify“ ein), Vorschau als Leiste unten */
+.bed-fab{position:fixed;left:16px;bottom:16px;z-index:59;padding:12px 18px}
 .bed.float{position:fixed;left:12px;right:12px;bottom:12px;z-index:60;aspect-ratio:auto;height:min(42vh,320px);box-shadow:5px 5px 0 var(--shadow)}
 .bed.float .legend{display:none}
 body.bed-float .wrap{padding-bottom:calc(min(42vh,320px) + 30px)}

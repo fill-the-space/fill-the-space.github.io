@@ -1719,3 +1719,30 @@ if(sel&&sel.type===state.type) sel.v=clone(v);
 **Betroffene Dateien:** netlify.toml
 
 **Commit-Nachricht:** Prompt 82: Vorbereitung für Netlify
+
+---
+
+## Prompt 83 – Die App läuft auf Netlify (23.10.2026)
+
+**Prompt:**
+> Die Netlify-Seite ist angelegt und heißt fill-the-space. Prüf bitte, ob alles läuft.
+
+(Danach: „Ich habe den Zugriffsschutz bei Netlify abgeschaltet. Prüf bitte noch einmal, ob alles läuft.“)
+
+**Was sich geändert hat:**
+- Die App ist jetzt unter **https://fill-the-space.netlify.app/** erreichbar, ohne Kontonamen in der Adresse.
+- **Problem 1:** Zuerst kam jeder Besucher nur auf eine Netlify-Anmeldeseite, weil der Zugriffsschutz „nur Team-Mitglieder“ eingeschaltet war. Lioba hat ihn in den Netlify-Einstellungen abgeschaltet.
+- **Problem 2:** Netlify lieferte die Web-App-Beschreibung (manifest.webmanifest) mit einem unpassenden Dateityp aus. In netlify.toml ist jetzt der richtige Typ eingetragen.
+- **Problem 3:** Netlify blendet unten rechts ein Feld „Powered by Netlify“ ein. Damit es auf dem Handy den Knopf „3D“ nicht verdeckt, sitzt der Knopf jetzt unten links.
+- **Geprüft auf Netlify:**
+  - Startseite und alle Dateien laden.
+  - Neue Pushes werden automatisch veröffentlicht, nach weniger als einer Minute.
+  - Der Offline-Speicher startet, der Name „Fill the Space“ und die Symbole kommen an.
+  - 3D-Vorschau und STL-Speichern funktionieren, und es gibt keine Fehler.
+- README und CLAUDE.md nennen jetzt die Netlify-Adresse als Hauptadresse. Die GitHub-Pages-Adresse mit Kontonamen läuft vorerst noch parallel.
+
+**Betroffene Dateien:** netlify.toml, index.html (Versionsnummer 83), css/style.css, README.md, CLAUDE.md
+
+**Screenshot:** prompt-log-bilder/83-netlify.jpg
+
+**Commit-Nachricht:** Prompt 83: App läuft auf Netlify
