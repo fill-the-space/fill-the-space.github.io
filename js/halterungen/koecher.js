@@ -6,8 +6,8 @@ HALTERUNGEN.koecher = {
     {k:"shape",c:"seg",l:"Querschnitt",o:[["eckig","Eckig"],["abgerundet","Abgerundet"]]},
     {row:[{k:"B",l:"Breite",min:10,max:300},{k:"T",l:"Tiefe",min:5,max:250},{k:"H",l:"Höhe",min:20,max:400}],l:"Maße des Bauteils"},
     {k:"r",c:"range",l:"Eckenradius",u:"mm",min:1,max:60,step:0.5,show:v=>v.shape!=="eckig"},
-    // Das Bauteil steckt ganz in der Schale: Die Schale ist mindestens so hoch wie das Bauteil
-    {k:"hs",c:"range",l:"Höhe der Schale",u:"mm",min:v=>v.H,max:v=>v.H+100,step:1},
+    // Standard: Schale so hoch wie das Bauteil und wandert mit, solange man sie nicht selbst verstellt; niedriger oder höher geht auch
+    {k:"hs",c:"range",l:"Höhe der Schale",u:"mm",min:()=>10,max:v=>v.H+100,step:1,follow:"H"},
     {k:"lip",c:"range",l:"Lippe vorne",u:"mm",min:4,max:80,step:1,show:v=>v.mount==="schrauben"||!v.closed},
     {k:"t",c:"range",l:"Wandstärke",u:"mm",min:1.6,max:4,step:0.2},
     {k:"s",c:"range",l:"Spiel pro Seite",u:"mm",min:0,max:2,step:0.1},
@@ -23,8 +23,8 @@ HALTERUNGEN.koecher = {
 function buildKoecher(p){
   const iw=p.B+2*p.s, id=p.T+2*p.s, t=p.t;
   const ri = p.shape==="eckig" ? 0 : Math.min(p.r+p.s,Math.min(iw,id)/2);
-  // low: Schale darf niedriger als das Bauteil sein (Individuell „Hineinstellen“), sonst steckt das Bauteil ganz drin
-  const warn=[], hs=p.low ? Math.min(p.hs,p.H) : Math.max(p.hs,p.H);
+  // low: Schale höchstens so hoch wie das Bauteil (Individuell „Hineinstellen“)
+  const warn=[], hs=p.low ? Math.min(p.hs,p.H) : p.hs;
   // Rückwand so dick, dass der Senkkopf ganz darin verschwindet
   const sc=screwSpec(p), tb=Math.max(t,p.holes?screwWall(sc):0);
   const Wo=iw+2*t, Do=id+2*t, Ho=t+hs, cx=Wo/2, cy=tb+id/2, Dt=cy+Do/2;

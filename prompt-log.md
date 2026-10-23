@@ -923,3 +923,22 @@ const acc = win ? {x0:cx-(iw/2-m)+sc.dk/2+2, x1:cx+(iw/2-m)-sc.dk/2-2, z0:t+lip+
 **Screenshot:** prompt-log-bilder/47-vorher.jpg / 47-nachher.jpg
 
 **Commit-Nachricht:** Prompt 47: Köcher-Schale mindestens so hoch wie das Bauteil
+
+---
+
+## Prompt 48 – Schale auch niedriger als das Bauteil (23.10.2026)
+
+**Prompt:**
+> Ja genau, aber es muss auch die Möglichkeit geben, die Schale kleiner zu machen als das Bauteil.
+
+**Was sich geändert hat:**
+- Der Regler „Höhe der Schale“ reicht jetzt von 10 mm bis 100 mm über die Bauteilhöhe. Man kann die Schale also auch niedriger machen, damit das Bauteil oben herausschaut und man es leichter greifen kann.
+- Standardmäßig ist die Schale weiterhin genau so hoch wie das Bauteil. Solange man sie nicht selbst verstellt, wandert sie mit, wenn man die Bauteilhöhe ändert. Hat man sie bewusst auf einen anderen Wert gestellt, z. B. 80 mm, bleibt sie dort, auch wenn man die Bauteilhöhe ändert.
+- Korrektur zu Prompt 47: Dort war die Schale fest auf mindestens Bauteilhöhe begrenzt. Das war zu streng, Lioba wollte beides können.
+- Getestet: Start 170/170, Bauteil auf 200 → Schale folgt auf 200, Schale auf 80 → bleibt bei 80, auch wenn das Bauteil auf 150 geht. Schale wieder gleich Bauteil, dann folgt sie erneut.
+
+**Betroffene Dateien:** js/halterungen/koecher.js, js/main.js, index.html (Versionsnummer 48)
+
+**Screenshot:** prompt-log-bilder/48-vorher.jpg / 48-nachher.jpg
+
+**Commit-Nachricht:** Prompt 48: Schale wahlweise niedriger als das Bauteil
