@@ -11,10 +11,11 @@ const MONTAGE_FELDER=[
 const MONTAGE_STANDARD={mass:300,mount:"schrauben",door:19,hookL:25,hookT:3};
 
 /* Haken-Teile als Quader [x0,x1,y0,y1,z0,z1] für eine Rückwand von x0 bis x1, Oberkante bei top, Dicke wall.
-   Jeder Haken ragt 0,5 mm in die Rückwand hinein, damit er fest verbunden ist und das Netz geschlossen bleibt. */
-function mountParts(p,x0,x1,top,wall,warn){
+   Jeder Haken ragt 0,5 mm in die Rückwand hinein, damit er fest verbunden ist und das Netz geschlossen bleibt.
+   arm: Abstand des Bauteils von der Wand in mm (für die Anzahl der SKÅDIS-Haken) */
+function mountParts(p,x0,x1,top,wall,warn,arm=0){
   const parts=[], W=x1-x0, xm=(x0+x1)/2;
-  parts.info={kind:p.mount||"schrauben", width:W, t:p.hookT, hooks:0};
+  parts.info={kind:p.mount||"schrauben", width:W, t:p.hookT, hooks:0, zFix:top, pin:false};
   if(p.mount==="tuer"){
     // Brücke liegt oben auf der Tür, Bein greift hinter die Tür; 0,8 mm Luft zur Tür
     const d=p.door, c=0.8, th=p.hookT, back=-(d+c+th);
@@ -24,12 +25,15 @@ function mountParts(p,x0,x1,top,wall,warn){
     // Zunge 4,4 mm breit, 5 mm hoch, geht durch den Schlitz; dahinter ein Haken 8 mm nach unten. Alles zusammen 13 mm hoch, passt also durch den 15-mm-Schlitz
     const tw=4.4, deep=SKADIS.board+0.6, zt=top-4, hook=(x,tip)=>{ parts.push([x-tw/2,x+tw/2,-deep,0.5,zt-5,zt]);
       if(tip){ parts.push([x-tw/2,x+tw/2,-deep-3,-deep+0.5,zt-13,zt]); parts.info.hooks++; } };
-    const k=Math.floor((W-16)/SKADIS.pitch);
+    parts.info.zFix=zt;
     if(zt-13<0) warn.push("Die Rückwand ist für einen SKÅDIS-Haken zu niedrig. Halterung höher machen.");
-    if(k>=1){ const half=k*SKADIS.pitch/2; hook(xm-half,true); hook(xm+half,true); }
+    // So viele Haken, dass PLA mit Sicherheitsabstand reicht und höchstens 200 mm zwischen zwei Haken liegen; mindestens 2 gegen Verdrehen
+    const cols=Math.max(1,Math.floor((W-16)/SKADIS.pitch)+1), kg=(+p.mass||0)/1000*Math.hypot(1,arm/Math.max(zt,10));
+    const n=Math.min(cols,Math.max(2,Math.ceil(kg/(0.6*TRAGKRAFT.skadisHaken)),Math.ceil((cols-1)*SKADIS.pitch/200)+1));
+    if(n>=2) for(let i=0;i<n;i++){ const c=Math.round(i*(cols-1)/(n-1)); hook(xm+(c-(cols-1)/2)*SKADIS.pitch,true); }
     else { hook(xm,true);
       // Nur ein Haken passt in die Breite: ein Stift im Schlitz 40 mm darunter verhindert das Verdrehen
-      if(zt-SKADIS.pitch-5>=2) parts.push([xm-2.2,xm+2.2,-SKADIS.board+0.5,0.5,zt-SKADIS.pitch-5,zt-SKADIS.pitch]); }
+      if(zt-SKADIS.pitch-5>=2){ parts.push([xm-2.2,xm+2.2,-SKADIS.board+0.5,0.5,zt-SKADIS.pitch-5,zt-SKADIS.pitch]); parts.info.pin=true; } }
   }
   return parts;
 }

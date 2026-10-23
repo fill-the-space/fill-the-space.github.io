@@ -57,5 +57,5 @@ function buildKonsole(p){
     ghost=[{k:"cyl",x:cx,y:yc,r:N/2,z0:Hp-115,z1:Hp},{k:"box",x0:cx-wb,x1:cx+wb,y0,y1:y0+200,z0:Hp,z1:Hp+68},
            {k:"cyl",x:cx,y:y0+200,r:N*0.32,z0:Hp+12,z1:Hp+56,ax:"y",len:45},
            {k:"box",x0:cx-wb,x1:cx+wb,y0:Math.max(P+3,yc-58),y1:Math.max(P+3,yc-58)+116,z0:Hp-190,z1:Hp-115}]; }
-  return mountApply({f,bb:[0,W,0,Dp,0,Hp],dims:[W,Dp,Hp],scad:S.join("\n"),ghost,dir:"Rückwand unten",warn,screw:plan},mountParts(p,0,W,Hp,P,warn));
+  return mountApply({f,bb:[0,W,0,Dp,0,Hp],dims:[W,Dp,Hp],scad:S.join("\n"),ghost,dir:"Rückwand unten",warn,screw:plan,arm:yc,beam:{Wsec:2*P*Hg*Hg/6,name:"Die Konsole",tipp:"Stärke oder Plattenhöhe erhöhen (größere Stützen) oder die Konsole weniger tief machen."}},mountParts(p,0,W,Hp,P,warn,yc));
 }

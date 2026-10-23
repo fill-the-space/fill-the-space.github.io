@@ -942,3 +942,28 @@ const acc = win ? {x0:cx-(iw/2-m)+sc.dk/2+2, x1:cx+(iw/2-m)-sc.dk/2-2, z0:t+lip+
 **Screenshot:** prompt-log-bilder/48-vorher.jpg / 48-nachher.jpg
 
 **Commit-Nachricht:** Prompt 48: Schale wahlweise niedriger als das Bauteil
+
+---
+
+## Prompt 49 – Was nicht hält, wird gemeldet; kleine Halterungen verdrehen sich nicht (23.10.2026)
+
+**Prompt:**
+> Falls es zur Eingaben kommt, die das Bauteil an sich nicht aushalten kann, also zum Beispiel einen Überhang von 2 m oder eine Länge, die dazu führt, dass das Bauteil durch hängt dann muss entweder auch ein Warnhinweis kommen oder weil zum Beispiel skana müssten dann noch mehrere Haken möglich sein. Bei kleinen Bauteilen ist es wichtig, dass sie sich nicht an der Wand verdrehen können, weil sie vielleicht nur mit einer Schraube oder mit einem Haken festgemacht sind
+
+**Was sich geändert hat:**
+- **Hebel aus der echten Form:** Bisher rechnete die App pauschal (Konsole × 1,5). Jetzt berechnet sie, wie weit das Bauteil vor der Wand hängt und wie hoch die Befestigung sitzt. Je größer der Überhang und je tiefer die Schrauben, desto stärker ziehen sie aus der Wand. Bei der Konsole mit Akkuschrauber ergibt das z. B. 3,6 kg Last an den Schrauben.
+- **Durchbiegen:** Bei Konsole, Leiste und Individuell prüft die App auch, ob die Halterung selbst sich unter dem Gewicht durchbiegt. Wenn ja, kommt der Warnhinweis „… biegt sich durch“ mit Tipps.
+- **SKÅDIS: so viele Haken wie nötig.** Die App setzt automatisch so viele Haken im 40-mm-Raster, dass PLA reicht, mindestens 2 und mit höchstens 200 mm Abstand. Die Konsole mit 1,5 kg bekommt jetzt 4 Haken statt 2 und kommt mit PLA aus.
+- **Gegen Verdrehen:**
+  - Zwei Schrauben sitzen bei schmalen Halterungen übereinander statt nebeneinander. Der Standard-Köcher hat damit jetzt 2 Schrauben statt 1.
+  - Wird nur eine Schraube gewählt, oder passt bei SKÅDIS nur ein Haken ohne Stift darunter, kommt der Warnhinweis „Kann sich verdrehen“ mit einem Vorschlag.
+- **Zu lang:** Liegen zwischen den Schrauben oder bis zum Rand mehr als 300 mm, warnt die App „Zu lang für die Schrauben“.
+- **Zu groß zum Drucken:** Ist die Halterung größer als 250 mm, kommt der Hinweis „Größer als übliche Druckbetten“.
+- Der Rat bei überlasteten Schrauben nennt jetzt auch eine höhere Rückwand oder eine weniger tiefe Halterung, weil das den Hebel verkleinert.
+- Ehrlich vermerkt: Die Warnung zum Durchbiegen greift bei der Konsole selten, weil deren Stützen sehr steif sind. Vorher stößt immer die Befestigung an ihre Grenze, und dafür kommt die Warnung zuverlässig. Alle Zahlen bleiben grobe Schätzungen.
+
+**Betroffene Dateien:** js/halterungen/empfehlung.js, js/halterungen/befestigung.js, js/halterungen/schrauben.js, koecher.js, konsole.js, leiste.js, individuell.js, index.html (Versionsnummer 49)
+
+**Screenshot:** prompt-log-bilder/49-skadis-4-haken.jpg, 49-leiste-warnungen.jpg, 49-koecher-schrauben-uebereinander.jpg
+
+**Commit-Nachricht:** Prompt 49: Hebel, Durchbiegen, mehr SKÅDIS-Haken, Schutz gegen Verdrehen

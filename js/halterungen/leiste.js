@@ -51,5 +51,5 @@ function buildLeiste(p){
   const ghost=[];
   xs.forEach(x=>{ if(p.blind) ghost.push({k:"cyl",x,y:wd,r:p.d/2,z0:hz0,z1:hz0+80});
     else ghost.push({k:"cyl",x,y:wd,r:p.d/2*0.55,z0:Hp-100,z1:Hp},{k:"cyl",x,y:wd,r:Math.min(a*0.42,p.d*1.5),z0:Hp+2,z1:Hp+95}); });
-  return mountApply({f,bb:[0,W,0,Dp,0,Hp],dims:[W,Dp,Hp],scad:S.join("\n"),ghost,dir:"Rückwand unten",warn,screw:plan},mountParts(p,0,W,Hp,P,warn));
+  return mountApply({f,bb:[0,W,0,Dp,0,Hp],dims:[W,Dp,Hp],scad:S.join("\n"),ghost,dir:"Rückwand unten",warn,screw:plan,arm:wd,beam:{Wsec:W*th*th/6+(Hg>4?2*P*Hg*Hg/6:0),name:"Die Leiste",tipp:"Stärke oder Plattenhöhe erhöhen oder den Wandabstand verringern."}},mountParts(p,0,W,Hp,P,warn,wd));
 }

@@ -54,5 +54,5 @@ function buildKoecher(p){
   if(p.slot) L.push(`  // Kabelschlitz`,`  translate([cx - ${f2(cw/2)}, cy - ${f2(id*0.15)}, -1]) cube([${f2(cw)}, Do, wand + 1.01]);`);
   L.push(`}`);
   const ghost=[{k:"rr",cx,cy,w:p.B,d:p.T,r:Math.max(0,ri-p.s),z0:t,z1:t+p.H}];
-  return mountApply({f,bb:[0,Wo,0,Dt,0,Ho],dims:[Wo,Dt,Ho],scad:L.join("\n"),ghost,dir:"Boden unten",warn,screw:plan},mountParts(p,0,Wo,Ho,tb,warn));
+  return mountApply({f,bb:[0,Wo,0,Dt,0,Ho],dims:[Wo,Dt,Ho],scad:L.join("\n"),ghost,dir:"Boden unten",warn,screw:plan,arm:cy},mountParts(p,0,Wo,Ho,tb,warn,cy));
 }
