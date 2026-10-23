@@ -6,10 +6,10 @@ function update(){
   let sc=null;
   if(state.type==="individuell"){
     sc=currentSeg(v);
-    if(!sc||!sc.seg){ drawPhoto(sc,null); const w=$("warn"); w.hidden=false; w.textContent="Auf dem Foto wurde kein Gerät erkannt. Erkennungsschwelle senken oder ein Foto mit hellerem, ruhigem Hintergrund wählen."; return; }
+    if(!sc||!sc.seg){ drawPhoto(sc,null); const w=$("warn"); w.hidden=false; w.textContent="Auf dem Foto wurde kein Bauteil erkannt. Erkennungsschwelle senken oder ein Foto mit hellerem, ruhigem Hintergrund wählen."; return; }
   }
   const model=build(state.type,v,null,sc&&sc.seg);
-  if(sc){ if(sc.seg.touches) model.warn.unshift("Der Umriss berührt den Bildrand. Das Gerät sollte ganz auf dem Foto sein.");
+  if(sc){ if(sc.seg.touches) model.warn.unshift("Der Umriss berührt den Bildrand. Das Bauteil sollte ganz auf dem Foto sein.");
     drawPhoto(sc,model.info); $("detect").textContent=model.info.text;
     if(model.mode!==effMode){ effMode=model.mode; renderFields(); } }
   // Nur Schraubenanzahlen anbieten, die auf die Rückwand passen

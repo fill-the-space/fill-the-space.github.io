@@ -10,10 +10,10 @@ Lokal ausprobieren: `index.html` im Finder doppelklicken.
 
 | Art | Wofür |
 |---|---|
-| Köcher | Gerät steht in einer Schale, z. B. Fernbedienung, Smartphone, Haarspray |
-| Ablage | Werkzeug hängt mit Griff oder Körper in einem Schlitz oder Ring, z. B. Akkuschrauber, Föhn |
+| Köcher | Bauteil steht in einer Schale, z. B. Fernbedienung, Smartphone, Haarspray |
+| Ablage | Bauteil hängt mit Griff oder Körper in einem Schlitz oder Ring, z. B. Akkuschrauber, Föhn |
 | Leiste | Mehrere Löcher nebeneinander, z. B. Schraubendreher, Lippenstifte, Pinsel |
-| Individuell | Foto hochladen und ein bekanntes Maß angeben. Die App erkennt, wo das Gerät aufliegen kann, und baut eine einfache Halterung zum Einhängen oder Hineinstellen |
+| Individuell | Foto hochladen und ein bekanntes Maß angeben. Die App erkennt, wo das Bauteil aufliegen kann, und baut eine einfache Halterung zum Einhängen oder Hineinstellen |
 
 ## Aufbau des Projekts
 
@@ -22,7 +22,7 @@ index.html                    Seitenaufbau
 css/style.css                 Aussehen
 js/geometrie/formen.js        Grundformen (Kasten, Rundung, Schraubloch)
 js/geometrie/netz.js          Form in ein Dreiecksnetz umrechnen
-js/foto/erkennung.js          Gerät im Foto finden, Auflagekante suchen
+js/foto/erkennung.js          Bauteil im Foto finden, Auflagekante suchen
 js/halterungen/register.js    Liste aller Halterungsarten
 js/halterungen/schrauben.js   Schraubengröße, Kopfform, Anzahl und Lage der Löcher (für alle Arten)
 js/halterungen/koecher.js     je Halterungsart: Name, Standardmaße,

@@ -1,4 +1,4 @@
-/* ---------- Foto-Erkennung: Gerät im Foto finden, Auflagekante suchen ---------- */
+/* ---------- Foto-Erkennung: Bauteil im Foto finden, Auflagekante suchen ---------- */
 function segment(data,w,h,sens){
   const R=[],G=[],B=[];
   const push=i=>{R.push(data[4*i]);G.push(data[4*i+1]);B.push(data[4*i+2]);};
@@ -14,7 +14,7 @@ function segment(data,w,h,sens){
       if(y>0&&m[p-w]&&!lab[p-w]){lab[p-w]=cur;st[sp++]=p-w;} if(y<h-1&&m[p+w]&&!lab[p+w]){lab[p+w]=cur;st[sp++]=p+w;} }
     if(size>bestSize){bestSize=size;best=cur;} }
   if(!best) return null;
-  // Löcher füllen: alles, was der Rand nicht erreicht, gehört zum Gerät
+  // Löcher füllen: alles, was der Rand nicht erreicht, gehört zum Bauteil
   const out=new Uint8Array(w*h); let sp=0;
   const seed=p=>{ if(lab[p]!==best&&!out[p]){out[p]=1;st[sp++]=p;} };
   for(let x=0;x<w;x++){seed(x);seed((h-1)*w+x);} for(let y=0;y<h;y++){seed(y*w);seed(y*w+w-1);}
@@ -59,7 +59,7 @@ function silGrid(p,seg){
   return {scale,silW,silH,cell,pad,nx,nz,rx0,rx1,rTop,rBot,xL:c0*cell,xR:(c1+1)*cell,zLow:zOf(rBot),zHigh:zOf(rTop)+cell,sample,zOf,
     rowPx:z=>by0+((nz*cell-z)-pad)/scale};
 }
-/* Auflagekante suchen: von unten nach oben die erste Höhe, über der das Gerät deutlich breiter ist als alles darunter.
+/* Auflagekante suchen: von unten nach oben die erste Höhe, über der das Bauteil deutlich breiter ist als alles darunter.
    Beidseitige Auflage hat Vorrang, einseitige (mind. 12 mm) nur, wenn es keine beidseitige gibt. */
 function findShoulder(g){
   const band=Math.max(2,Math.round(8/g.cell)), cand=[];

@@ -1,11 +1,11 @@
 HALTERUNGEN.leiste = {
   name:"Leiste",
-  hint:"Mehrere Löcher nebeneinander. Werkzeug hängt durch, Kosmetik steht in Sacklöchern.",
+  hint:"Mehrere Löcher nebeneinander. Die Bauteile hängen durch die Löcher oder stehen in Sacklöchern, z. B. Schraubendreher oder Lippenstifte.",
   defaults:{n:6,d:9,a:34,wd:26,blind:false,depth:20,P:6,Hp:45,s:0.5,...SCHRAUB_STANDARD},
   fields:[
     {row:[{k:"n",l:"Anzahl",u:"",min:1,max:20,step:1},{k:"d",l:"Loch-Ø",min:3,max:60},{k:"a",l:"Abstand",min:6,max:100}]},
     {row:[{k:"wd",l:"Wandabstand",min:6,max:100},{k:"Hp",l:"Plattenhöhe",min:25,max:150},{k:"P",l:"Stärke",min:4,max:12}]},
-    {k:"blind",c:"check",l:"Sacklöcher (Teile stehen darin)"},
+    {k:"blind",c:"check",l:"Sacklöcher (Bauteile stehen darin)"},
     {k:"depth",c:"range",l:"Lochtiefe",u:"mm",min:5,max:60,step:1,show:v=>v.blind},
     {k:"s",c:"range",l:"Spiel pro Seite",u:"mm",min:0,max:2,step:0.1},
     ...SCHRAUB_FELDER

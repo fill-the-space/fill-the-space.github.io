@@ -586,3 +586,20 @@ else pts = grid ? [[X0,Z1],[X1,Z1],[X0,Z0],[X1,Z0]] : …   // Rechteck um die M
 **Screenshot:** prompt-log-bilder/31-vorher.jpg / 31-nachher.jpg
 
 **Commit-Nachricht:** Prompt 31: 2 cm Randabstand, Schrauben mittig, nur passende Anzahl
+
+---
+
+## Prompt 32 – Einheitlich „Bauteil“, Beschreibungen aufklappbar (23.10.2026)
+
+**Prompt:**
+> In allem Beschreibung Texten bitte nur das Wort Bauteil oder Bauteil benutzen. Die Beschreibung Texte sollten versteckt sein und nur bei Bedarf geöffnet werden können.
+
+**Was sich geändert hat:**
+- Überall, wo bisher „Gerät“, „Werkzeug“ oder „Teile“ stand, heißt es jetzt „Bauteil“: in den Beschreibungen, Feldnamen („Maße des Bauteils“, „Bekanntes Maß am Bauteil“), Hinweisen, der Legende der 3D-Ansicht und den Kommentaren in der OpenSCAD-Datei. Beispiele wie Fernbedienung oder Föhn stehen weiter als „z. B.“ in den Beschreibungen.
+- Alle Beschreibungstexte sind jetzt zugeklappt und öffnen sich mit einem Klick auf das kleine „i“: „So funktioniert’s“ unter der Überschrift, „Beschreibung“ zur gewählten Halterungsart, „Tipps zum Foto“ und „Hinweise zu Datei und Schrauben“. Warnungen und das Erkennungsergebnis beim Foto bleiben immer sichtbar, weil sie wichtig sind.
+
+**Betroffene Dateien:** index.html, css/style.css, js/halterungen/koecher.js, ablage.js, leiste.js, individuell.js, js/main.js, js/foto/erkennung.js, README.md
+
+**Screenshot:** prompt-log-bilder/32-vorher.jpg / 32-nachher.jpg
+
+**Commit-Nachricht:** Prompt 32: Einheitlich Bauteil, Beschreibungen aufklappbar
