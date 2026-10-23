@@ -412,3 +412,33 @@ function saveFile(name,blob){
 **Betroffene Dateien:** css/style.css, prompt-log.md, prompt-log-bilder/20-vorher.jpg, prompt-log-bilder/20-nachher.jpg
 
 **Commit-Nachricht:** Prompt 20–22: Foto-Bereich bei anderen Halterungsarten ausblenden
+
+---
+
+## Prompt 23 – Korrektur online bestätigt (23.10.2026)
+
+**Prompt:**
+> Ich habe auf Push origin geklickt. Prüf bitte, ob der Foto-Bereich online richtig ausgeblendet wird.
+
+**Entscheidung:**
+- Der Push ist angekommen. Auf der Live-Seite ist der Foto-Bereich jetzt bei Köcher, Ablage und Leiste ausgeblendet und nur bei „Individuell“ sichtbar. Die Konsole zeigt keine Fehler.
+- Beobachtung: Beim ersten Aufruf zeigte der Browser noch die alte Version, weil er die Gestaltungsdatei zwischengespeichert hatte. GitHub Pages hält Dateien etwa 10 Minuten im Zwischenspeicher. Mit Cmd+Shift+R lädt man die Seite frisch.
+
+**Betroffene Dateien:** keine Dateien der App
+
+**Commit-Nachricht:** Prompt 23–24: Online-Prüfung, Arbeitsregeln für Claude
+
+---
+
+## Prompt 24 – Claude übernimmt Protokoll, Commit und Push (23.10.2026)
+
+**Prompt:**
+> Kannst du den Push selber machen zukünftig und die Protokollierung auch
+
+**Was sich geändert hat:**
+- Neue Datei CLAUDE.md im Projekt. Darin stehen die Arbeitsregeln, die Claude in jeder künftigen Sitzung automatisch liest: nach jeder Änderung selbst protokollieren, selbst committen und pushen und danach prüfen, ob alles online angekommen ist. Zusätzlich hat sich Claude Liobas Arbeitsweise in seinem Gedächtnis gemerkt.
+- Fehler bzw. Grenze: Zum Pushen braucht Claude einen eigenen Zugang zu GitHub. Den Versuch, dafür einen Zugangsschlüssel nur für dieses Repository zu erzeugen, hat die automatische Sicherheitsprüfung von Claude Code blockiert. Pushen bleibt deshalb vorerst bei Lioba in GitHub Desktop, bis sie entscheidet, wie der Zugang eingerichtet wird.
+
+**Betroffene Dateien:** CLAUDE.md (neu), prompt-log.md
+
+**Commit-Nachricht:** Prompt 23–24: Online-Prüfung, Arbeitsregeln für Claude
