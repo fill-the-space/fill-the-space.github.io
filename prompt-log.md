@@ -541,3 +541,17 @@ const SCHRAUB_FELDER=[
 **Betroffene Dateien:** index.html, CLAUDE.md
 
 **Commit-Nachricht:** Prompt 29: Versionsnummer gegen gemischte Dateien im Browser
+
+---
+
+## Prompt 30 – Update im Browser nicht sichtbar (23.10.2026)
+
+**Prompt:**
+> Ich kenne das Update im Browser noch nicht sehen
+
+**Entscheidung:**
+- Auf GitHub war die neue Version schon online. Chrome zeigte aber noch die alte Startseite aus dem Zwischenspeicher. GitHub Pages erlaubt Browsern, die Seite bis zu 10 Minuten zwischenzuspeichern, und das lässt sich bei GitHub Pages nicht abschalten. Claude hat die Seite in Chrome mit einem Zusatz in der Adresse (`?v=29`) neu geöffnet, damit Chrome sie frisch lädt. Alternativ hilft Cmd+Shift+R.
+
+**Betroffene Dateien:** keine
+
+**Commit-Nachricht:** Prompt 30: Hinweis zum Zwischenspeicher protokolliert
