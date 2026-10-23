@@ -887,3 +887,19 @@ const acc = win ? {x0:cx-(iw/2-m)+sc.dk/2+2, x1:cx+(iw/2-m)-sc.dk/2-2, z0:t+lip+
 **Screenshot:** prompt-log-bilder/45-vorher.jpg / 45-nachher.jpg
 
 **Commit-Nachricht:** Prompt 45: Köcher ohne Schrauben vorne schließbar
+
+---
+
+## Prompt 46 – Häkchen umsortiert (23.10.2026)
+
+**Prompt:**
+> Ich würde den Haken für vorne ganz geschlossen über Kabelschlitze im Boden legen
+
+**Was sich geändert hat:**
+- Das Häkchen „Vorne ganz geschlossen“ steht jetzt direkt über „Kabelschlitz im Boden“ und nicht mehr ganz unten nach der Befestigung. So stehen die beiden Einstellungen zur Form des Köchers zusammen. Es erscheint weiterhin nur, wenn als Befestigung Türhaken oder SKÅDIS gewählt ist.
+
+**Betroffene Dateien:** js/halterungen/koecher.js, index.html (Versionsnummer 46)
+
+**Screenshot:** prompt-log-bilder/46-vorher.jpg / 46-nachher.jpg
+
+**Commit-Nachricht:** Prompt 46: Häkchen „vorne geschlossen“ über Kabelschlitz

@@ -10,10 +10,10 @@ HALTERUNGEN.koecher = {
     {k:"lip",c:"range",l:"Lippe vorne",u:"mm",min:4,max:80,step:1,show:v=>v.mount==="schrauben"||!v.closed},
     {k:"t",c:"range",l:"Wandstärke",u:"mm",min:1.6,max:4,step:0.2},
     {k:"s",c:"range",l:"Spiel pro Seite",u:"mm",min:0,max:2,step:0.1},
-    {k:"slot",c:"check",l:"Kabelschlitz im Boden"},
-    ...SCHRAUB_FELDER,
     // Ohne Schrauben muss man nicht durch die Vorderseite an die Rückwand, dann darf sie ganz zu sein
-    {k:"closed",c:"check",l:"Vorne ganz geschlossen",show:v=>v.mount!=="schrauben"}
+    {k:"closed",c:"check",l:"Vorne ganz geschlossen",show:v=>v.mount!=="schrauben"},
+    {k:"slot",c:"check",l:"Kabelschlitz im Boden"},
+    ...SCHRAUB_FELDER
   ],
   build:p=>buildKoecher(p)
 };
