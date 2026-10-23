@@ -986,3 +986,23 @@ const acc = win ? {x0:cx-(iw/2-m)+sc.dk/2+2, x1:cx+(iw/2-m)-sc.dk/2-2, z0:t+lip+
 **Screenshot:** prompt-log-bilder/50-vorher.jpg / 50-nachher.jpg
 
 **Commit-Nachricht:** Prompt 50: Druckbettgröße einstellbar, 250 mm voreingestellt
+
+---
+
+## Prompt 51 – Druckbett mit Länge und Breite, „Individuell“ ausgeblendet (23.10.2026)
+
+**Prompt:**
+> Sehr gut, das Druckbett sollte aber zwei Maße beinhalten länger und Breite. Außerdem würde ich erst mal die individuelle Einstellung weglassen in der App
+
+**Was sich geändert hat:**
+- **Druckbett:** Unter „Drucker“ gibt man jetzt Länge und Breite ein, voreingestellt 250 × 250 mm. Die App prüft die Fläche, auf der die Halterung in der empfohlenen Druckrichtung liegt, z. B. bei der Leiste Breite × Höhe, weil sie auf der Rückwand liegt. Passt sie auch um 90° gedreht nicht darauf, kommt der Warnhinweis „Größer als das Druckbett“ mit beiden Maßen.
+- Wer vorher eine einzelne Druckbettgröße gespeichert hatte, bekommt sie für Länge und Breite übernommen.
+- **„Individuell“ ist vorerst ausgeblendet.** Oben stehen nur noch Köcher, Konsole und Leiste. Der Programmcode für die Foto-Erkennung bleibt im Projekt, in index.html steht, wie man sie mit einer Zeile wieder einschaltet.
+- Hatte jemand zuletzt „Individuell“ geöffnet, startet die App ohne Fehler beim Köcher und behält die übrigen gespeicherten Werte.
+- Getestet: Eine 320 mm lange Leiste löst bei 250 × 250 den Hinweis aus und bei 250 × 350 nicht. Eine 280 mm breite Konsole passt auf 250 × 350.
+
+**Betroffene Dateien:** index.html (Versionsnummer 51), js/main.js, js/zustand.js, js/halterungen/empfehlung.js, README.md
+
+**Screenshot:** prompt-log-bilder/51-vorher.jpg / 51-nachher.jpg
+
+**Commit-Nachricht:** Prompt 51: Druckbett Länge × Breite, Individuell ausgeblendet

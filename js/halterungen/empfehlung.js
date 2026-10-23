@@ -48,8 +48,9 @@ function recommend(type,v,model){
   if(xs.length){ const spans=[2*xs[0],2*(W-xs[xs.length-1])].concat(xs.slice(1).map((x,k)=>x-xs[k]));
     if(Math.max(...spans)>300) alerts.push({id:"laenge",kurz:"Zu lang für die Schrauben", lang:`Die Halterung ist ${mmDE(W)} mm breit. Zwischen den Schrauben oder am Rand ist zu viel Abstand, dort hängt sie durch oder steht von der Wand ab. Mehr Schrauben wählen oder die Halterung kürzer machen.`}); }
   // Druckbett
-  const gross=Math.max(...model.dims), bett=state.bed||DRUCKBETT;
-  if(gross>bett) alerts.push({id:"bett",kurz:"Größer als das Druckbett", lang:`Die Halterung ist ${mmDE(gross)} mm groß, das Druckbett ist auf ${mmDE(bett)} mm eingestellt. Kleiner machen, in Teilen drucken oder unter „Drucker“ die Größe deines Druckbetts eintragen.`});
+  // Grundfläche in der empfohlenen Druckrichtung; das Teil darf auf dem Bett auch um 90° gedreht liegen
+  const [dx,dy,dz]=model.dims, [a,b]=model.dir==="Boden unten"?[dx,dy]:model.dir==="Rückwand unten"?[dx,dz]:[dy,dz], L=state.bed.x, B=state.bed.y;
+  if(!((a<=L&&b<=B)||(a<=B&&b<=L))) alerts.push({id:"bett",kurz:"Größer als das Druckbett", lang:`Beim Drucken liegt die Halterung auf einer Fläche von ${mmDE(a)} × ${mmDE(b)} mm, das Druckbett ist auf ${mmDE(L)} × ${mmDE(B)} mm eingestellt. Kleiner machen, in Teilen drucken oder unter „Drucker“ die Größe deines Druckbetts eintragen.`});
 
   const traegt=(art[0].toUpperCase()+art.slice(1))+(art==="der Türhaken"?" trägt":" tragen");
   return {mat, walls, infill, text:`${mat.name} · ${druck}`, detail:`Geschätzte Last ${mmDE(last)} kg${hebel>1.05?" (mit Hebelwirkung)":""}. ${traegt} in PLA dauerhaft etwa ${mmDE(cap)} kg.`};

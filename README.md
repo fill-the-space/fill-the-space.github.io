@@ -13,7 +13,7 @@ Lokal ausprobieren: `index.html` im Finder doppelklicken.
 | Köcher | Bauteil steht in einer Schale, z. B. Fernbedienung, Smartphone, Haarspray |
 | Konsole | L-Form: Bauteil steckt mit dem schmalen Teil in einem Schlitz oder Ring, der breitere Teil liegt oben auf, z. B. Akkuschrauber, Föhn |
 | Leiste | Mehrere Löcher nebeneinander, z. B. Schraubendreher, Lippenstifte, Pinsel |
-| Individuell | Foto hochladen und ein bekanntes Maß angeben. Die App erkennt, wo das Bauteil aufliegen kann, und baut eine einfache Halterung zum Einhängen oder Hineinstellen |
+| Individuell (derzeit ausgeblendet, Code bleibt erhalten) | Foto hochladen und ein bekanntes Maß angeben. Die App erkennt, wo das Bauteil aufliegen kann, und baut eine einfache Halterung zum Einhängen oder Hineinstellen |
 
 ## Aufbau des Projekts
 

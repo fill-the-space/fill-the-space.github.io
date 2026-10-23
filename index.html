@@ -7,7 +7,7 @@
 <meta name="description" content="Wandhalterungen für den 3D-Drucker erzeugen: Maße eintragen oder Foto hochladen, in 3D ansehen, als STL speichern.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="css/style.css?v=50">
+<link rel="stylesheet" href="css/style.css?v=51">
 </head>
 <body>
 
@@ -43,8 +43,9 @@
       </fieldset>
       <fieldset>
         <legend>Drucker</legend>
-        <div class="nums"><label class="num">Druckbett<span class="inp" data-u="mm"><input type="number" id="bedSize" min="100" max="1000" step="10" inputmode="decimal"></span></label></div>
-        <details class="info"><summary>Beschreibung</summary><p class="hint">Größte Länge, die dein Drucker schafft. Voreingestellt sind 250 mm, das passt für die meisten Drucker. Ist die Halterung größer, erscheint ein Warnhinweis.</p></details>
+        <span class="seg-label">Druckbett</span>
+        <div class="nums"><label class="num">Länge<span class="inp" data-u="mm"><input type="number" id="bedX" min="50" max="1000" step="10" inputmode="decimal"></span></label><label class="num">Breite<span class="inp" data-u="mm"><input type="number" id="bedY" min="50" max="1000" step="10" inputmode="decimal"></span></label></div>
+        <details class="info"><summary>Beschreibung</summary><p class="hint">Länge und Breite der Druckfläche deines Druckers. Voreingestellt sind 250 × 250 mm, das passt für die meisten Drucker. Passt die Halterung in der empfohlenen Druckrichtung nicht darauf, auch nicht um 90° gedreht, erscheint ein Warnhinweis.</p></details>
       </fieldset>
     </div>
 
@@ -71,28 +72,29 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <!-- Rechnen: Formen, Dreiecksnetz, Foto-Erkennung -->
-<script src="js/geometrie/formen.js?v=50"></script>
-<script src="js/geometrie/netz.js?v=50"></script>
-<script src="js/foto/erkennung.js?v=50"></script>
+<script src="js/geometrie/formen.js?v=51"></script>
+<script src="js/geometrie/netz.js?v=51"></script>
+<script src="js/foto/erkennung.js?v=51"></script>
 <!-- Halterungsarten: neue Art = neue Datei + eine Zeile hier -->
-<script src="js/halterungen/register.js?v=50"></script>
-<script src="js/halterungen/befestigung.js?v=50"></script>
-<script src="js/halterungen/schrauben.js?v=50"></script>
-<script src="js/halterungen/empfehlung.js?v=50"></script>
-<script src="js/halterungen/koecher.js?v=50"></script>
-<script src="js/halterungen/konsole.js?v=50"></script>
-<script src="js/halterungen/leiste.js?v=50"></script>
-<script src="js/halterungen/individuell.js?v=50"></script>
+<script src="js/halterungen/register.js?v=51"></script>
+<script src="js/halterungen/befestigung.js?v=51"></script>
+<script src="js/halterungen/schrauben.js?v=51"></script>
+<script src="js/halterungen/empfehlung.js?v=51"></script>
+<script src="js/halterungen/koecher.js?v=51"></script>
+<script src="js/halterungen/konsole.js?v=51"></script>
+<script src="js/halterungen/leiste.js?v=51"></script>
+<!-- Individuell (Foto) vorerst ausgeblendet; zum Wiedereinschalten diese Zeile zurückholen:
+<script src="js/halterungen/individuell.js"></script> -->
 <!-- Export -->
-<script src="js/export/stl.js?v=50"></script>
-<script src="js/export/vereinfachen.js?v=50"></script>
-<script src="js/export/download.js?v=50"></script>
+<script src="js/export/stl.js?v=51"></script>
+<script src="js/export/vereinfachen.js?v=51"></script>
+<script src="js/export/download.js?v=51"></script>
 <!-- Oberfläche -->
-<script src="js/ui/dom.js?v=50"></script>
-<script src="js/ui/vorschau3d.js?v=50"></script>
-<script src="js/zustand.js?v=50"></script>
-<script src="js/ui/foto.js?v=50"></script>
-<script src="js/ui/formular.js?v=50"></script>
-<script src="js/main.js?v=50"></script>
+<script src="js/ui/dom.js?v=51"></script>
+<script src="js/ui/vorschau3d.js?v=51"></script>
+<script src="js/zustand.js?v=51"></script>
+<script src="js/ui/foto.js?v=51"></script>
+<script src="js/ui/formular.js?v=51"></script>
+<script src="js/main.js?v=51"></script>
 </body>
 </html>
