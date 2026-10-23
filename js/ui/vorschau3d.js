@@ -60,6 +60,7 @@ function show(model,mesh){
 
 /* Anordnung: Wand (von vorne, Teile mit der Rückseite bei y = 0) oder Kasten (Boden bei z = 0, vorne bei y = 0).
    parts: [{geo, x, y, z, rot, sel, bad}]; rot = 1 dreht das Teil um 90° */
+let slotTex=null;
 function showPlan(sp){
   if(!renderer)return;
   clearGroup();
@@ -70,7 +71,17 @@ function showPlan(sp){
   // ghost: neues Teil, das noch nicht hinzugefügt ist (durchscheinend)
   for(const p of sp.parts){ const m=new THREE.Mesh(p.geo,p.ghost?new THREE.MeshStandardMaterial({color:new THREE.Color(cssColor("--model")),transparent:true,opacity:0.45,depthWrite:false,roughness:0.6}):mat(p.bad?"--alert-bg":p.sel?"--model":"--placed")); m.userData.keep=true;
     if(p.rot) m.rotation.z=Math.PI/2; m.position.set(p.x,p.y,p.z); group.add(m); depth=Math.max(depth,p.depth||0); }
-  if(sp.kind==="wand"){ slab(0,sp.W,-12,0,0,sp.H,wall);
+  if(sp.kind==="wand"){
+    // Schranktür so dick wie eingestellt; SKÅDIS-Lochplatte 5 mm mit Schlitzen als Bild auf der Vorderseite
+    slab(0,sp.W,sp.art==="tuer"?-sp.door:sp.art==="skadis"?-5:-12,0,0,sp.H,wall);
+    if(sp.art==="skadis"){ const key=[sp.W,sp.H,cssColor("--wall"),cssColor("--muted")].join();
+      // Bild nur neu malen, wenn sich Größe oder Farben ändern (beim Ziehen wird oft neu gezeichnet)
+      if(!slotTex||slotTex.key!==key){ const s=Math.min(2,2048/Math.max(sp.W,sp.H)), cv=document.createElement("canvas"), c=cv.getContext("2d");
+        cv.width=Math.round(sp.W*s); cv.height=Math.round(sp.H*s); c.fillStyle=cssColor("--wall"); c.fillRect(0,0,cv.width,cv.height); c.fillStyle=cssColor("--muted");
+        for(const q of sp.slots) c.fillRect((q.x-2.5)*s,(sp.H-q.z-15)*s,5*s,15*s);
+        slotTex&&slotTex.tex.dispose(); slotTex={key,tex:new THREE.CanvasTexture(cv)}; }
+      const tex=slotTex.tex, g=new THREE.PlaneGeometry(sp.W,sp.H); g.rotateX(Math.PI/2); g.rotateZ(Math.PI); g.translate(sp.W/2,0.05,sp.H/2);
+      group.add(new THREE.Mesh(g,new THREE.MeshStandardMaterial({map:tex,roughness:0.95}))); }
     center.set(sp.W/2,depth/2,sp.H/2); radius=Math.hypot(sp.W,sp.H,depth)/2; }
   else { const t=8, glas=new THREE.MeshStandardMaterial({color:new THREE.Color(cssColor("--wall")),transparent:true,opacity:0.35,depthWrite:false,roughness:0.9});
     slab(-t,sp.L+t,-t,sp.B+t,-t,0,wall);

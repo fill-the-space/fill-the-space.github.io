@@ -1453,3 +1453,30 @@ if(sel&&sel.type===state.type) sel.v=clone(v);
 **Screenshot:** prompt-log-bilder/71-handy.jpg
 
 **Commit-Nachricht:** Prompt 71: Banner auf dem Handy wieder größer
+
+---
+
+## Prompt 72 – Wand, SKÅDIS-Lochplatte und Schranktür (23.10.2026)
+
+**Prompt:**
+> Bei den Halterungen ist es im Moment möglich, jegliche Halterung, Arth an jegliche Wand zu machen. Sobald ich Scandis auswählen muss auf der Wand ein Raster entstehen, in der ich dieses Scandis Bauteil einbauen kann. In dem Moment kann ich dann da auch nichts anderes einbauen. Sobald ich einen Tür Haken wähle, müssen die Teile nur oberhalb an der Tür angebracht werden können und beim Schrauben kann es so bleiben, wie es jetzt ist.
+
+**Was sich geändert hat:**
+- Die Wand richtet sich jetzt nach der Befestigung. Maßgeblich ist das erste Teil oder, solange noch nichts hängt, das Teil im Formular:
+  - **Schrauben → Wand:** wie bisher, Teile frei platzierbar.
+  - **SKÅDIS → SKÅDIS-Lochplatte:**
+    - Skizze und 3D zeigen das Lochraster: Schlitze 5 × 15 mm, Spalten 40 mm auseinander, jede zweite Reihe um 20 mm versetzt. Voreingestellt sind 560 × 560 mm.
+    - Die Haken sitzen immer genau in einem Schlitz. Beim Ziehen springt das Teil von Schlitz zu Schlitz, auch eingetippte Positionen rasten ein.
+  - **Türhaken → Schranktür:**
+    - Die Teile hängen mit der Brücke oben auf der Türkante und lassen sich nur nach links und rechts schieben. Das Feld „von unten“ ist gesperrt.
+    - In 3D ist die Tür so dick wie die eingestellte Türstärke, der Haken greift dahinter. Voreingestellt sind 450 × 700 mm.
+- An Lochplatte oder Tür lässt sich kein Teil mit anderer Befestigung hinzufügen. Die App sagt dann, warum, und schlägt „Neu anfangen“ vor. Wird bei einem platzierten Teil die Befestigung geändert, wird es rot, und es kommt eine Warnung.
+- Die Knöpfe heißen passend, z. B. „An die SKÅDIS-Platte hängen“ oder „An die Tür hängen“. Die Größe merkt sich die App für jede Wandart getrennt.
+- Geprüft: Die Haken landen rechnerisch genau auf einem Schlitz (z. B. Haken bei x = 320 mm, Schlitzreihe 13). Auf dem Handy gibt es kein seitliches Scrollen.
+- Hinweis: Das SKÅDIS-Raster ist nach den bekannten Maßen nachgebaut, nicht an einer echten Platte nachgemessen.
+
+**Betroffene Dateien:** index.html (Versionsnummer 72), css/style.css, js/ui/anordnung.js, js/ui/vorschau3d.js, js/halterungen/befestigung.js, js/zustand.js, js/main.js, README.md
+
+**Screenshot:** prompt-log-bilder/72-skadis.jpg / 72-tuer.jpg / 72-skadis-handy.jpg
+
+**Commit-Nachricht:** Prompt 72: Wand, SKÅDIS-Lochplatte und Schranktür

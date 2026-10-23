@@ -145,3 +145,4 @@ textarea#scad{width:100%;box-sizing:border-box;min-height:160px;font:12px var(--
 .plan-actions .reset{margin-left:auto;background:var(--alert-bg);color:#111}
 /* Handy: Titel-Banner so groß wie in Prompt 69 */
 @media (max-width:620px){header h1{font-size:clamp(28px,6.4vw,62px)}}
+.pl-slot{fill:var(--muted);opacity:.55}

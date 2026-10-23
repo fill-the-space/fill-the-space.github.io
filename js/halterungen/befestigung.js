@@ -17,14 +17,15 @@ const TUER_SCHRAUBE=3.5;  // mm, Senkkopfschraube von oben in die Türkante
    arm: Abstand des Bauteils von der Wand in mm (für die Anzahl der SKÅDIS-Haken) */
 function mountParts(p,x0,x1,top,wall,warn,arm=0){
   const parts=[], W=x1-x0, xm=(x0+x1)/2;
-  parts.info={kind:p.mount||"schrauben", width:W, t:p.hookT, hooks:0, zFix:top, pin:false};
+  // hx, zt: Lage der SKÅDIS-Haken; doorTop: Höhe der Türoberkante (für die Anordnung an Lochplatte bzw. Tür)
+  parts.info={kind:p.mount||"schrauben", width:W, t:p.hookT, hooks:0, zFix:top, pin:false, hx:[]};
   if(p.mount==="tuer"){
     // Die Oberkante der Halterung läuft bündig als Brücke über die Tür weiter, das Bein greift hinter die Tür; 0,8 mm Luft zur Tür
     const d=p.door, c=0.8, sc=p.doorScrews?screwSpec({sd:TUER_SCHRAUBE}):null;
     let th=p.hookT; if(sc&&th<screwWall(sc)){ th=screwWall(sc); warn.push(`Hakenstärke auf ${mmDE(th)} mm erhöht, damit die Senkköpfe oben ganz versenkt sind.`); }
     const back=-(d+c+th);
     parts.push([x0,x1,back,wall,top-th,top],[x0,x1,back,back+th,top-Math.max(p.hookL,th+5),top]);
-    parts.info.t=th;
+    parts.info.t=th; parts.info.doorTop=top-th; parts.info.door=d;
     if(th>3.5) warn.push(`Der Haken ist ${mmDE(th)} mm dick. Prüfe, ob oberhalb der Schranktür so viel Luft ist, sonst schließt die Tür nicht.`);
     // Senkkopf-Löcher von oben mitten in die Türkante, Senkung oben
     if(sc){ const yc=-(c+d/2), off=W>=50?Math.min(W/2-12,W/4):0, xs=off?[xm-off,xm+off]:[xm];
@@ -33,8 +34,8 @@ function mountParts(p,x0,x1,top,wall,warn,arm=0){
   } else if(p.mount==="skadis"){
     // Zunge 4,4 mm breit, 5 mm hoch, geht durch den Schlitz; dahinter ein Haken 8 mm nach unten. Alles zusammen 13 mm hoch, passt also durch den 15-mm-Schlitz
     const tw=4.4, deep=SKADIS.board+0.6, zt=top-4, hook=(x,tip)=>{ parts.push([x-tw/2,x+tw/2,-deep,0.5,zt-5,zt]);
-      if(tip){ parts.push([x-tw/2,x+tw/2,-deep-3,-deep+0.5,zt-13,zt]); parts.info.hooks++; } };
-    parts.info.zFix=zt;
+      if(tip){ parts.push([x-tw/2,x+tw/2,-deep-3,-deep+0.5,zt-13,zt]); parts.info.hooks++; parts.info.hx.push(x); } };
+    parts.info.zFix=zt; parts.info.zt=zt;
     if(zt-13<0) warn.push("Die Rückwand ist für einen SKÅDIS-Haken zu niedrig. Halterung höher machen.");
     // So viele Haken, dass PLA mit Sicherheitsabstand reicht und höchstens 200 mm zwischen zwei Haken liegen; mindestens 2 gegen Verdrehen
     const cols=Math.max(1,Math.floor((W-16)/SKADIS.pitch)+1), kg=(+p.mass||0)/1000*Math.hypot(1,arm/Math.max(zt,10));

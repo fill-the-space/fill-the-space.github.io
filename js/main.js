@@ -42,8 +42,9 @@ function update(){
   $("outDir").textContent=model.dir;
   const w=$("warn"); w.hidden=!model.warn.length; w.textContent=model.warn.join(" ");
   current={model,area:st.area,h};
-  if(P.on){ if(!model.plan&&!planCache.has(planKey(state.type,v))) planCache.set(planKey(state.type,v),{bb:model.bb,mesh}); drawPlan(); }
+  if(P.on){ if(!model.plan&&!planCache.has(planKey(state.type,v))) planCache.set(planKey(state.type,v),{bb:model.bb,mesh,mount:model.mount}); drawPlan(); }
   else show(model,mesh);
+  planLabels();
   try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){}
 }
 

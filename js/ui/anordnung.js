@@ -2,16 +2,33 @@
    Jede Seite hat einen eigenen Platz: Halterungen hängen an einer Wand (von vorne gesehen: a = von links, b = von unten),
    Boxen stehen in einem Kasten, z. B. Schublade, Kiste oder Regalfach (von oben gesehen: a = von links, b = von vorne).
    Jedes Teil merkt sich Art und Maße. Ist ein Teil ausgewählt, gelten Änderungen im Formular für dieses Teil.
-   Im Kasten lassen sich Boxen stapeln (stack): Sie stehen dann auf den Boxen darunter, so = Reihenfolge des Stapelns. */
+   Im Kasten lassen sich Boxen stapeln (stack): Sie stehen dann auf den Boxen darunter, so = Reihenfolge des Stapelns.
+   Die Wand richtet sich nach der Befestigung des ersten Teils (ohne Teile: nach dem Teil im Formular):
+   Schrauben = normale Wand, frei platzierbar; SKÅDIS = Lochplatte, die Haken rasten in die Schlitze ein; Türhaken = Schranktür,
+   die Teile hängen oben an der Türkante. Teile mit anderer Befestigung passen dann nicht dazu. */
 const PLAN_ART={
-  halterung:{kind:"wand", name:"Wand", knopf:"An der Wand", ort:"an der Wand", rand:"der Wand", dazu:"An die Wand hängen", size:[["W","Breite"],["H","Höhe"]], b:"von unten", gap:20, raster:100,
-    hint:"Trag ein, wie groß die freie Wandfläche ist. „Teil hinzufügen“ hängt die Halterung aus dem Formular an die Wand. Teile mit der Maus oder dem Finger verschieben, sie rasten an den Kanten der anderen Teile ein. Ein angetipptes Teil ist ausgewählt: Änderungen im Formular gelten dann nur für dieses Teil. Für eine weitere Halterung wieder „Teil hinzufügen“ oder „Duplizieren“ drücken und das neue Teil anpassen. Auf eine freie Stelle tippen hebt die Auswahl auf."},
+  halterung:{kind:"wand", b:"von unten", gap:20, raster:100,
+    hint:"Teile mit der Maus oder dem Finger verschieben, sie rasten an den Kanten der anderen Teile ein. Ein angetipptes Teil ist ausgewählt: Änderungen im Formular gelten dann nur für dieses Teil. Für eine weitere Halterung wieder „Teil hinzufügen“ oder „Duplizieren“ drücken und das neue Teil anpassen. Auf eine freie Stelle tippen hebt die Auswahl auf. Mit „Neu anfangen“ lässt sich eine andere Wandart beginnen."},
   box:{kind:"kasten", name:"Kasten", knopf:"Im Kasten", ort:"im Kasten", rand:"des Kastens", dazu:"In den Kasten legen", size:[["L","Länge"],["B","Breite"],["H","Höhe"]], b:"von vorne", gap:0, raster:50,
     hint:"Trag die Innenmaße deines Kastens ein, z. B. einer Schublade, Kiste oder eines Regalfachs. „Teil hinzufügen“ stellt die Box aus dem Formular hinein, die Ansicht zeigt sie von oben, vorne ist unten. Boxen mit der Maus oder dem Finger verschieben, sie rasten an den Kanten der anderen Boxen ein. „Drehen“ dreht die ausgewählte Box um 90°. „Stapeln“ stellt die ausgewählte Box auf eine andere, am liebsten auf eine gleich große. Das geht nur mit stapelbaren Boxen (Stapelbox, Sortierkasten und Deckelbox mit „Stapelbar“) und nur mit gleich großen Boxen der gleichen Art, genau übereinander. Am einfachsten: Box auswählen, „Duplizieren“, dann „Stapeln“. In der Ansicht von oben ist jede gestapelte Box etwas kleiner gezeichnet und mit ▲ markiert: Wer die oberste Box zieht, nimmt sie vom Stapel; wer die untere Box am Rand greift, verschiebt den ganzen Stapel. Stapelboxen greifen mit ihrem Fuß in die Box darunter, wenn beide gleich groß sind. Ein angetipptes Teil ist ausgewählt: Änderungen im Formular gelten dann nur für diese Box. Auf eine freie Stelle tippen hebt die Auswahl auf."}
 };
+// Wandarten nach Befestigung
+const WAND_ART={
+  wand:{name:"Wand", knopf:"An der Wand", dazu:"An die Wand hängen", ort:"an der Wand", rand:"der Wand", akk:"die Wand", mount:"Schrauben", size:[["W","Breite"],["H","Höhe"]],
+    hint:"Halterungen mit Schrauben lassen sich frei an der Wand platzieren. Trag ein, wie groß die freie Wandfläche ist."},
+  skadis:{name:"SKÅDIS-Lochplatte", knopf:"An der SKÅDIS-Platte", dazu:"An die SKÅDIS-Platte hängen", ort:"an der Lochplatte", rand:"der Lochplatte", akk:"die SKÅDIS-Lochplatte", mount:"SKÅDIS", size:[["W","Plattenbreite"],["H","Plattenhöhe"]],
+    hint:"An der IKEA-SKÅDIS-Lochplatte sitzen die Haken immer genau in einem Schlitz: Beim Ziehen springt das Teil von Schlitz zu Schlitz. Es passen nur Halterungen mit SKÅDIS-Haken. Trag die Größe deiner Platte ein, z. B. 560 × 560 mm."},
+  tuer:{name:"Schranktür", knopf:"An der Tür", dazu:"An die Tür hängen", ort:"an der Tür", rand:"der Tür", akk:"die Schranktür", mount:"Türhaken", size:[["W","Türbreite"],["H","Türhöhe"]],
+    hint:"An der Schranktür hängen die Halterungen mit ihrem Haken oben an der Türkante. Sie lassen sich deshalb nur nach links und rechts verschieben. Es passen nur Halterungen mit Türhaken."}
+};
+const MOUNT_NAME={schrauben:"Schrauben",skadis:"SKÅDIS",tuer:"Türhaken"};
+const mountOf=v=>({skadis:"skadis",tuer:"tuer"})[v&&v.mount]||"wand";
+function wandArt(){ const P=state.plan.halterung; return mountOf(P.items.length?P.items[0].v:state.v[state.page==="halterung"?state.type:state.last.halterung]); }
 const planCache=new Map();
-const plan=()=>state.plan[state.page], planArt=()=>PLAN_ART[state.page];
-const planDims=()=>{ const P=plan(); return planArt().kind==="wand"?[P.W,P.H]:[P.L,P.B]; };
+const plan=()=>state.plan[state.page];
+const planArt=()=>state.page==="halterung"?{...PLAN_ART.halterung,...WAND_ART[wandArt()],art:wandArt()}:PLAN_ART.box;
+const planSize=()=>state.page==="halterung"?state.plan.halterung.dims[wandArt()]:plan();
+const planDims=()=>{ const S=planSize(); return planArt().kind==="wand"?[S.W,S.H]:[S.L,S.B]; };
 const planKey=(type,v)=>type+JSON.stringify(v);
 const nameOf=t=>HALTERUNGEN[t].name.replace(/­/g,"");
 const clone=o=>JSON.parse(JSON.stringify(o));
@@ -21,7 +38,7 @@ const mm=x=>x.toLocaleString("de-DE",{maximumFractionDigits:0});
 function planEntry(type,v){
   const k=planKey(type,v); let e=planCache.get(k);
   if(!e){ const m=build(type,v), g=m.plan||{f:m.f,bb:m.bb}, b=g.bb, vol=(b[1]-b[0]+4)*(b[3]-b[2]+4)*(b[5]-b[4]+4);
-    e={bb:b, box:m.box, mesh:polygonize(g.f,b,Math.max(1,Math.min(Math.cbrt(vol/120000),(v.t||v.P||3)*0.8)))}; planCache.set(k,e); }
+    e={bb:b, box:m.box, mount:m.mount, mesh:polygonize(g.f,b,Math.max(1,Math.min(Math.cbrt(vol/120000),(v.t||v.P||3)*0.8)))}; planCache.set(k,e); }
   return e;
 }
 // Umriss eines Teils in der Ansicht (Rechteck a, b, w, h in mm)
@@ -65,6 +82,27 @@ const einzug=(r,L)=>Math.min(r.w,r.h)*0.08*stock(r.it.id,L);
 function aufgestapelt(id,L){ const out=new Set([id]); let more=true;
   while(more){ more=false; for(const [k,l] of L) if(!out.has(k)&&l.rest.some(x=>out.has(x))){ out.add(k); more=true; } }
   out.delete(id); return out; }
+/* SKÅDIS: Schlitze 5 × 15 mm in Spalten 40 mm auseinander, jede zweite Reihe um 20 mm versetzt, Reihen 20 mm übereinander.
+   x = Mitte des Schlitzes von links, z = Unterkante von unten */
+function skadisSlots(W,H){ const out=[];
+  for(let k=0;15+20*k+15<=H-15;k++) for(let x=20+(k%2?20:0);x<=W-20;x+=SKADIS.pitch) out.push({x,z:15+20*k}); return out; }
+// Mögliche Lagen eines SKÅDIS-Teils: der erste Haken sitzt auf dem Boden eines Schlitzes (Haken von vorne gesehen gespiegelt)
+function skadisLagen(r){ const m=r.e.mount, [W,H]=planDims(); if(!m||!m.hx||!m.hx.length) return [];
+  const ox=r.e.bb[1]-m.hx[0], oz=m.zt-5-r.e.bb[4];
+  return skadisSlots(W,H).map(q=>({a:q.x-ox,b:q.z-oz})).filter(p=>p.a>=-0.01&&p.b>=-0.01&&p.a+r.w<=W+0.01&&p.b+r.h<=H+0.01); }
+// Tür: Unterseite der Brücke liegt auf der Türoberkante
+const tuerB=r=>planDims()[1]-((r.e.mount&&r.e.mount.doorTop!=null?r.e.mount.doorTop:r.e.bb[5])-r.e.bb[4]);
+// Lage eines Teils an Lochplatte oder Tür erzwingen (Wand und Kasten: frei)
+function fitPos(r){ const A=planArt(); if(A.kind!=="wand"||mountOf(r.it.v)!==A.art) return;
+  if(A.art==="tuer"){ const W=planDims()[0]; r.it.b=r.b=tuerB(r); r.it.a=r.a=Math.max(0,Math.min(r.a,W-r.w)); }
+  if(A.art==="skadis"){ let best=null, bd=1e18; for(const p of skadisLagen(r)){ const d=(p.a-r.a)**2+(p.b-r.b)**2; if(d<bd){ bd=d; best=p; } }
+    if(best){ r.it.a=r.a=best.a; r.it.b=r.b=best.b; } } }
+// Freier Platz für ein neues Teil, passend zur Wandart
+function placeFree(r,rects){ const A=planArt(), g=A.gap, W=planDims()[0], frei=p=>!rects.some(s=>hit({...p,w:r.w,h:r.h},s));
+  if(A.kind==="wand"&&A.art==="skadis"){ const L=skadisLagen(r).sort((x,y)=>y.b-x.b||x.a-y.a); return L.find(frei)||L[0]||{a:0,b:0}; }
+  if(A.kind==="wand"&&A.art==="tuer"){ const b=tuerB(r), as=[g,...rects.map(o=>o.a+o.w+g)].sort((x,y)=>x-y);
+    return {a:as.find(a=>a+r.w<=W+0.01&&frei({a,b}))??Math.max(0,Math.min(g,W-r.w)), b}; }
+  return freeSpot(r.w,r.h,rects); }
 function clampItem(it){ const r=planRect(it), [CW,CH]=planDims(); it.a=Math.max(0,Math.min(it.a,CW-r.w)); it.b=Math.max(0,Math.min(it.b,CH-r.h)); }
 function savePlan(){ try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){} }
 
@@ -75,7 +113,10 @@ function selectItem(id){
   renderAll();
 }
 function addItem(it){
-  const P=plan(), rects=P.items.map(planRect).filter(o=>!o.it.stack), r=planRect({...it,a:0,b:0}), s=freeSpot(r.w,r.h,rects);
+  const P=plan(), A=planArt();
+  // An Lochplatte oder Tür passen nur Teile mit derselben Befestigung
+  if(A.kind==="wand"&&P.items.length&&mountOf(it.v)!==A.art){ planMsg=`An ${A.akk} passen nur Halterungen mit der Befestigung „${A.mount}“. Im Formular die Befestigung ändern oder mit „Neu anfangen“ eine andere Wand beginnen.`; renderAll(); return; }
+  const rects=P.items.map(planRect).filter(o=>!o.it.stack), r=planRect({...it,a:0,b:0}), s=placeFree(r,rects);
   it.id=++P.n; it.a=s.a; it.b=s.b; P.items.push(it); selectItem(it.id);
 }
 $("planAdd").addEventListener("click",()=>addItem({type:state.type,v:clone(state.v[state.type]),rot:0}));
@@ -117,19 +158,22 @@ function numField(label,val,min,max,on){
   i.addEventListener("input",()=>{ const x=parseFloat(i.value); if(isFinite(x)&&x>=min) on(Math.min(max,x)); });
   w.appendChild(i); l.appendChild(w); return l;
 }
+// Beschriftung der Knöpfe; ändert sich mit der Wandart, deshalb bei jedem Neuberechnen
+function planLabels(){ const P=plan(), A=planArt();
+  $("planBtn").textContent=A.knopf+(P.items.length?` (${P.items.length})`:""); $("toPlan").textContent=A.dazu; }
+let shownArt=null;
 function renderPlanPanel(){
-  const P=plan(), A=planArt();
+  const P=plan(), A=planArt(), S=planSize(); shownArt=A.art;
   for(const b of document.querySelectorAll("#viewMode button")) b.setAttribute("aria-pressed",String((b.dataset.mode==="plan")===P.on));
-  $("planBtn").textContent=A.knopf+(P.items.length?` (${P.items.length})`:""); $("plan").hidden=!P.on;
-  $("toPlan").hidden=P.on; $("toPlan").textContent=A.dazu;
+  planLabels(); $("plan").hidden=!P.on; $("toPlan").hidden=P.on;
   // Legende der 3D-Vorschau: in der Anordnung ausgewähltes Teil und weitere Teile
   $("legendGhostDot").style.background=P.on?"var(--placed)":"var(--ghost)"; $("legendGhostText").textContent=P.on?"Weitere Teile":"Bauteil";
   if(P.on){ $("legendModel").textContent="Ausgewählt"; $("legendGhost").hidden=false; }
   if(!P.on){ $("formSel").hidden=true; return; }
-  $("planTitle").textContent=A.name; $("planHint").textContent=A.hint; $("planRot").hidden=$("planStack").hidden=A.kind==="wand";
+  $("planTitle").textContent=A.name; $("planHint").textContent=(A.kind==="wand"?WAND_ART[A.art].hint+" ":"")+A.hint; $("planRot").hidden=$("planStack").hidden=A.kind==="wand";
   $("planSvg").setAttribute("aria-label",A.kind==="wand"?"Wand von vorne mit den Halterungen":"Kasten von oben mit den Boxen");
   const sz=$("planSize"); sz.innerHTML=""; sz.className="nums"+(A.size.length===2?" two":"");
-  for(const [k,l] of A.size) sz.appendChild(numField(l,P[k],k==="H"&&A.kind!=="wand"?10:50,5000,x=>{ P[k]=x; drawPlan(); savePlan(); }));
+  for(const [k,l] of A.size) sz.appendChild(numField(l,S[k],k==="H"&&A.kind!=="wand"?10:50,5000,x=>{ S[k]=x; drawPlan(); savePlan(); }));
   const pos=$("planPos"); pos.innerHTML="";
   pos.append(numField("von links",0,0,5000,x=>{ const it=P.items.find(i=>i.id===P.sel); if(it){ it.a=x; drawPlan(); savePlan(); } }),
              numField(A.b,0,0,5000,x=>{ const it=P.items.find(i=>i.id===P.sel); if(it){ it.b=x; drawPlan(); savePlan(); } }));
@@ -137,27 +181,35 @@ function renderPlanPanel(){
 
 /* ---------- Zeichnen: Ansicht von vorne bzw. oben, Liste, Hinweise und 3D ---------- */
 function drawPlan(){
+  if(planArt().art!==shownArt) renderPlanPanel();
   const P=plan(), A=planArt(), wand=A.kind==="wand", [CW,CH]=planDims(), rects=P.items.map(planRect), bad=new Set(), warn=[];
+  // Lochplatte und Tür: Teile in die Schlitze bzw. an die Türkante setzen
+  rects.forEach(fitPos); const CH0=planSize().H;
   const nr=it=>P.items.indexOf(it)+1, L=planLayout(rects), Z=r=>L.get(r.it.id);
   // Prüfen: Überlappen (auch in der Höhe, außer eine Box steht auf der anderen), über den Rand, zu hoch für den Kasten
   rects.forEach((r,i)=>{
     for(let j=i+1;j<rects.length;j++){ const o=rects[j], zr=Z(r), zo=Z(o);
       if(hit(r,o)&&zr.z<zo.z+hoehe(o)-0.01&&zo.z<zr.z+hoehe(r)-0.01&&!zr.rest.includes(o.it.id)&&!zo.rest.includes(r.it.id)){ bad.add(r.it.id); bad.add(o.it.id); warn.push(`Teil ${i+1} und Teil ${j+1} überlappen.`); } }
-    if(r.a<-0.01||r.b<-0.01||r.a+r.w>CW+0.01||r.b+r.h>CH+0.01){ bad.add(r.it.id); warn.push(`Teil ${i+1} ragt über den Rand ${A.rand}.`); }
+    const passt=!wand||mountOf(r.it.v)===A.art, ueber=wand&&A.art==="tuer"&&passt?r.e.bb[5]-r.e.bb[4]-(CH-tuerB(r)):0;
+    if(!passt){ bad.add(r.it.id); warn.push(`Teil ${i+1} hat die Befestigung „${MOUNT_NAME[r.it.v.mount||"schrauben"]}“ und passt nicht an ${A.akk}. Im Formular „${A.mount}“ wählen oder das Teil entfernen.`); }
+    if(passt&&(r.a<-0.01||r.b<-0.01||r.a+r.w>CW+0.01||r.b+r.h>CH+ueber+0.01)){ bad.add(r.it.id); warn.push(`Teil ${i+1} ragt über den Rand ${A.rand}.`); }
     if(!wand&&r.it.stack&&!stapelbar(r)) warn.push(`Teil ${i+1} ist nicht stapelbar und steht deshalb am Boden.`);
     const unter=Z(r).rest.map(id=>rects.find(o=>o.it.id===id)), falsch=unter.filter(o=>!stapelbar(o)).map(o=>o.it.id), schief=unter.filter(o=>stapelbar(o)&&!greift(r,o));
     if(schief.length){ bad.add(r.it.id); warn.push(`Teil ${i+1} passt nicht genau auf Teil ${schief.map(o=>nr(o.it)).join(" und ")}. Gestapelt werden nur gleich große Boxen der gleichen Art, genau übereinander.`); }
     if(falsch.length){ bad.add(r.it.id); warn.push(`Teil ${i+1} steht auf Teil ${falsch.map(id=>P.items.findIndex(x=>x.id===id)+1).join(" und ")}, ${falsch.length>1?"die nicht stapelbar sind":"das nicht stapelbar ist"}.`); }
-    const top=Z(r).z+hoehe(r); if(!wand&&top>P.H+0.01){ bad.add(r.it.id); warn.push(Z(r).z>0?`Der Stapel mit Teil ${i+1} ist ${mm(top)} mm hoch, der Kasten nur ${mm(P.H)} mm.`:`Teil ${i+1} ist ${mm(top)} mm hoch, der Kasten nur ${mm(P.H)} mm.`); } });
+    const top=Z(r).z+hoehe(r); if(!wand&&top>CH0+0.01){ bad.add(r.it.id); warn.push(Z(r).z>0?`Der Stapel mit Teil ${i+1} ist ${mm(top)} mm hoch, der Kasten nur ${mm(CH0)} mm.`:`Teil ${i+1} ist ${mm(top)} mm hoch, der Kasten nur ${mm(CH0)} mm.`); } });
   const boden=rects.filter(r=>Z(r).z===0), used=boden.reduce((s,r)=>s+Math.max(0,Math.min(r.a+r.w,CW)-Math.max(r.a,0))*Math.max(0,Math.min(r.b+r.h,CH)-Math.max(r.b,0)),0);
   $("planSum").textContent=`${rects.length} ${rects.length===1?"Teil":"Teile"} · ${mm(100*used/(CW*CH))} % ${wand?"belegt":"der Bodenfläche belegt"}`;
 
   // Ansicht als SVG: y wächst nach unten, deshalb b von unten umrechnen
-  const svg=$("planSvg"), pad=Math.max(CW,CH)*0.02, fs0=Math.max(CW,CH)/22;
-  svg.setAttribute("viewBox",`${-pad} ${-pad} ${CW+2*pad} ${CH+2*pad}`);
+  const svg=$("planSvg"), pad=Math.max(CW,CH)*0.02, padT=A.art==="tuer"?Math.max(pad,20):pad, fs0=Math.max(CW,CH)/22;
+  svg.setAttribute("viewBox",`${-pad} ${-padT} ${CW+2*pad} ${CH+pad+padT}`);
   let h=`<rect class="pl-box" x="0" y="0" width="${CW}" height="${CH}"/>`;
-  for(let x=A.raster;x<CW;x+=A.raster) h+=`<line class="pl-grid" x1="${x}" y1="0" x2="${x}" y2="${CH}"/>`;
-  for(let y=A.raster;y<CH;y+=A.raster) h+=`<line class="pl-grid" x1="0" y1="${CH-y}" x2="${CW}" y2="${CH-y}"/>`;
+  const slots=A.art==="skadis"?skadisSlots(CW,CH):[];
+  if(A.art==="skadis") for(const q of slots) h+=`<rect class="pl-slot" x="${q.x-2.5}" y="${CH-q.z-15}" width="5" height="15" rx="2.5"/>`;
+  else if(A.art!=="tuer"){
+    for(let x=A.raster;x<CW;x+=A.raster) h+=`<line class="pl-grid" x1="${x}" y1="0" x2="${x}" y2="${CH}"/>`;
+    for(let y=A.raster;y<CH;y+=A.raster) h+=`<line class="pl-grid" x1="0" y1="${CH-y}" x2="${CW}" y2="${CH-y}"/>`; }
   // Von unten nach oben zeichnen; gestapelte Boxen etwas eingerückt, damit die Box darunter sichtbar bleibt
   for(const r of [...rects].sort((x,y)=>Z(x).z-Z(y).z)){ const y=CH-r.b-r.h, fs=Math.min(fs0,Math.min(r.w,r.h)*0.6), up=Z(r).z>0, k=einzug(r,L);
     h+=`<rect class="pl-item${r.it.id===P.sel?" sel":""}${bad.has(r.it.id)?" bad":""}${up?" up":""}" x="${r.a+k}" y="${y+k}" width="${r.w-2*k}" height="${r.h-2*k}" rx="${Math.min(4,r.w/4)}"/>`+
@@ -165,7 +217,7 @@ function drawPlan(){
   // Ohne Auswahl: das Teil aus dem Formular gestrichelt dort zeigen, wo „Teil hinzufügen“ es hinlegen würde
   const it0=P.items.find(i=>i.id===P.sel);
   let neu=null;
-  if(!it0&&bereichVon(state.type)===state.page){ const r=planRect({type:state.type,v:state.v[state.type],a:0,b:0,rot:0}), s=freeSpot(r.w,r.h,rects.filter(o=>!o.it.stack)); neu={...r,a:s.a,b:s.b};
+  if(!it0&&bereichVon(state.type)===state.page&&(!wand||mountOf(state.v[state.type])===A.art)){ const r=planRect({type:state.type,v:state.v[state.type],a:0,b:0,rot:0}), s=placeFree(r,rects.filter(o=>!o.it.stack)); neu={...r,a:s.a,b:s.b};
     const y=CH-neu.b-neu.h; h+=`<rect class="pl-new" x="${neu.a}" y="${y}" width="${neu.w}" height="${neu.h}" rx="${Math.min(4,neu.w/4)}"/><text class="pl-nr" x="${neu.a+neu.w/2}" y="${y+neu.h/2}" font-size="${Math.min(fs0,Math.min(neu.w,neu.h)*0.6)}">+</text>`; }
   svg.innerHTML=h;
 
@@ -185,7 +237,7 @@ function drawPlan(){
   const meR=it&&rects.find(r=>r.it===it);
   $("planStack").textContent=it&&it.stack?"Auf den Boden":"Stapeln"; if(it&&!it.stack&&!stapelbar(meR)) $("planStack").disabled=true;
   $("planPos").hidden=!it;
-  if(it){ const ins=$("planPos").querySelectorAll("input"); [it.a,it.b].forEach((x,k)=>{ if(document.activeElement!==ins[k]) ins[k].value=Math.round(x); }); }
+  if(it){ const ins=$("planPos").querySelectorAll("input"); [it.a,it.b].forEach((x,k)=>{ if(document.activeElement!==ins[k]) ins[k].value=Math.round(x); }); ins[1].disabled=A.art==="tuer"; }
   const nichtStapelbar = it&&!wand&&!stapelbar(meR) ? (HALTERUNGEN[it.type].fields.some(f=>f.k==="stack") ? " Zum Stapeln im Formular „Stapelbar“ einschalten." : "") : "";
   $("planSel").textContent = planMsg ? planMsg : it ? `Teil ${nr(it)} ist ausgewählt. Änderungen im Formular gelten nur für dieses Teil. Zum Verschieben ziehen.${nichtStapelbar}` : P.items.length ? "Kein Teil ausgewählt. Gestrichelt: das Teil aus dem Formular, das „Teil hinzufügen“ dort hinlegt. Ein Teil antippen, um es zu verschieben oder zu ändern." : `Noch leer. Gestrichelt siehst du, wo das Teil aus dem Formular hinkäme. Stell im Formular ${wand?"eine Halterung":"eine Box"} ein und drück „Teil hinzufügen“. Oder unter „Einzelteil“ das Teil ansehen und dort „${A.dazu}“ drücken.`;
   planMsg="";
@@ -196,13 +248,14 @@ function drawPlan(){
   const parts=rects.map(r=>{ const b=r.e.bb; if(!r.e.geo&&renderer) r.e.geo=meshGeo(r.e.mesh);
     const p={geo:r.e.geo, sel:r.it.id===P.sel, bad:bad.has(r.it.id), depth:b[3]};
     // Wand: Von vorne gesehen zeigt die x-Achse der Halterungen nach links, deshalb von rechts her einsetzen
-    if(wand) Object.assign(p,{x:P.W-r.a-r.w-b[0],y:0,z:r.b-b[4]});
+    if(wand) Object.assign(p,{x:CW-r.a-r.w-b[0],y:0,z:r.b-b[4]});
     else if(r.it.rot) Object.assign(p,{x:r.a+b[3],y:r.b-b[0],z:Z(r).z-b[4],rot:1});
     else Object.assign(p,{x:r.a-b[0],y:r.b-b[2],z:Z(r).z-b[4]});
     return p; });
   if(neu){ const b=neu.e.bb; if(!neu.e.geo&&renderer) neu.e.geo=meshGeo(neu.e.mesh);
-    parts.push(wand?{geo:neu.e.geo,ghost:true,x:P.W-neu.a-neu.w-b[0],y:0,z:neu.b-b[4]}:{geo:neu.e.geo,ghost:true,x:neu.a-b[0],y:neu.b-b[2],z:-b[4]}); }
-  showPlan({kind:A.kind, W:P.W, H:P.H, L:P.L, B:P.B, parts});
+    parts.push(wand?{geo:neu.e.geo,ghost:true,x:CW-neu.a-neu.w-b[0],y:0,z:neu.b-b[4]}:{geo:neu.e.geo,ghost:true,x:neu.a-b[0],y:neu.b-b[2],z:-b[4]}); }
+  const tuerDicke=(P.items.find(i=>mountOf(i.v)==="tuer")||{v:state.v[state.type]}).v.door||19;
+  showPlan({kind:A.kind, art:A.art, W:CW, H:wand?CH:P.H, L:P.L, B:P.B, slots, door:tuerDicke, parts});
 
   // Zwischenspeicher klein halten: Netze, die kein Teil mehr braucht, wegwerfen
   if(planCache.size>40){ const keep=new Set(Object.values(state.plan).flatMap(Q=>Q.items.map(i=>planKey(i.type,i.v))));
