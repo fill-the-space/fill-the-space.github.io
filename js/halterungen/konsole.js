@@ -61,7 +61,7 @@ function buildKonsole(p){
            {k:"box",x0:cx-wb,x1:cx+wb,y0:Math.max(P+3,yc-58),y1:Math.max(P+3,yc-58)+116,z0:Hp-190,z1:Hp-115}]; }
   // Flächen für die Beschriftung: vorne auf der Rückwand unter der Konsole (zwischen den Stützen, neben den Schraublöchern)
   // oder auf der Vorderkante der Ablage (beim Schlitz nur, wenn er die Kante nicht teilt)
-  const schilder={vorne:{ax:"y",dir:1,p:P,u0:4+P+2,u1:W-4-P-2,z0:2,z1:z0-2,avoid:holes.map(([x,z])=>({u0:x-sc.dk/2-1.5,u1:x+sc.dk/2+1.5,z0:z-sc.dk/2-1.5,z1:z+sc.dk/2+1.5}))},
-    kante:ring?{ax:"y",dir:1,p:Dp,u0:8,u1:W-8,z0:z0+0.8,z1:Hp-0.8}:null};
+  const schilder={vorne:{ax:"y",dir:1,p:P,t:P,u0:4+P+2,u1:W-4-P-2,z0:2,z1:z0-2,avoid:holes.map(([x,z])=>({u0:x-sc.dk/2-1.5,u1:x+sc.dk/2+1.5,z0:z-sc.dk/2-1.5,z1:z+sc.dk/2+1.5}))},
+    kante:ring?{ax:"y",dir:1,p:Dp,t:3,u0:8,u1:W-8,z0:z0+0.8,z1:Hp-0.8}:null};
   return mountApply({f,bb:[0,W,0,Dp,0,Hp],dims:[W,Dp,Hp],scad:S.join("\n"),ghost,dir:"Rückwand unten",warn,screw:plan,arm:yc,schilder,beam:{Wsec:2*P*Hg*Hg/6,name:"Die Konsole",tipp:"Stärke oder Plattenhöhe erhöhen (größere Stützen) oder die Konsole weniger tief machen."}},mountParts(p,0,W,Hp,P,warn,yc));
 }

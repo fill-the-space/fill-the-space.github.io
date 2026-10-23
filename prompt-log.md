@@ -1604,3 +1604,26 @@ if(sel&&sel.type===state.type) sel.v=clone(v);
 **Screenshot:** prompt-log-bilder/77-3mf-mit-beschriftung.jpg
 
 **Commit-Nachricht:** Prompt 77: 3MF nur mit Beschriftung
+
+---
+
+## Prompt 78 – Schrift eingelegt oder vertieft (23.10.2026)
+
+**Prompt:**
+> gibt es die Möglichkeit, dass die Schrift nicht heraus steht, sondern im Bauteil eingebettet wird?
+
+**Was sich geändert hat:**
+- Neue Auswahl **„Art der Schrift“** mit drei Möglichkeiten. Unter der Auswahl steht jeweils kurz, wofür sie gut ist.
+  - **Erhaben:** wie bisher, die Schrift steht 1 mm vor.
+  - **Eingelegt:** Die Schrift liegt bündig im Bauteil. Die App schneidet eine Vertiefung ins Bauteil, und die Schrift füllt sie genau aus. Sichtbar wird das nur zweifarbig, also als 3MF speichern und der Beschriftung eine zweite Farbe geben.
+  - **Vertieft:** Die Schrift wird eingraviert, ohne eigenen Körper. Das ist gut für einfarbigen Druck. Die 3MF-Auswahl erscheint dann nicht, weil es nur eine Farbe gibt.
+- Die Tiefe ist höchstens 1 mm. Hinter der Schrift bleiben immer mindestens 0,8 mm Wand stehen. Ist die Wand dafür zu dünn, kommt ein Hinweis.
+- In der Vorschau ist auch vertiefte Schrift dunkel markiert, damit man sie sieht.
+- Bei eingelassener Schrift rechnet der Export feiner (0,5 statt 0,75 mm bei der Standard-Stapelbox), damit die Buchstaben scharf bleiben. Das Speichern dauert dadurch länger, etwa 11 bis 13 statt 5 Sekunden.
+- Geprüft: vertieft als STL (401 kB) und eingelegt als 3MF (1,3 MB, zwei Teile). Die vertiefte Schrift im fertigen Netz ist lesbar.
+
+**Betroffene Dateien:** index.html (Versionsnummer 78), js/geometrie/schrift.js, js/ui/formular.js, js/main.js, js/ui/anordnung.js, js/halterungen/koecher.js, konsole.js, leiste.js, js/boxen/grundform.js
+
+**Screenshot:** prompt-log-bilder/78-auswahl.jpg / 78-vertieft-export.png / 78-eingelegt.png
+
+**Commit-Nachricht:** Prompt 78: Schrift eingelegt oder vertieft

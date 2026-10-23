@@ -66,9 +66,9 @@ function buildBox(p,o){
 
   // Flächen für die Beschriftung: vorne (im vertieften Feld, falls vorhanden), hinten und an den Seiten (dort nicht in Griffmulde oder Deckelschlitz)
   const seiteFrei=[...(o.grips?[{u0:cy-gw/2-1,u1:cy+gw/2+1,z0:H-gh-1,z1:H+1}]:[])], links=[...seiteFrei,...(lid==="schiebe"?[{u0:-1,u1:B+1,z0:zg0-1,z1:H+1}]:[])];
-  const schilder={vorne:o.label?{ax:"y",dir:-1,p:0.6,u0:cx-lw/2+1.5,u1:cx+lw/2-1.5,z0:H-6-lh+1,z1:H-7}:{ax:"y",dir:-1,p:0,u0:r+2,u1:L-r-2,z0:sh+2,z1:H-3},
-    hinten:{ax:"y",dir:1,p:B,u0:r+2,u1:L-r-2,z0:sh+2,z1:H-3},
-    links:{ax:"x",dir:-1,p:0,u0:r+2,u1:B-r-2,z0:sh+2,z1:H-3,avoid:links}, rechts:{ax:"x",dir:1,p:L,u0:r+2,u1:B-r-2,z0:sh+2,z1:H-3,avoid:seiteFrei}};
+  const schilder={vorne:o.label?{ax:"y",dir:-1,p:0.6,t:t-0.6,u0:cx-lw/2+1.5,u1:cx+lw/2-1.5,z0:H-6-lh+1,z1:H-7}:{ax:"y",dir:-1,p:0,t,u0:r+2,u1:L-r-2,z0:sh+2,z1:H-3},
+    hinten:{ax:"y",dir:1,p:B,t,u0:r+2,u1:L-r-2,z0:sh+2,z1:H-3},
+    links:{ax:"x",dir:-1,p:0,t,u0:r+2,u1:B-r-2,z0:sh+2,z1:H-3,avoid:links}, rechts:{ax:"x",dir:1,p:L,t,u0:r+2,u1:B-r-2,z0:sh+2,z1:H-3,avoid:seiteFrei}};
   const innen=[L-2*t,B-2*t,H-z0], liter=Math.max(0,innen[0]*innen[1]*innen[2])/1e6;
   return {f:fAll,bb,dims:[L,B,H],printDims:[bb[1]-bb[0],bb[3]-bb[2],bb[5]-bb[4]],scad:`// FILL THE SPACE – Box ${mmDE(L)} × ${mmDE(B)} × ${mmDE(H)} mm`,ghost:[],dir:"Boden unten",warn,plan,schilder,box:{innen,liter,lid,stack:!!o.stack}};
 }

@@ -38,7 +38,7 @@ function update(){
   const h=Math.max(0.8,Math.min(Math.cbrt(vol/260000),wall*0.7));
   const mesh=polygonize(model.f,b,h), st=meshStats(mesh);
   // Beschriftung: eigener Körper, feiner gerechnet, weil die Buchstaben klein sind
-  const textMesh=model.text?polygonize(model.text.f,model.text.bb,Math.max(0.12,Math.min(0.3,model.text.th/30))):null;
+  const tx=model.text||model.textPreview, textMesh=tx?polygonize(tx.f,tx.bb,Math.max(0.12,Math.min(0.3,tx.th/30))):null;
   const fmt=x=>x.toLocaleString("de-DE",{maximumFractionDigits:0});
   $("outDim").textContent=model.dims.map(fmt).join("×");
   const use=filamentUse(st.vol,st.area,rec); $("outG").textContent=`≈ ${Math.round(use.g)} g`;
@@ -70,7 +70,7 @@ $("dl").addEventListener("click",async()=>{
   try{
     const d=await dlReady;
     // Fein rechnen (bis etwa 400.000 Dreiecke), Punkte auf die echte Oberfläche schieben, dann ebene Flächen zusammenfassen
-    const m=current.model, hE=Math.min(current.h, Math.max(0.4, Math.sqrt(2*current.area/400000)));
+    const m=current.model, hE=Math.min(current.h, Math.max(0.4, Math.sqrt(2*current.area/400000)), m.schnitt?Math.max(0.4,m.schnitt/16):1e9);
     const fine=snapToSurface(polygonize(m.f,m.bb,hE),m.f);
     st.textContent="Datei wird verkleinert …"; await new Promise(r=>setTimeout(r,30));
     const mesh=simplifyMesh(fine,0.01);

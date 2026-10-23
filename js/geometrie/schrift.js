@@ -1,10 +1,12 @@
 /* ---------- Beschriftung: Text und kleines Bild als erhabenes Relief auf einer Fläche des Bauteils ----------
    Text (in der gewählten Schrift) und Bild werden unsichtbar auf eine Zeichenfläche gemalt. Daraus entsteht ein
    Abstandsfeld (wie weit jeder Punkt vom Rand der Buchstaben entfernt ist), so lassen sie sich wie alle anderen Formen
-   in ein Dreiecksnetz umrechnen. Das Relief steht 1 mm vor und ragt 0,3 mm ins Bauteil, damit beides fest verbunden ist.
+   in ein Dreiecksnetz umrechnen. Erhaben: Das Relief steht 1 mm vor und ragt 0,3 mm ins Bauteil, damit beides fest verbunden ist.
+   Eingelegt: Die Schrift füllt eine Vertiefung bündig aus (sichtbar nur zweifarbig). Vertieft: nur eingraviert, kein eigener Körper.
+   Die Tiefe ist höchstens 1 mm und lässt hinter der Schrift mindestens 0,8 mm Wand stehen (t = Wandstärke hinter der Fläche).
    Jede Bauteilart gibt in model.schilder die Flächen an, auf denen Platz ist:
    {ax: "y" oder "x" (Richtung der Flächennormalen), dir: +1/−1, p: Lage der Fläche, u0..u1: waagerechter Bereich
-    (x bei ax "y", y bei ax "x"), z0..z1: senkrechter Bereich, avoid: [{u0,u1,z0,z1}] freizuhaltende Stellen, z. B. Schraublöcher} */
+    (x bei ax "y", y bei ax "x"), z0..z1: senkrechter Bereich, t: Wandstärke dahinter, avoid: [{u0,u1,z0,z1}] freizuhaltende Stellen, z. B. Schraublöcher} */
 const SCHRIFTEN={
   grotesk:{name:"Grotesk", css:"Space Grotesk", w:[400,700]},
   breit:{name:"Breit", css:"Unbounded", w:[400,800]},
@@ -23,13 +25,15 @@ function textFelder(flaechen){
     {k:"font",c:"seg",l:"Schriftart",o:Object.entries(SCHRIFTEN).map(([k,s])=>[k,s.name]),oStyle:val=>`"${SCHRIFTEN[val].css}"`,show:an},
     {k:"fett",c:"check",l:"Fett",show:an},
     {k:"kursiv",c:"check",l:"Kursiv",show:an},
+    {k:"relief",c:"seg",l:"Art der Schrift",o:[["erhaben","Erhaben"],["eingelegt","Eingelegt"],["vertieft","Vertieft"]],show:an,
+      note:v=>v.relief==="eingelegt"?"Die Schrift liegt bündig im Bauteil. Sichtbar wird sie nur zweifarbig: als 3MF speichern und der Beschriftung eine zweite Farbe geben.":v.relief==="vertieft"?"Die Schrift wird bis 1 mm tief eingraviert, gut für einfarbigen Druck.":"Die Schrift steht 1 mm vor."},
     {k:"th",c:"range",l:"Schriftgröße",u:"mm",min:3,max:30,step:0.5,show:an,fmt:x=>`${mmDE(x)} mm (Höhe der Großbuchstaben)`},
     {k:"flaeche",c:"seg",l:"Fläche",o:flaechen,show:an},
     {k:"lage",c:"range",l:"Lage auf der Fläche",u:"mm",min:-40,max:40,step:0.5,show:an,fmt:x=>x>0?`${mmDE(x)} mm höher`:x<0?`${mmDE(-x)} mm tiefer`:"Mitte"},
     {c:"button",l:"Als Standardschrift merken",show:an,tun:v=>{ state.textStd={font:v.font,fett:v.fett,kursiv:v.kursiv,th:v.th}; return "Gemerkt: Neue Beschriftungen starten mit dieser Schrift."; }}
   ];
 }
-const TEXT_STANDARD={txt:false,text:"",th:8,font:"grotesk",fett:true,kursiv:false,flaeche:"vorne",lage:0,img:null};
+const TEXT_STANDARD={txt:false,text:"",th:8,font:"grotesk",fett:true,kursiv:false,relief:"erhaben",flaeche:"vorne",lage:0,img:null};
 const SCHRIFT_HOCH=1, SCHRIFT_TIEF=0.3;
 const schriftCache=new Map(), schriftGeladen=new Set();
 // Schrift erst laden, dann rechnen; bis dahin mit einer Ersatzschrift
@@ -124,10 +128,21 @@ function schriftModel(model,p,warn){
   const uB=-wAll/2+wB/2, uT=-wAll/2+wB+gap+wT/2;
   const e2=(u,v)=>{ let d=1e9; if(B) d=B.d((u-uB)/bh,v/bh)*bh; if(T) d=Math.min(d,T.d(u-uT,v)); return d; };
   // Von vorne gelesen: rechts ist bei einer Fläche nach +y die −x-Richtung, nach −y +x, nach +x +y, nach −x −y
-  const sgn=S.ax==="y"?-S.dir:S.dir, P=S.p, dir=S.dir;
-  const f=S.ax==="y"
-    ? (x,y,z)=>ext(e2(sgn*(x-uc)/th,(z-zc)/th)*th,dir*(y-P),-SCHRIFT_TIEF,SCHRIFT_HOCH)
-    : (x,y,z)=>ext(e2(sgn*(y-uc)/th,(z-zc)/th)*th,dir*(x-P),-SCHRIFT_TIEF,SCHRIFT_HOCH);
-  const n0=dir>0?P-SCHRIFT_TIEF:P-SCHRIFT_HOCH, n1=dir>0?P+SCHRIFT_HOCH:P+SCHRIFT_TIEF, a0=uc-tw/2-0.5, a1=uc+tw/2+0.5;
-  model.text={f, th, bb:S.ax==="y"?[a0,a1,n0,n1,zc-thh/2-0.5,zc+thh/2+0.5]:[n0,n1,a0,a1,zc-thh/2-0.5,zc+thh/2+0.5]};
+  const sgn=S.ax==="y"?-S.dir:S.dir, P=S.p, dir=S.dir, art=p.relief||"erhaben";
+  // Abstand in der Fläche (mm) und Abstand vor der Fläche (positiv = nach außen)
+  const lage=S.ax==="y" ? (x,y,z)=>[e2(sgn*(x-uc)/th,(z-zc)/th)*th,dir*(y-P)] : (x,y,z)=>[e2(sgn*(y-uc)/th,(z-zc)/th)*th,dir*(x-P)];
+  const dep=Math.min(1,(S.t??2)-0.8);
+  if(art!=="erhaben"&&dep<0.4){ warn.push("Die Wand ist hier zu dünn, um die Schrift einzulassen. „Erhaben“ wählen oder die Wand dicker machen."); return; }
+  const lo=art==="erhaben"?-SCHRIFT_TIEF:-dep, hi=art==="erhaben"?SCHRIFT_HOCH:0;
+  const f=(x,y,z)=>{ const [d,s]=lage(x,y,z); return ext(d,s,lo,hi); };
+  const n0=dir>0?P+lo:P-hi, n1=dir>0?P+hi:P-lo, a0=uc-tw/2-0.5, a1=uc+tw/2+0.5, z0=zc-thh/2-0.5, z1=zc+thh/2+0.5;
+  const bb=S.ax==="y"?[a0,a1,n0,n1,z0,z1]:[n0,n1,a0,a1,z0,z1];
+  // Eingelegt und vertieft: Vertiefung aus dem Bauteil schneiden (außerhalb des Schriftbereichs nichts rechnen)
+  if(art!=="erhaben"){ const c0=dir>0?P-dep:P-1, c1=dir>0?P+1:P+dep, cb=S.ax==="y"?[a0,a1,c0,c1,z0,z1]:[c0,c1,a0,a1,z0,z1];
+    const cut=(x,y,z)=>{ if(x<cb[0]||x>cb[1]||y<cb[2]||y>cb[3]||z<cb[4]||z>cb[5]) return 1e3; const [d,s]=lage(x,y,z); return ext(d,s,-dep,1); };
+    model.schnitt=th;   // Export rechnet dann feiner, damit die eingelassene Schrift scharf bleibt
+    const f0=model.f; model.f=(x,y,z)=>Math.max(f0(x,y,z),-cut(x,y,z));
+    if(model.plan){ const g0=model.plan.f; model.plan={...model.plan,f:(x,y,z)=>Math.max(g0(x,y,z),-cut(x,y,z))}; } }
+  // Vertieft: kein eigener Körper; in der Vorschau trotzdem dunkel zeigen, damit man die Schrift sieht
+  if(art==="vertieft") model.textPreview={f,th,bb}; else model.text={f,th,bb};
 }

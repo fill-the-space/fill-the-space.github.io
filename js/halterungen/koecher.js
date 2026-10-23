@@ -57,7 +57,7 @@ function buildKoecher(p){
   L.push(`}`);
   const ghost=[{k:"rr",cx,cy,w:p.B,d:p.T,r:Math.max(0,ri-p.s),z0:t,z1:t+p.H}];
   // Flächen für die Beschriftung: vorne auf der Lippe (bzw. der ganzen Vorderwand, wenn sie geschlossen ist) oder seitlich
-  const sy1=cy+Do/2-(ri+t)-1.5, schilder={vorne:{ax:"y",dir:1,p:Dt,u0:Math.max(1.5,ri+t),u1:Wo-Math.max(1.5,ri+t),z0:1.5,z1:(win?t+lip:Ho)-1.5},
-    links:{ax:"x",dir:-1,p:0,u0:1.5,u1:sy1,z0:1.5,z1:Ho-1.5}, rechts:{ax:"x",dir:1,p:Wo,u0:1.5,u1:sy1,z0:1.5,z1:Ho-1.5}};
+  const sy1=cy+Do/2-(ri+t)-1.5, schilder={vorne:{ax:"y",dir:1,p:Dt,u0:Math.max(1.5,ri+t),u1:Wo-Math.max(1.5,ri+t),z0:1.5,z1:(win?t+lip:Ho)-1.5,t},
+    links:{ax:"x",dir:-1,p:0,u0:1.5,u1:sy1,z0:1.5,z1:Ho-1.5,t}, rechts:{ax:"x",dir:1,p:Wo,u0:1.5,u1:sy1,z0:1.5,z1:Ho-1.5,t}};
   return mountApply({f,bb:[0,Wo,0,Dt,0,Ho],dims:[Wo,Dt,Ho],scad:L.join("\n"),ghost,dir:"Boden unten",warn,screw:plan,arm:cy,schilder},mountParts(p,0,Wo,Ho,tb,warn,cy));
 }

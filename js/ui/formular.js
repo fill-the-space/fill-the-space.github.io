@@ -29,7 +29,9 @@ function renderFields(){
         b.addEventListener("click",f.zurueck.tun); s.appendChild(b); w.append(l,s); return w; }
       (f.oShow?f.o.filter(([val])=>f.oShow(val,v)):f.o).forEach(([val,lab])=>{ const b=document.createElement("button"); b.type="button"; b.id=id+"-"+val; b.textContent=lab; if(f.oStyle) b.style.fontFamily=f.oStyle(val); b.setAttribute("aria-pressed",String(v[f.k]===val));
         b.addEventListener("click",()=>{ v[f.k]=val; renderFields(); schedule(); }); s.appendChild(b); });
-      w.append(l,s); return w; }
+      w.append(l,s);
+      const nt=f.note&&f.note(v); if(nt){ const p=document.createElement("p"); p.className="hint"; p.textContent=nt; w.appendChild(p); }
+      return w; }
     // Knopf mit Rückmeldung daneben, z. B. „Als Standardschrift merken“
     if(f.c==="button"){ const w=document.createElement("div"); w.className="field-btn"; const b=document.createElement("button"); b.type="button"; b.className="btn small"; b.textContent=f.l;
       const msg=document.createElement("span"); msg.className="hint"; b.addEventListener("click",()=>{ msg.textContent=f.tun(v)||""; try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){} }); w.append(b,msg); return w; }
