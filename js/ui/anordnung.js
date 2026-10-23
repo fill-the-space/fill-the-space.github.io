@@ -137,9 +137,11 @@ $("planStack").addEventListener("click",()=>{ const P=plan(), it=P.items.find(i=
     it.stack=true; it.so=++P.n; }
   drawPlan(); savePlan(); });
 // Neu anfangen: alle Teile entfernen (nach Rückfrage); die Größe von Wand bzw. Kasten bleibt
-$("planReset").addEventListener("click",()=>{ const P=plan(), A=planArt(); if(!P.items.length) return;
-  if(!confirm(`Alle ${P.items.length} Teile ${A.ort} entfernen und neu anfangen? Die Größe ${A.rand} bleibt.`)) return;
-  P.items=[]; P.sel=null; renderAll(); });
+function wandLeeren(grund){ const P=plan(), A=planArt(); if(!P.items.length) return;
+  const n=P.items.length===1?"das Teil":`alle ${P.items.length} Teile`;
+  if(!confirm(grund?`${grund} ${P.items.length===1?"wird":"werden"} ${n} ${A.ort} entfernt. Weiter?`:`${n[0].toUpperCase()+n.slice(1)} ${A.ort} entfernen und neu anfangen? Die Größe ${A.rand} bleibt.`)) return;
+  P.items=[]; P.sel=null; renderAll(); }
+$("planReset").addEventListener("click",()=>wandLeeren());
 $("planDel").addEventListener("click",()=>{ const P=plan(); P.items=P.items.filter(i=>i.id!==P.sel); P.sel=null; renderAll(); });
 // Aus der Einzelteil-Ansicht: Teil hinzufügen und gleich zur Wand bzw. in den Kasten wechseln
 $("toPlan").addEventListener("click",()=>{ const P=plan(); P.on=true; planCamera(); $("bed").scrollIntoView({behavior:"smooth",block:"start"});

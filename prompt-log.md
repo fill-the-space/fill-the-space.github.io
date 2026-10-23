@@ -1498,3 +1498,22 @@ if(sel&&sel.type===state.type) sel.v=clone(v);
 **Screenshot:** prompt-log-bilder/73-befestigung-fest.jpg
 
 **Commit-Nachricht:** Prompt 73: Befestigung steht fest
+
+---
+
+## Prompt 74 – Zurück zur Auswahl der Befestigung (23.10.2026)
+
+**Prompt:**
+> das umschalten des Buttons finde ich super, dass nur eins gezeigt wird aber man sollte anstatt dann den Button, indem man sich befindet angezeigt zu bekommen eher eine Möglichkeit zum zurückgehen bekommen. Der Button sollte also einen anderen Namen bekommen. In dem Moment wo man sich entschieden hat und da die Optionen haben, dass man wieder zurück kann, um sich eine andere Auswahlmöglichkeit zu bedienen.
+
+**Was sich geändert hat:**
+- Steht die Befestigung fest, zeigt das Formular nicht mehr den einen gedrückten Knopf. Die Überschrift nennt die Wahl, z. B. „Befestigung: SKÅDIS“, darunter steht der Knopf „← Andere Befestigung wählen“.
+- Der Knopf fragt nach, z. B. „Für eine andere Befestigung werden alle 3 Teile an der Lochplatte entfernt. Weiter?“ Nach „OK“ ist die Wand leer, und alle drei Befestigungen sind wieder wählbar. Bei „Abbrechen“ bleibt alles.
+- Der lange Hinweistext aus Prompt 73 ist entfernt, weil der Knopf selbst erklärt, was geht.
+- „Neu anfangen“ und der neue Knopf nutzen dieselbe Rückfrage, nur mit passendem Text.
+
+**Betroffene Dateien:** index.html (Versionsnummer 74), css/style.css, js/halterungen/befestigung.js, js/ui/formular.js, js/ui/anordnung.js
+
+**Screenshot:** prompt-log-bilder/74-zurueck.jpg
+
+**Commit-Nachricht:** Prompt 74: Zurück zur Auswahl der Befestigung

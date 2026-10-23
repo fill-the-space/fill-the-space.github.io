@@ -23,12 +23,13 @@ function renderFields(){
     const id=`f-${state.type}-${f.k}`;
     if(f.c==="seg"){ const w=document.createElement("div"); w.style.cssText="display:flex;flex-direction:column;gap:4px";
       const l=document.createElement("span"); l.className="seg-label"; l.textContent=f.l; const s=document.createElement("div"); s.className="seg"; s.setAttribute("role","group"); s.setAttribute("aria-label",f.l);
+      // Festgelegt: Wert anzeigen und Knopf zurück zur Auswahl
+      const fest=f.fest&&f.fest(v);
+      if(fest){ l.textContent=`${f.l}: ${(f.o.find(([val])=>val===fest)||[0,fest])[1]}`; s.className="seg back"; const b=document.createElement("button"); b.type="button"; b.id=id+"-zurueck"; b.textContent=f.zurueck.text;
+        b.addEventListener("click",f.zurueck.tun); s.appendChild(b); w.append(l,s); return w; }
       (f.oShow?f.o.filter(([val])=>f.oShow(val,v)):f.o).forEach(([val,lab])=>{ const b=document.createElement("button"); b.type="button"; b.id=id+"-"+val; b.textContent=lab; b.setAttribute("aria-pressed",String(v[f.k]===val));
         b.addEventListener("click",()=>{ v[f.k]=val; renderFields(); schedule(); }); s.appendChild(b); });
-      w.append(l,s);
-      // Hinweis unter der Auswahl, z. B. warum nur eine Möglichkeit angeboten wird
-      const nt=f.note&&f.note(v); if(nt){ const p=document.createElement("p"); p.className="hint"; p.textContent=nt; w.appendChild(p); }
-      return w; }
+      w.append(l,s); return w; }
     if(f.c==="check"){ const l=document.createElement("label"); l.className="check"; const i=document.createElement("input"); i.type="checkbox"; i.id=id; i.checked=!!v[f.k];
       i.addEventListener("change",()=>{ v[f.k]=i.checked; if(f.on) f.on(v); if(f.on||HALTERUNGEN[state.type].fields.some(x=>x.show||x.oShow)) renderFields(); schedule(); }); l.append(i,document.createTextNode(" "+f.l)); return l; }
     if(f.c==="range"){ const w=document.createElement("div"); w.className="slider"; const sp=document.createElement("span"); sp.textContent=f.l; const o=document.createElement("output"); o.id=id+"-out";
