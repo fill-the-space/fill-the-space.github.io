@@ -1031,3 +1031,23 @@ const acc = win ? {x0:cx-(iw/2-m)+sc.dk/2+2, x1:cx+(iw/2-m)-sc.dk/2-2, z0:t+lip+
 **Screenshot:** prompt-log-bilder/52-vorher.jpg / 52-nachher-hell.jpg / 52-nachher-dunkel.jpg
 
 **Commit-Nachricht:** Prompt 52: Design im Stil von CAD-Software
+
+---
+
+## Prompt 53 – Druckhöhe prüfen (23.10.2026)
+
+**Prompt:**
+> Wenn die Leiste zu lang ist, wird noch kein Warnhinweis gegeben, dass das Druck, der zu klein ist
+
+**Was sich geändert hat:**
+- Fehler nachgestellt: Mit Schrauben kam der Hinweis richtig. Mit Türhaken oder SKÅDIS-Haken wird die Halterung aber seitlich liegend gedruckt. Dann steht ihre Länge in die Höhe, und die Höhe hat die App nicht geprüft, weil der Drucker nur Länge und Breite kannte. Beispiel: Eine 272 mm lange Leiste mit SKÅDIS-Haken blieb ohne Hinweis.
+- Unter „Drucker“ heißt es jetzt „Druckraum“ mit drei Feldern: Länge, Breite und Höhe, voreingestellt 250 × 250 × 250 mm.
+- Die App prüft den ganzen Druckraum in der empfohlenen Druckrichtung. Je nachdem, was nicht passt, heißt der Hinweis „Größer als das Druckbett“, „Zu hoch für den Drucker“ oder „Größer als der Drucker“. In den Details stehen Fläche und Höhe der Halterung und die Maße des Druckers.
+- Getestet: Leiste mit 8 und 20 Löchern mit Schrauben, Türhaken und SKÅDIS. Jetzt kommt überall der passende Hinweis. Mit 350 mm Druckhöhe verschwindet er bei der 272-mm-Leiste. Ein 302 mm hoher Köcher meldet „Zu hoch für den Drucker“.
+- Gespeicherte Druckbett-Werte aus Prompt 50 und 51 werden übernommen, die Höhe startet dann mit 250 mm.
+
+**Betroffene Dateien:** js/halterungen/empfehlung.js, js/zustand.js, js/main.js, index.html (Versionsnummer 53)
+
+**Screenshot:** prompt-log-bilder/53-nachher.jpg
+
+**Commit-Nachricht:** Prompt 53: Druckraum mit Höhe, Hinweis auch bei Haken

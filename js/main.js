@@ -66,7 +66,7 @@ $("dl").addEventListener("click",async()=>{
   }finally{ btn.disabled=false; }
 });
 // Druckbett gilt für alle Halterungsarten und wird mit gemerkt
-for(const k of ["x","y"]){ const i=$("bed"+k.toUpperCase()); i.value=state.bed[k];
+for(const k of ["x","y","z"]){ const i=$("bed"+k.toUpperCase()); i.value=state.bed[k];
   i.addEventListener("input",()=>{ const x=parseFloat(i.value); if(isFinite(x)&&x>=50){ state.bed[k]=Math.min(1000,x); schedule(); } }); }
 
 initGL(); renderAll();
