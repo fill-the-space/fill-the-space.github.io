@@ -1697,3 +1697,25 @@ if(sel&&sel.type===state.type) sel.v=clone(v);
 **Screenshot:** prompt-log-bilder/81-app-symbol.png
 
 **Commit-Nachricht:** Prompt 81: Web-App und neue Adresse fill-the-space
+
+---
+
+## Prompt 82 – Entscheidung: eigene Adresse über Netlify (23.10.2026)
+
+**Prompt:**
+> 2
+
+(Vorher: Lioba möchte ihren GitHub-Kontonamen nicht in der Adresse haben. Claude hat drei Wege genannt: eine GitHub-Organisation, eine kostenlose Netlify-Adresse oder eine gekaufte eigene Domain. Lioba hat Weg 2 gewählt.)
+
+**Entscheidung:**
+- Die App soll künftig unter einer Netlify-Adresse laufen, z. B. fill-the-space.netlify.app, ohne den Kontonamen.
+- Netlify holt sich die Dateien bei jedem Push automatisch aus dem GitHub-Repository fill-the-space.
+- Das Netlify-Konto legt Lioba selbst an und verbindet es mit GitHub. Claude legt keine Konten an und erteilt keine Zugriffsrechte.
+
+**Was sich geändert hat:**
+- Neue Datei netlify.toml: Sie sagt Netlify, dass der Projektordner ohne Build-Schritt veröffentlicht wird. Startseite und Offline-Speicher werden nicht lange zwischengespeichert, damit neue Versionen sofort ankommen.
+- An der App selbst ändert sich nichts, weil alle Pfade relativ sind. Sie läuft auf GitHub Pages und Netlify gleich.
+
+**Betroffene Dateien:** netlify.toml
+
+**Commit-Nachricht:** Prompt 82: Vorbereitung für Netlify

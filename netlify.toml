@@ -1,0 +1,13 @@
+# Netlify: Die App braucht keinen Build-Schritt, veröffentlicht wird der Projektordner so wie er ist.
+[build]
+  publish = "."
+
+# Offline-Speicher und Startseite nie lange zwischenspeichern, damit neue Versionen sofort ankommen
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "no-cache"
