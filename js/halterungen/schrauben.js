@@ -25,14 +25,19 @@ function screwWall(s){ return s.depth+1.2; }
 function screwMinPlate(s){ return 2*(RAND+s.hole/2); }
 
 /* Lochpositionen [x, z] auf der Rückwand x0..x1 × z0..z1, immer mittig und mit RAND Abstand vom Bohrloch zur Kante.
+   acc = {x0,x1,z0,z1,msg}: Bereich, in dem man von vorne mit dem Schraubendreher an die Löcher kommt (optional).
    Liefert {pts, avail, n}: avail = Anzahlen, die passen; n = tatsächlich genutzte Anzahl. */
-function screwPlan(p,s,x0,x1,z0,z1,warn){
+function screwPlan(p,s,x0,x1,z0,z1,warn,acc){
   const m=RAND+s.hole/2, gap=s.dk+4;
-  const X0=x0+m, X1=x1-m, Z0=z0+m, Z1=z1-m, w=X1-X0, h=Z1-Z0, xm=(X0+X1)/2, zm=(Z0+Z1)/2;
+  let X0=x0+m, X1=x1-m, Z0=z0+m, Z1=z1-m;
+  const randOk=X1>=X0&&Z1>=Z0;
+  if(acc){ X0=Math.max(X0,acc.x0); X1=Math.min(X1,acc.x1); Z0=Math.max(Z0,acc.z0); Z1=Math.min(Z1,acc.z1); }
+  const w=X1-X0, h=Z1-Z0, xm=(X0+X1)/2, zm=(Z0+Z1)/2;
   const grid=w>=gap&&h>=gap;
   const fits={1:w>=0&&h>=0, 2:w>=gap&&h>=0, 3:w>=2*gap&&h>=0, 4:grid||(w>=3*gap&&h>=0)};
   const avail=[1,2,3,4].filter(n=>fits[n]);
   if(!p.holes) return {pts:[],avail,n:0};
+  if(!avail.length&&randOk&&acc){ warn.push(acc.msg); return {pts:[],avail,n:0}; }
   if(!avail.length){ warn.push(`Die Rückwand ist zu klein für Schraublöcher mit ${RAND} mm Abstand zum Rand. Dafür braucht sie mindestens ${mmDE(2*m)} × ${mmDE(2*m)} mm.`); return {pts:[],avail,n:0}; }
   const want=Math.round(+p.sn||2), n=avail.includes(want)?want:Math.max(...avail.filter(k=>k<want),avail[0]);
   let pts;

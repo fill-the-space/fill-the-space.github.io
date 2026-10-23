@@ -27,7 +27,11 @@ function buildKoecher(p){
   const lip=Math.min(p.lip,Ho-t), m=Math.max(3,Math.min(10,p.B*0.15));
   const win = lip < Ho-t-1;
   const cw=Math.min(12,p.B*0.4);
-  const plan=screwPlan(p,sc,0,Wo,0,Ho,warn), holes=plan.pts;
+  // Löcher nur dort, wo man von vorne durch das Sichtfenster über der Lippe herankommt (Kopf passt durch, 2 mm Luft)
+  const acc = win ? {x0:cx-(iw/2-m)+sc.dk/2+2, x1:cx+(iw/2-m)-sc.dk/2-2, z0:t+lip+sc.dk/2+2, z1:Ho,
+    msg:"Die Lippe vorne würde die Schraublöcher verdecken, man käme mit dem Schraubendreher nicht heran. Lippe niedriger oder die Schale höher machen."}
+    : {x0:1,x1:0,z0:1,z1:0,msg:"Die Vorderwand ist ganz geschlossen und würde die Schraublöcher verdecken. Lippe niedriger oder die Schale höher machen."};
+  const plan=screwPlan(p,sc,0,Wo,0,Ho,warn,acc), holes=plan.pts;
   const f=(x,y,z)=>{
     let d=ext(Math.min(rr2(x,y,cx,cy,Wo/2,Do/2,ri+t), rr2(x,y,cx,cy/2,Wo/2,cy/2,0)),z,0,Ho);
     d=Math.max(d,-ext(rr2(x,y,cx,cy,iw/2,id/2,ri),z,t,Ho+5));

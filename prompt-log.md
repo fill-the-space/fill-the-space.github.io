@@ -665,3 +665,28 @@ const sc=screwSpec(p), tb=Math.max(t,p.holes?screwWall(sc):0);
 **Screenshot:** prompt-log-bilder/35-vorher.jpg / 35-nachher.jpg
 
 **Commit-Nachricht:** Prompt 35: Köcher nur eckig oder abgerundet
+
+---
+
+## Prompt 36 – Schraublöcher immer erreichbar (23.10.2026)
+
+**Prompt:**
+> Die Befestigungs Löcher dürfen nicht von zum Beispiel der Lippe verdeckt werden. Sonst kann man das Bauteil nicht an dieser Stelle an Schrauben, weil man keinen Zugang zu den schraubt Löchern hat.
+
+**Was sich geändert hat:**
+- Beim Köcher setzt die App die Schraublöcher nur noch dorthin, wo man von vorne durch die Öffnung über der Lippe herankommt. Der Schraubenkopf muss mit 2 mm Luft über die Lippe und zwischen die Seiten der Öffnung passen. Die Löcher sind in diesem erreichbaren Bereich mittig verteilt, und die 2 cm Randabstand gelten weiter.
+- Ist die Lippe so hoch, dass keine Schraube mehr erreichbar wäre, verschwinden die Schrauben-Einstellungen, und ein Hinweis erscheint: „Die Lippe vorne würde die Schraublöcher verdecken … Lippe niedriger oder die Schale höher machen.“ Das gilt auch für „Individuell“ beim Hineinstellen, das intern den Köcher nutzt.
+- Konsole, Leiste und Individuell beim Einhängen hat Claude ebenfalls geprüft. Dort liegt vor den Löchern nichts im Weg, weil Brett und Stützen darüber bzw. seitlich sitzen.
+- Getestet: 1.800 Köcher-Fälle mit verschiedenen Breiten, Lippen, Schalenhöhen, Schraubengrößen und Anzahlen. Kein Loch liegt hinter der Lippe oder außerhalb der Öffnung.
+
+**Betroffene Dateien:** js/halterungen/schrauben.js, js/halterungen/koecher.js, index.html (Versionsnummer 36)
+
+**Wichtigster Code-Ausschnitt:** (js/halterungen/koecher.js)
+```js
+// Löcher nur dort, wo man von vorne durch das Sichtfenster über der Lippe herankommt
+const acc = win ? {x0:cx-(iw/2-m)+sc.dk/2+2, x1:cx+(iw/2-m)-sc.dk/2-2, z0:t+lip+sc.dk/2+2, z1:Ho, msg:"…"} : …
+```
+
+**Screenshot:** prompt-log-bilder/36-vorher.jpg (Lippe 50 mm, untere Löcher verdeckt) / 36-nachher.jpg (Schale höher, alle Löcher erreichbar)
+
+**Commit-Nachricht:** Prompt 36: Schraublöcher nur, wo man herankommt
