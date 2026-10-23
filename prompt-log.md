@@ -1417,3 +1417,21 @@ if(sel&&sel.type===state.type) sel.v=clone(v);
 **Screenshot:** prompt-log-bilder/68-nachher.jpg (vorher) / 69-nachher.jpg / 69-nachher-handy.jpg
 
 **Commit-Nachricht:** Prompt 69: Größeres Titel-Banner
+
+---
+
+## Prompt 70 – Banner etwas kleiner und höher (23.10.2026)
+
+**Prompt:**
+> Wieder um 20 % kleiner und etwas nach oben schieben
+
+**Was sich geändert hat:**
+- Das Banner „FILL THE SPACE“ ist wieder 20 % kleiner als in Prompt 69, die Schrift geht jetzt bis 50 px. Die längere grüne Fläche links und rechts ist geblieben, weil der Abstand mit der Schrift mitwächst.
+- Das Banner sitzt 16 px weiter oben.
+- Der Abstand vom Umschalter zur Linie bleibt 22 px. Auf dem Handy passt alles in die Breite.
+
+**Betroffene Dateien:** index.html (Versionsnummer 70), css/style.css
+
+**Screenshot:** prompt-log-bilder/69-nachher.jpg (vorher) / 70-nachher.jpg / 70-nachher-handy.jpg
+
+**Commit-Nachricht:** Prompt 70: Banner etwas kleiner und höher
