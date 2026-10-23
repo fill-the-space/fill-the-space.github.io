@@ -9,7 +9,7 @@ HALTERUNGEN.stapelbox = {
     BOX_FAECHER,
     {k:"grips",c:"check",l:"Griffmulden an den Schmalseiten"},
     {k:"label",c:"check",l:"Vertieftes Feld vorne (für ein Etikett)"},
-    ...TEXT_FELDER
+    ...textFelder([["vorne","Vorne"],["hinten","Hinten"],["links","Links"],["rechts","Rechts"]])
   ],
   build:p=>buildBox(p,{stack:true,grips:p.grips,label:p.label})
 };

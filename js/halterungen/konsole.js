@@ -9,7 +9,7 @@ HALTERUNGEN.konsole = {
     {row:[{k:"N",l:"Griffbreite",min:10,max:150,lab:v=>v.ap==="ring"?"Ring-Ø":"Griffbreite"},{k:"L",l:"Schlitztiefe",min:10,max:200,show:v=>v.ap!=="ring"},{k:"Dp",l:"Konsolentiefe",min:30,max:250}]},
     {row:[{k:"W",l:"Breite",min:40,max:300},{k:"Hp",l:"Plattenhöhe",min:30,max:200},{k:"P",l:"Stärke",min:3,max:12}]},
     {k:"s",c:"range",l:"Spiel pro Seite",u:"mm",min:0,max:3,step:0.1},
-    ...TEXT_FELDER,
+    ...textFelder([["vorne","Rückwand"],["kante","Ablagekante"]]),
     ...SCHRAUB_FELDER
   ],
   wall:"P",   // Hakenstärke des Türhakens folgt der Stärke
@@ -59,7 +59,9 @@ function buildKonsole(p){
     ghost=[{k:"cyl",x:cx,y:yc,r:N/2,z0:Hp-115,z1:Hp},{k:"box",x0:cx-wb,x1:cx+wb,y0,y1:y0+200,z0:Hp,z1:Hp+68},
            {k:"cyl",x:cx,y:y0+200,r:N*0.32,z0:Hp+12,z1:Hp+56,ax:"y",len:45},
            {k:"box",x0:cx-wb,x1:cx+wb,y0:Math.max(P+3,yc-58),y1:Math.max(P+3,yc-58)+116,z0:Hp-190,z1:Hp-115}]; }
-  // Beschriftung vorne auf der Rückwand unter der Konsole, zwischen den Stützen und neben den Schraublöchern
-  const schild={y:P,dir:1,x0:4+P+2,x1:W-4-P-2,z0:2,z1:z0-2,avoid:holes.map(([x,z])=>[x,z,sc.dk/2+1.5])};
-  return mountApply({f,bb:[0,W,0,Dp,0,Hp],dims:[W,Dp,Hp],scad:S.join("\n"),ghost,dir:"Rückwand unten",warn,screw:plan,arm:yc,schild,beam:{Wsec:2*P*Hg*Hg/6,name:"Die Konsole",tipp:"Stärke oder Plattenhöhe erhöhen (größere Stützen) oder die Konsole weniger tief machen."}},mountParts(p,0,W,Hp,P,warn,yc));
+  // Flächen für die Beschriftung: vorne auf der Rückwand unter der Konsole (zwischen den Stützen, neben den Schraublöchern)
+  // oder auf der Vorderkante der Ablage (beim Schlitz nur, wenn er die Kante nicht teilt)
+  const schilder={vorne:{ax:"y",dir:1,p:P,u0:4+P+2,u1:W-4-P-2,z0:2,z1:z0-2,avoid:holes.map(([x,z])=>({u0:x-sc.dk/2-1.5,u1:x+sc.dk/2+1.5,z0:z-sc.dk/2-1.5,z1:z+sc.dk/2+1.5}))},
+    kante:ring?{ax:"y",dir:1,p:Dp,u0:8,u1:W-8,z0:z0+0.8,z1:Hp-0.8}:null};
+  return mountApply({f,bb:[0,W,0,Dp,0,Hp],dims:[W,Dp,Hp],scad:S.join("\n"),ghost,dir:"Rückwand unten",warn,screw:plan,arm:yc,schilder,beam:{Wsec:2*P*Hg*Hg/6,name:"Die Konsole",tipp:"Stärke oder Plattenhöhe erhöhen (größere Stützen) oder die Konsole weniger tief machen."}},mountParts(p,0,W,Hp,P,warn,yc));
 }

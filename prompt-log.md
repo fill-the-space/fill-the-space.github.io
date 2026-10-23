@@ -1549,3 +1549,39 @@ if(sel&&sel.type===state.type) sel.v=clone(v);
 **Screenshot:** prompt-log-bilder/75-box-beschriftung.jpg / 75-leiste-beschriftung.jpg
 
 **Commit-Nachricht:** Prompt 75: Beschriftung und 3MF für zwei Farben
+
+---
+
+## Prompt 76 – Beschriftung: Fläche, Lage, Schriftarten, Bild (23.10.2026)
+
+**Prompt:**
+> Die Beschriftungfunktion ist schon ganz okay etwas missverständlich ist Schrifthöhe. Aus meiner Sicht ändert sich da die Größe der Schrift. Es wäre schön, wenn man die Schrift positionieren könnte auf dem Bauteil in irgendeiner Form. Das muss nicht total individuell sein. Eine mittige Schrift ist immer in Ordnung. Aber es wäre schon schön, wenn man sagen könnte, auf welche Fläche die Schrift kommen könnte oder ob sie vielleicht etwas höher oder tiefer positioniert werden soll. Vielleicht gibt es die Möglichkeit, einige Schriftarten auszuwählen und Standardschrift Einstellung vorzunehmen wie einem Schreibprogramm. Schön wäre auch, wenn man kleine gif Dateien einfügen könnte.
+
+**Was sich geändert hat:**
+- **Schriftgröße:** So heißt der Regler jetzt, statt „Schrifthöhe“. Daneben steht, was gemessen wird: „8 mm (Höhe der Großbuchstaben)“.
+- **Fläche wählbar:**
+  - Boxen: Vorne, Hinten, Links, Rechts. An den Seiten weicht die Schrift Griffmulde und Deckelschlitz aus.
+  - Köcher: Vorne, Links, Rechts.
+  - Konsole: Rückwand oder Ablagekante. Die Kante geht nur beim Ring, beim Schlitz teilt der Schlitz die Kante, dann kommt ein Hinweis.
+  - Leiste: Rückwand oder Leistenkante.
+- **Lage auf der Fläche:** Die Schrift steht immer waagerecht mittig. Mit dem Regler „Lage auf der Fläche“ lässt sie sich bis 40 mm höher oder tiefer schieben, die Anzeige sagt z. B. „15 mm tiefer“. Sie bleibt dabei auf der Fläche und weicht Schraublöchern aus.
+- **Schriftarten wie im Schreibprogramm:**
+  - Fünf Schriften: Grotesk (Standard), Breit, Schmal, Serif, Rund. Jeder Knopf zeigt seinen Namen in der eigenen Schrift.
+  - Dazu „Fett“ und „Kursiv“.
+  - „Als Standardschrift merken“ speichert Schrift, Fett/Kursiv und Größe. Jede neu eingeschaltete Beschriftung startet dann damit, auch bei anderen Bauteilarten.
+- **Kleines Bild (GIF, PNG):**
+  - „Bild hinzufügen“ lädt ein Bild. Dunkle Pixel werden zum Relief, bei animierten GIFs zählt das erste Bild.
+  - Das Bild steht links neben dem Text, etwas größer als die Buchstaben, und erscheint als kleine Vorschau neben dem Knopf. „Bild entfernen“ nimmt es wieder weg.
+  - Es geht auch ein Bild ganz ohne Text.
+- Bild und Text kommen in der 3MF-Datei zusammen als „Beschriftung“ in der zweiten Farbe.
+- **Geprüft:**
+  - Bild und Text liegen auf der richtigen Fläche und sind lesbar (nicht gespiegelt).
+  - Die Lage verschiebt die Schrift um die eingestellten Millimeter.
+  - Die Standardschrift wird bei einer anderen Bauteilart übernommen.
+  - Auf dem Handy gibt es kein seitliches Scrollen.
+
+**Betroffene Dateien:** index.html (Versionsnummer 76, weitere Google-Schriften), css/style.css, js/geometrie/schrift.js, js/ui/formular.js, js/zustand.js, js/halterungen/koecher.js, konsole.js, leiste.js, js/boxen/grundform.js, stapelbox.js, deckelbox.js, sortierkasten.js, README.md
+
+**Screenshot:** prompt-log-bilder/76-bild-und-text.jpg / 76-seite-schmal.png / 76-einstellungen-handy.jpg
+
+**Commit-Nachricht:** Prompt 76: Beschriftung – Fläche, Lage, Schriftarten, Bild

@@ -24,7 +24,7 @@ index.html                    Seitenaufbau
 css/style.css                 Aussehen
 js/geometrie/formen.js        Grundformen (Kasten, Rundung, Schraubloch)
 js/geometrie/netz.js          Form in ein Dreiecksnetz umrechnen
-js/geometrie/schrift.js       Beschriftung: Text als erhabene Schrift auf dem Bauteil
+js/geometrie/schrift.js       Beschriftung: Text und kleines Bild als Relief, Schriftarten, Flächen
 js/foto/erkennung.js          Bauteil im Foto finden, Auflagekante suchen
 js/halterungen/register.js    Liste aller Halterungs- und Boxenarten, die zwei Seiten
 js/halterungen/befestigung.js Befestigung: Schrauben, Haken über die Schranktür oder IKEA SKÅDIS

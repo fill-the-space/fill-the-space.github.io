@@ -8,7 +8,7 @@ HALTERUNGEN.leiste = {
     {k:"blind",c:"check",l:"Sacklöcher (Bauteile stehen darin)"},
     {k:"depth",c:"range",l:"Lochtiefe",u:"mm",min:5,max:60,step:1,show:v=>v.blind},
     {k:"s",c:"range",l:"Spiel pro Seite",u:"mm",min:0,max:2,step:0.1},
-    ...TEXT_FELDER,
+    ...textFelder([["vorne","Rückwand"],["kante","Leistenkante"]]),
     ...SCHRAUB_FELDER
   ],
   wall:"P",   // Hakenstärke des Türhakens folgt der Stärke
@@ -53,7 +53,8 @@ function buildLeiste(p){
   const ghost=[];
   xs.forEach(x=>{ if(p.blind) ghost.push({k:"cyl",x,y:wd,r:p.d/2,z0:hz0,z1:hz0+80});
     else ghost.push({k:"cyl",x,y:wd,r:p.d/2*0.55,z0:Hp-100,z1:Hp},{k:"cyl",x,y:wd,r:Math.min(a*0.42,p.d*1.5),z0:Hp+2,z1:Hp+95}); });
-  // Beschriftung vorne auf der Rückwand unter der Leiste, neben den Schraublöchern
-  const schild={y:P,dir:1,x0:(Hg>4?2+P:0)+2,x1:W-(Hg>4?2+P:0)-2,z0:2,z1:z0-2,avoid:holes.map(([x,z])=>[x,z,sc.dk/2+1.5])};
-  return mountApply({f,bb:[0,W,0,Dp,0,Hp],dims:[W,Dp,Hp],scad:S.join("\n"),ghost,dir:"Rückwand unten",warn,screw:plan,arm:wd,schild,beam:{Wsec:W*th*th/6+(Hg>4?2*P*Hg*Hg/6:0),name:"Die Leiste",tipp:"Stärke oder Plattenhöhe erhöhen oder den Wandabstand verringern."}},mountParts(p,0,W,Hp,P,warn,wd));
+  // Flächen für die Beschriftung: vorne auf der Rückwand unter der Leiste (neben den Schraublöchern) oder auf der Vorderkante
+  const schilder={vorne:{ax:"y",dir:1,p:P,u0:(Hg>4?2+P:0)+2,u1:W-(Hg>4?2+P:0)-2,z0:2,z1:z0-2,avoid:holes.map(([x,z])=>({u0:x-sc.dk/2-1.5,u1:x+sc.dk/2+1.5,z0:z-sc.dk/2-1.5,z1:z+sc.dk/2+1.5}))},
+    kante:{ax:"y",dir:1,p:Dp,u0:8,u1:W-8,z0:z0+0.8,z1:Hp-0.8}};
+  return mountApply({f,bb:[0,W,0,Dp,0,Hp],dims:[W,Dp,Hp],scad:S.join("\n"),ghost,dir:"Rückwand unten",warn,screw:plan,arm:wd,schilder,beam:{Wsec:W*th*th/6+(Hg>4?2*P*Hg*Hg/6:0),name:"Die Leiste",tipp:"Stärke oder Plattenhöhe erhöhen oder den Wandabstand verringern."}},mountParts(p,0,W,Hp,P,warn,wd));
 }

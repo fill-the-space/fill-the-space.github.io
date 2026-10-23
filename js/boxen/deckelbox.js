@@ -11,7 +11,7 @@ HALTERUNGEN.deckelbox = {
     ...BOX_WAND,
     BOX_FAECHER,
     {k:"label",c:"check",l:"Vertieftes Feld vorne (für ein Etikett)"},
-    ...TEXT_FELDER
+    ...textFelder([["vorne","Vorne"],["hinten","Hinten"],["links","Links"],["rechts","Rechts"]])
   ],
   build:p=>buildBox(p,{lid:p.stack&&p.lid==="steck"?"einlege":p.lid,stack:p.stack,label:p.label})
 };

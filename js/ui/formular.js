@@ -27,9 +27,26 @@ function renderFields(){
       const fest=f.fest&&f.fest(v);
       if(fest){ l.textContent=`${f.l}: ${(f.o.find(([val])=>val===fest)||[0,fest])[1]}`; s.className="seg back"; const b=document.createElement("button"); b.type="button"; b.id=id+"-zurueck"; b.textContent=f.zurueck.text;
         b.addEventListener("click",f.zurueck.tun); s.appendChild(b); w.append(l,s); return w; }
-      (f.oShow?f.o.filter(([val])=>f.oShow(val,v)):f.o).forEach(([val,lab])=>{ const b=document.createElement("button"); b.type="button"; b.id=id+"-"+val; b.textContent=lab; b.setAttribute("aria-pressed",String(v[f.k]===val));
+      (f.oShow?f.o.filter(([val])=>f.oShow(val,v)):f.o).forEach(([val,lab])=>{ const b=document.createElement("button"); b.type="button"; b.id=id+"-"+val; b.textContent=lab; if(f.oStyle) b.style.fontFamily=f.oStyle(val); b.setAttribute("aria-pressed",String(v[f.k]===val));
         b.addEventListener("click",()=>{ v[f.k]=val; renderFields(); schedule(); }); s.appendChild(b); });
       w.append(l,s); return w; }
+    // Knopf mit Rückmeldung daneben, z. B. „Als Standardschrift merken“
+    if(f.c==="button"){ const w=document.createElement("div"); w.className="field-btn"; const b=document.createElement("button"); b.type="button"; b.className="btn small"; b.textContent=f.l;
+      const msg=document.createElement("span"); msg.className="hint"; b.addEventListener("click",()=>{ msg.textContent=f.tun(v)||""; try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){} }); w.append(b,msg); return w; }
+    // Bild hochladen (GIF, PNG …): wird zur Schwarz-Weiß-Maske für das Relief
+    if(f.c==="image"){ const w=document.createElement("div"); w.className="field-btn"; const inp=document.createElement("input"); inp.type="file"; inp.accept="image/gif,image/png,image/*"; inp.id=id; inp.hidden=true;
+      const lab=document.createElement("label"); lab.className="btn small"; lab.htmlFor=id; lab.textContent=v[f.k]?"Bild ersetzen":"Bild hinzufügen (GIF, PNG)";
+      const msg=document.createElement("span"); msg.className="hint";
+      inp.addEventListener("change",async()=>{ const file=inp.files[0]; if(!file) return; msg.textContent="Bild wird gelesen …";
+        try{ const m=await bildMaske(file); if(!m){ msg.textContent="Im Bild wurde kein Motiv gefunden. Am besten ein dunkles Motiv auf hellem oder durchsichtigem Hintergrund."; return; } v[f.k]=m; renderFields(); schedule(); }
+        catch(e){ msg.textContent="Das Bild konnte nicht gelesen werden."; } });
+      w.append(lab,inp);
+      if(v[f.k]){ const cv=document.createElement("canvas"), m=v[f.k], s=Math.min(1,36/m.h); cv.width=Math.ceil(m.w*s); cv.height=Math.ceil(m.h*s); cv.className="img-mini"; cv.setAttribute("aria-label","Vorschau des Bilds");
+        const c=cv.getContext("2d"), bin=atob(m.b); c.fillStyle=getComputedStyle(document.body).color;
+        for(let y=0;y<m.h;y++) for(let x=0;x<m.w;x++){ const i=y*m.w+x; if(bin.charCodeAt(i>>3)&(128>>(i&7))) c.fillRect(x*s,y*s,Math.max(1,s),Math.max(1,s)); }
+        const rm=document.createElement("button"); rm.type="button"; rm.className="btn small"; rm.textContent="Bild entfernen"; rm.addEventListener("click",()=>{ v[f.k]=null; renderFields(); schedule(); });
+        w.append(cv,rm); }
+      w.appendChild(msg); return w; }
     if(f.c==="text"){ const l=document.createElement("label"); l.className="num"; l.textContent=f.l; const w=document.createElement("span"); w.className="inp";
       const i=document.createElement("input"); i.type="text"; i.id=id; i.value=v[f.k]||""; i.maxLength=f.max||40; i.placeholder=f.ph||""; i.autocomplete="off";
       i.addEventListener("input",()=>{ v[f.k]=i.value; schedule(); }); w.appendChild(i); l.appendChild(w); return l; }

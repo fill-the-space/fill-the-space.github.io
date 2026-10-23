@@ -14,7 +14,7 @@ HALTERUNGEN.koecher = {
     // Ohne Schrauben muss man nicht durch die Vorderseite an die Rückwand, dann darf sie ganz zu sein
     {k:"closed",c:"check",l:"Vorne ganz geschlossen",show:v=>v.mount!=="schrauben"},
     {k:"slot",c:"check",l:"Kabelschlitz im Boden"},
-    ...TEXT_FELDER,
+    ...textFelder([["vorne","Vorne"],["links","Links"],["rechts","Rechts"]]),
     ...SCHRAUB_FELDER
   ],
   wall:"t",   // Hakenstärke des Türhakens folgt der Wandstärke
@@ -56,7 +56,8 @@ function buildKoecher(p){
   if(p.slot) L.push(`  // Kabelschlitz`,`  translate([cx - ${f2(cw/2)}, cy - ${f2(id*0.15)}, -1]) cube([${f2(cw)}, Do, wand + 1.01]);`);
   L.push(`}`);
   const ghost=[{k:"rr",cx,cy,w:p.B,d:p.T,r:Math.max(0,ri-p.s),z0:t,z1:t+p.H}];
-  // Beschriftung vorne auf der Lippe (bzw. der ganzen Vorderwand, wenn sie geschlossen ist)
-  const schild={y:Dt,dir:1,x0:Math.max(1.5,ri+t),x1:Wo-Math.max(1.5,ri+t),z0:1.5,z1:(win?t+lip:Ho)-1.5};
-  return mountApply({f,bb:[0,Wo,0,Dt,0,Ho],dims:[Wo,Dt,Ho],scad:L.join("\n"),ghost,dir:"Boden unten",warn,screw:plan,arm:cy,schild},mountParts(p,0,Wo,Ho,tb,warn,cy));
+  // Flächen für die Beschriftung: vorne auf der Lippe (bzw. der ganzen Vorderwand, wenn sie geschlossen ist) oder seitlich
+  const sy1=cy+Do/2-(ri+t)-1.5, schilder={vorne:{ax:"y",dir:1,p:Dt,u0:Math.max(1.5,ri+t),u1:Wo-Math.max(1.5,ri+t),z0:1.5,z1:(win?t+lip:Ho)-1.5},
+    links:{ax:"x",dir:-1,p:0,u0:1.5,u1:sy1,z0:1.5,z1:Ho-1.5}, rechts:{ax:"x",dir:1,p:Wo,u0:1.5,u1:sy1,z0:1.5,z1:Ho-1.5}};
+  return mountApply({f,bb:[0,Wo,0,Dt,0,Ho],dims:[Wo,Dt,Ho],scad:L.join("\n"),ghost,dir:"Boden unten",warn,screw:plan,arm:cy,schilder},mountParts(p,0,Wo,Ho,tb,warn,cy));
 }

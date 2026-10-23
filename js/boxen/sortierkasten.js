@@ -8,7 +8,7 @@ HALTERUNGEN.sortierkasten = {
     BOX_FAECHER,
     ...BOX_WAND,
     {k:"stack",c:"check",l:"Stapelbar (Fuß unten)"},
-    ...TEXT_FELDER
+    ...textFelder([["vorne","Vorne"],["hinten","Hinten"],["links","Links"],["rechts","Rechts"]])
   ],
   build:p=>buildBox(p,{stack:p.stack})
 };
