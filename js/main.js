@@ -38,10 +38,11 @@ $("dl").addEventListener("click",async()=>{
   await new Promise(r=>setTimeout(r,30));
   try{
     const d=await dlReady;
-    const m=current.model, hE=Math.min(current.h, Math.max(0.45, Math.sqrt(2*current.area/250000)));
-    const fine=polygonize(m.f,m.bb,hE);
+    // Fein rechnen (bis etwa 400.000 Dreiecke), Punkte auf die echte Oberfläche schieben, dann ebene Flächen zusammenfassen
+    const m=current.model, hE=Math.min(current.h, Math.max(0.4, Math.sqrt(2*current.area/400000)));
+    const fine=snapToSurface(polygonize(m.f,m.bb,hE),m.f);
     st.textContent="Datei wird verkleinert …"; await new Promise(r=>setTimeout(r,30));
-    const mesh=simplifyMesh(fine), name="halterung-"+slug()+".stl", file=new Blob([stl(mesh)],{type:"model/stl"});
+    const mesh=simplifyMesh(fine,0.01), name="halterung-"+slug()+".stl", file=new Blob([stl(mesh)],{type:"model/stl"});
     if(d) await d.save({filename:name,data:file}); else saveFile(name,file);
     st.textContent=`Gespeichert: ${name} (${(file.size/1e3).toLocaleString("de-DE",{maximumFractionDigits:0})} kB, ${(mesh.idx.length/3).toLocaleString("de-DE")} Dreiecke)`;
   }catch(e){

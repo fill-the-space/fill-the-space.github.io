@@ -717,3 +717,32 @@ const acc = win ? {x0:cx-(iw/2-m)+sc.dk/2+2, x1:cx+(iw/2-m)-sc.dk/2-2, z0:t+lip+
 **Screenshot:** prompt-log-bilder/37-vorher.jpg / 37-nachher.jpg
 
 **Commit-Nachricht:** Prompt 37: Nur STL, Dateien rund 30-mal kleiner
+
+---
+
+## Prompt 38 – Etwas genauer statt so stark verkleinert (23.10.2026)
+
+**Prompt:**
+> Die Reduktion ist ein bisschen zu stark. Da würde ich den Kompromiss eingehen und eine etwas größere Datenmenge runterladen, aber dafür etwas genauer
+
+**Was sich geändert hat:**
+- Claude hat zuerst gemessen, woher die Ungenauigkeit kommt. Ergebnis: Auf großen Flächen kostet die Verkleinerung fast nichts. Sichtbar war sie an Rundungen und Löchern. Ein 4,5-mm-Schraubloch war in der STL nur noch ein Achteck. Dazu kommen leicht abgeschrägte Kanten durch das Rechenraster.
+- Drei Verbesserungen:
+  1. Rundungen werden weniger stark vereinfacht. Das Schraubloch hat jetzt 28 statt 8 Ecken und ist damit praktisch rund.
+  2. Jeder Punkt wird vor dem Verkleinern genau auf die berechnete Oberfläche geschoben.
+  3. Das Grundraster ist etwas feiner (bis etwa 400.000 statt 250.000 Dreiecke vor dem Verkleinern).
+- Ergebnis bei den Standardmaßen: 99 % der Oberfläche liegen jetzt innerhalb von etwa 0,1 mm um die berechnete Form, vorher waren es bis zu 0,2 mm. Die Dateien bleiben trotzdem klein, weil ebene Flächen jetzt noch sauberer zusammengefasst werden:
+
+  | Halterung | vorher (Prompt 37) | jetzt |
+  |---|---|---|
+  | Köcher | 77 kB | 91 kB |
+  | Konsole | 405 kB | 376 kB |
+  | Leiste | 449 kB | 407 kB |
+  | Individuell | 315 kB | 295 kB |
+
+- Damit das Speichern trotz feinerem Raster nicht länger dauert, hat Claude die Verkleinerung etwa doppelt so schnell gemacht. Das Speichern dauert jetzt 3 bis 7 Sekunden. Die Netze sind weiterhin geschlossen.
+- Fehler beim Messen: Claudes erstes Prüfprogramm hatte einen Fehler und lieferte bei vielen kleinen Dreiecken keine Messpunkte. Erst nach der Korrektur zeigte sich, dass die Verkleinerung auf Flächen kaum etwas kostet und das Problem bei den Rundungen liegt.
+
+**Betroffene Dateien:** js/export/vereinfachen.js, js/main.js, index.html (Versionsnummer 38)
+
+**Commit-Nachricht:** Prompt 38: Genauere STL, runde Löcher, schnelleres Verkleinern
