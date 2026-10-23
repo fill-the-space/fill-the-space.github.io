@@ -2,8 +2,8 @@
 
 Web-App ohne Build-Schritt: `index.html` lädt die Skripte aus `js/` der Reihe nach (klassische `<script>`-Tags, keine Module), damit sie per Doppelklick und auf GitHub Pages läuft. Aufbau und „Neue Halterungsart hinzufügen“ stehen in der README.
 
-- Live: https://lioba-source.github.io/halterungs-generator/ (GitHub Pages, Branch `main`, Ordner `/`)
-- Repository: https://github.com/lioba-source/halterungs-generator
+- Live: https://lioba-source.github.io/fill-the-space/ (GitHub Pages, Branch `main`, Ordner `/`)
+- Repository: https://github.com/lioba-source/fill-the-space (bis 23.10.2026 „halterungs-generator“; die alte Pages-Adresse funktioniert nicht mehr)
 - **Versionsnummer:** Alle eigenen Dateien werden in `index.html` mit `?v=<Prompt-Nr.>` geladen. Bei jeder Änderung an CSS oder JS die Nummer überall in `index.html` hochsetzen, sonst mischen Browser alte und neue Dateien aus dem Zwischenspeicher.
 - Die Seite muss außerhalb von Claude funktionieren: keine `window.claude`-Funktionen voraussetzen, Änderungen im Browser über einen lokalen Server testen (`.claude/launch.json`, Port 8766).
 

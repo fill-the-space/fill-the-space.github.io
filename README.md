@@ -1,10 +1,10 @@
 # FILL THE SPACE
 
-Der Halterungs-Generator heißt jetzt „FILL THE SPACE“. Das Repository und die Adresse behalten den alten Namen.
+Der Halterungs-Generator heißt jetzt „FILL THE SPACE“. Seit dem 23.10.2026 heißen auch Repository und Adresse „fill-the-space“ (vorher „halterungs-generator“).
 
 Erzeugt Wandhalterungen für den 3D-Drucker: Halterungsart wählen, Maße mit Schiebereglern und Feldern einstellen (alle Längen in Millimetern), Halterung in 3D ansehen und als STL-Datei speichern.
 
-**App öffnen:** https://lioba-source.github.io/halterungs-generator/ (nachdem GitHub Pages eingeschaltet ist)
+**App öffnen:** https://lioba-source.github.io/fill-the-space/ (lässt sich auf dem Handy über „Zum Home-Bildschirm“ wie eine App installieren)
 
 Lokal ausprobieren: `index.html` im Finder doppelklicken.
 
@@ -21,6 +21,9 @@ Lokal ausprobieren: `index.html` im Finder doppelklicken.
 
 ```
 index.html                    Seitenaufbau
+manifest.webmanifest          Web-App: Name, Symbol und Farbe für den Startbildschirm des Handys
+sw.js                         Web-App: Offline-Speicher (funktioniert nach dem ersten Öffnen auch ohne Internet)
+icons/                        App-Symbole
 css/style.css                 Aussehen
 js/geometrie/formen.js        Grundformen (Kasten, Rundung, Schraubloch)
 js/geometrie/netz.js          Form in ein Dreiecksnetz umrechnen

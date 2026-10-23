@@ -1663,3 +1663,37 @@ if(sel&&sel.type===state.type) sel.v=clone(v);
 **Screenshot:** prompt-log-bilder/80-mitlaufend.jpg / 80-handy-knopf.jpg / 80-handy-leiste.jpg
 
 **Commit-Nachricht:** Prompt 80: Vorschau beim Bearbeiten sichtbar
+
+---
+
+## Prompt 81 – Installierbare Web-App und neue Adresse fill-the-space (23.10.2026)
+
+**Prompt:**
+> Sehr gerne und kannst du den Namen der App Fill-The-Space umändern. du sgast das ginge bei GitHub Pages mit eigener Domain aber auch
+
+(Vorher gefragt: Lohnt sich Netlify? Antwort von Claude: nein, GitHub Pages veröffentlicht die App schon genauso; sinnvoller ist eine installierbare Web-App.)
+
+**Entscheidung:** Auf die Rückfrage, was „Fill-The-Space“ heißen soll, hat Lioba die neue Adresse gewählt: das Repository umbenennen (kostenlos), keine gekaufte eigene Domain. Damit ist die Entscheidung aus Prompt 59 („Adresse bleibt“) aufgehoben.
+
+**Was sich geändert hat:**
+- **Installierbare Web-App:**
+  - Auf dem Handy lässt sich die App über „Zum Home-Bildschirm“ (iPhone, Safari) bzw. „Zum Startbildschirm hinzufügen“ (Android, Chrome) wie eine echte App ablegen.
+  - Sie hat ein eigenes Symbol: grün mit „FILL THE SPACE“ und den Op-Art-Kreisen aus dem Kopf der App. Darunter steht der Name „Fill the Space“.
+  - Sie startet im Vollbild ohne Browserleiste.
+- **Offline:** Nach dem ersten Öffnen funktioniert die App auch ohne Internet. Ein kleiner Hintergrunddienst (sw.js) legt die Dateien auf dem Gerät ab. Die Startseite kommt trotzdem immer zuerst aus dem Netz, damit neue Versionen sofort ankommen.
+- **Neue Adresse:**
+  - Das Repository heißt jetzt **fill-the-space**, die App ist unter **https://lioba-source.github.io/fill-the-space/** erreichbar. Claude hat es auf GitHub unter Settings umbenannt.
+  - Die alte Adresse …/halterungs-generator/ funktioniert nicht mehr, GitHub leitet Pages-Adressen nicht weiter.
+  - Git-Verbindungen (auch die von GitHub Desktop) sind auf den neuen Namen umgestellt.
+  - README und CLAUDE.md nennen die neue Adresse.
+- **Geprüft:**
+  - Manifest und Symbole laden.
+  - Der Hintergrunddienst startet.
+  - Ohne laufenden Server lädt die Seite trotzdem samt 3D-Vorschau aus dem Speicher.
+- **Noch nicht geprüft:** das Installieren auf einem echten Handy.
+
+**Betroffene Dateien:** neu: manifest.webmanifest, sw.js, icons/ (5 Symbole). Geändert: index.html (Versionsnummer 81), js/main.js, README.md, CLAUDE.md
+
+**Screenshot:** prompt-log-bilder/81-app-symbol.png
+
+**Commit-Nachricht:** Prompt 81: Web-App und neue Adresse fill-the-space
