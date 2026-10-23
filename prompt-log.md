@@ -1006,3 +1006,28 @@ const acc = win ? {x0:cx-(iw/2-m)+sc.dk/2+2, x1:cx+(iw/2-m)-sc.dk/2-2, z0:t+lip+
 **Screenshot:** prompt-log-bilder/51-vorher.jpg / 51-nachher.jpg
 
 **Commit-Nachricht:** Prompt 51: Druckbett Länge × Breite, Individuell ausgeblendet
+
+---
+
+## Prompt 52 – Neues Design im Stil von CAD-Software (23.10.2026)
+
+**Prompt:**
+> https://www.3ds.com/ ist eine Firma, die unter anderem CAD Software herstellt. Kannst du für die App ein ähnliches Design nutzen wie sie
+
+**Was sich geändert hat:**
+- Claude hat sich die Website angesehen. Das Cookie-Banner hat Claude mit „nur notwendige Cookies“ geschlossen. Typisch für den Stil: ein dunkles, fast schwarzes Kopfband mit weißer Schrift, sonst viel Weiß und Hellgrau, ein kräftiges Blau als einzige Akzentfarbe, pillenförmige Knöpfe und eine technische, leicht eckige Schrift.
+- Übertragen auf die App:
+  - **Kopfband:** dunkel über die ganze Fensterbreite mit großem weißem Titel und einem leichten Verlauf ins Dunkelblaue.
+  - **Farben:** helle Grautöne und weiße Karten, Blau (#0870D3) für ausgewählte Knöpfe, Regler, Häkchen und den Speichern-Knopf. Auch die Halterung in der 3D-Ansicht ist jetzt blau, das Bauteil grau.
+  - **Formen:** Speichern-Knopf und alle Umschalter (Köcher/Konsole/Leiste, Befestigung …) sind pillenförmig.
+  - **Schrift:** „Exo 2“, eine frei verfügbare technische Schrift, die dem Stil nahekommt, auch für die Zahlen.
+  - **Dunkler Modus:** passend in Dunkelblau mit hellerem Blau als Akzent.
+- **Bewusst nicht übernommen:** Logo, Firmenname und die firmeneigene Schrift. Die App soll nicht wie ein Produkt dieser Firma aussehen, sondern nur einen ähnlichen Stil haben.
+- Nebenbei behoben: Über dem Kopfband war ein schmaler heller Rand zu sehen, weil die Seite einen Standardabstand hatte.
+- Geprüft: helle und dunkle Darstellung sowie Handybreite (375 px, kein seitliches Scrollen). Die Konsole zeigt keine Fehler.
+
+**Betroffene Dateien:** css/style.css, index.html (Versionsnummer 52)
+
+**Screenshot:** prompt-log-bilder/52-vorher.jpg / 52-nachher-hell.jpg / 52-nachher-dunkel.jpg
+
+**Commit-Nachricht:** Prompt 52: Design im Stil von CAD-Software
