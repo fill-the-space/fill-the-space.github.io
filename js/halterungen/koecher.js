@@ -1,12 +1,13 @@
 HALTERUNGEN.koecher = {
   name:"Köcher",
   hint:"Das Bauteil steht in einer Schale, z. B. eine Fernbedienung, ein Handy, eine Dose oder ein Flakon.",
-  defaults:{shape:"eckig",B:45,T:22,H:170,r:6,hs:68,lip:18,closed:false,t:2.4,s:0.5,slot:false,...SCHRAUB_STANDARD,mass:200},
+  defaults:{shape:"eckig",B:45,T:22,H:170,r:6,hs:170,lip:18,closed:false,t:2.4,s:0.5,slot:false,...SCHRAUB_STANDARD,mass:200},
   fields:[
     {k:"shape",c:"seg",l:"Querschnitt",o:[["eckig","Eckig"],["abgerundet","Abgerundet"]]},
     {row:[{k:"B",l:"Breite",min:10,max:300},{k:"T",l:"Tiefe",min:5,max:250},{k:"H",l:"Höhe",min:20,max:400}],l:"Maße des Bauteils"},
     {k:"r",c:"range",l:"Eckenradius",u:"mm",min:1,max:60,step:0.5,show:v=>v.shape!=="eckig"},
-    {k:"hs",c:"range",l:"Höhe der Schale",u:"mm",min:10,max:250,step:1},
+    // Das Bauteil steckt ganz in der Schale: Die Schale ist mindestens so hoch wie das Bauteil
+    {k:"hs",c:"range",l:"Höhe der Schale",u:"mm",min:v=>v.H,max:v=>v.H+100,step:1},
     {k:"lip",c:"range",l:"Lippe vorne",u:"mm",min:4,max:80,step:1,show:v=>v.mount==="schrauben"||!v.closed},
     {k:"t",c:"range",l:"Wandstärke",u:"mm",min:1.6,max:4,step:0.2},
     {k:"s",c:"range",l:"Spiel pro Seite",u:"mm",min:0,max:2,step:0.1},
@@ -22,7 +23,8 @@ HALTERUNGEN.koecher = {
 function buildKoecher(p){
   const iw=p.B+2*p.s, id=p.T+2*p.s, t=p.t;
   const ri = p.shape==="eckig" ? 0 : Math.min(p.r+p.s,Math.min(iw,id)/2);
-  const warn=[], hs=Math.min(p.hs,p.H); if(p.hs>p.H) warn.push(`Höhe der Schale auf die Höhe des Bauteils von ${mmDE(p.H)} mm begrenzt.`);
+  // low: Schale darf niedriger als das Bauteil sein (Individuell „Hineinstellen“), sonst steckt das Bauteil ganz drin
+  const warn=[], hs=p.low ? Math.min(p.hs,p.H) : Math.max(p.hs,p.H);
   // Rückwand so dick, dass der Senkkopf ganz darin verschwindet
   const sc=screwSpec(p), tb=Math.max(t,p.holes?screwWall(sc):0);
   const Wo=iw+2*t, Do=id+2*t, Ho=t+hs, cx=Wo/2, cy=tb+id/2, Dt=cy+Do/2;

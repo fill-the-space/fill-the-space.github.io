@@ -7,8 +7,11 @@ function renderTypes(){
     b.addEventListener("click",()=>{ if(state.type===k) return; state.type=k; renderAll(); }); box.appendChild(b); }
   $("typeHint").textContent=HALTERUNGEN[state.type].hint;
 }
+// Grenzen der Regler, die von anderen Maßen abhängen; ändern sie sich, wird das Formular neu gezeichnet
+let shownLimits="";
+function rangeLimits(v){ return HALTERUNGEN[state.type].fields.filter(f=>f.c==="range"&&typeof f.min==="function").map(f=>f.min(v)+"-"+f.max(v)).join(","); }
 function renderFields(){
-  const box=$("fields"), v=state.v[state.type], focus=document.activeElement&&box.contains(document.activeElement)?document.activeElement.id:null; box.innerHTML="";
+  const box=$("fields"), v=state.v[state.type]; shownLimits=rangeLimits(v); const focus=document.activeElement&&box.contains(document.activeElement)?document.activeElement.id:null; box.innerHTML="";
   $("konturPanel").hidden = state.type!=="individuell";
   if(state.type==="individuell"&&!photo.canvas) setPhotoSample("gun");
   const mk=(f)=>{
@@ -22,7 +25,7 @@ function renderFields(){
     if(f.c==="check"){ const l=document.createElement("label"); l.className="check"; const i=document.createElement("input"); i.type="checkbox"; i.id=id; i.checked=!!v[f.k];
       i.addEventListener("change",()=>{ v[f.k]=i.checked; if(HALTERUNGEN[state.type].fields.some(x=>x.show)) renderFields(); schedule(); }); l.append(i,document.createTextNode(" "+f.l)); return l; }
     if(f.c==="range"){ const w=document.createElement("div"); w.className="slider"; const sp=document.createElement("span"); sp.textContent=f.l; const o=document.createElement("output"); o.id=id+"-out";
-      const i=document.createElement("input"); i.type="range"; i.id=id; i.min=f.min; i.max=f.max; i.step=f.step; i.value=v[f.k];
+      const i=document.createElement("input"); i.type="range"; i.id=id; i.min=typeof f.min==="function"?f.min(v):f.min; i.max=typeof f.max==="function"?f.max(v):f.max; i.step=f.step; i.value=v[f.k];
       const upd=()=>{ o.textContent = f.fmt ? f.fmt(+v[f.k],v) : `${(+v[f.k]).toLocaleString("de-DE",{maximumFractionDigits:1})} ${f.u}`; };
       i.addEventListener("input",()=>{ v[f.k]=parseFloat(i.value); upd(); schedule(); }); upd(); w.append(sp,o,i); return w; }
   };

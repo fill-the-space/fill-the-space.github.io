@@ -3,6 +3,9 @@ let current=null, pending=false;
 function schedule(){ if(pending) return; pending=true; requestAnimationFrame(()=>{ pending=false; update(); }); }
 function update(){
   const v=state.v[state.type];
+  // Regler mit Grenzen, die von anderen Maßen abhängen (z. B. Schale ≥ Bauteil): Wert anpassen und Regler neu zeichnen
+  for(const f of HALTERUNGEN[state.type].fields) if(f.c==="range"&&typeof f.min==="function") v[f.k]=Math.min(f.max(v),Math.max(f.min(v),v[f.k]));
+  if(rangeLimits(v)!==shownLimits) renderFields();
   let sc=null;
   if(state.type==="individuell"){
     sc=currentSeg(v);

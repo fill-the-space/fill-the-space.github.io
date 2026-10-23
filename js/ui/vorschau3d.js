@@ -21,7 +21,8 @@ function initGL(){
   new MutationObserver(()=>schedule()).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
 }
 function resize(){ if(!renderer)return; const w=bed.clientWidth,h=bed.clientHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); draw(); }
-function draw(){ if(!renderer)return; const r=radius*2.7*view.zoom;
+// Abstand so, dass auch hohe oder breite Halterungen ganz ins Bild passen
+function draw(){ if(!renderer)return; const r=radius/Math.sin(camera.fov*Math.PI/360)*1.1*view.zoom;
   camera.position.set(center.x+r*Math.sin(view.phi)*Math.sin(view.theta), center.y-r*Math.sin(view.phi)*Math.cos(view.theta), center.z+r*Math.cos(view.phi));
   camera.lookAt(center); renderer.render(scene,camera); }
 function ghostMesh(gs,mat){

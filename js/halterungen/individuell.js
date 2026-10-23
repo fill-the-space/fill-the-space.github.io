@@ -28,7 +28,7 @@ function buildIndividuell(p,seg){
 
   if(mode==="stellen"){
     const zFill=g.zLow+Math.min(p.fill,g.zHigh-g.zLow), [q0,q1]=hullBelow(g,zFill);
-    const m=buildKoecher({shape:"abgerundet",B:q1-q0,T,H:g.zHigh-g.zLow,r:4,hs:p.fill,lip:p.lip,t:p.t,s,holes:p.holes,sd:p.sd,sn:p.sn,mount:p.mount,mass:p.mass,door:p.door,hookL:p.hookL,hookT:p.hookT,slot:false});
+    const m=buildKoecher({shape:"abgerundet",B:q1-q0,T,H:g.zHigh-g.zLow,r:4,hs:p.fill,low:true,lip:p.lip,t:p.t,s,holes:p.holes,sd:p.sd,sn:p.sn,mount:p.mount,mass:p.mass,door:p.door,hookL:p.hookL,hookT:p.hookT,slot:false});
     m.ghost=[ghostOf(p.t+s-q0,p.t+s,p.t-g.zLow)];
     m.scad=m.scad.replace("Köcher (abgerundet)","Individuell, Schale zum Hineinstellen");
     m.warn=warn.concat(m.warn); m.mode="stellen";

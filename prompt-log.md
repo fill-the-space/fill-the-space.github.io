@@ -903,3 +903,23 @@ const acc = win ? {x0:cx-(iw/2-m)+sc.dk/2+2, x1:cx+(iw/2-m)-sc.dk/2-2, z0:t+lip+
 **Screenshot:** prompt-log-bilder/46-vorher.jpg / 46-nachher.jpg
 
 **Commit-Nachricht:** Prompt 46: Häkchen „vorne geschlossen“ über Kabelschlitz
+
+---
+
+## Prompt 47 – Köcher: Bauteil steckt ganz in der Schale (23.10.2026)
+
+**Prompt:**
+> Eine gewisse Unstimmigkeit gibt es noch bei Köcher. Man kann hier die Höhe des Bauteils eingeben. Und auch die Höhe der Schale. Ich denke, dass die Höhe des Bauteils aber auch dann komplett in der Schale sein muss und nicht darüber hinausragen. Damit man die Höhe der Schale auch individuell anpassen kann.
+
+**Was sich geändert hat:**
+- Beim Köcher ist die Schale jetzt immer mindestens so hoch wie das Bauteil. Das Bauteil ragt also nicht mehr oben heraus. Vorher war es umgekehrt: Die Schale war höchstens so hoch wie das Bauteil, standardmäßig nur 68 von 170 mm.
+- Der Regler „Höhe der Schale“ beginnt jetzt bei der Bauteilhöhe und reicht 100 mm darüber. So kann man die Schale individuell höher machen, aber nicht niedriger als das Bauteil. Ändert man die Höhe des Bauteils, wandern Regler und Schale automatisch mit.
+- Bei „Individuell → Hineinstellen“ bleibt es wie bisher: Dort darf die Schale niedriger als das Bauteil sein, weil man das Bauteil oben greifen will.
+- Nebenbei behoben: Die 3D-Ansicht hat hohe Köcher oben abgeschnitten. Die Kamera rückt jetzt so weit weg, dass jede Halterung ganz ins Bild passt.
+- Darauf geachtet: Der Regler wird beim Ziehen nicht neu aufgebaut, sonst würde das Ziehen abbrechen. Neu gezeichnet wird er nur, wenn sich seine Grenzen ändern.
+
+**Betroffene Dateien:** js/halterungen/koecher.js, js/halterungen/individuell.js, js/ui/formular.js, js/main.js, js/ui/vorschau3d.js, index.html (Versionsnummer 47)
+
+**Screenshot:** prompt-log-bilder/47-vorher.jpg / 47-nachher.jpg
+
+**Commit-Nachricht:** Prompt 47: Köcher-Schale mindestens so hoch wie das Bauteil
