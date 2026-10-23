@@ -60,7 +60,7 @@
         <span class="status" id="status" role="status"></span>
       </div>
       <textarea id="scad" readonly hidden aria-label="OpenSCAD-Code"></textarea>
-      <p class="note">Die STL wird in feinerer Auflösung als die Vorschau berechnet. Kanten sind dabei leicht gebrochen. Die OpenSCAD-Datei enthält die exakte Geometrie und lässt sich in OpenSCAD weiter anpassen. Löcher in der Rückwand passen für 4-mm-Schrauben.</p>
+      <p class="note">Die STL wird in feinerer Auflösung als die Vorschau berechnet. Kanten sind dabei leicht gebrochen. Die OpenSCAD-Datei enthält die exakte Geometrie und lässt sich in OpenSCAD weiter anpassen. Die Löcher in der Rückwand passen zur gewählten Schraube (Loch 0,5 mm größer). 4-mm-Schrauben passen zu 6er-Dübeln, 5-mm-Schrauben zu 8er-Dübeln.</p>
     </section>
   </div>
 </div>
@@ -72,6 +72,7 @@
 <script src="js/foto/erkennung.js"></script>
 <!-- Halterungsarten: neue Art = neue Datei + eine Zeile hier -->
 <script src="js/halterungen/register.js"></script>
+<script src="js/halterungen/schrauben.js"></script>
 <script src="js/halterungen/koecher.js"></script>
 <script src="js/halterungen/ablage.js"></script>
 <script src="js/halterungen/leiste.js"></script>

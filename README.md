@@ -24,6 +24,7 @@ js/geometrie/formen.js        Grundformen (Kasten, Rundung, Schraubloch)
 js/geometrie/netz.js          Form in ein Dreiecksnetz umrechnen
 js/foto/erkennung.js          Gerät im Foto finden, Auflagekante suchen
 js/halterungen/register.js    Liste aller Halterungsarten
+js/halterungen/schrauben.js   Schraubengröße, Kopfform, Anzahl und Lage der Löcher (für alle Arten)
 js/halterungen/koecher.js     je Halterungsart: Name, Standardmaße,
 js/halterungen/ablage.js      Eingabefelder und Berechnung der Form
 js/halterungen/leiste.js      samt OpenSCAD-Code
@@ -39,7 +40,7 @@ prompt-log.md                 Prompt-Protokoll für die Präsentation
 
 ### Neue Halterungsart hinzufügen
 
-1. Neue Datei in `js/halterungen/`, z. B. `haken.js`, nach dem Muster der anderen: `HALTERUNGEN.haken = { name, hint, defaults, fields, build }`.
+1. Neue Datei in `js/halterungen/`, z. B. `haken.js`, nach dem Muster der anderen: `HALTERUNGEN.haken = { name, hint, defaults, fields, build }`. Für die Wandbefestigung `...SCHRAUB_STANDARD` in `defaults` und `...SCHRAUB_FELDER` in `fields` übernehmen und in `build` `screwSpec`, `screwLayout`, `screwCut` und `screwSCAD` nutzen.
 2. In `index.html` eine Zeile `<script src="js/halterungen/haken.js"></script>` unter den anderen Halterungsarten ergänzen.
 
 Längen immer in Millimetern angeben (`u:"mm"` bei Schiebereglern; Zahlenfelder zeigen „(mm)“ automatisch, außer bei `u:""`).

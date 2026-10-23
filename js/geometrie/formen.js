@@ -8,7 +8,7 @@ function poly2(px,py,v){ let d=(px-v[0][0])**2+(py-v[0][1])**2, s=1;
     const t=Math.max(0,Math.min(1,(wx*ex+wy*ey)/(ex*ex+ey*ey))); const bx=wx-ex*t, by=wy-ey*t; d=Math.min(d,bx*bx+by*by);
     const c1=py>=v[i][1], c2=py<v[j][1], c3=ex*wy>ey*wx; if((c1&&c2&&c3)||(!c1&&!c2&&!c3)) s=-s; }
   return s*Math.sqrt(d); }
-/* Schraubloch entlang y, optional mit Senkung (Kopfseite bei yHead, Senkung öffnet zu +y) */
-function screw(x,y,z,hx,hz,y0,y1,yHead){ const rho=hyp(x-hx,z-hz); let r=2.25; if(yHead!=null) r+=Math.max(0,y-(yHead-2.2))*(2.25/2.2); return ext(rho-r,y,y0,y1); }
+/* Schraubloch entlang y, optional mit 90°-Senkung (Kopfseite bei yHead, Senkung öffnet zu +y) */
+function screw(x,y,z,hx,hz,y0,y1,yHead,hole=4.5,depth=2.2){ const rho=hyp(x-hx,z-hz); let r=hole/2; if(yHead!=null) r+=Math.max(0,y-(yHead-depth)); return ext(rho-r,y,y0,y1); }
 
 const f2=v=>(+(+v).toFixed(2)).toString();

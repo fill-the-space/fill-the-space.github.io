@@ -1,13 +1,13 @@
 HALTERUNGEN.ablage = {
   name:"Ablage",
   hint:"Das Werkzeug hängt mit dem Griff oder Körper in einem Schlitz oder Ring.",
-  defaults:{ap:"schlitz",N:46,L:80,Dp:125,W:150,P:6,Hp:70,s:1,holes:true},
+  defaults:{ap:"schlitz",N:46,L:80,Dp:125,W:150,P:6,Hp:70,s:1,...SCHRAUB_STANDARD},
   fields:[
     {k:"ap",c:"seg",l:"Aussparung",o:[["schlitz","Schlitz, vorne offen"],["ring","Ring, geschlossen"]]},
     {row:[{k:"N",l:"Griffbreite",min:10,max:150,lab:v=>v.ap==="ring"?"Ring-Ø":"Griffbreite"},{k:"L",l:"Schlitztiefe",min:10,max:200,show:v=>v.ap!=="ring"},{k:"Dp",l:"Ablagetiefe",min:30,max:250}]},
     {row:[{k:"W",l:"Breite",min:40,max:300},{k:"Hp",l:"Plattenhöhe",min:30,max:200},{k:"P",l:"Stärke",min:3,max:12}]},
     {k:"s",c:"range",l:"Spiel pro Seite",u:"mm",min:0,max:3,step:0.1},
-    {k:"holes",c:"check",l:"Schraublöcher mit Senkung"}
+    ...SCHRAUB_FELDER
   ],
   build:(p,o)=>buildAblage(p,o.ghostKind)
 };
@@ -23,14 +23,14 @@ function buildAblage(p,ghostKind){
   if(Hp<P+30){Hp=P+30;warn.push(`Plattenhöhe auf ${f2(Hp)} mm erhöht, damit die Schrauben Platz haben.`);}
   const cx=W/2, yc= ring ? Dp-rim-half : Dp-L+half;
   const Dg=Dp*0.75, Hg=Math.min(Hp-P,Dp*0.75), z0=Hp-P;
-  const gx=[4,W-4-P], hz=(Hp-P)*0.45, hx=[W*0.3,W*0.7];
+  const gx=[4,W-4-P], sc=screwSpec(p,P,warn), holes=screwLayout(p,sc,W*0.3,W*0.7,(Hp-P)*0.45,0,Hp-P,warn);
   const tri=[[0,z0],[Dg,z0],[0,z0-Hg]];
   const ap2=(x,y)=> ring ? hyp(x-cx,y-yc)-half : Math.min(hyp(x-cx,y-yc)-half, rr2(x,y,cx,(yc+Dp+10)/2,half,(Dp+10-yc)/2,0));
   const f=(x,y,z)=>{
     let d=box3(x,y,z,0,W,0,P,0,Hp);
     d=Math.min(d,ext(Math.max(Math.max(rr2(x,y,W/2,(Dp-6)/2,W/2,(Dp+6)/2,6),-y),-ap2(x,y)),z,z0,Hp));
     for(const g of gx) d=Math.min(d,ext(poly2(y,z,tri),x,g,g+P));
-    if(p.holes) for(const h of hx) d=Math.max(d,-screw(x,y,z,h,hz,-5,P+5,P));
+    d=screwCut(d,x,y,z,holes,sc,-5,P+5,P);
     return d; };
   const S=[`// Halterungs-Generator – Ablage mit ${ring?"Ring":"Schlitz"}`,`$fn = 96;`,
     `W = ${f2(W)}; Dp = ${f2(Dp)}; P = ${f2(P)}; Hp = ${f2(Hp)};`,`cx = ${f2(cx)}; yc = ${f2(yc)}; ap = ${f2(2*half)};  // Aussparung inkl. Spiel`,``,
@@ -40,8 +40,7 @@ function buildAblage(p,ghostKind){
     `module stuetze() { rotate([90, 0, 90]) linear_extrude(P) polygon([[0, Hp - P], [${f2(Dg)}, Hp - P], [0, Hp - P - ${f2(Hg)}]]); }`,``,
     `difference() {`,`  union() {`,`    cube([W, P, Hp]);`,`    translate([0, 0, Hp - P]) linear_extrude(P) ablage2d();`,
     ...gx.map(g=>`    translate([${f2(g)}, 0, 0]) stuetze();`),`  }`,`  translate([0, 0, Hp - P - 1]) linear_extrude(P + 2) aussparung2d();`];
-  if(p.holes) hx.forEach(h=>S.push(`  translate([${f2(h)}, -1, ${f2(hz)}]) rotate([-90, 0, 0]) cylinder(d = 4.5, h = P + 2);`,
-    `  translate([${f2(h)}, P - 2.2, ${f2(hz)}]) rotate([-90, 0, 0]) cylinder(d1 = 4.5, d2 = 9, h = 2.21);`));
+  S.push(...screwSCAD(holes,sc,"P + 2","P"));
   S.push(`}`);
   let ghost;
   if(ring || ghostKind==="dryer") ghost=[{k:"cyl",x:cx,y:yc,r:Math.max(2,half-s-0.5),z0:Hp-70,z1:Hp+130}];

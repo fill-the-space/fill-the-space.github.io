@@ -500,3 +500,37 @@ if(p.hs>p.H) warn.push(`Höhe der Schale auf die Gerätehöhe von ${f2(p.H)} mm 
 **Screenshot:** prompt-log-bilder/28-vorher.jpg / 28-nachher.jpg
 
 **Commit-Nachricht:** Prompt 27–28: Ohne Vorlagen, alle Maße in Millimetern
+
+---
+
+## Prompt 29 – Schrauben selbst wählen (23.10.2026)
+
+**Prompt:**
+> Als Nächstes würde ich noch eine Auswahl zur Verfügung stellen will, mit welcher Schraubenöse man die Halterung an der wann festmachen möchte und wie viel Schrauben man dafür verwenden möchte
+
+**Was sich geändert hat:**
+- Bei allen vier Halterungsarten wählt man jetzt unter „Schraublöcher in der Rückwand“ selbst aus:
+  - **Schraube Ø:** 3, 3,5, 4, 5 oder 6 mm. Das Loch wird automatisch 0,5 mm größer.
+  - **Schraubenkopf:** Senkkopf (Loch mit kegelförmiger Vertiefung, der Kopf liegt bündig) oder Flach-/Linsenkopf (gerades Loch).
+  - **Anzahl Schrauben:** 1 bis 4. Bei 4 Schrauben setzt die App zwei Reihen übereinander, wenn die Rückwand hoch genug ist, sonst vier nebeneinander.
+- Die App warnt, wenn die Schrauben zu eng sitzen oder wenn die Rückwand für einen versenkten Kopf zu dünn ist. Die OpenSCAD-Datei enthält die gewählten Löcher samt einer Kommentarzeile, welche Schraube gemeint ist.
+- Unter der Vorschau steht jetzt ein Hinweis zu passenden Dübeln: 4-mm-Schrauben passen zu 6er-Dübeln, 5-mm-Schrauben zu 8er-Dübeln.
+- Den Begriff „Schraubenöse“ hat Claude als Schraubengröße und Kopfform verstanden.
+- Beim Testen gefunden und gleich behoben: Der Köcher zeigte schon in der Grundeinstellung eine Warnung, weil seine Rückwand nur 2,4 mm dick ist. Jetzt wird die Senkung still angepasst, und eine Warnung erscheint nur, wenn der Kopf spürbar übersteht. Außerdem lag bei 4 Schrauben die untere Reihe zu nah an der Kante (1 mm Material). Jetzt sind es mindestens 3 mm.
+- Getestet: alle 160 Kombinationen aus Halterungsart, Schraubengröße, Kopfform und Anzahl. Jede liefert die richtige Zahl an Löchern und Senkungen.
+
+**Betroffene Dateien:** js/halterungen/schrauben.js (neu), js/geometrie/formen.js, js/halterungen/koecher.js, ablage.js, leiste.js, individuell.js, index.html, README.md
+
+**Wichtigster Code-Ausschnitt:** (js/halterungen/schrauben.js)
+```js
+const SCHRAUB_FELDER=[
+  {k:"holes",c:"check",l:"Schraublöcher in der Rückwand"},
+  {k:"sd",c:"seg",l:"Schraube Ø (mm)",o:[[3,"3"],[3.5,"3,5"],[4,"4"],[5,"5"],[6,"6"]],show:v=>v.holes},
+  {k:"sk",c:"seg",l:"Schraubenkopf",o:[["senk","Senkkopf"],["flach","Flach- / Linsenkopf"]],show:v=>v.holes},
+  {k:"sn",c:"seg",l:"Anzahl Schrauben",o:[[1,"1"],[2,"2"],[3,"3"],[4,"4"]],show:v=>v.holes}
+];
+```
+
+**Screenshot:** prompt-log-bilder/29-vorher.jpg / 29-nachher.jpg
+
+**Commit-Nachricht:** Prompt 29: Schraubengröße, Kopfform und Anzahl wählbar
