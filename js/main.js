@@ -26,7 +26,6 @@ function update(){
   $("outDir").textContent=model.dir;
   const w=$("warn"); w.hidden=!model.warn.length; w.textContent=model.warn.join(" ");
   current={model,area:st.area,h};
-  $("scad").value=model.scad;
   show(model,mesh);
   try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){}
 }
@@ -40,19 +39,13 @@ $("dl").addEventListener("click",async()=>{
   try{
     const d=await dlReady;
     const m=current.model, hE=Math.min(current.h, Math.max(0.45, Math.sqrt(2*current.area/250000)));
-    const mesh=polygonize(m.f,m.bb,hE);
-    const name="halterung-"+slug();
-    const z=await zip([{name:name+".stl",data:stl(mesh)},{name:name+".scad",data:new TextEncoder().encode(m.scad)}]);
-    if(d) await d.save({filename:name+".zip",data:z}); else saveFile(name+".zip",z);
-    st.textContent=`Gespeichert: ${name}.zip (${(mesh.idx.length/3).toLocaleString("de-DE")} Dreiecke, Raster ${hE.toFixed(2).replace(".",",")} mm)`;
+    const fine=polygonize(m.f,m.bb,hE);
+    st.textContent="Datei wird verkleinert …"; await new Promise(r=>setTimeout(r,30));
+    const mesh=simplifyMesh(fine), name="halterung-"+slug()+".stl", file=new Blob([stl(mesh)],{type:"model/stl"});
+    if(d) await d.save({filename:name,data:file}); else saveFile(name,file);
+    st.textContent=`Gespeichert: ${name} (${(file.size/1e3).toLocaleString("de-DE",{maximumFractionDigits:0})} kB, ${(mesh.idx.length/3).toLocaleString("de-DE")} Dreiecke)`;
   }catch(e){
-    st.textContent = e&&e.code==="declined" ? "Speichern abgebrochen." : e&&e.code==="rate_limited" ? "Bitte kurz warten und erneut versuchen." : "Speichern ist hier nicht möglich. Der OpenSCAD-Code unten lässt sich kopieren.";
-    if(!(e&&(e.code==="declined"||e.code==="rate_limited"))) $("scad").hidden=false;
+    st.textContent = e&&e.code==="declined" ? "Speichern abgebrochen." : e&&e.code==="rate_limited" ? "Bitte kurz warten und erneut versuchen." : "Speichern ist hier nicht möglich.";
   }finally{ btn.disabled=false; }
 });
-$("copy").addEventListener("click",()=>{
-  const st=$("status");
-  navigator.clipboard.writeText(current.model.scad).then(()=>st.textContent="OpenSCAD-Code kopiert.").catch(()=>{const ta=$("scad");ta.hidden=false;ta.focus();ta.select();st.textContent="Code ist markiert, bitte mit Strg+C kopieren.";});
-});
-
 initGL(); renderAll();

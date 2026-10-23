@@ -1,6 +1,6 @@
 # Halterungs-Generator
 
-Erzeugt Wandhalterungen für den 3D-Drucker: Halterungsart wählen, Maße mit Schiebereglern und Feldern einstellen (alle Längen in Millimetern), Halterung in 3D ansehen und als STL- und OpenSCAD-Datei speichern.
+Erzeugt Wandhalterungen für den 3D-Drucker: Halterungsart wählen, Maße mit Schiebereglern und Feldern einstellen (alle Längen in Millimetern), Halterung in 3D ansehen und als STL-Datei speichern.
 
 **App öffnen:** https://lioba-source.github.io/halterungs-generator/ (nachdem GitHub Pages eingeschaltet ist)
 
@@ -27,10 +27,11 @@ js/halterungen/register.js    Liste aller Halterungsarten
 js/halterungen/schrauben.js   Schraubengröße, Kopfform, Anzahl und Lage der Löcher (für alle Arten)
 js/halterungen/koecher.js     je Halterungsart: Name, Standardmaße,
 js/halterungen/konsole.js     Eingabefelder und Berechnung der Form
-js/halterungen/leiste.js      samt OpenSCAD-Code
+js/halterungen/leiste.js      (der OpenSCAD-Code wird intern noch erzeugt, aber nicht angeboten)
 js/halterungen/individuell.js
-js/export/stl.js, zip.js      Dateien zum Speichern erzeugen
-js/export/download.js         ZIP in den Download-Ordner speichern
+js/export/stl.js              STL-Datei erzeugen
+js/export/vereinfachen.js     Netz verkleinern (ebene Flächen mit wenigen Dreiecken)
+js/export/download.js         Datei in den Download-Ordner speichern
 js/ui/…                       3D-Vorschau, Foto-Anzeige, Formular
 js/zustand.js                 aktuelle Auswahl, wird im Browser gemerkt
 js/main.js                    verbindet alles

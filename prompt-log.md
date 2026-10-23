@@ -690,3 +690,30 @@ const acc = win ? {x0:cx-(iw/2-m)+sc.dk/2+2, x1:cx+(iw/2-m)-sc.dk/2-2, z0:t+lip+
 **Screenshot:** prompt-log-bilder/36-vorher.jpg (Lippe 50 mm, untere Löcher verdeckt) / 36-nachher.jpg (Schale höher, alle Löcher erreichbar)
 
 **Commit-Nachricht:** Prompt 36: Schraublöcher nur, wo man herankommt
+
+---
+
+## Prompt 37 – Nur STL, deutlich kleinere Dateien (23.10.2026)
+
+**Prompt:**
+> Als Ausgabe soll nur STL als Download bereitstehen. Momentan empfinde ich die STL Datenmenge ein bisschen groß kann man das eventuell reduzieren
+
+**Was sich geändert hat:**
+- Der Knopf heißt jetzt „STL speichern“ und lädt direkt eine STL-Datei herunter, z. B. `halterung-konsole.stl`. Die ZIP-Datei mit zusätzlicher OpenSCAD-Datei und der Knopf „OpenSCAD-Code kopieren“ sind weg. Der OpenSCAD-Code wird im Programm noch erzeugt, aber nicht mehr angeboten.
+- Die STL-Dateien sind jetzt rund 30- bis 130-mal kleiner. Die App berechnet die Form weiterhin fein und fasst danach Dreiecke zusammen, solange die Form praktisch gleich bleibt: Ebene Flächen bestehen aus wenigen großen Dreiecken, Rundungen und Schraublöcher bleiben fein. Gemessen bei den Standardmaßen:
+
+  | Halterung | vorher | nachher |
+  |---|---|---|
+  | Köcher | 10,1 MB (202.780 Dreiecke) | 77 kB (1.536 Dreiecke) |
+  | Konsole | 13,1 MB (261.100 Dreiecke) | 405 kB (8.106 Dreiecke) |
+  | Leiste | 13,1 MB (262.064 Dreiecke) | 449 kB (8.982 Dreiecke) |
+  | Individuell | 11,5 MB (230.056 Dreiecke) | 315 kB (6.304 Dreiecke) |
+
+- Geprüft: Die Form weicht im Mittel nur etwa 0,05 mm ab, weniger als ein 3D-Drucker auflösen kann. Die größte Abweichung ist so groß wie vorher, weil sie von den leicht gebrochenen Kanten kommt. Das Volumen bleibt gleich, und das Netz ist weiterhin geschlossen, also druckbar.
+- Fehler unterwegs: Die erste Fassung der Vereinfachung war viel zu langsam und hat den Testbrowser blockiert, weil sich auf großen ebenen Flächen Hunderte Dreiecke an einem einzigen Punkt sammelten. Behoben, indem zuerst kurze Kanten zusammengelegt werden und ein Punkt höchstens 20 Nachbarn haben darf. Jetzt dauert das Speichern etwa 3 bis 5 Sekunden.
+
+**Betroffene Dateien:** js/export/vereinfachen.js (neu), js/export/zip.js (gelöscht), js/main.js, index.html (Versionsnummer 37), README.md
+
+**Screenshot:** prompt-log-bilder/37-vorher.jpg / 37-nachher.jpg
+
+**Commit-Nachricht:** Prompt 37: Nur STL, Dateien rund 30-mal kleiner
