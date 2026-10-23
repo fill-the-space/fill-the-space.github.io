@@ -7,7 +7,7 @@
 <meta name="description" content="Wandhalterungen für den 3D-Drucker erzeugen: Maße eintragen oder Foto hochladen, in 3D ansehen, als STL speichern.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="css/style.css?v=74">
+<link rel="stylesheet" href="css/style.css?v=75">
 </head>
 <body>
 
@@ -82,46 +82,49 @@
       <div id="alerts" class="alerts"></div>
       <div class="spec reco"><span>Druckempfehlung</span><b id="outRec">–</b><small id="outRecInfo"></small></div>
       <div class="actions">
+        <div class="seg fmt" id="fmt" role="group" aria-label="Dateiformat"><button type="button" data-fmt="stl">STL</button><button type="button" data-fmt="3mf">3MF</button></div>
         <button class="btn primary" type="button" id="dl">STL speichern</button>
         <button class="btn" type="button" id="toPlan">An die Wand hängen</button>
         <span class="status" id="status" role="status"></span>
       </div>
-      <details class="info note"><summary>Hinweise zu Datei und Befestigung</summary><p>Die STL wird fein berechnet und danach verkleinert: Ebene Flächen bestehen aus wenigen großen Dreiecken, Rundungen bleiben fein. Fast die ganze Oberfläche liegt dabei weniger als 0,1 mm neben der berechneten Form, Kanten sind leicht gebrochen. Die Löcher in der Rückwand sind für Senkkopfschrauben gemacht, damit kein Schraubenkopf in die Halterung ragt. Das Loch ist 0,5 mm größer als die Schraube. 4-mm-Schrauben passen zu 6er-Dübeln, 5-mm-Schrauben zu 8er-Dübeln.</p><p>Der Türhaken legt sich über die Oberkante einer Schranktür, die Oberseite der Halterung läuft dabei bündig weiter. Auf Wunsch gibt es oben Löcher für 3,5-mm-Senkkopfschrauben in die Türkante. Über der Tür muss so viel Luft sein, wie der Haken dick ist, sonst schließt die Tür nicht. Die SKÅDIS-Haken passen in die Schlitze der IKEA-Lochplatte (5 × 15 mm, 40 mm Abstand, Platte 5 mm dick): Haken waagerecht einstecken und die Halterung absenken. Am besten zuerst einen Probedruck machen.</p><p>Der Filamentverbrauch gilt für die empfohlenen Einstellungen (Wände und Füllung), ohne Stützmaterial. Die Druckempfehlung ist eine grobe Schätzung aus dem Gewicht des Bauteils, der Befestigung und der Hebelwirkung, keine Statikberechnung. PLA gibt unter Dauerlast mit der Zeit nach und wird ab etwa 60 °C weich. PETG ist zäher und hält mehr Wärme aus. PA-CF (Nylon mit Carbonfasern) ist am stärksten, braucht aber einen gehärteten Druckkopf.</p></details>
+      <details class="info note"><summary>Hinweise zu Datei und Befestigung</summary><p>Die STL wird fein berechnet und danach verkleinert: Ebene Flächen bestehen aus wenigen großen Dreiecken, Rundungen bleiben fein. Fast die ganze Oberfläche liegt dabei weniger als 0,1 mm neben der berechneten Form, Kanten sind leicht gebrochen. Die Löcher in der Rückwand sind für Senkkopfschrauben gemacht, damit kein Schraubenkopf in die Halterung ragt. Das Loch ist 0,5 mm größer als die Schraube. 4-mm-Schrauben passen zu 6er-Dübeln, 5-mm-Schrauben zu 8er-Dübeln.</p><p>Der Türhaken legt sich über die Oberkante einer Schranktür, die Oberseite der Halterung läuft dabei bündig weiter. Auf Wunsch gibt es oben Löcher für 3,5-mm-Senkkopfschrauben in die Türkante. Über der Tür muss so viel Luft sein, wie der Haken dick ist, sonst schließt die Tür nicht. Die SKÅDIS-Haken passen in die Schlitze der IKEA-Lochplatte (5 × 15 mm, 40 mm Abstand, Platte 5 mm dick): Haken waagerecht einstecken und die Halterung absenken. Am besten zuerst einen Probedruck machen.</p><p>Dateiformat: STL enthält alles in einem Teil und passt für jeden Drucker. 3MF enthält Bauteil und Beschriftung als zwei getrennte Teile mit eigener Farbe, für den Druck mit zwei Filamenten (z. B. mit AMS oder MMU). Im Slicer beim Öffnen „als ein Objekt mit mehreren Teilen laden“ bestätigen und der Beschriftung das zweite Filament zuweisen. Die Schrift steht 1 mm vor.</p><p>Der Filamentverbrauch gilt für die empfohlenen Einstellungen (Wände und Füllung), ohne Stützmaterial. Die Druckempfehlung ist eine grobe Schätzung aus dem Gewicht des Bauteils, der Befestigung und der Hebelwirkung, keine Statikberechnung. PLA gibt unter Dauerlast mit der Zeit nach und wird ab etwa 60 °C weich. PETG ist zäher und hält mehr Wärme aus. PA-CF (Nylon mit Carbonfasern) ist am stärksten, braucht aber einen gehärteten Druckkopf.</p></details>
     </section>
   </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <!-- Rechnen: Formen, Dreiecksnetz, Foto-Erkennung -->
-<script src="js/geometrie/formen.js?v=74"></script>
-<script src="js/geometrie/netz.js?v=74"></script>
-<script src="js/foto/erkennung.js?v=74"></script>
+<script src="js/geometrie/formen.js?v=75"></script>
+<script src="js/geometrie/netz.js?v=75"></script>
+<script src="js/geometrie/schrift.js?v=75"></script>
+<script src="js/foto/erkennung.js?v=75"></script>
 <!-- Halterungsarten: neue Art = neue Datei + eine Zeile hier -->
-<script src="js/halterungen/register.js?v=74"></script>
-<script src="js/halterungen/befestigung.js?v=74"></script>
-<script src="js/halterungen/schrauben.js?v=74"></script>
-<script src="js/halterungen/empfehlung.js?v=74"></script>
-<script src="js/halterungen/koecher.js?v=74"></script>
-<script src="js/halterungen/konsole.js?v=74"></script>
-<script src="js/halterungen/leiste.js?v=74"></script>
+<script src="js/halterungen/register.js?v=75"></script>
+<script src="js/halterungen/befestigung.js?v=75"></script>
+<script src="js/halterungen/schrauben.js?v=75"></script>
+<script src="js/halterungen/empfehlung.js?v=75"></script>
+<script src="js/halterungen/koecher.js?v=75"></script>
+<script src="js/halterungen/konsole.js?v=75"></script>
+<script src="js/halterungen/leiste.js?v=75"></script>
 <!-- Individuell (Foto) vorerst ausgeblendet; zum Wiedereinschalten diese Zeile zurückholen:
 <script src="js/halterungen/individuell.js"></script> -->
 <!-- Boxen: neue Art = neue Datei + eine Zeile hier -->
-<script src="js/boxen/grundform.js?v=74"></script>
-<script src="js/boxen/stapelbox.js?v=74"></script>
-<script src="js/boxen/deckelbox.js?v=74"></script>
-<script src="js/boxen/sortierkasten.js?v=74"></script>
+<script src="js/boxen/grundform.js?v=75"></script>
+<script src="js/boxen/stapelbox.js?v=75"></script>
+<script src="js/boxen/deckelbox.js?v=75"></script>
+<script src="js/boxen/sortierkasten.js?v=75"></script>
 <!-- Export -->
-<script src="js/export/stl.js?v=74"></script>
-<script src="js/export/vereinfachen.js?v=74"></script>
-<script src="js/export/download.js?v=74"></script>
+<script src="js/export/stl.js?v=75"></script>
+<script src="js/export/vereinfachen.js?v=75"></script>
+<script src="js/export/dreimf.js?v=75"></script>
+<script src="js/export/download.js?v=75"></script>
 <!-- Oberfläche -->
-<script src="js/ui/dom.js?v=74"></script>
-<script src="js/ui/vorschau3d.js?v=74"></script>
-<script src="js/zustand.js?v=74"></script>
-<script src="js/ui/foto.js?v=74"></script>
-<script src="js/ui/formular.js?v=74"></script>
-<script src="js/ui/anordnung.js?v=74"></script>
-<script src="js/main.js?v=74"></script>
+<script src="js/ui/dom.js?v=75"></script>
+<script src="js/ui/vorschau3d.js?v=75"></script>
+<script src="js/zustand.js?v=75"></script>
+<script src="js/ui/foto.js?v=75"></script>
+<script src="js/ui/formular.js?v=75"></script>
+<script src="js/ui/anordnung.js?v=75"></script>
+<script src="js/main.js?v=75"></script>
 </body>
 </html>

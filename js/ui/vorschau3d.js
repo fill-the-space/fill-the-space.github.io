@@ -43,17 +43,20 @@ function ghostMesh(gs,mat){
 // Alte Darstellung entfernen; Netze aus dem Zwischenspeicher der Anordnung (keep) bleiben erhalten
 function clearGroup(){ while(group.children.length){const c=group.children.pop(); if(!c.userData.keep) c.geometry&&c.geometry.dispose(); c.material&&c.material.dispose();} }
 function meshGeo(mesh){ const geo=new THREE.BufferGeometry(); geo.setAttribute("position",new THREE.BufferAttribute(mesh.pos,3)); geo.setIndex(new THREE.BufferAttribute(mesh.idx,1)); geo.computeVertexNormals(); return geo; }
-function show(model,mesh){
+function show(model,mesh,textMesh){
   if(!renderer)return;
   clearGroup();
   const geo=meshGeo(mesh);
   group.add(new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:new THREE.Color(cssColor("--model")),roughness:0.6,metalness:0.02})));
+  // Beschriftung in der zweiten Farbe (am Ende eingefügt, damit die Kamera weiter am Bauteil ausgerichtet wird)
+  const textObj=textMesh?new THREE.Mesh(meshGeo(textMesh),new THREE.MeshStandardMaterial({color:new THREE.Color(cssColor("--ink")),roughness:0.5})):null;
   const gmat=new THREE.MeshStandardMaterial({color:new THREE.Color(cssColor("--ghost")),transparent:true,opacity:0.28,depthWrite:false,roughness:0.8});
   ghostMesh(model.ghost,gmat).forEach(m=>group.add(m));
   const b=model.bb, size=Math.max(b[1],b[3])*1.8, div=Math.max(4,Math.round(size/10));
   const grid=new THREE.GridHelper(div*10,div,new THREE.Color(cssColor("--grid")),new THREE.Color(cssColor("--grid")));
   grid.rotation.x=Math.PI/2; grid.position.set(b[1]/2,b[3]/2,Math.min(0,...model.ghost.map(g=>g.z0))-0.1); group.add(grid);
   const box=new THREE.Box3().setFromObject(group.children[0]); model.ghost.length&&group.children.slice(1,-1).forEach(c=>box.expandByObject(c));
+  if(textObj) group.add(textObj);
   box.getCenter(center); radius=box.getSize(new THREE.Vector3()).length()/2;
   draw();
 }
@@ -70,7 +73,8 @@ function showPlan(sp){
   let depth=0;
   // ghost: neues Teil, das noch nicht hinzugefügt ist (durchscheinend)
   for(const p of sp.parts){ const m=new THREE.Mesh(p.geo,p.ghost?new THREE.MeshStandardMaterial({color:new THREE.Color(cssColor("--model")),transparent:true,opacity:0.45,depthWrite:false,roughness:0.6}):mat(p.bad?"--alert-bg":p.sel?"--model":"--placed")); m.userData.keep=true;
-    if(p.rot) m.rotation.z=Math.PI/2; m.position.set(p.x,p.y,p.z); group.add(m); depth=Math.max(depth,p.depth||0); }
+    if(p.rot) m.rotation.z=Math.PI/2; m.position.set(p.x,p.y,p.z); group.add(m); depth=Math.max(depth,p.depth||0);
+    if(p.textGeo){ const t=new THREE.Mesh(p.textGeo,mat("--ink")); t.userData.keep=true; t.rotation.z=m.rotation.z; t.position.copy(m.position); group.add(t); } }
   if(sp.kind==="wand"){
     // Schranktür so dick wie eingestellt; SKÅDIS-Lochplatte 5 mm mit Schlitzen als Bild auf der Vorderseite
     slab(0,sp.W,sp.art==="tuer"?-sp.door:sp.art==="skadis"?-5:-12,0,0,sp.H,wall);

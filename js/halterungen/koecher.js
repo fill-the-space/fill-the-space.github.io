@@ -1,7 +1,7 @@
 HALTERUNGEN.koecher = {
   name:"Köcher",
   hint:"Das Bauteil steht in einer Schale, z. B. eine Fernbedienung, ein Handy, eine Dose oder ein Flakon.",
-  defaults:{shape:"eckig",B:45,T:22,H:170,r:6,hs:170,lip:18,closed:false,t:2.4,s:0.5,slot:false,...SCHRAUB_STANDARD,mass:200,hookT:2.4},
+  defaults:{shape:"eckig",B:45,T:22,H:170,r:6,hs:170,lip:18,closed:false,t:2.4,s:0.5,slot:false,...SCHRAUB_STANDARD,...TEXT_STANDARD,mass:200,hookT:2.4},
   fields:[
     {k:"shape",c:"seg",l:"Querschnitt",o:[["eckig","Eckig"],["abgerundet","Abgerundet"]]},
     {row:[{k:"B",l:"Breite",min:10,max:300},{k:"T",l:"Tiefe",min:5,max:250},{k:"H",l:"Höhe",min:20,max:400}],l:"Maße des Bauteils"},
@@ -14,6 +14,7 @@ HALTERUNGEN.koecher = {
     // Ohne Schrauben muss man nicht durch die Vorderseite an die Rückwand, dann darf sie ganz zu sein
     {k:"closed",c:"check",l:"Vorne ganz geschlossen",show:v=>v.mount!=="schrauben"},
     {k:"slot",c:"check",l:"Kabelschlitz im Boden"},
+    ...TEXT_FELDER,
     ...SCHRAUB_FELDER
   ],
   wall:"t",   // Hakenstärke des Türhakens folgt der Wandstärke
@@ -55,5 +56,7 @@ function buildKoecher(p){
   if(p.slot) L.push(`  // Kabelschlitz`,`  translate([cx - ${f2(cw/2)}, cy - ${f2(id*0.15)}, -1]) cube([${f2(cw)}, Do, wand + 1.01]);`);
   L.push(`}`);
   const ghost=[{k:"rr",cx,cy,w:p.B,d:p.T,r:Math.max(0,ri-p.s),z0:t,z1:t+p.H}];
-  return mountApply({f,bb:[0,Wo,0,Dt,0,Ho],dims:[Wo,Dt,Ho],scad:L.join("\n"),ghost,dir:"Boden unten",warn,screw:plan,arm:cy},mountParts(p,0,Wo,Ho,tb,warn,cy));
+  // Beschriftung vorne auf der Lippe (bzw. der ganzen Vorderwand, wenn sie geschlossen ist)
+  const schild={y:Dt,dir:1,x0:Math.max(1.5,ri+t),x1:Wo-Math.max(1.5,ri+t),z0:1.5,z1:(win?t+lip:Ho)-1.5};
+  return mountApply({f,bb:[0,Wo,0,Dt,0,Ho],dims:[Wo,Dt,Ho],scad:L.join("\n"),ghost,dir:"Boden unten",warn,screw:plan,arm:cy,schild},mountParts(p,0,Wo,Ho,tb,warn,cy));
 }

@@ -30,6 +30,9 @@ function renderFields(){
       (f.oShow?f.o.filter(([val])=>f.oShow(val,v)):f.o).forEach(([val,lab])=>{ const b=document.createElement("button"); b.type="button"; b.id=id+"-"+val; b.textContent=lab; b.setAttribute("aria-pressed",String(v[f.k]===val));
         b.addEventListener("click",()=>{ v[f.k]=val; renderFields(); schedule(); }); s.appendChild(b); });
       w.append(l,s); return w; }
+    if(f.c==="text"){ const l=document.createElement("label"); l.className="num"; l.textContent=f.l; const w=document.createElement("span"); w.className="inp";
+      const i=document.createElement("input"); i.type="text"; i.id=id; i.value=v[f.k]||""; i.maxLength=f.max||40; i.placeholder=f.ph||""; i.autocomplete="off";
+      i.addEventListener("input",()=>{ v[f.k]=i.value; schedule(); }); w.appendChild(i); l.appendChild(w); return l; }
     if(f.c==="check"){ const l=document.createElement("label"); l.className="check"; const i=document.createElement("input"); i.type="checkbox"; i.id=id; i.checked=!!v[f.k];
       i.addEventListener("change",()=>{ v[f.k]=i.checked; if(f.on) f.on(v); if(f.on||HALTERUNGEN[state.type].fields.some(x=>x.show||x.oShow)) renderFields(); schedule(); }); l.append(i,document.createTextNode(" "+f.l)); return l; }
     if(f.c==="range"){ const w=document.createElement("div"); w.className="slider"; const sp=document.createElement("span"); sp.textContent=f.l; const o=document.createElement("output"); o.id=id+"-out";

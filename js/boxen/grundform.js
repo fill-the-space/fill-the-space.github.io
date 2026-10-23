@@ -64,6 +64,8 @@ function buildBox(p,o){
   if(lid==="einlege"){ const ox=L+10; plan={f:(x,y,z)=>Math.min(f(x,y,z),lidF(x+ox,y,z-zl)),bb:[0,L,0,B,0,H]}; }
   if(lid==="schiebe"){ const oy=B+10; plan={f:(x,y,z)=>Math.min(f(x,y,z),lidF(x,y+oy,z-zg0-c)),bb:[0,L,0,B,0,H]}; }
 
+  // Beschriftung vorne: im vertieften Feld, sonst auf der Vorderwand
+  const schild=o.label?{y:0.6,dir:-1,x0:cx-lw/2+1.5,x1:cx+lw/2-1.5,z0:H-6-lh+1,z1:H-7}:{y:0,dir:-1,x0:r+2,x1:L-r-2,z0:sh+2,z1:H-3};
   const innen=[L-2*t,B-2*t,H-z0], liter=Math.max(0,innen[0]*innen[1]*innen[2])/1e6;
-  return {f:fAll,bb,dims:[L,B,H],printDims:[bb[1]-bb[0],bb[3]-bb[2],bb[5]-bb[4]],scad:`// FILL THE SPACE – Box ${mmDE(L)} × ${mmDE(B)} × ${mmDE(H)} mm`,ghost:[],dir:"Boden unten",warn,plan,box:{innen,liter,lid,stack:!!o.stack}};
+  return {f:fAll,bb,dims:[L,B,H],printDims:[bb[1]-bb[0],bb[3]-bb[2],bb[5]-bb[4]],scad:`// FILL THE SPACE – Box ${mmDE(L)} × ${mmDE(B)} × ${mmDE(H)} mm`,ghost:[],dir:"Boden unten",warn,plan,schild,box:{innen,liter,lid,stack:!!o.stack}};
 }

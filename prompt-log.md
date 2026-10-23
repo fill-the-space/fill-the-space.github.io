@@ -1517,3 +1517,35 @@ if(sel&&sel.type===state.type) sel.v=clone(v);
 **Screenshot:** prompt-log-bilder/74-zurueck.jpg
 
 **Commit-Nachricht:** Prompt 74: Zurück zur Auswahl der Befestigung
+
+---
+
+## Prompt 75 – Beschriftung und 3MF für zwei Farben (23.10.2026)
+
+**Prompt:**
+> Ich finde alle schon richtig gut. Ich würde jetzt gerne noch die Option hinzufügen, die auch nur dann angezeigt wird wenn man drauf klickt, dass man einen Text auf das Bauteil schreiben kann. Beim Haken kann das die Beschriftung für die jeweiligen Teile sein, die ein gehangen werden. Bei der Box kann das der Inhalt sein. Wenn das in 3-D zweifarbig gedruckt werden soll, braucht es ein anderes Dateiformat zum downloaden. Da reicht nicht nur STL. STL soll aber weiter auswählbar sein.
+
+**Was sich geändert hat:**
+- **Neue Option „Beschriftung“** bei allen Halterungen und Boxen. Erst nach dem Anklicken erscheinen das Textfeld und der Regler für die Schrifthöhe (3–30 mm).
+- **Wo der Text steht:**
+  - Köcher: vorne auf der Lippe.
+  - Konsole und Leiste: vorne auf der Rückwand unter der Ablage, mit Abstand zu den Schraublöchern.
+  - Boxen: vorne in der Mitte. Ist das vertiefte Feld eingeschaltet, steht der Text darin. Dieses Feld heißt jetzt „Vertieftes Feld vorne (für ein Etikett)“, damit es nicht mit der Beschriftung verwechselt wird.
+- **Schrift:** Sie steht 1 mm erhaben vor, in der Schrift der App (Space Grotesk, fett). Ist der Text zu lang für die Fläche, wird die Schrift kleiner, und ein Hinweis erscheint.
+- **3D-Vorschau:** Die Schrift ist in der zweiten Farbe zu sehen (schwarz auf Grün), auch an der Wand und im Kasten.
+- **Dateiformat:** Neben dem Speichern-Knopf wählt man zwischen **STL** und **3MF**.
+  - STL: wie bisher alles in einer Datei, Schrift in derselben Farbe.
+  - 3MF: Bauteil und Beschriftung als zwei getrennte Teile mit eigener Farbe. So lassen sich im Slicer zwei Filamente zuordnen. Der Hinweis dazu steht unter „Hinweise zu Datei und Befestigung“.
+- **So funktioniert die Schrift technisch:** Der Text wird unsichtbar auf eine Zeichenfläche gemalt. Daraus berechnet die App für jeden Punkt den Abstand zum Buchstabenrand und rechnet die Schrift damit wie jede andere Form in Dreiecke um.
+- **Geprüft:**
+  - Die 3MF-Datei ist ein gültiges ZIP mit korrekter Prüfsumme.
+  - Die XML-Beschreibung ist fehlerfrei, mit zwei Objekten.
+  - Schrift- und Bauteilnetz sind geschlossen.
+  - Eine Stapelbox mit „Schrauben“ ergibt 976 kB als 3MF und 798 kB als STL.
+- **Noch nicht geprüft:** Das Öffnen der 3MF in einem echten Slicer (PrusaSlicer, Bambu Studio, Orca) und ein zweifarbiger Probedruck.
+
+**Betroffene Dateien:** neu: js/geometrie/schrift.js, js/export/dreimf.js. Geändert: index.html (Versionsnummer 75), css/style.css, js/main.js, js/zustand.js, js/ui/formular.js, js/ui/vorschau3d.js, js/ui/anordnung.js, js/halterungen/register.js, koecher.js, konsole.js, leiste.js, js/boxen/grundform.js, stapelbox.js, deckelbox.js, sortierkasten.js, README.md
+
+**Screenshot:** prompt-log-bilder/75-box-beschriftung.jpg / 75-leiste-beschriftung.jpg
+
+**Commit-Nachricht:** Prompt 75: Beschriftung und 3MF für zwei Farben

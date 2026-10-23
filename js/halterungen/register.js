@@ -7,4 +7,5 @@ const SEITEN={halterung:{name:"Halterungen",art:"Halterungsart",datei:"halterung
 const bereichVon=k=>HALTERUNGEN[k].bereich||"halterung";
 const HALTERUNGEN = {};
 // holes: Schraublöcher nur, wenn als Befestigung „Schrauben“ gewählt ist
-function build(type,p,ghostKind,seg){ return HALTERUNGEN[type].build({...p,holes:(p.mount||"schrauben")==="schrauben"},{ghostKind,seg}); }
+// Beschriftung: als eigener Körper model.text (siehe geometrie/schrift.js)
+function build(type,p,ghostKind,seg){ const m=HALTERUNGEN[type].build({...p,holes:(p.mount||"schrauben")==="schrauben"},{ghostKind,seg}); schriftModel(m,p,m.warn); return m; }

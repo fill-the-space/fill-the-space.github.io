@@ -37,6 +37,8 @@ function update(){
   const wall=v.t||v.P||3;
   const h=Math.max(0.8,Math.min(Math.cbrt(vol/260000),wall*0.7));
   const mesh=polygonize(model.f,b,h), st=meshStats(mesh);
+  // Beschriftung: eigener Körper, feiner gerechnet, weil die Buchstaben klein sind
+  const textMesh=model.text?polygonize(model.text.f,model.text.bb,Math.max(0.12,Math.min(0.3,model.text.th/30))):null;
   const fmt=x=>x.toLocaleString("de-DE",{maximumFractionDigits:0});
   $("outDim").textContent=model.dims.map(fmt).join("×");
   const use=filamentUse(st.vol,st.area,rec); $("outG").textContent=`≈ ${Math.round(use.g)} g`;
@@ -44,8 +46,8 @@ function update(){
   $("outDir").textContent=model.dir;
   const w=$("warn"); w.hidden=!model.warn.length; w.textContent=model.warn.join(" ");
   current={model,area:st.area,h};
-  if(P.on){ if(!model.plan&&!planCache.has(planKey(state.type,v))) planCache.set(planKey(state.type,v),{bb:model.bb,mesh,mount:model.mount}); drawPlan(); }
-  else show(model,mesh);
+  if(P.on){ if(!model.plan&&!planCache.has(planKey(state.type,v))) planCache.set(planKey(state.type,v),{bb:model.bb,mesh,mount:model.mount,textMesh}); drawPlan(); }
+  else show(model,mesh,textMesh);
   planLabels();
   try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){}
 }
@@ -70,13 +72,25 @@ $("dl").addEventListener("click",async()=>{
     const m=current.model, hE=Math.min(current.h, Math.max(0.4, Math.sqrt(2*current.area/400000)));
     const fine=snapToSurface(polygonize(m.f,m.bb,hE),m.f);
     st.textContent="Datei wird verkleinert …"; await new Promise(r=>setTimeout(r,30));
-    const mesh=simplifyMesh(fine,0.01), name=SEITEN[state.page].datei+"-"+slug()+".stl", file=new Blob([stl(mesh)],{type:"model/stl"});
+    const mesh=simplifyMesh(fine,0.01);
+    // Beschriftung fein für sich; STL: in dieselbe Datei, 3MF: als eigenes Teil mit eigener Farbe
+    const text=m.text?simplifyMesh(snapToSurface(polygonize(m.text.f,m.text.bb,Math.max(0.08,Math.min(0.15,m.text.th/50))),m.text.f),0.005):null;
+    const name=SEITEN[state.page].datei+"-"+slug()+"."+state.format;
+    const file = state.format==="3mf"
+      ? dreiMF([{name:state.page==="box"?"Box":"Halterung",mesh,color:"#A4D63A"},...(text?[{name:"Beschriftung",mesh:text,color:"#111111"}]:[])])
+      : new Blob([stl(text?netzeVerbinden(mesh,text):mesh)],{type:"model/stl"});
     if(d) await d.save({filename:name,data:file}); else saveFile(name,file);
-    st.textContent=`Gespeichert: ${name} (${(file.size/1e3).toLocaleString("de-DE",{maximumFractionDigits:0})} kB, ${(mesh.idx.length/3).toLocaleString("de-DE")} Dreiecke)`;
+    const nTri=(mesh.idx.length+(text?text.idx.length:0))/3;
+    st.textContent=`Gespeichert: ${name} (${(file.size/1e3).toLocaleString("de-DE",{maximumFractionDigits:0})} kB, ${nTri.toLocaleString("de-DE")} Dreiecke${state.format==="3mf"&&text?", Bauteil und Beschriftung als zwei Teile":""})`;
   }catch(e){
     st.textContent = e&&e.code==="declined" ? "Speichern abgebrochen." : e&&e.code==="rate_limited" ? "Bitte kurz warten und erneut versuchen." : "Speichern ist hier nicht möglich.";
   }finally{ btn.disabled=false; }
 });
+// Dateiformat: STL (eine Farbe) oder 3MF (Beschriftung als eigenes Teil für eine zweite Farbe)
+function renderFormat(){ for(const b of document.querySelectorAll("#fmt button")) b.setAttribute("aria-pressed",String(b.dataset.fmt===state.format));
+  $("dl").textContent=state.format.toUpperCase()+" speichern"; }
+for(const b of document.querySelectorAll("#fmt button")) b.addEventListener("click",()=>{ state.format=b.dataset.fmt; renderFormat(); try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){} });
+renderFormat();
 // Druckbett gilt für alle Halterungsarten und wird mit gemerkt
 for(const k of ["x","y","z"]){ const i=$("bed"+k.toUpperCase()); i.value=state.bed[k];
   i.addEventListener("input",()=>{ const x=parseFloat(i.value); if(isFinite(x)&&x>=50){ state.bed[k]=Math.min(1000,x); schedule(); } }); }

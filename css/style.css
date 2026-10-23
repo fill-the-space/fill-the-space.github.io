@@ -149,3 +149,7 @@ textarea#scad{width:100%;box-sizing:border-box;min-height:160px;font:12px var(--
 /* Festgelegte Auswahl: ein Knopf zurück zur Auswahl */
 .seg.back{grid-auto-columns:auto}
 .seg.back button{background:var(--soft)}
+/* Dateiformat neben dem Speichern-Knopf */
+.fmt{min-width:120px}
+.fmt button{font:800 12px var(--display);padding:10px 12px}
+label.num input[type=text]{font:500 15px var(--body)}

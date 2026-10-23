@@ -40,7 +40,8 @@ const mm=x=>x.toLocaleString("de-DE",{maximumFractionDigits:0});
 function planEntry(type,v){
   const k=planKey(type,v); let e=planCache.get(k);
   if(!e){ const m=build(type,v), g=m.plan||{f:m.f,bb:m.bb}, b=g.bb, vol=(b[1]-b[0]+4)*(b[3]-b[2]+4)*(b[5]-b[4]+4);
-    e={bb:b, box:m.box, mount:m.mount, mesh:polygonize(g.f,b,Math.max(1,Math.min(Math.cbrt(vol/120000),(v.t||v.P||3)*0.8)))}; planCache.set(k,e); }
+    e={bb:b, box:m.box, mount:m.mount, mesh:polygonize(g.f,b,Math.max(1,Math.min(Math.cbrt(vol/120000),(v.t||v.P||3)*0.8))),
+      textMesh:m.text?polygonize(m.text.f,m.text.bb,Math.max(0.15,Math.min(0.4,m.text.th/20))):null}; planCache.set(k,e); }
   return e;
 }
 // Umriss eines Teils in der Ansicht (Rechteck a, b, w, h in mm)
@@ -250,7 +251,8 @@ function drawPlan(){
 
   // 3D: Netze aus dem Zwischenspeicher an ihre Stelle setzen
   const parts=rects.map(r=>{ const b=r.e.bb; if(!r.e.geo&&renderer) r.e.geo=meshGeo(r.e.mesh);
-    const p={geo:r.e.geo, sel:r.it.id===P.sel, bad:bad.has(r.it.id), depth:b[3]};
+    if(r.e.textMesh&&!r.e.textGeo&&renderer) r.e.textGeo=meshGeo(r.e.textMesh);
+    const p={geo:r.e.geo, textGeo:r.e.textGeo, sel:r.it.id===P.sel, bad:bad.has(r.it.id), depth:b[3]};
     // Wand: Von vorne gesehen zeigt die x-Achse der Halterungen nach links, deshalb von rechts her einsetzen
     if(wand) Object.assign(p,{x:CW-r.a-r.w-b[0],y:0,z:r.b-b[4]});
     else if(r.it.rot) Object.assign(p,{x:r.a+b[3],y:r.b-b[0],z:Z(r).z-b[4],rot:1});
@@ -263,7 +265,7 @@ function drawPlan(){
 
   // Zwischenspeicher klein halten: Netze, die kein Teil mehr braucht, wegwerfen
   if(planCache.size>40){ const keep=new Set(Object.values(state.plan).flatMap(Q=>Q.items.map(i=>planKey(i.type,i.v))));
-    for(const [k,e] of planCache) if(!keep.has(k)){ e.geo&&e.geo.dispose(); planCache.delete(k); } }
+    for(const [k,e] of planCache) if(!keep.has(k)){ e.geo&&e.geo.dispose(); e.textGeo&&e.textGeo.dispose(); planCache.delete(k); } }
 }
 
 /* ---------- Verschieben mit Maus oder Finger; rastet an Kanten ein ---------- */

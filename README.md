@@ -24,6 +24,7 @@ index.html                    Seitenaufbau
 css/style.css                 Aussehen
 js/geometrie/formen.js        Grundformen (Kasten, Rundung, Schraubloch)
 js/geometrie/netz.js          Form in ein Dreiecksnetz umrechnen
+js/geometrie/schrift.js       Beschriftung: Text als erhabene Schrift auf dem Bauteil
 js/foto/erkennung.js          Bauteil im Foto finden, Auflagekante suchen
 js/halterungen/register.js    Liste aller Halterungs- und Boxenarten, die zwei Seiten
 js/halterungen/befestigung.js Befestigung: Schrauben, Haken über die Schranktür oder IKEA SKÅDIS
@@ -39,6 +40,7 @@ js/boxen/deckelbox.js
 js/boxen/sortierkasten.js
 js/export/stl.js              STL-Datei erzeugen
 js/export/vereinfachen.js     Netz verkleinern (ebene Flächen mit wenigen Dreiecken)
+js/export/dreimf.js           3MF-Datei: Bauteil und Beschriftung als zwei Teile mit eigener Farbe
 js/export/download.js         Datei in den Download-Ordner speichern
 js/ui/…                       3D-Vorschau, Foto-Anzeige, Formular
 js/ui/anordnung.js            Anordnung: Teile an Wand, SKÅDIS-Lochplatte, Schranktür oder im Kasten platzieren, verschieben und stapeln

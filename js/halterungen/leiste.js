@@ -1,13 +1,14 @@
 HALTERUNGEN.leiste = {
   name:"Leiste",
   hint:"Mehrere Löcher nebeneinander. Die Bauteile hängen durch die Löcher oder stehen in Sacklöchern, z. B. Schraubendreher oder Lippenstifte.",
-  defaults:{n:6,d:9,a:34,wd:26,blind:false,depth:20,P:6,Hp:45,s:0.5,...SCHRAUB_STANDARD,mass:400,hookT:6},
+  defaults:{n:6,d:9,a:34,wd:26,blind:false,depth:20,P:6,Hp:45,s:0.5,...SCHRAUB_STANDARD,...TEXT_STANDARD,mass:400,hookT:6},
   fields:[
     {row:[{k:"n",l:"Anzahl",u:"",min:1,max:20,step:1},{k:"d",l:"Loch-Ø",min:3,max:60},{k:"a",l:"Abstand",min:6,max:100}]},
     {row:[{k:"wd",l:"Wandabstand",min:6,max:100},{k:"Hp",l:"Plattenhöhe",min:25,max:150},{k:"P",l:"Stärke",min:4,max:12}]},
     {k:"blind",c:"check",l:"Sacklöcher (Bauteile stehen darin)"},
     {k:"depth",c:"range",l:"Lochtiefe",u:"mm",min:5,max:60,step:1,show:v=>v.blind},
     {k:"s",c:"range",l:"Spiel pro Seite",u:"mm",min:0,max:2,step:0.1},
+    ...TEXT_FELDER,
     ...SCHRAUB_FELDER
   ],
   wall:"P",   // Hakenstärke des Türhakens folgt der Stärke
@@ -52,5 +53,7 @@ function buildLeiste(p){
   const ghost=[];
   xs.forEach(x=>{ if(p.blind) ghost.push({k:"cyl",x,y:wd,r:p.d/2,z0:hz0,z1:hz0+80});
     else ghost.push({k:"cyl",x,y:wd,r:p.d/2*0.55,z0:Hp-100,z1:Hp},{k:"cyl",x,y:wd,r:Math.min(a*0.42,p.d*1.5),z0:Hp+2,z1:Hp+95}); });
-  return mountApply({f,bb:[0,W,0,Dp,0,Hp],dims:[W,Dp,Hp],scad:S.join("\n"),ghost,dir:"Rückwand unten",warn,screw:plan,arm:wd,beam:{Wsec:W*th*th/6+(Hg>4?2*P*Hg*Hg/6:0),name:"Die Leiste",tipp:"Stärke oder Plattenhöhe erhöhen oder den Wandabstand verringern."}},mountParts(p,0,W,Hp,P,warn,wd));
+  // Beschriftung vorne auf der Rückwand unter der Leiste, neben den Schraublöchern
+  const schild={y:P,dir:1,x0:(Hg>4?2+P:0)+2,x1:W-(Hg>4?2+P:0)-2,z0:2,z1:z0-2,avoid:holes.map(([x,z])=>[x,z,sc.dk/2+1.5])};
+  return mountApply({f,bb:[0,W,0,Dp,0,Hp],dims:[W,Dp,Hp],scad:S.join("\n"),ghost,dir:"Rückwand unten",warn,screw:plan,arm:wd,schild,beam:{Wsec:W*th*th/6+(Hg>4?2*P*Hg*Hg/6:0),name:"Die Leiste",tipp:"Stärke oder Plattenhöhe erhöhen oder den Wandabstand verringern."}},mountParts(p,0,W,Hp,P,warn,wd));
 }
