@@ -1,9 +1,11 @@
 HALTERUNGEN.konsole = {
   name:"Konsole",
   hint:"Konsole in L-Form. Das Bauteil steckt mit seinem schmalen Teil, z. B. dem Griff, in einem Schlitz oder Ring, der breitere Teil liegt oben auf. Z. B. ein Akkuschrauber oder ein Föhn.",
-  defaults:{ap:"schlitz",N:46,L:80,Dp:125,W:150,P:6,Hp:70,s:1,...SCHRAUB_STANDARD,mass:1500},
+  defaults:{ap:"schlitz",rp:"mitte",ra:20,N:46,L:80,Dp:125,W:150,P:6,Hp:70,s:1,...SCHRAUB_STANDARD,mass:1500},
   fields:[
     {k:"ap",c:"seg",l:"Aussparung",o:[["schlitz","Schlitz, vorne offen"],["ring","Ring, geschlossen"]]},
+    {k:"rp",c:"seg",l:"Lage des Rings",o:[["mitte","Mittig"],["wand","Abstand zur Wand"]],show:v=>v.ap==="ring"},
+    {row:[{k:"ra",l:"Abstand Ring zur Wand",min:3,max:200}],show:v=>v.ap==="ring"&&v.rp==="wand"},
     {row:[{k:"N",l:"Griffbreite",min:10,max:150,lab:v=>v.ap==="ring"?"Ring-Ø":"Griffbreite"},{k:"L",l:"Schlitztiefe",min:10,max:200,show:v=>v.ap!=="ring"},{k:"Dp",l:"Konsolentiefe",min:30,max:250}]},
     {row:[{k:"W",l:"Breite",min:40,max:300},{k:"Hp",l:"Plattenhöhe",min:30,max:200},{k:"P",l:"Stärke",min:3,max:12}]},
     {k:"s",c:"range",l:"Spiel pro Seite",u:"mm",min:0,max:3,step:0.1},
@@ -19,11 +21,14 @@ function buildKonsole(p){
   let W=p.W, Dp=p.Dp, Hp=p.Hp, L=Math.min(p.L,p.Dp);
   const rim=Math.max(P*1.5,8);
   const minW=N+2*s+2*(P+12); if(W<minW){W=minW;warn.push(`Breite auf ${f2(W)} mm erhöht, damit Stützen neben die Aussparung passen.`);}
-  if(ring){ const minD=N+2*s+rim+P+5; if(Dp<minD){Dp=minD;warn.push(`Konsolentiefe auf ${mmDE(Dp)} mm erhöht, damit der Ring Platz hat.`);} }
+  // Ring: mittig auf der Konsole oder mit gewähltem Abstand von der Wand bis zum Ringrand
+  const gap = p.rp==="wand" ? Math.max(3,p.ra) : null;
+  if(ring){ const minD = gap!=null ? P+gap+2*half+rim : N+2*s+rim+P+5;
+    if(Dp<minD){Dp=minD;warn.push(`Konsolentiefe auf ${mmDE(Dp)} mm erhöht, damit der Ring${gap!=null?` mit ${mmDE(gap)} mm Abstand zur Wand`:""} Platz hat.`);} }
   else { if(L<half+5){L=half+5;} if(Dp<L+15){Dp=L+15;warn.push(`Konsolentiefe auf ${mmDE(Dp)} mm erhöht, damit hinter dem Schlitz genug Material bleibt.`);} }
   const hMin=Math.max(30,p.holes?screwMinPlate(sc):0);
   if(Hp<P+hMin){Hp=P+hMin;warn.push(`Plattenhöhe auf ${mmDE(Hp)} mm erhöht, damit die Schrauben ${RAND} mm Abstand zum Rand haben.`);}
-  const cx=W/2, yc= ring ? Dp-rim-half : Dp-L+half;
+  const cx=W/2, yc= !ring ? Dp-L+half : gap!=null ? P+gap+half : Math.max(P+3+half,Math.min((P+Dp)/2,Dp-rim-half));
   const Dg=Dp*0.75, Hg=Math.min(Hp-P,Dp*0.75), z0=Hp-P;
   const gx=[4,W-4-P], plan=screwPlan(p,sc,0,W,0,Hp-P,warn), holes=plan.pts;
   const tri=[[0,z0],[Dg,z0],[0,z0-Hg]];
@@ -46,8 +51,8 @@ function buildKonsole(p){
   S.push(`}`);
   // Beispiel-Bauteil: schmaler Teil in der Aussparung, breiterer Teil liegt oben auf der Konsole auf
   let ghost;
-  if(ring){ const rTop=Math.max(half+10,1), rFit=Math.min(rTop,yc-P-1);
-    ghost=[{k:"cyl",x:cx,y:yc,r:Math.max(2,half-s-0.5),z0:Hp-70,z1:Hp},{k:"cyl",x:cx,y:yc,r:rFit,z0:Hp,z1:Hp+90}]; }
+  if(ring){ const rTop=half+10, yTop=Math.max(yc,P+1+rTop);   // oberer Teil nicht in die Wand, notfalls etwas nach vorne
+    ghost=[{k:"cyl",x:cx,y:yc,r:Math.max(2,half-s-0.5),z0:Hp-70,z1:Hp},{k:"cyl",x:cx,y:yTop,r:rTop,z0:Hp,z1:Hp+90}]; }
   else { const y0=Math.max(P+3,yc-60), wb=Math.max(N*0.8,half+10);
     ghost=[{k:"cyl",x:cx,y:yc,r:N/2,z0:Hp-115,z1:Hp},{k:"box",x0:cx-wb,x1:cx+wb,y0,y1:y0+200,z0:Hp,z1:Hp+68},
            {k:"cyl",x:cx,y:y0+200,r:N*0.32,z0:Hp+12,z1:Hp+56,ax:"y",len:45},

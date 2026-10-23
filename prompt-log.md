@@ -793,3 +793,22 @@ const acc = win ? {x0:cx-(iw/2-m)+sc.dk/2+2, x1:cx+(iw/2-m)-sc.dk/2-2, z0:t+lip+
 **Screenshot:** prompt-log-bilder/40-vorher.jpg / 40-nachher.jpg
 
 **Commit-Nachricht:** Prompt 40: Druckempfehlung nach Gewicht und Befestigung
+
+---
+
+## Prompt 41 – Ring auf der Konsole mittig und verschiebbar (23.10.2026)
+
+**Prompt:**
+> Bei Konsole mit geschlossenem Ring ist der Ring immer sehr weit vorne an der Spitze. Ich würde den auch pauschal erst mal zentriert machen. Vielleicht gibt es eine Option, dass man ihn individuell von der Wand weg schieben kann
+
+**Was sich geändert hat:**
+- Bei „Ring, geschlossen“ sitzt der Ring jetzt standardmäßig mittig auf der Konsole: gleich viel Platz zur Wand wie bis zur Vorderkante, bei den Standardmaßen 35,5 mm auf beiden Seiten. Vorher saß er ganz vorne an der Spitze.
+- Neue Auswahl „Lage des Rings“: „Mittig“ oder „Abstand zur Wand“. Bei „Abstand zur Wand“ gibt man an, wie viele Millimeter zwischen Wand und Ringrand liegen sollen (mindestens 3 mm). Reicht die Konsolentiefe dafür nicht, macht die App die Konsole automatisch tiefer und sagt das in einem Hinweis.
+- Das Beispiel-Bauteil im 3D-Bild ragt nie in die Wand. Liegt der Ring sehr nah an der Wand, rückt der obere Teil etwas nach vorne.
+- Getestet: 36 Kombinationen aus Ringgröße, Konsolentiefe und Lage. Der Ring hat immer mindestens 3 mm Abstand zur Wand und vorne genug Rand, und der eingestellte Abstand wird genau eingehalten.
+
+**Betroffene Dateien:** js/halterungen/konsole.js, index.html (Versionsnummer 41)
+
+**Screenshot:** prompt-log-bilder/41-nachher-mittig.jpg / 41-nachher-abstand.jpg (kein Vorher-Bild, die alte Lage ist im Screenshot zu Prompt 34 beim Ring zu sehen)
+
+**Commit-Nachricht:** Prompt 41: Ring mittig, Abstand zur Wand einstellbar
