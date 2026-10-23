@@ -8,11 +8,10 @@ function update(){
     sc=currentSeg(v);
     if(!sc||!sc.seg){ drawPhoto(sc,null); const w=$("warn"); w.hidden=false; w.textContent="Auf dem Foto wurde kein Gerät erkannt. Erkennungsschwelle senken oder ein Foto mit hellerem, ruhigem Hintergrund wählen."; return; }
   }
-  const model=build(state.type,v,state.ghost,sc&&sc.seg);
+  const model=build(state.type,v,null,sc&&sc.seg);
   if(sc){ if(sc.seg.touches) model.warn.unshift("Der Umriss berührt den Bildrand. Das Gerät sollte ganz auf dem Foto sein.");
-    lastSilH=model.info.silH; drawPhoto(sc,model.info); $("detect").textContent=model.info.text;
-    if(model.mode!==effMode){ effMode=model.mode; renderFields(); }
-    const fo=$("f-individuell-fill-out"); if(fo) fo.textContent=`${v.fill} % · ${Math.round(lastSilH*v.fill/100)} mm`; }
+    drawPhoto(sc,model.info); $("detect").textContent=model.info.text;
+    if(model.mode!==effMode){ effMode=model.mode; renderFields(); } }
   const b=model.bb, vol=(b[1]-b[0]+4)*(b[3]-b[2]+4)*(b[5]-b[4]+4);
   const wall=v.t||v.P||3;
   const h=Math.max(0.8,Math.min(Math.cbrt(vol/260000),wall*0.7));
@@ -26,10 +25,10 @@ function update(){
   current={model,area:st.area,h};
   $("scad").value=model.scad;
   show(model,mesh);
-  try{localStorage.setItem("halterung-v2",JSON.stringify(state));}catch(e){}
+  try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){}
 }
 
-function slug(){ const pr=PRESETS.find(p=>p.id===state.preset); return (pr&&!pr.custom?pr.name:"eigene-"+HALTERUNGEN[state.type].name).toLowerCase().replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue").replace(/ß/g,"ss").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,""); }
+function slug(){ return HALTERUNGEN[state.type].name.toLowerCase().replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue").replace(/ß/g,"ss").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,""); }
 // Innerhalb von Claude speichert die Vorschau über claude.use, sonst normaler Browser-Download
 let dlReady=(async()=>{ try{ return window.claude?.use ? await claude.use("downloads") : null; }catch(e){ return null; } })();
 $("dl").addEventListener("click",async()=>{

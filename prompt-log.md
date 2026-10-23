@@ -460,3 +460,43 @@ function saveFile(name,blob){
 **Betroffene Dateien:** CLAUDE.md
 
 **Commit-Nachricht:** Prompt 25–26: Claude pusht selbst per Deploy Key
+
+---
+
+## Prompt 27 – Seite in Chrome öffnen (23.10.2026)
+
+**Prompt:**
+> Für die Seite gerne im Google Browser öffnen
+
+**Entscheidung:**
+- Claude öffnet die fertige Seite für Lioba ab jetzt in Google Chrome. Eigene Tests macht Claude weiter in seinem eingebauten Browser.
+
+**Betroffene Dateien:** keine
+
+---
+
+## Prompt 28 – Ohne Vorlagen, alle Maße in Millimetern (23.10.2026)
+
+**Prompt:**
+> Ich würde den Reitervorlage weglassen und nur oben die Auswahl Köcherablageleiste und individuell nutzen. Der Nutzer kann selber seine Daten unten mit den Schieberegler einstellen. Der Schieberegler umschließen des Bauteilsist für mich missverständlich. Als Nutzer sagt eine Prozentzahl hier nichts. Für den Nutzer sind immer wichtig zu wissen, ob es Millimeter oder Zentimeter sind. Beim umschließen des Bauteil würde ich vielleicht die Höhen Ständerndungen nehmen. Das ist hier aus meiner Sicht mehr sinnvoll.
+
+**Was sich geändert hat:**
+- Das Dropdown „Vorlage“ ist weg. Man wählt oben nur noch Köcher, Ablage, Leiste oder Individuell und stellt die Maße darunter selbst ein. Jede Art startet mit sinnvollen Standardmaßen, und die App merkt sich die zuletzt eingestellten Werte.
+- Der Regler „Umschließt Gerät zu … %“ heißt jetzt „Höhe der Schale“ und wird direkt in Millimetern eingestellt. Ist die Schale höher als das Gerät, wird sie auf die Gerätehöhe begrenzt, und ein Hinweis erscheint. Bei „Individuell“ wurde die Schalenhöhe genauso von Prozent auf Millimeter umgestellt.
+- Alle Zahlenfelder zeigen jetzt ihre Einheit, z. B. „Breite (mm)“. Beim Köcher steht über Breite, Tiefe und Höhe „Maße des Geräts“, damit klar ist, dass das Gerät gemeint ist und nicht die Halterung.
+- Für „Individuell“ ist ohne eigenes Foto weiter das Beispiel der Heißklebepistole zu sehen. Die Beispiele Lockenstab und Shampooflasche sind mit dem Dropdown weggefallen.
+- Kleiner Stolperer beim Testen: Der Testbrowser hatte die alten Dateien zwischengespeichert und meldete deshalb Fehler, die es gar nicht mehr gab. Abhilfe: Testserver auf einem neuen Port starten.
+
+**Betroffene Dateien:** index.html, css/style.css, js/ui/formular.js, js/zustand.js, js/main.js, js/ui/foto.js, js/halterungen/koecher.js, js/halterungen/individuell.js, js/halterungen/leiste.js, js/vorlagen.js (gelöscht), README.md, CLAUDE.md
+
+**Wichtigster Code-Ausschnitt:** (js/halterungen/koecher.js)
+```js
+{k:"hs",c:"range",l:"Höhe der Schale",u:"mm",min:10,max:250,step:1},
+…
+const warn=[], hs=Math.min(p.hs,p.H);
+if(p.hs>p.H) warn.push(`Höhe der Schale auf die Gerätehöhe von ${f2(p.H)} mm begrenzt.`);
+```
+
+**Screenshot:** prompt-log-bilder/28-vorher.jpg / 28-nachher.jpg
+
+**Commit-Nachricht:** Prompt 27–28: Ohne Vorlagen, alle Maße in Millimetern

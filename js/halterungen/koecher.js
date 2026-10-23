@@ -1,12 +1,12 @@
 HALTERUNGEN.koecher = {
   name:"Köcher",
   hint:"Das Gerät steht in einer Schale. Für Fernbedienungen, Handys, Dosen und Flakons.",
-  defaults:{shape:"eckig",B:45,T:22,H:170,r:6,pct:40,lip:18,t:2.4,s:0.5,holes:true,slot:false},
+  defaults:{shape:"eckig",B:45,T:22,H:170,r:6,hs:68,lip:18,t:2.4,s:0.5,holes:true,slot:false},
   fields:[
     {k:"shape",c:"seg",l:"Querschnitt",o:[["eckig","Eckig"],["abgerundet","Abgerundet"],["rund","Rund / oval"]]},
-    {row:[{k:"B",l:"Breite",min:10,max:300},{k:"T",l:"Tiefe",min:5,max:250},{k:"H",l:"Höhe",min:20,max:400}]},
+    {row:[{k:"B",l:"Breite",min:10,max:300},{k:"T",l:"Tiefe",min:5,max:250},{k:"H",l:"Höhe",min:20,max:400}],l:"Maße des Geräts"},
     {k:"r",c:"range",l:"Eckenradius",u:"mm",min:1,max:30,step:0.5,show:v=>v.shape==="abgerundet"},
-    {k:"pct",c:"range",l:"Umschließt Gerät zu",u:"%",min:15,max:80,step:1,fmt:(x,v)=>`${x} % · ${Math.round(v.H*x/100)} mm`},
+    {k:"hs",c:"range",l:"Höhe der Schale",u:"mm",min:10,max:250,step:1},
     {k:"lip",c:"range",l:"Lippe vorne",u:"mm",min:4,max:80,step:1},
     {k:"t",c:"range",l:"Wandstärke",u:"mm",min:1.6,max:4,step:0.2},
     {k:"s",c:"range",l:"Spiel pro Seite",u:"mm",min:0,max:2,step:0.1},
@@ -20,7 +20,8 @@ HALTERUNGEN.koecher = {
 function buildKoecher(p){
   const iw=p.B+2*p.s, id=p.T+2*p.s, t=p.t;
   const ri = p.shape==="rund" ? Math.min(iw,id)/2 : p.shape==="abgerundet" ? Math.min(p.r+p.s,Math.min(iw,id)/2) : 0;
-  const Wo=iw+2*t, Do=id+2*t, Ho=t+p.H*p.pct/100, cx=Wo/2, cy=t+id/2;
+  const warn=[], hs=Math.min(p.hs,p.H); if(p.hs>p.H) warn.push(`Höhe der Schale auf die Gerätehöhe von ${f2(p.H)} mm begrenzt.`);
+  const Wo=iw+2*t, Do=id+2*t, Ho=t+hs, cx=Wo/2, cy=t+id/2;
   const lip=Math.min(p.lip,Ho-t), m=Math.max(3,Math.min(10,p.B*0.15));
   const win = lip < Ho-t-1;
   const holes=[]; if(p.holes){ const zc=t+(Ho-t)*0.6; (Wo>70?[Wo*0.3,Wo*0.7]:[Wo/2]).forEach(x=>holes.push([x,zc])); }
@@ -44,5 +45,5 @@ function buildKoecher(p){
   if(p.slot) L.push(`  // Kabelschlitz`,`  translate([cx - ${f2(cw/2)}, cy - ${f2(id*0.15)}, -1]) cube([${f2(cw)}, Do, wand + 1.01]);`);
   L.push(`}`);
   const ghost=[{k:"rr",cx,cy,w:p.B,d:p.T,r:Math.max(0,ri-p.s),z0:t,z1:t+p.H}];
-  return {f,bb:[0,Wo,0,Do,0,Ho],dims:[Wo,Do,Ho],scad:L.join("\n"),ghost,dir:"Boden unten",warn:[]};
+  return {f,bb:[0,Wo,0,Do,0,Ho],dims:[Wo,Do,Ho],scad:L.join("\n"),ghost,dir:"Boden unten",warn};
 }

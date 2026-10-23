@@ -1,6 +1,6 @@
 # Halterungs-Generator
 
-Erzeugt Wandhalterungen für den 3D-Drucker: Halterungsart wählen, Vorlage aussuchen oder Maße eintragen, Halterung in 3D ansehen und als STL- und OpenSCAD-Datei speichern.
+Erzeugt Wandhalterungen für den 3D-Drucker: Halterungsart wählen, Maße mit Schiebereglern und Feldern einstellen (alle Längen in Millimetern), Halterung in 3D ansehen und als STL- und OpenSCAD-Datei speichern.
 
 **App öffnen:** https://lioba-source.github.io/halterungs-generator/ (nachdem GitHub Pages eingeschaltet ist)
 
@@ -28,7 +28,6 @@ js/halterungen/koecher.js     je Halterungsart: Name, Standardmaße,
 js/halterungen/ablage.js      Eingabefelder und Berechnung der Form
 js/halterungen/leiste.js      samt OpenSCAD-Code
 js/halterungen/individuell.js
-js/vorlagen.js                Vorlagen im Dropdown
 js/export/stl.js, zip.js      Dateien zum Speichern erzeugen
 js/export/download.js         ZIP in den Download-Ordner speichern
 js/ui/…                       3D-Vorschau, Foto-Anzeige, Formular
@@ -42,6 +41,7 @@ prompt-log.md                 Prompt-Protokoll für die Präsentation
 
 1. Neue Datei in `js/halterungen/`, z. B. `haken.js`, nach dem Muster der anderen: `HALTERUNGEN.haken = { name, hint, defaults, fields, build }`.
 2. In `index.html` eine Zeile `<script src="js/halterungen/haken.js"></script>` unter den anderen Halterungsarten ergänzen.
-3. Passende Vorlagen in `js/vorlagen.js` mit `type:"haken"` eintragen.
+
+Längen immer in Millimetern angeben (`u:"mm"` bei Schiebereglern; Zahlenfelder zeigen „(mm)“ automatisch, außer bei `u:""`).
 
 Die 3D-Ansicht nutzt [three.js](https://threejs.org) (r128) über cdnjs.

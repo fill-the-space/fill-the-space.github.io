@@ -1,13 +1,13 @@
 HALTERUNGEN.individuell = {
   name:"Individuell",
   hint:"Foto vom Gerät hochladen. Die App erkennt, wo es aufliegen kann, und baut eine einfache Halterung zum Einhängen oder Hineinstellen. Heiße Geräte besser in PETG oder ASA drucken, PLA wird ab etwa 60 °C weich.",
-  defaults:{mode:"auto",insert:"vorne",refAxis:"w",ref:230,T:48,P:5,fill:55,lip:15,t:2.4,s:1,sens:60,rot:0,holes:true},
+  defaults:{mode:"auto",insert:"vorne",refAxis:"w",ref:230,T:48,P:5,fill:60,lip:15,t:2.4,s:1,sens:60,rot:0,holes:true},
   fields:[
     {k:"mode",c:"seg",l:"Haltart",o:[["auto","Automatisch"],["haengen","Einhängen"],["stellen","Hineinstellen"]]},
     {k:"insert",c:"seg",l:"Einsetzen",o:[["vorne","Von vorne"],["oben","Von oben"]],show:()=>effMode==="haengen"},
     {k:"refAxis",c:"seg",l:"Bekanntes Maß am Gerät",o:[["w","Länge links–rechts"],["h","Höhe oben–unten"]]},
     {row:[{k:"ref",l:"Länge",min:20,max:600,lab:v=>v.refAxis==="h"?"Höhe":"Länge"},{k:"T",l:"Dicke",min:5,max:150},{k:"P",l:"Stärke",min:3,max:10,show:()=>effMode==="haengen"}]},
-    {k:"fill",c:"range",l:"Schalenhöhe",u:"%",min:15,max:100,step:1,show:()=>effMode==="stellen",fmt:(x)=>lastSilH?`${x} % · ${Math.round(lastSilH*x/100)} mm`:`${x} %`},
+    {k:"fill",c:"range",l:"Höhe der Schale",u:"mm",min:10,max:300,step:1,show:()=>effMode==="stellen"},
     {k:"lip",c:"range",l:"Lippe vorne",u:"mm",min:4,max:80,step:1,show:()=>effMode==="stellen"},
     {k:"t",c:"range",l:"Wandstärke",u:"mm",min:1.6,max:4,step:0.2,show:()=>effMode==="stellen"},
     {k:"s",c:"range",l:"Spiel pro Seite",u:"mm",min:0,max:3,step:0.1},
@@ -27,8 +27,8 @@ function buildIndividuell(p,seg){
   const info={silW:g.silW,silH:g.silH};
 
   if(mode==="stellen"){
-    const zFill=g.zLow+(g.zHigh-g.zLow)*p.fill/100, [q0,q1]=hullBelow(g,zFill);
-    const m=buildKoecher({shape:"abgerundet",B:q1-q0,T,H:g.zHigh-g.zLow,r:4,pct:p.fill,lip:p.lip,t:p.t,s,holes:p.holes,slot:false});
+    const zFill=g.zLow+Math.min(p.fill,g.zHigh-g.zLow), [q0,q1]=hullBelow(g,zFill);
+    const m=buildKoecher({shape:"abgerundet",B:q1-q0,T,H:g.zHigh-g.zLow,r:4,hs:p.fill,lip:p.lip,t:p.t,s,holes:p.holes,slot:false});
     m.ghost=[ghostOf(p.t+s-q0,p.t+s,p.t-g.zLow)];
     m.scad=m.scad.replace("Köcher (abgerundet)","Individuell, Schale zum Hineinstellen");
     m.warn=warn.concat(m.warn); m.mode="stellen";

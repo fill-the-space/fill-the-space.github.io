@@ -4,7 +4,7 @@ Web-App ohne Build-Schritt: `index.html` lädt die Skripte aus `js/` der Reihe n
 
 - Live: https://lioba-source.github.io/halterungs-generator/ (GitHub Pages, Branch `main`, Ordner `/`)
 - Repository: https://github.com/lioba-source/halterungs-generator
-- Die Seite muss außerhalb von Claude funktionieren: keine `window.claude`-Funktionen voraussetzen, Änderungen im Browser über einen lokalen Server testen (`.claude/launch.json`, Port 8765).
+- Die Seite muss außerhalb von Claude funktionieren: keine `window.claude`-Funktionen voraussetzen, Änderungen im Browser über einen lokalen Server testen (`.claude/launch.json`, Port 8766).
 
 ## Arbeitsweise mit Lioba
 

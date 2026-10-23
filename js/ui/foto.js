@@ -54,7 +54,7 @@ $("file").addEventListener("change",async e=>{
     const url=URL.createObjectURL(fl); const img=new Image(); img.src=url; await img.decode();
     const k=Math.min(1,1000/Math.max(img.naturalWidth,img.naturalHeight)); const c=document.createElement("canvas");
     c.width=Math.round(img.naturalWidth*k); c.height=Math.round(img.naturalHeight*k); c.getContext("2d").drawImage(img,0,0,c.width,c.height); URL.revokeObjectURL(url);
-    photo.id="file-"+Date.now(); photo.canvas=c; state.type="individuell"; state.preset="foto"; state.v.individuell.rot=0;
+    photo.id="file-"+Date.now(); photo.canvas=c; state.type="individuell"; state.v.individuell.rot=0;
     renderAll();
   }catch(err){ $("status").textContent="Das Bild ließ sich nicht öffnen. Bitte ein JPG oder PNG wählen."; }
   e.target.value="";
