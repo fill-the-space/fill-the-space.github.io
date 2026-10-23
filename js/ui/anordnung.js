@@ -24,6 +24,8 @@ const WAND_ART={
 const MOUNT_NAME={schrauben:"Schrauben",skadis:"SKÅDIS",tuer:"Türhaken"};
 const mountOf=v=>({skadis:"skadis",tuer:"tuer"})[v&&v.mount]||"wand";
 function wandArt(){ const P=state.plan.halterung; return mountOf(P.items.length?P.items[0].v:state.v[state.page==="halterung"?state.type:state.last.halterung]); }
+// Befestigung, die durch die Teile an der Wand feststeht ("" = frei wählbar)
+const befestigungFest=()=>{ const P=state.plan.halterung; return P.items.length?(P.items[0].v.mount||"schrauben"):""; };
 const planCache=new Map();
 const plan=()=>state.plan[state.page];
 const planArt=()=>state.page==="halterung"?{...PLAN_ART.halterung,...WAND_ART[wandArt()],art:wandArt()}:PLAN_ART.box;

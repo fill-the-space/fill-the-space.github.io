@@ -1480,3 +1480,21 @@ if(sel&&sel.type===state.type) sel.v=clone(v);
 **Screenshot:** prompt-log-bilder/72-skadis.jpg / 72-tuer.jpg / 72-skadis-handy.jpg
 
 **Commit-Nachricht:** Prompt 72: Wand, SKÅDIS-Lochplatte und Schranktür
+
+---
+
+## Prompt 73 – Befestigung steht fest (23.10.2026)
+
+**Prompt:**
+> Ich finde das schon richtig gut. Ich würde einfach sobald eine Art ausgewählt worden ist nicht mehr die Möglichkeit geben, eine andere Bauart auszuwählen. Wenn man das möchte, dann muss man halt den Neuanfang Button drück
+
+**Was sich geändert hat:**
+- Sobald ein Teil an der Wand hängt, bietet das Formular bei „Befestigung“ nur noch die Befestigung dieser Wand an, z. B. nur „SKÅDIS“. Darunter steht: „Festgelegt durch die Teile an der Wand. Für eine andere Befestigung dort „Neu anfangen“ drücken.“
+- Das gilt für alle Halterungsarten. Wer zu einer anderen Halterungsart wechselt, bekommt automatisch dieselbe Befestigung. Es gilt auch in der Einzelteil-Ansicht.
+- Erst nach „Neu anfangen“ (oder wenn alle Teile entfernt sind) sind wieder alle drei Befestigungen wählbar.
+
+**Betroffene Dateien:** index.html (Versionsnummer 73), js/halterungen/befestigung.js, js/ui/anordnung.js, js/ui/formular.js, js/main.js
+
+**Screenshot:** prompt-log-bilder/73-befestigung-fest.jpg
+
+**Commit-Nachricht:** Prompt 73: Befestigung steht fest

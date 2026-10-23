@@ -6,6 +6,8 @@ function update(){
   // follow: Ein Wert, der noch auf einem anderen Maß steht (Schale = Bauteilhöhe, Hakenstärke = Wandstärke), wandert mit ihm mit,
   // bis man ihn selbst ändert. "@wand" ist das Wandmaß der jeweiligen Halterungsart.
   const T=HALTERUNGEN[state.type]; let moved=false;
+  // Befestigung steht durch die Teile an der Wand fest
+  const fest=bereichVon(state.type)==="halterung"&&befestigungFest(); if(fest&&v.mount&&v.mount!==fest){ v.mount=fest; moved=true; }
   for(const f of T.fields.flatMap(f=>f.row||[f])){
     const fk=f.follow==="@wand"?T.wall:f.follow;
     // Nur das betroffene Feld aktualisieren, nicht das ganze Formular, sonst bricht das Ziehen am Regler ab
