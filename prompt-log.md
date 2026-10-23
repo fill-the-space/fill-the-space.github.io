@@ -868,3 +868,22 @@ const acc = win ? {x0:cx-(iw/2-m)+sc.dk/2+2, x1:cx+(iw/2-m)-sc.dk/2-2, z0:t+lip+
 **Screenshot:** prompt-log-bilder/44-vorher.jpg / 44-nachher.jpg
 
 **Commit-Nachricht:** Prompt 44: Filamentverbrauch nach Druckempfehlung
+
+---
+
+## Prompt 45 – Köcher vorne ganz geschlossen (23.10.2026)
+
+**Prompt:**
+> Mein Köcher sollte die Möglichkeit bestehen, wenn man nicht die Schrauben auswählt, dass man ihn vorne ganz schließen kann
+
+**Was sich geändert hat:**
+- Beim Köcher gibt es jetzt das Häkchen „Vorne ganz geschlossen“. Es erscheint nur bei der Befestigung „Türhaken“ oder „SKÅDIS“. Bei „Schrauben“ braucht man die Öffnung vorne, um mit dem Schraubendreher an die Löcher zu kommen (siehe Prompt 36).
+- Ist das Häkchen gesetzt, ist die Vorderseite durchgehend geschlossen, und der Regler „Lippe vorne“ wird ausgeblendet, weil er dann nichts mehr bewirkt.
+- Wechselt man zurück zu „Schrauben“, ist die Öffnung automatisch wieder da.
+- Getestet: Mit Schrauben bleibt vorne offen, auch wenn das Häkchen vorher gesetzt war. Mit Türhaken und SKÅDIS ist die Vorderwand bei gesetztem Häkchen geschlossen und sonst offen.
+
+**Betroffene Dateien:** js/halterungen/koecher.js, index.html (Versionsnummer 45)
+
+**Screenshot:** prompt-log-bilder/45-vorher.jpg / 45-nachher.jpg
+
+**Commit-Nachricht:** Prompt 45: Köcher ohne Schrauben vorne schließbar

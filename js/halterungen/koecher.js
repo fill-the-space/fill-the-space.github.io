@@ -1,17 +1,19 @@
 HALTERUNGEN.koecher = {
   name:"Köcher",
   hint:"Das Bauteil steht in einer Schale, z. B. eine Fernbedienung, ein Handy, eine Dose oder ein Flakon.",
-  defaults:{shape:"eckig",B:45,T:22,H:170,r:6,hs:68,lip:18,t:2.4,s:0.5,slot:false,...SCHRAUB_STANDARD,mass:200},
+  defaults:{shape:"eckig",B:45,T:22,H:170,r:6,hs:68,lip:18,closed:false,t:2.4,s:0.5,slot:false,...SCHRAUB_STANDARD,mass:200},
   fields:[
     {k:"shape",c:"seg",l:"Querschnitt",o:[["eckig","Eckig"],["abgerundet","Abgerundet"]]},
     {row:[{k:"B",l:"Breite",min:10,max:300},{k:"T",l:"Tiefe",min:5,max:250},{k:"H",l:"Höhe",min:20,max:400}],l:"Maße des Bauteils"},
     {k:"r",c:"range",l:"Eckenradius",u:"mm",min:1,max:60,step:0.5,show:v=>v.shape!=="eckig"},
     {k:"hs",c:"range",l:"Höhe der Schale",u:"mm",min:10,max:250,step:1},
-    {k:"lip",c:"range",l:"Lippe vorne",u:"mm",min:4,max:80,step:1},
+    {k:"lip",c:"range",l:"Lippe vorne",u:"mm",min:4,max:80,step:1,show:v=>v.mount==="schrauben"||!v.closed},
     {k:"t",c:"range",l:"Wandstärke",u:"mm",min:1.6,max:4,step:0.2},
     {k:"s",c:"range",l:"Spiel pro Seite",u:"mm",min:0,max:2,step:0.1},
     {k:"slot",c:"check",l:"Kabelschlitz im Boden"},
-    ...SCHRAUB_FELDER
+    ...SCHRAUB_FELDER,
+    // Ohne Schrauben muss man nicht durch die Vorderseite an die Rückwand, dann darf sie ganz zu sein
+    {k:"closed",c:"check",l:"Vorne ganz geschlossen",show:v=>v.mount!=="schrauben"}
   ],
   build:p=>buildKoecher(p)
 };
@@ -24,7 +26,7 @@ function buildKoecher(p){
   // Rückwand so dick, dass der Senkkopf ganz darin verschwindet
   const sc=screwSpec(p), tb=Math.max(t,p.holes?screwWall(sc):0);
   const Wo=iw+2*t, Do=id+2*t, Ho=t+hs, cx=Wo/2, cy=tb+id/2, Dt=cy+Do/2;
-  const lip=Math.min(p.lip,Ho-t), m=Math.max(3,Math.min(10,p.B*0.15));
+  const lip=p.closed&&!p.holes ? Ho-t : Math.min(p.lip,Ho-t), m=Math.max(3,Math.min(10,p.B*0.15));
   const win = lip < Ho-t-1;
   const cw=Math.min(12,p.B*0.4);
   // Löcher nur dort, wo man von vorne durch das Sichtfenster über der Lippe herankommt (Kopf passt durch, 2 mm Luft)
