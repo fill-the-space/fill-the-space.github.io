@@ -1159,3 +1159,17 @@ const acc = win ? {x0:cx-(iw/2-m)+sc.dk/2+2, x1:cx+(iw/2-m)-sc.dk/2-2, z0:t+lip+
 **Screenshot:** prompt-log-bilder/58-vorher.jpg / 58-nachher.jpg
 
 **Commit-Nachricht:** Prompt 58: App heißt jetzt FILL THE SPACE
+
+---
+
+## Prompt 59 – Adresse bleibt (23.10.2026)
+
+**Prompt:**
+> Lass Repository und Adresse beim alten Namen halterungs-generator.
+
+**Entscheidung:**
+- Das GitHub-Repository heißt weiter „halterungs-generator“, die App ist weiter unter lioba-source.github.io/halterungs-generator erreichbar. So funktionieren alte Links weiter. Nur der angezeigte Name ist „FILL THE SPACE“.
+
+**Betroffene Dateien:** keine Dateien der App
+
+**Commit-Nachricht:** Prompt 59: Entscheidung – Adresse bleibt
