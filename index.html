@@ -7,7 +7,7 @@
 <meta name="description" content="Wandhalterungen für den 3D-Drucker erzeugen: Maße eintragen oder Foto hochladen, in 3D ansehen, als STL speichern.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="css/style.css?v=66">
+<link rel="stylesheet" href="css/style.css?v=67">
 </head>
 <body>
 
@@ -15,7 +15,6 @@
   <header>
     <h1>FILL THE SPACE</h1>
     <nav class="seg pages" id="pages" aria-label="Seite"><button type="button" data-page="halterung">Halterungen</button><button type="button" data-page="box">Boxen</button></nav>
-    <details class="info"><summary>So funktioniert’s</summary><p class="lead">Oben zwischen Halterungen und Boxen wechseln, dann die Art wählen und die Maße eintragen. Die Form wird live berechnet und lässt sich als druckfertige STL-Datei speichern. Über der 3D-Vorschau lassen sich die Teile an einer Wand oder in einem Kasten (Schublade, Kiste, Regalfach) anordnen.</p></details>
   </header>
 
   <div class="grid">
@@ -94,35 +93,35 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <!-- Rechnen: Formen, Dreiecksnetz, Foto-Erkennung -->
-<script src="js/geometrie/formen.js?v=66"></script>
-<script src="js/geometrie/netz.js?v=66"></script>
-<script src="js/foto/erkennung.js?v=66"></script>
+<script src="js/geometrie/formen.js?v=67"></script>
+<script src="js/geometrie/netz.js?v=67"></script>
+<script src="js/foto/erkennung.js?v=67"></script>
 <!-- Halterungsarten: neue Art = neue Datei + eine Zeile hier -->
-<script src="js/halterungen/register.js?v=66"></script>
-<script src="js/halterungen/befestigung.js?v=66"></script>
-<script src="js/halterungen/schrauben.js?v=66"></script>
-<script src="js/halterungen/empfehlung.js?v=66"></script>
-<script src="js/halterungen/koecher.js?v=66"></script>
-<script src="js/halterungen/konsole.js?v=66"></script>
-<script src="js/halterungen/leiste.js?v=66"></script>
+<script src="js/halterungen/register.js?v=67"></script>
+<script src="js/halterungen/befestigung.js?v=67"></script>
+<script src="js/halterungen/schrauben.js?v=67"></script>
+<script src="js/halterungen/empfehlung.js?v=67"></script>
+<script src="js/halterungen/koecher.js?v=67"></script>
+<script src="js/halterungen/konsole.js?v=67"></script>
+<script src="js/halterungen/leiste.js?v=67"></script>
 <!-- Individuell (Foto) vorerst ausgeblendet; zum Wiedereinschalten diese Zeile zurückholen:
 <script src="js/halterungen/individuell.js"></script> -->
 <!-- Boxen: neue Art = neue Datei + eine Zeile hier -->
-<script src="js/boxen/grundform.js?v=66"></script>
-<script src="js/boxen/stapelbox.js?v=66"></script>
-<script src="js/boxen/deckelbox.js?v=66"></script>
-<script src="js/boxen/sortierkasten.js?v=66"></script>
+<script src="js/boxen/grundform.js?v=67"></script>
+<script src="js/boxen/stapelbox.js?v=67"></script>
+<script src="js/boxen/deckelbox.js?v=67"></script>
+<script src="js/boxen/sortierkasten.js?v=67"></script>
 <!-- Export -->
-<script src="js/export/stl.js?v=66"></script>
-<script src="js/export/vereinfachen.js?v=66"></script>
-<script src="js/export/download.js?v=66"></script>
+<script src="js/export/stl.js?v=67"></script>
+<script src="js/export/vereinfachen.js?v=67"></script>
+<script src="js/export/download.js?v=67"></script>
 <!-- Oberfläche -->
-<script src="js/ui/dom.js?v=66"></script>
-<script src="js/ui/vorschau3d.js?v=66"></script>
-<script src="js/zustand.js?v=66"></script>
-<script src="js/ui/foto.js?v=66"></script>
-<script src="js/ui/formular.js?v=66"></script>
-<script src="js/ui/anordnung.js?v=66"></script>
-<script src="js/main.js?v=66"></script>
+<script src="js/ui/dom.js?v=67"></script>
+<script src="js/ui/vorschau3d.js?v=67"></script>
+<script src="js/zustand.js?v=67"></script>
+<script src="js/ui/foto.js?v=67"></script>
+<script src="js/ui/formular.js?v=67"></script>
+<script src="js/ui/anordnung.js?v=67"></script>
+<script src="js/main.js?v=67"></script>
 </body>
 </html>

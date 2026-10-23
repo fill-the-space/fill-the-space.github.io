@@ -1362,3 +1362,21 @@ if(sel&&sel.type===state.type) sel.v=clone(v);
 **Screenshot:** prompt-log-bilder/66-neu-anfangen.jpg
 
 **Commit-Nachricht:** Prompt 66: Neu anfangen
+
+---
+
+## Prompt 67 – Kopfbereich aufgeräumt (23.10.2026)
+
+**Prompt:**
+> Die Beschreibung Suchfunktion oben Würde ich weglassen. Die Seite ist selbsterklärend. Ich würde eher die Button Halterung und Box zwischen der Überschrift und dem Strich etwas besser anordnen, weil im Moment sieht's oben sehr gedrungen aus.
+
+**Was sich geändert hat:**
+- Die aufklappbare Erklärung „So funktioniert’s“ unter dem Titel ist entfernt.
+- Der Umschalter „Halterungen / Boxen“ ist größer und steht mit mehr Abstand zwischen dem Titel und der Trennlinie. Er hat jetzt wie der Titel einen harten Schatten.
+- Auf dem Handy ist der Umschalter etwas kleiner, damit er in eine Zeile passt. Es gibt kein seitliches Scrollen.
+
+**Betroffene Dateien:** index.html (Versionsnummer 67), css/style.css
+
+**Screenshot:** prompt-log-bilder/67-vorher.jpg / 67-nachher.jpg / 67-nachher-handy.jpg
+
+**Commit-Nachricht:** Prompt 67: Kopfbereich aufgeräumt
