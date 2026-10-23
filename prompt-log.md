@@ -1121,3 +1121,22 @@ const acc = win ? {x0:cx-(iw/2-m)+sc.dk/2+2, x1:cx+(iw/2-m)-sc.dk/2-2, z0:t+lip+
 **Screenshot:** prompt-log-bilder/56-vorher.jpg (Seitenansicht mit Absatz) / 56-nachher-seite.jpg / 56-nachher-oben.jpg
 
 **Commit-Nachricht:** Prompt 56: Türhaken bündig, Schraublöcher oben
+
+---
+
+## Prompt 57 – Hakenstärke folgt der Wandstärke (23.10.2026)
+
+**Prompt:**
+> Ich würde beim Tierhalter die Wandstärke des Türhalters vor eingestellt auf die Stärke des Bauteils machen Aber immer noch mit der Option, dass man das ändern kann
+
+**Was sich geändert hat:**
+- Beim Türhaken steht die „Hakenstärke“ jetzt standardmäßig auf der Wandstärke der Halterung: bei Konsole und Leiste auf der „Stärke“ (6 mm), beim Köcher auf der „Wandstärke“ (2,4 mm). Vorher waren es immer 3 mm.
+- Ändert man die Wandstärke, wandert die Hakenstärke mit. Trägt man selbst eine andere Hakenstärke ein, bleibt diese stehen, auch wenn sich danach die Wandstärke ändert. Die Hakenstärke lässt sich zwischen 1,6 und 12 mm einstellen.
+- Darauf geachtet: Beim Köcher wird die Wandstärke mit einem Regler eingestellt. Damit das Ziehen am Regler nicht abbricht, aktualisiert die App nur das Feld „Hakenstärke“ und zeichnet nicht das ganze Formular neu.
+- Folge, die man kennen sollte: Bei Konsole und Leiste ist der Haken jetzt standardmäßig 6 mm dick. Deshalb erscheint der Hinweis, dass über der Schranktür so viel Luft sein muss. Wer weniger Luft hat, stellt die Hakenstärke kleiner.
+
+**Betroffene Dateien:** js/halterungen/befestigung.js, koecher.js, konsole.js, leiste.js, js/main.js, index.html (Versionsnummer 57)
+
+**Screenshot:** prompt-log-bilder/57-nachher.jpg
+
+**Commit-Nachricht:** Prompt 57: Hakenstärke folgt der Wandstärke

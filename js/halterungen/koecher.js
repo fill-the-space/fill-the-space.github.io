@@ -1,7 +1,7 @@
 HALTERUNGEN.koecher = {
   name:"Köcher",
   hint:"Das Bauteil steht in einer Schale, z. B. eine Fernbedienung, ein Handy, eine Dose oder ein Flakon.",
-  defaults:{shape:"eckig",B:45,T:22,H:170,r:6,hs:170,lip:18,closed:false,t:2.4,s:0.5,slot:false,...SCHRAUB_STANDARD,mass:200},
+  defaults:{shape:"eckig",B:45,T:22,H:170,r:6,hs:170,lip:18,closed:false,t:2.4,s:0.5,slot:false,...SCHRAUB_STANDARD,mass:200,hookT:2.4},
   fields:[
     {k:"shape",c:"seg",l:"Querschnitt",o:[["eckig","Eckig"],["abgerundet","Abgerundet"]]},
     {row:[{k:"B",l:"Breite",min:10,max:300},{k:"T",l:"Tiefe",min:5,max:250},{k:"H",l:"Höhe",min:20,max:400}],l:"Maße des Bauteils"},
@@ -16,6 +16,7 @@ HALTERUNGEN.koecher = {
     {k:"slot",c:"check",l:"Kabelschlitz im Boden"},
     ...SCHRAUB_FELDER
   ],
+  wall:"t",   // Hakenstärke des Türhakens folgt der Wandstärke
   build:p=>buildKoecher(p)
 };
 

@@ -3,12 +3,17 @@ let current=null, pending=false;
 function schedule(){ if(pending) return; pending=true; requestAnimationFrame(()=>{ pending=false; update(); }); }
 function update(){
   const v=state.v[state.type];
-  // Regler mit Grenzen, die von anderen Maßen abhängen (z. B. Schale ≥ Bauteil): Wert anpassen und Regler neu zeichnen
-  for(const f of HALTERUNGEN[state.type].fields) if(f.c==="range"&&typeof f.min==="function"){
-    // follow: Wert stand auf dem anderen Maß (z. B. Schale = Bauteilhöhe), dann mit ihm mitwandern
-    if(f.follow){ const old=v["_"+f.follow]; if(old!=null&&v[f.k]===old) v[f.k]=v[f.follow]; v["_"+f.follow]=v[f.follow]; }
-    v[f.k]=Math.min(f.max(v),Math.max(f.min(v),v[f.k])); }
-  if(rangeLimits(v)!==shownLimits) renderFields();
+  // follow: Ein Wert, der noch auf einem anderen Maß steht (Schale = Bauteilhöhe, Hakenstärke = Wandstärke), wandert mit ihm mit,
+  // bis man ihn selbst ändert. "@wand" ist das Wandmaß der jeweiligen Halterungsart.
+  const T=HALTERUNGEN[state.type]; let moved=false;
+  for(const f of T.fields.flatMap(f=>f.row||[f])){
+    const fk=f.follow==="@wand"?T.wall:f.follow;
+    // Nur das betroffene Feld aktualisieren, nicht das ganze Formular, sonst bricht das Ziehen am Regler ab
+    if(fk){ const old=v["_"+fk]; if(old!=null&&v[f.k]===old&&v[fk]!==old){ v[f.k]=v[fk]; const el=$(`f-${state.type}-${f.k}`); if(el&&f.c!=="range") el.value=v[f.k]; else moved=true; } v["_"+fk]=v[fk]; }
+    // Regler mit Grenzen, die von anderen Maßen abhängen
+    if(f.c==="range"&&typeof f.min==="function") v[f.k]=Math.min(f.max(v),Math.max(f.min(v),v[f.k]));
+  }
+  if(moved||rangeLimits(v)!==shownLimits) renderFields();
   let sc=null;
   if(state.type==="individuell"){
     sc=currentSeg(v);

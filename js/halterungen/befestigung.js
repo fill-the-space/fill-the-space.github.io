@@ -6,7 +6,7 @@ const SKADIS={slotW:5, slotH:15, pitch:40, board:5};
 const MONTAGE_FELDER=[
   {row:[{k:"mass",l:"Gewicht des Bauteils",u:"g",min:10,max:20000,step:10}]},
   {k:"mount",c:"seg",l:"Befestigung",o:[["schrauben","Schrauben"],["tuer","Türhaken"],["skadis","SKÅDIS"]]},
-  {row:[{k:"door",l:"Türstärke",min:8,max:40},{k:"hookL",l:"Hakenlänge",min:10,max:60},{k:"hookT",l:"Hakenstärke",min:2,max:6,step:0.5}],l:"Haken über die Schranktür",show:v=>v.mount==="tuer"},
+  {row:[{k:"door",l:"Türstärke",min:8,max:40},{k:"hookL",l:"Hakenlänge",min:10,max:60},{k:"hookT",l:"Hakenstärke",min:1.6,max:12,step:0.2,follow:"@wand"}],l:"Haken über die Schranktür",show:v=>v.mount==="tuer"},
   {k:"doorScrews",c:"check",l:"Schraublöcher oben in die Türkante",show:v=>v.mount==="tuer"}
 ];
 const MONTAGE_STANDARD={mass:300,mount:"schrauben",door:19,hookL:25,hookT:3,doorScrews:false};

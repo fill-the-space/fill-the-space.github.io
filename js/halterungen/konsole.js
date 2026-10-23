@@ -1,7 +1,7 @@
 HALTERUNGEN.konsole = {
   name:"Konsole",
   hint:"Konsole in L-Form. Das Bauteil steckt mit seinem schmalen Teil, z. B. dem Griff, in einem Schlitz oder Ring, der breitere Teil liegt oben auf. Z. B. ein Akkuschrauber oder ein Föhn.",
-  defaults:{ap:"schlitz",rp:"mitte",ra:20,N:46,L:80,Dp:125,W:150,P:6,Hp:70,s:1,...SCHRAUB_STANDARD,mass:1500},
+  defaults:{ap:"schlitz",rp:"mitte",ra:20,N:46,L:80,Dp:125,W:150,P:6,Hp:70,s:1,...SCHRAUB_STANDARD,mass:1500,hookT:6},
   fields:[
     {k:"ap",c:"seg",l:"Aussparung",o:[["schlitz","Schlitz, vorne offen"],["ring","Ring, geschlossen"]]},
     {k:"rp",c:"seg",l:"Lage des Rings",o:[["mitte","Mittig"],["wand","Abstand zur Wand"]],show:v=>v.ap==="ring"},
@@ -11,6 +11,7 @@ HALTERUNGEN.konsole = {
     {k:"s",c:"range",l:"Spiel pro Seite",u:"mm",min:0,max:3,step:0.1},
     ...SCHRAUB_FELDER
   ],
+  wall:"P",   // Hakenstärke des Türhakens folgt der Stärke
   build:p=>buildKonsole(p)
 };
 
