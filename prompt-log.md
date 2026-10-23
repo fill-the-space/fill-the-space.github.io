@@ -442,3 +442,21 @@ function saveFile(name,blob){
 **Betroffene Dateien:** CLAUDE.md (neu), prompt-log.md
 
 **Commit-Nachricht:** Prompt 23–24: Online-Prüfung, Arbeitsregeln für Claude
+
+---
+
+## Prompt 25 – Claude darf pushen (23.10.2026)
+
+**Prompt:**
+> Erzeuge den Zugangsschlüssel nur für dieses Repository. Ich erlaube das und trage ihn auf GitHub als Deploy Key ein.
+
+**Prompt 26:**
+> Ich habe den Deploy Key mit Schreibzugriff eingetragen. Teste bitte den Push.
+
+**Was sich geändert hat:**
+- Claude hat auf dem Mac einen Zugangsschlüssel erzeugt, der nur für dieses eine Repository gilt. Lioba hat ihn auf GitHub als „Deploy Key“ mit Schreibzugriff eingetragen. Er kann nichts anderes in ihrem Konto verändern und lässt sich jederzeit wieder löschen.
+- Der erste Push mit dem Schlüssel hat funktioniert. Ab jetzt committet und pusht Claude nach jeder Änderung selbst, Lioba muss in GitHub Desktop nichts mehr klicken. In der CLAUDE.md ist das festgehalten.
+
+**Betroffene Dateien:** CLAUDE.md
+
+**Commit-Nachricht:** Prompt 25–26: Claude pusht selbst per Deploy Key
