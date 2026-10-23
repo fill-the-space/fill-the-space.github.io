@@ -65,4 +65,8 @@ $("dl").addEventListener("click",async()=>{
     st.textContent = e&&e.code==="declined" ? "Speichern abgebrochen." : e&&e.code==="rate_limited" ? "Bitte kurz warten und erneut versuchen." : "Speichern ist hier nicht möglich.";
   }finally{ btn.disabled=false; }
 });
+// Druckbett gilt für alle Halterungsarten und wird mit gemerkt
+$("bedSize").value=state.bed;
+$("bedSize").addEventListener("input",e=>{ const x=parseFloat(e.target.value); if(isFinite(x)&&x>=50){ state.bed=Math.min(1000,x); schedule(); } });
+
 initGL(); renderAll();

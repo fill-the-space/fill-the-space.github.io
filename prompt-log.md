@@ -967,3 +967,22 @@ const acc = win ? {x0:cx-(iw/2-m)+sc.dk/2+2, x1:cx+(iw/2-m)-sc.dk/2-2, z0:t+lip+
 **Screenshot:** prompt-log-bilder/49-skadis-4-haken.jpg, 49-leiste-warnungen.jpg, 49-koecher-schrauben-uebereinander.jpg
 
 **Commit-Nachricht:** Prompt 49: Hebel, Durchbiegen, mehr SKÅDIS-Haken, Schutz gegen Verdrehen
+
+---
+
+## Prompt 50 – Druckbettgröße einstellbar (23.10.2026)
+
+**Prompt:**
+> Die Idee auf die Größe des üblichen Drucks hinzuweisen, finde ich gut und eine gute, Ich würde allerdings die Möglichkeit bereitstellen, falls das Druckbett doch größer ist die Größe individuell zu verändern. Aber eine Voreinstellung finde ich gut.
+
+**Was sich geändert hat:**
+- Im Einstellungsbereich gibt es ganz unten den neuen Abschnitt „Drucker“ mit dem Feld „Druckbett“. Voreingestellt sind 250 mm. Wer einen größeren Drucker hat, trägt dort seine Größe ein.
+- Der Warnhinweis heißt jetzt „Größer als das Druckbett“ und vergleicht mit dem eingetragenen Wert. Beispiel: Eine 320 mm lange Leiste löst bei 250 mm den Hinweis aus, bei 350 mm nicht.
+- Die Druckbettgröße gilt für alle Halterungsarten und bleibt beim nächsten Öffnen der App erhalten.
+- Die Erklärung zum Feld steckt, wie alle Beschreibungen, hinter einem aufklappbaren „i“.
+
+**Betroffene Dateien:** index.html (Versionsnummer 50), js/main.js, js/zustand.js, js/halterungen/empfehlung.js
+
+**Screenshot:** prompt-log-bilder/50-vorher.jpg / 50-nachher.jpg
+
+**Commit-Nachricht:** Prompt 50: Druckbettgröße einstellbar, 250 mm voreingestellt

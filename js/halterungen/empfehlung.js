@@ -9,7 +9,7 @@ const MATERIALIEN=[
   {name:"PA-CF (Nylon mit Carbonfasern)", kurz:"PA-CF", faktor:2, dichte:1.2}
 ];
 const SPANNUNG=6;      // N/mm², was ein PLA-Druck dauerhaft auf Biegung aushält (vorsichtig)
-const DRUCKBETT=250;  // mm, übliche Druckbettgröße
+const DRUCKBETT=250;  // mm, übliche Druckbettgröße als Voreinstellung; einstellbar unter „Drucker“
 
 function mountCapacity(model){
   const i=model.mount||{kind:"schrauben"};
@@ -48,8 +48,8 @@ function recommend(type,v,model){
   if(xs.length){ const spans=[2*xs[0],2*(W-xs[xs.length-1])].concat(xs.slice(1).map((x,k)=>x-xs[k]));
     if(Math.max(...spans)>300) alerts.push({id:"laenge",kurz:"Zu lang für die Schrauben", lang:`Die Halterung ist ${mmDE(W)} mm breit. Zwischen den Schrauben oder am Rand ist zu viel Abstand, dort hängt sie durch oder steht von der Wand ab. Mehr Schrauben wählen oder die Halterung kürzer machen.`}); }
   // Druckbett
-  const gross=Math.max(...model.dims);
-  if(gross>DRUCKBETT) alerts.push({id:"bett",kurz:"Größer als übliche Druckbetten", lang:`Die Halterung ist ${mmDE(gross)} mm groß. Die meisten 3D-Drucker schaffen höchstens etwa ${DRUCKBETT} mm. Kleiner machen oder in Teilen drucken.`});
+  const gross=Math.max(...model.dims), bett=state.bed||DRUCKBETT;
+  if(gross>bett) alerts.push({id:"bett",kurz:"Größer als das Druckbett", lang:`Die Halterung ist ${mmDE(gross)} mm groß, das Druckbett ist auf ${mmDE(bett)} mm eingestellt. Kleiner machen, in Teilen drucken oder unter „Drucker“ die Größe deines Druckbetts eintragen.`});
 
   const traegt=(art[0].toUpperCase()+art.slice(1))+(art==="der Türhaken"?" trägt":" tragen");
   return {mat, walls, infill, text:`${mat.name} · ${druck}`, detail:`Geschätzte Last ${mmDE(last)} kg${hebel>1.05?" (mit Hebelwirkung)":""}. ${traegt} in PLA dauerhaft etwa ${mmDE(cap)} kg.`};
