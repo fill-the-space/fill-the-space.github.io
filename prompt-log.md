@@ -812,3 +812,20 @@ const acc = win ? {x0:cx-(iw/2-m)+sc.dk/2+2, x1:cx+(iw/2-m)-sc.dk/2-2, z0:t+lip+
 **Screenshot:** prompt-log-bilder/41-nachher-mittig.jpg / 41-nachher-abstand.jpg (kein Vorher-Bild, die alte Lage ist im Screenshot zu Prompt 34 beim Ring zu sehen)
 
 **Commit-Nachricht:** Prompt 41: Ring mittig, Abstand zur Wand einstellbar
+
+---
+
+## Prompt 42 – Feldnamen in einer Zeile (23.10.2026)
+
+**Prompt:**
+> Eine Kleinigkeit. Die Darstellung von Konsolentiefe (mm) ist untereinander dargestellt, bitte in einer Reihe darstellen
+
+**Was sich geändert hat:**
+- Die Einheit steht jetzt klein rechts im Eingabefeld („125 mm“) statt hinter dem Feldnamen. Dadurch passen alle Feldnamen in eine Zeile, auch „Konsolentiefe“ und „Abstand Ring zur Wand“, und die Felder einer Reihe stehen auf gleicher Höhe.
+- Geprüft für alle Halterungsarten und Befestigungen: Kein Feldname bricht mehr um oder ragt in ein Nachbarfeld.
+
+**Betroffene Dateien:** js/ui/formular.js, css/style.css, index.html (Versionsnummer 42)
+
+**Screenshot:** prompt-log-bilder/42-vorher.jpg / 42-nachher.jpg
+
+**Commit-Nachricht:** Prompt 42: Feldnamen einzeilig, Einheit im Feld

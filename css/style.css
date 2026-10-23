@@ -40,8 +40,11 @@ legend,.group-label{font-family:var(--display);font-weight:700;font-size:13px;te
 label.btn{display:inline-block}
 .detect{margin:0;font-size:13px;line-height:1.45;border-left:3px solid var(--accent);padding:2px 0 2px 10px}
 .nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-label.num{display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--muted);min-width:0}
+label.num{display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--muted);min-width:0;white-space:nowrap}
 label.num input{font:500 15px var(--mono);font-variant-numeric:tabular-nums;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:7px 8px;width:100%;box-sizing:border-box}
+.inp{position:relative;display:block}
+.inp[data-u] input{padding-right:30px}
+.inp[data-u]::after{content:attr(data-u);position:absolute;right:9px;top:50%;transform:translateY(-50%);font:500 12px var(--mono);color:var(--muted);pointer-events:none}
 .slider{display:grid;grid-template-columns:1fr auto;gap:2px 10px;font-size:13px}
 .slider output{font:500 13px var(--mono);font-variant-numeric:tabular-nums}
 .slider input{grid-column:1/-1;accent-color:var(--accent);width:100%}
