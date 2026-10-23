@@ -829,3 +829,24 @@ const acc = win ? {x0:cx-(iw/2-m)+sc.dk/2+2, x1:cx+(iw/2-m)-sc.dk/2-2, z0:t+lip+
 **Screenshot:** prompt-log-bilder/42-vorher.jpg / 42-nachher.jpg
 
 **Commit-Nachricht:** Prompt 42: Feldnamen einzeilig, Einheit im Feld
+
+---
+
+## Prompt 43 – Kurzer, farbiger Warnhinweis statt langem Text (23.10.2026)
+
+**Prompt:**
+> Materialien Kubikzentimeter ist eine überflüssige Darstellung. Die brauchen wir nicht. Es wäre gut, wenn das Gewicht zu hoch ist das Nicht ein langer Text unten erscheint, sondern eine Art Warnhinweis, der farblich hervorgehoben ist. Der Warnhinweis sollte dann in kleiner kurzer Form schon auf das Problem hinweisen und erst wenn man drauf tippt die genauen Infos geben
+
+**Was sich geändert hat:**
+- Die Kennzahl „Material … cm³“ ist weg. Es bleiben Außenmaß, „Gewicht in PLA“ (vorher „PLA bei 100 %“) und Druckrichtung.
+- Ist das Bauteil zu schwer für die gewählte Befestigung, erscheint jetzt direkt unter den Kennzahlen ein rot hervorgehobener Warnhinweis mit kurzer Überschrift, z. B. „Zu schwer für die SKÅDIS-Haken in PLA“. Erst ein Tipp auf den Hinweis („Details“) zeigt die genaue Erklärung und den Rat, was man tun kann.
+- Ein geöffneter Hinweis bleibt offen, auch wenn man weiter Werte ändert. Wird das Gewicht wieder passend, verschwindet der Hinweis von selbst.
+- Funktioniert im hellen und im dunklen Modus.
+- Andere Hinweise, z. B. „Plattenhöhe erhöht …“ oder „Stützmaterial verwenden“, bleiben wie bisher klein im Einstellungsbereich, weil sie kein Problem melden, sondern nur informieren.
+- Kleiner Fehler beim Testen: Der geöffnete Warnhinweis klappte zu, sobald sich seine Überschrift änderte (z. B. von „… in PLA“ zu „…“). Behoben: Der offene Zustand hängt jetzt nicht mehr am Wortlaut.
+
+**Betroffene Dateien:** js/halterungen/empfehlung.js, js/main.js, index.html (Versionsnummer 43), css/style.css
+
+**Screenshot:** prompt-log-bilder/43-vorher.jpg / 43-nachher-zu.jpg / 43-nachher-offen.jpg
+
+**Commit-Nachricht:** Prompt 43: Warnhinweis kurz und farbig, ohne cm³

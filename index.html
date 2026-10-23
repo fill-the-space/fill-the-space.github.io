@@ -7,7 +7,7 @@
 <meta name="description" content="Wandhalterungen für den 3D-Drucker erzeugen: Maße eintragen oder Foto hochladen, in 3D ansehen, als STL speichern.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="css/style.css?v=42">
+<link rel="stylesheet" href="css/style.css?v=43">
 </head>
 <body>
 
@@ -50,10 +50,10 @@
       </div>
       <div class="specs">
         <div class="spec"><span>Außenmaß B×T×H</span><b id="outDim">–</b></div>
-        <div class="spec"><span>Material</span><b id="outVol">–</b></div>
-        <div class="spec"><span>PLA bei 100 %</span><b id="outG">–</b></div>
+        <div class="spec"><span>Gewicht in PLA</span><b id="outG">–</b></div>
         <div class="spec"><span>Druckrichtung</span><b id="outDir">–</b></div>
       </div>
+      <div id="alerts" class="alerts"></div>
       <div class="spec reco"><span>Druckempfehlung</span><b id="outRec">–</b><small id="outRecInfo"></small></div>
       <div class="actions">
         <button class="btn primary" type="button" id="dl">STL speichern</button>
@@ -66,28 +66,28 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <!-- Rechnen: Formen, Dreiecksnetz, Foto-Erkennung -->
-<script src="js/geometrie/formen.js?v=42"></script>
-<script src="js/geometrie/netz.js?v=42"></script>
-<script src="js/foto/erkennung.js?v=42"></script>
+<script src="js/geometrie/formen.js?v=43"></script>
+<script src="js/geometrie/netz.js?v=43"></script>
+<script src="js/foto/erkennung.js?v=43"></script>
 <!-- Halterungsarten: neue Art = neue Datei + eine Zeile hier -->
-<script src="js/halterungen/register.js?v=42"></script>
-<script src="js/halterungen/befestigung.js?v=42"></script>
-<script src="js/halterungen/schrauben.js?v=42"></script>
-<script src="js/halterungen/empfehlung.js?v=42"></script>
-<script src="js/halterungen/koecher.js?v=42"></script>
-<script src="js/halterungen/konsole.js?v=42"></script>
-<script src="js/halterungen/leiste.js?v=42"></script>
-<script src="js/halterungen/individuell.js?v=42"></script>
+<script src="js/halterungen/register.js?v=43"></script>
+<script src="js/halterungen/befestigung.js?v=43"></script>
+<script src="js/halterungen/schrauben.js?v=43"></script>
+<script src="js/halterungen/empfehlung.js?v=43"></script>
+<script src="js/halterungen/koecher.js?v=43"></script>
+<script src="js/halterungen/konsole.js?v=43"></script>
+<script src="js/halterungen/leiste.js?v=43"></script>
+<script src="js/halterungen/individuell.js?v=43"></script>
 <!-- Export -->
-<script src="js/export/stl.js?v=42"></script>
-<script src="js/export/vereinfachen.js?v=42"></script>
-<script src="js/export/download.js?v=42"></script>
+<script src="js/export/stl.js?v=43"></script>
+<script src="js/export/vereinfachen.js?v=43"></script>
+<script src="js/export/download.js?v=43"></script>
 <!-- Oberfläche -->
-<script src="js/ui/dom.js?v=42"></script>
-<script src="js/ui/vorschau3d.js?v=42"></script>
-<script src="js/zustand.js?v=42"></script>
-<script src="js/ui/foto.js?v=42"></script>
-<script src="js/ui/formular.js?v=42"></script>
-<script src="js/main.js?v=42"></script>
+<script src="js/ui/dom.js?v=43"></script>
+<script src="js/ui/vorschau3d.js?v=43"></script>
+<script src="js/zustand.js?v=43"></script>
+<script src="js/ui/foto.js?v=43"></script>
+<script src="js/ui/formular.js?v=43"></script>
+<script src="js/main.js?v=43"></script>
 </body>
 </html>

@@ -16,19 +16,27 @@ function update(){
   if(model.screw){ const av=model.screw.avail, changed=av.join()!==screwAvail.join();
     screwAvail=av; if(v.holes&&model.screw.n&&v.sn!==model.screw.n){ v.sn=model.screw.n; renderFields(); } else if(changed) renderFields(); }
   const rec=recommend(state.type,v,model); $("outRec").textContent=rec.text; $("outRecInfo").textContent=rec.detail;
+  showAlerts(model.alerts||[]);
   const b=model.bb, vol=(b[1]-b[0]+4)*(b[3]-b[2]+4)*(b[5]-b[4]+4);
   const wall=v.t||v.P||3;
   const h=Math.max(0.8,Math.min(Math.cbrt(vol/260000),wall*0.7));
   const mesh=polygonize(model.f,b,h), st=meshStats(mesh);
   const fmt=x=>x.toLocaleString("de-DE",{maximumFractionDigits:0});
   $("outDim").textContent=model.dims.map(fmt).join("×");
-  $("outVol").textContent=`${(st.vol/1000).toLocaleString("de-DE",{maximumFractionDigits:1})} cm³`;
   $("outG").textContent=`≈ ${Math.round(st.vol/1000*1.24)} g`;
   $("outDir").textContent=model.dir;
   const w=$("warn"); w.hidden=!model.warn.length; w.textContent=model.warn.join(" ");
   current={model,area:st.area,h};
   show(model,mesh);
   try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){}
+}
+
+/* Warnhinweise: kurz und farbig, Einzelheiten erst nach Antippen. Geöffnete bleiben beim Neuberechnen offen. */
+function showAlerts(list){
+  const box=$("alerts"), open=new Set([...box.querySelectorAll("details[open]")].map(d=>d.dataset.id));
+  box.innerHTML="";
+  for(const a of list){ const d=document.createElement("details"); d.className="alert"; d.dataset.id=a.id||a.kurz; const s=document.createElement("summary"); s.textContent=a.kurz;
+    const p=document.createElement("p"); p.textContent=a.lang; d.append(s,p); if(open.has(d.dataset.id)) d.open=true; box.appendChild(d); }
 }
 
 function slug(){ return HALTERUNGEN[state.type].name.toLowerCase().replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue").replace(/ß/g,"ss").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,""); }

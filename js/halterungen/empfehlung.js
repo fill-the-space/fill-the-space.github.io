@@ -18,7 +18,7 @@ function mountCapacity(model){
   return TRAGKRAFT.schraube*((model.screw&&model.screw.n)||0);
 }
 
-/* Liefert {text, detail} und hängt bei Bedarf Warnungen an model.warn an */
+/* Liefert {text, detail} und legt bei Bedarf Warnhinweise in model.alerts ab */
 function recommend(type,v,model){
   const kg=(+v.mass||0)/1000, hebel=type==="individuell"&&model.mode==="stellen"?1:HEBEL[type]||1, last=kg*hebel, cap=mountCapacity(model);
   if(!cap) return {text:"–", detail:"Ohne Befestigung lässt sich nichts abschätzen."};
@@ -26,8 +26,10 @@ function recommend(type,v,model){
   const mat=MATERIALIEN.find(m=>last<=0.6*cap*m.faktor)||MATERIALIEN[MATERIALIEN.length-1], u=last/(cap*mat.faktor);
   const druck = u<=0.3 ? "3 Wände, 15 % Füllung" : u<=0.45 ? "4 Wände, 30 % Füllung" : "5 Wände, 50 % Füllung";
   const art={schrauben:"die Schrauben",tuer:"der Türhaken",skadis:"die SKÅDIS-Haken"}[(model.mount||{}).kind||"schrauben"];
-  if(u>0.6) model.warn.push(`Für ${mmDE(kg)} kg ist die Halterung auch in ${mat.name} an der Grenze.`+(model.mount&&model.mount.kind!=="schrauben"?" Besser „Schrauben“ als Befestigung wählen.":" Mehr Schrauben oder eine dickere Rückwand wählen."));
-  else if(mat.name!=="PLA"&&model.mount&&model.mount.kind!=="schrauben") model.warn.push(`Für ${mmDE(kg)} kg ${art==="der Türhaken"?"hält":"halten"} ${art} in PLA auf Dauer voraussichtlich nicht. Entweder in ${mat.name} drucken oder „Schrauben“ als Befestigung wählen.`);
+  // Warnhinweise: kurze Überschrift plus Einzelheiten zum Aufklappen
+  const alerts=model.alerts=[], haken=model.mount&&model.mount.kind!=="schrauben", wer={schrauben:"die Schrauben",tuer:"den Türhaken",skadis:"die SKÅDIS-Haken"}[(model.mount||{}).kind||"schrauben"];
+  if(u>0.6) alerts.push({id:"gewicht",kurz:`Zu schwer für ${wer}`, lang:`Für ${mmDE(kg)} kg ist die Halterung auch in ${mat.name} an der Grenze.`+(haken?" Besser „Schrauben“ als Befestigung wählen.":" Mehr Schrauben oder eine dickere Rückwand wählen.")});
+  else if(mat.name!=="PLA"&&haken) alerts.push({id:"gewicht",kurz:`Zu schwer für ${wer} in PLA`, lang:`Für ${mmDE(kg)} kg ${art==="der Türhaken"?"hält":"halten"} ${art} in PLA auf Dauer voraussichtlich nicht. Entweder in ${mat.name} drucken oder „Schrauben“ als Befestigung wählen.`});
   const traegt=(art[0].toUpperCase()+art.slice(1))+(art==="der Türhaken"?" trägt":" tragen");
   return {text:`${mat.name} · ${druck}`, detail:`Geschätzte Last ${mmDE(last)} kg${hebel>1?" (mit Hebelwirkung)":""}. ${traegt} in PLA dauerhaft etwa ${mmDE(cap)} kg.`};
 }
