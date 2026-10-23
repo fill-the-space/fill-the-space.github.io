@@ -27,7 +27,7 @@ function renderFields(){
       i.addEventListener("input",()=>{ v[f.k]=parseFloat(i.value); upd(); schedule(); }); upd(); w.append(sp,o,i); return w; }
   };
   for(const f of HALTERUNGEN[state.type].fields){
-    if(f.row){ if(f.l){ const h=document.createElement("span"); h.className="seg-label"; h.textContent=f.l; box.appendChild(h); }
+    if(f.row){ if(f.show&&!f.show(v)) continue; if(f.l){ const h=document.createElement("span"); h.className="seg-label"; h.textContent=f.l; box.appendChild(h); }
       const r=document.createElement("div"); r.className="nums";
       f.row.forEach(c=>{ if(c.show&&!c.show(v)) return; const l=document.createElement("label"); l.className="num"; const u=c.u??"mm"; l.textContent=(c.lab?c.lab(v):c.l)+(u?` (${u})`:"");
         const i=document.createElement("input"); i.type="number"; i.id=`f-${state.type}-${c.k}`; i.min=c.min; i.max=c.max; i.step=c.step||0.5; i.value=v[c.k]; i.inputMode="decimal";

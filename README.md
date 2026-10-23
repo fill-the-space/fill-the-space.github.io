@@ -24,7 +24,8 @@ js/geometrie/formen.js        Grundformen (Kasten, Rundung, Schraubloch)
 js/geometrie/netz.js          Form in ein Dreiecksnetz umrechnen
 js/foto/erkennung.js          Bauteil im Foto finden, Auflagekante suchen
 js/halterungen/register.js    Liste aller Halterungsarten
-js/halterungen/schrauben.js   Schraubengröße, Kopfform, Anzahl und Lage der Löcher (für alle Arten)
+js/halterungen/befestigung.js Befestigung: Schrauben, Haken über die Schranktür oder IKEA SKÅDIS
+js/halterungen/schrauben.js   Schraubengröße, Anzahl und Lage der Löcher (für alle Arten)
 js/halterungen/koecher.js     je Halterungsart: Name, Standardmaße,
 js/halterungen/konsole.js     Eingabefelder und Berechnung der Form
 js/halterungen/leiste.js      (der OpenSCAD-Code wird intern noch erzeugt, aber nicht angeboten)

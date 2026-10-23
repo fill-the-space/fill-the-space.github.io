@@ -7,7 +7,7 @@
 <meta name="description" content="Wandhalterungen für den 3D-Drucker erzeugen: Maße eintragen oder Foto hochladen, in 3D ansehen, als STL speichern.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="css/style.css?v=38">
+<link rel="stylesheet" href="css/style.css?v=39">
 </head>
 <body>
 
@@ -58,33 +58,34 @@
         <button class="btn primary" type="button" id="dl">STL speichern</button>
         <span class="status" id="status" role="status"></span>
       </div>
-      <details class="info note"><summary>Hinweise zu Datei und Schrauben</summary><p>Die STL wird fein berechnet und danach verkleinert: Ebene Flächen bestehen aus wenigen großen Dreiecken, Rundungen bleiben fein. Fast die ganze Oberfläche liegt dabei weniger als 0,1 mm neben der berechneten Form, Kanten sind leicht gebrochen. Die Löcher in der Rückwand sind für Senkkopfschrauben gemacht, damit kein Schraubenkopf in die Halterung ragt. Das Loch ist 0,5 mm größer als die Schraube. 4-mm-Schrauben passen zu 6er-Dübeln, 5-mm-Schrauben zu 8er-Dübeln.</p></details>
+      <details class="info note"><summary>Hinweise zu Datei und Befestigung</summary><p>Die STL wird fein berechnet und danach verkleinert: Ebene Flächen bestehen aus wenigen großen Dreiecken, Rundungen bleiben fein. Fast die ganze Oberfläche liegt dabei weniger als 0,1 mm neben der berechneten Form, Kanten sind leicht gebrochen. Die Löcher in der Rückwand sind für Senkkopfschrauben gemacht, damit kein Schraubenkopf in die Halterung ragt. Das Loch ist 0,5 mm größer als die Schraube. 4-mm-Schrauben passen zu 6er-Dübeln, 5-mm-Schrauben zu 8er-Dübeln.</p><p>Der Türhaken legt sich über die Oberkante einer Schranktür. Über der Tür muss so viel Luft sein, wie der Haken dick ist, sonst schließt die Tür nicht. Die SKÅDIS-Haken passen in die Schlitze der IKEA-Lochplatte (5 × 15 mm, 40 mm Abstand, Platte 5 mm dick): Haken waagerecht einstecken und die Halterung absenken. Am besten zuerst einen Probedruck machen.</p></details>
     </section>
   </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <!-- Rechnen: Formen, Dreiecksnetz, Foto-Erkennung -->
-<script src="js/geometrie/formen.js?v=38"></script>
-<script src="js/geometrie/netz.js?v=38"></script>
-<script src="js/foto/erkennung.js?v=38"></script>
+<script src="js/geometrie/formen.js?v=39"></script>
+<script src="js/geometrie/netz.js?v=39"></script>
+<script src="js/foto/erkennung.js?v=39"></script>
 <!-- Halterungsarten: neue Art = neue Datei + eine Zeile hier -->
-<script src="js/halterungen/register.js?v=38"></script>
-<script src="js/halterungen/schrauben.js?v=38"></script>
-<script src="js/halterungen/koecher.js?v=38"></script>
-<script src="js/halterungen/konsole.js?v=38"></script>
-<script src="js/halterungen/leiste.js?v=38"></script>
-<script src="js/halterungen/individuell.js?v=38"></script>
+<script src="js/halterungen/register.js?v=39"></script>
+<script src="js/halterungen/befestigung.js?v=39"></script>
+<script src="js/halterungen/schrauben.js?v=39"></script>
+<script src="js/halterungen/koecher.js?v=39"></script>
+<script src="js/halterungen/konsole.js?v=39"></script>
+<script src="js/halterungen/leiste.js?v=39"></script>
+<script src="js/halterungen/individuell.js?v=39"></script>
 <!-- Export -->
-<script src="js/export/stl.js?v=38"></script>
-<script src="js/export/vereinfachen.js?v=38"></script>
-<script src="js/export/download.js?v=38"></script>
+<script src="js/export/stl.js?v=39"></script>
+<script src="js/export/vereinfachen.js?v=39"></script>
+<script src="js/export/download.js?v=39"></script>
 <!-- Oberfläche -->
-<script src="js/ui/dom.js?v=38"></script>
-<script src="js/ui/vorschau3d.js?v=38"></script>
-<script src="js/zustand.js?v=38"></script>
-<script src="js/ui/foto.js?v=38"></script>
-<script src="js/ui/formular.js?v=38"></script>
-<script src="js/main.js?v=38"></script>
+<script src="js/ui/dom.js?v=39"></script>
+<script src="js/ui/vorschau3d.js?v=39"></script>
+<script src="js/zustand.js?v=39"></script>
+<script src="js/ui/foto.js?v=39"></script>
+<script src="js/ui/formular.js?v=39"></script>
+<script src="js/main.js?v=39"></script>
 </body>
 </html>

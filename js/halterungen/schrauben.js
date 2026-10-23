@@ -1,16 +1,16 @@
 /* ---------- Schrauben: Größe, Kopfform, Anzahl und Lage der Löcher ----------
-   Jede Halterungsart hängt SCHRAUB_FELDER an ihre Felder und SCHRAUB_STANDARD an ihre Standardwerte.
+   Jede Halterungsart hängt SCHRAUB_FELDER an ihre Felder und SCHRAUB_STANDARD an ihre Standardwerte (beides enthält auch die Auswahl der Befestigung).
    Immer Senkkopfschrauben, damit kein Kopf in die Halterung ragt.
    Loch = Schraube + 0,5 mm, Senkkopf ≈ 2 × Schraube + 1 mm, Senkung 90°. */
 const SCHRAUB_FELDER=[
-  {k:"holes",c:"check",l:"Schraublöcher in der Rückwand"},
-  {k:"sd",c:"seg",l:"Schraube Ø (mm)",o:[[3,"3"],[3.5,"3,5"],[4,"4"],[5,"5"],[6,"6"]],show:v=>v.holes&&screwAvail.length>0},
-  {k:"sn",c:"seg",l:"Anzahl Schrauben",o:[[1,"1"],[2,"2"],[3,"3"],[4,"4"]],show:v=>v.holes&&screwAvail.length>0,oShow:val=>screwAvail.includes(val)}
+  ...MONTAGE_FELDER,
+  {k:"sd",c:"seg",l:"Schraube Ø (mm)",o:[[3,"3"],[3.5,"3,5"],[4,"4"],[5,"5"],[6,"6"]],show:v=>v.mount==="schrauben"&&screwAvail.length>0},
+  {k:"sn",c:"seg",l:"Anzahl Schrauben",o:[[1,"1"],[2,"2"],[3,"3"],[4,"4"]],show:v=>v.mount==="schrauben"&&screwAvail.length>0,oShow:val=>screwAvail.includes(val)}
 ];
 // Anzahlen, die auf die aktuelle Rückwand passen; wird nach jeder Berechnung aktualisiert
 let screwAvail=[1,2,3,4];
 const RAND=20;   // mm vom Bohrloch bis zur Kante der Rückwand
-const SCHRAUB_STANDARD={holes:true,sd:4,sn:2};
+const SCHRAUB_STANDARD={...MONTAGE_STANDARD,sd:4,sn:2};
 const mmDE=x=>x.toLocaleString("de-DE",{maximumFractionDigits:1});
 
 /* Maße der gewählten Senkkopfschraube */

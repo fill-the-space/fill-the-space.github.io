@@ -746,3 +746,24 @@ const acc = win ? {x0:cx-(iw/2-m)+sc.dk/2+2, x1:cx+(iw/2-m)-sc.dk/2-2, z0:t+lip+
 **Betroffene Dateien:** js/export/vereinfachen.js, js/main.js, index.html (Versionsnummer 38)
 
 **Commit-Nachricht:** Prompt 38: Genauere STL, runde Löcher, schnelleres Verkleinern
+
+---
+
+## Prompt 39 – Aufhängen statt Anschrauben: Türhaken und SKÅDIS (23.10.2026)
+
+**Prompt:**
+> Als Nächstes möchte ich eine Auswahl einfügen, in der man wählen kann, ob man die Halterung an schrauben möchte oder sie mithilfe eines Haken, der an dem Bauteil dran ist, aufhängen möchte. Bei der Auswahl sollte es dann zwei Optionen geben zum einen einen Haken, wo man über eine Schranktür die Halterung legt und sie so an der Schranktür dran hängt, oder zum anderen einen Haken wie bei dem IKEA System Skadis zum einen Haken.
+
+**Was sich geändert hat:**
+- Bei allen vier Halterungsarten gibt es jetzt die Auswahl „Befestigung“ mit drei Möglichkeiten: **Schrauben**, **Türhaken** und **SKÅDIS**. Das Häkchen „Schraublöcher in der Rückwand“ ist dafür weggefallen. Schraubengröße und Anzahl erscheinen nur bei „Schrauben“.
+- **Türhaken:** Oben an der Rückwand sitzt ein Haken, der sich über die Oberkante einer Schranktür legt und hinter die Tür greift. Einstellbar sind Türstärke (Standard 19 mm), Hakenlänge hinter der Tür und Hakenstärke. Bei mehr als 3 mm Hakenstärke weist die App darauf hin, dass über der Tür genug Luft sein muss.
+- **SKÅDIS:** Hinten an der Rückwand sitzen Haken für die IKEA-Lochplatte. Claude hat die Maße vorher recherchiert: Schlitze 5 × 15 mm, 40 mm Abstand, Platte etwa 5 mm dick. Die Haken sind 4,4 mm breit und insgesamt 13 mm hoch und passen so durch den Schlitz. Bei breiten Halterungen kommen zwei Haken im 40-mm-Raster hin, bei schmalen ein Haken plus ein Stift 40 mm darunter gegen Verdrehen.
+- Mit Haken zeigt „Druckrichtung“ an, wie man das Teil hinlegt, und ein Hinweis empfiehlt Stützmaterial unter dem Haken. Unter „Hinweise zu Datei und Befestigung“ steht, wie man die Haken benutzt, und dass ein Probedruck sinnvoll ist.
+- Fehler beim Testen gefunden und behoben: Der Türhaken berührte die Rückwand nur an einer haarfeinen Kante. Die STL-Datei war dadurch nicht sauber geschlossen, ein Slicer hätte das als Fehler gemeldet. Jetzt liegt die Brücke des Hakens auf der ganzen Wanddicke auf. Danach waren alle 15 Kombinationen aus Halterungsart (inkl. Individuell „Hineinstellen“) und Befestigung geschlossen und druckbar, mit 34 bis 407 kB.
+- Ein Umweg beim Testen: Claudes erste Prüfläufe waren zu groß angelegt und blockierten den Testbrowser mehrere Minuten. Es sah aus, als hinge die App. Mit Schritt-für-Schritt-Protokoll zeigte sich, dass nichts hing, nur der Test zu fein gerechnet hatte.
+
+**Betroffene Dateien:** js/halterungen/befestigung.js (neu), js/halterungen/schrauben.js, js/halterungen/register.js, koecher.js, konsole.js, leiste.js, individuell.js, js/ui/formular.js, index.html (Versionsnummer 39), README.md
+
+**Screenshot:** prompt-log-bilder/39-vorher.jpg / 39-nachher-tuerhaken.jpg / 39-nachher-skadis.jpg
+
+**Commit-Nachricht:** Prompt 39: Befestigung wählbar – Schrauben, Türhaken, SKÅDIS

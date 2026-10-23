@@ -28,7 +28,7 @@ function buildIndividuell(p,seg){
 
   if(mode==="stellen"){
     const zFill=g.zLow+Math.min(p.fill,g.zHigh-g.zLow), [q0,q1]=hullBelow(g,zFill);
-    const m=buildKoecher({shape:"abgerundet",B:q1-q0,T,H:g.zHigh-g.zLow,r:4,hs:p.fill,lip:p.lip,t:p.t,s,holes:p.holes,sd:p.sd,sn:p.sn,slot:false});
+    const m=buildKoecher({shape:"abgerundet",B:q1-q0,T,H:g.zHigh-g.zLow,r:4,hs:p.fill,lip:p.lip,t:p.t,s,holes:p.holes,sd:p.sd,sn:p.sn,mount:p.mount,door:p.door,hookL:p.hookL,hookT:p.hookT,slot:false});
     m.ghost=[ghostOf(p.t+s-q0,p.t+s,p.t-g.zLow)];
     m.scad=m.scad.replace("Köcher (abgerundet)","Individuell, Schale zum Hineinstellen");
     m.warn=warn.concat(m.warn); m.mode="stellen";
@@ -67,7 +67,7 @@ function buildIndividuell(p,seg){
     ...gx.map(gg=>`    translate([${f2(gg)}, 0, 0]) stuetze();`),`  }`];
   S.push(...screwSCAD(holes,sc,"P + 2","P"));
   S.push(`}`);
-  return {f,bb:[0,W,0,D,0,Hp+ridge],dims:[W,D,Hp+ridge],scad:S.join("\n"),dir:"Rückwand unten",warn,mode:"haengen",screw:plan,
+  return mountApply({f,bb:[0,W,0,D,0,Hp+ridge],dims:[W,D,Hp+ridge],scad:S.join("\n"),dir:"Rückwand unten",warn,mode:"haengen",screw:plan,
     ghost:[ghostOf(armL+s-sh.n0,P+s,Hp-sh.zS)],
-    info:{...info,lineRowPx:g.rowPx(sh.zS),text:`Auflagekante ${Math.round(sh.zS-g.zLow)} mm über dem unteren Ende erkannt. Der schmale Teil darunter ist ${Math.round(sh.n1-sh.n0)} mm breit und hängt durch den Schlitz.`}};
+    info:{...info,lineRowPx:g.rowPx(sh.zS),text:`Auflagekante ${Math.round(sh.zS-g.zLow)} mm über dem unteren Ende erkannt. Der schmale Teil darunter ist ${Math.round(sh.n1-sh.n0)} mm breit und hängt durch den Schlitz.`}},mountParts(p,0,W,Hp,P,warn));
 }
