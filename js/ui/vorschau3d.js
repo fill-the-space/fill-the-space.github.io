@@ -48,7 +48,7 @@ function show(model,mesh){
   const gmat=new THREE.MeshStandardMaterial({color:new THREE.Color(cssColor("--ghost")),transparent:true,opacity:0.28,depthWrite:false,roughness:0.8});
   ghostMesh(model.ghost,gmat).forEach(m=>group.add(m));
   const b=model.bb, size=Math.max(b[1],b[3])*1.8, div=Math.max(4,Math.round(size/10));
-  const grid=new THREE.GridHelper(div*10,div,new THREE.Color(cssColor("--line")),new THREE.Color(cssColor("--line")));
+  const grid=new THREE.GridHelper(div*10,div,new THREE.Color(cssColor("--grid")),new THREE.Color(cssColor("--grid")));
   grid.rotation.x=Math.PI/2; grid.position.set(b[1]/2,b[3]/2,Math.min(0,...model.ghost.map(g=>g.z0))-0.1); group.add(grid);
   const box=new THREE.Box3().setFromObject(group.children[0]); model.ghost.length&&group.children.slice(1,-1).forEach(c=>box.expandByObject(c));
   box.getCenter(center); radius=box.getSize(new THREE.Vector3()).length()/2;

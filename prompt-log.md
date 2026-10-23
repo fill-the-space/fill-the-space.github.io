@@ -1075,3 +1075,30 @@ const acc = win ? {x0:cx-(iw/2-m)+sc.dk/2+2, x1:cx+(iw/2-m)-sc.dk/2-2, z0:t+lip+
 **Screenshot:** prompt-log-bilder/54-vorher.jpg / 54-nachher-hell.jpg / 54-nachher-dunkel.jpg
 
 **Commit-Nachricht:** Prompt 54: Design nach Vorbild TEAM 7
+
+---
+
+## Prompt 55 – Design wie „Spotify Wrapped Party“ (23.10.2026)
+
+**Prompt:**
+> https://www.awwwards.com/sites/spotify-wrapped-party kennst du die Webseite in diesem Design System machen?
+
+**Was sich geändert hat:**
+- Claude hat sich die Vorstellung bei Awwwards angesehen: eine preisgekrönte Website („Site of the Day“) der Agentur Active Theory. Typisch für den Stil: eine einzige Grundfarbe (gebrochenes Weiß #efefea), tiefes Schwarz und ein grelles Limettengrün, extrabreite, sehr fette Schrift wie Aufkleber mit schwarzer Kontur, harte schwarze Ränder und Op-Art-Kreise aus Streifen. Ein verspielter Plakat- und Y2K-Look.
+- Übertragen auf die App (ersetzt das TEAM-7-Design aus Prompt 54):
+  - **Titel** als grüner „Aufkleber“: schwarzer Rand, harter versetzter Schatten, leicht schräg gestellt.
+  - **Op-Art-Kreise** aus schwarzen Streifen rechts im Kopf, die nach links ausblenden.
+  - **Karten, Felder, Kennzahlen, Empfehlung:** 2 mm dicke schwarze Ränder, abgerundete Ecken, versetzte Schatten wie bei Aufklebern.
+  - **Farben:** Limettengrün für Auswahl, Regler, Speichern-Knopf und die Halterung in 3D. Warnhinweise in Korallenrot mit schwarzem Rand.
+  - **Schriften:** „Unbounded“ (extrabreit und fett) für Titel, Überschriften und Knöpfe, „Space Grotesk“ für den Rest. Beide sind frei verfügbar.
+  - **Knöpfe:** pillenförmig mit hartem Schatten. Beim Drücken „sinken“ sie in den Schatten.
+  - **Dunkler Modus:** Schwarz mit hellen Rändern und grünem Schatten.
+- **Bewusst nicht übernommen:** Spotify-Logo, -Name und -Grün sowie die Originalschriften.
+- Kleinigkeiten beim Testen gefunden und behoben: Das Raster in der 3D-Ansicht war plötzlich tiefschwarz und hat jetzt eine eigene, dezente Farbe. Im dunklen Modus war „Details“ im Warnhinweis schlecht lesbar, und der Schatten des Titels verschwand.
+- Geprüft: hell, dunkel und Handybreite (375 px, kein seitliches Scrollen). Die Konsole zeigt keine Fehler.
+
+**Betroffene Dateien:** css/style.css, js/ui/vorschau3d.js, index.html (Versionsnummer 55)
+
+**Screenshot:** prompt-log-bilder/55-vorher.jpg / 55-nachher-hell.jpg / 55-nachher-dunkel.jpg
+
+**Commit-Nachricht:** Prompt 55: Design im Stil der Wrapped Party
