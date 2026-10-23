@@ -1398,3 +1398,22 @@ if(sel&&sel.type===state.type) sel.v=clone(v);
 **Screenshot:** prompt-log-bilder/68-nachher.jpg / 68-nachher-handy.jpg
 
 **Commit-Nachricht:** Prompt 68: Gleicher Abstand zur Linie
+
+---
+
+## Prompt 69 – Größeres Titel-Banner (23.10.2026)
+
+**Prompt:**
+> Das Banner fill the Space ein bisschen länger gestalten, bisschen größer machen
+
+**Was sich geändert hat:**
+- Das grüne Banner „FILL THE SPACE“ ist größer: Die Schrift geht bis 62 px statt 44 px.
+- Das Banner ist länger: Links und rechts neben der Schrift ist mehr grüne Fläche.
+- Auf dem Handy wächst das Banner mit der Bildschirmbreite mit und passt weiter in eine Zeile. Es gibt kein seitliches Scrollen.
+- Die Abstände zur Linie aus Prompt 68 bleiben gleich.
+
+**Betroffene Dateien:** index.html (Versionsnummer 69), css/style.css
+
+**Screenshot:** prompt-log-bilder/68-nachher.jpg (vorher) / 69-nachher.jpg / 69-nachher-handy.jpg
+
+**Commit-Nachricht:** Prompt 69: Größeres Titel-Banner
