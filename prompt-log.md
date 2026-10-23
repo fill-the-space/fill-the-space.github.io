@@ -603,3 +603,28 @@ else pts = grid ? [[X0,Z1],[X1,Z1],[X0,Z0],[X1,Z0]] : …   // Rechteck um die M
 **Screenshot:** prompt-log-bilder/32-vorher.jpg / 32-nachher.jpg
 
 **Commit-Nachricht:** Prompt 32: Einheitlich Bauteil, Beschreibungen aufklappbar
+
+---
+
+## Prompt 33 – Immer Senkkopfschrauben (23.10.2026)
+
+**Prompt:**
+> Es soll keine Auswahl zwischen der Schraubenart geben. Es wird immer von einer Senko Schraube ausgegangen. Da sonst die Schraube in das Innere der Halterung herausragen würde.
+
+**Was sich geändert hat:**
+- Die Auswahl „Schraubenkopf“ ist weg. Alle Schraublöcher haben jetzt eine Senkung für Senkkopfschrauben, damit kein Kopf in die Halterung ragt. Das gilt auch beim runden Köcher, der bisher keine Senkung hatte.
+- Damit der Kopf wirklich ganz in der Wand verschwindet, wird die Rückwand bei Bedarf automatisch dicker: Hinter der Senkung bleiben mindestens 1,2 mm Material. Beim Köcher wird nur die Rückwand verstärkt, z. B. von 2,4 auf 3,45 mm bei einer 4-mm-Schraube. Seitenwände und Boden bleiben gleich. Bei Ablage, Leiste und Individuell erhöht die App die „Stärke“ und zeigt einen Hinweis.
+- Damit fällt auch die alte Notlösung weg, bei der ein Senkkopf an dünnen Wänden etwas überstand.
+- Getestet: 165 Fälle mit allen Schraubengrößen, verschiedenen Formen und dünnen Wänden. Überall sitzt die Senkung ganz in der Wand, und an der Wandseite bleibt Material um das Loch.
+
+**Betroffene Dateien:** js/halterungen/schrauben.js, js/geometrie/formen.js, js/halterungen/koecher.js, ablage.js, leiste.js, individuell.js, index.html (Versionsnummer 33)
+
+**Wichtigster Code-Ausschnitt:** (js/halterungen/koecher.js)
+```js
+// Rückwand so dick, dass der Senkkopf ganz darin verschwindet
+const sc=screwSpec(p), tb=Math.max(t,p.holes?screwWall(sc):0);
+```
+
+**Screenshot:** prompt-log-bilder/33-vorher.jpg / 33-nachher.jpg
+
+**Commit-Nachricht:** Prompt 33: Immer Senkkopfschrauben, Wand automatisch dick genug

@@ -21,29 +21,30 @@ function buildKoecher(p){
   const iw=p.B+2*p.s, id=p.T+2*p.s, t=p.t;
   const ri = p.shape==="rund" ? Math.min(iw,id)/2 : p.shape==="abgerundet" ? Math.min(p.r+p.s,Math.min(iw,id)/2) : 0;
   const warn=[], hs=Math.min(p.hs,p.H); if(p.hs>p.H) warn.push(`Höhe der Schale auf die Höhe des Bauteils von ${mmDE(p.H)} mm begrenzt.`);
-  const Wo=iw+2*t, Do=id+2*t, Ho=t+hs, cx=Wo/2, cy=t+id/2;
+  // Rückwand so dick, dass der Senkkopf ganz darin verschwindet
+  const sc=screwSpec(p), tb=Math.max(t,p.holes?screwWall(sc):0);
+  const Wo=iw+2*t, Do=id+2*t, Ho=t+hs, cx=Wo/2, cy=tb+id/2, Dt=cy+Do/2;
   const lip=Math.min(p.lip,Ho-t), m=Math.max(3,Math.min(10,p.B*0.15));
   const win = lip < Ho-t-1;
   const cw=Math.min(12,p.B*0.4), round=p.shape==="rund";
-  // Bei runder Innenseite liegt der Kopf nicht plan auf, deshalb ohne Senkung
-  const sc=screwSpec(p,t,warn,!round), plan=screwPlan(p,sc,0,Wo,0,Ho,warn), holes=plan.pts;
+  const plan=screwPlan(p,sc,0,Wo,0,Ho,warn), holes=plan.pts;
   const f=(x,y,z)=>{
     let d=ext(Math.min(rr2(x,y,cx,cy,Wo/2,Do/2,ri+t), rr2(x,y,cx,cy/2,Wo/2,cy/2,0)),z,0,Ho);
     d=Math.max(d,-ext(rr2(x,y,cx,cy,iw/2,id/2,ri),z,t,Ho+5));
     if(win) d=Math.max(d,-box3(x,y,z,cx-(iw/2-m),cx+(iw/2-m),cy,Do+5,t+lip,Ho+5));
-    d=screwCut(d,x,y,z,holes,sc,-5,cy,t);
+    d=screwCut(d,x,y,z,holes,sc,-5,cy,tb);
     if(p.slot) d=Math.max(d,-box3(x,y,z,cx-cw/2,cx+cw/2,cy-id*0.15,Do+5,-5,t+0.01));
     return d; };
   const rs=Math.max(0.01,Math.min(ri,Math.min(iw,id)/2-0.01));
   const L=[`// Halterungs-Generator – Köcher (${p.shape})`,`// Bauteil ${f2(p.B)} x ${f2(p.T)} x ${f2(p.H)} mm, Spiel ${f2(p.s)} mm`,`$fn = 96;`,
-    `wand = ${f2(t)}; iw = ${f2(iw)}; id = ${f2(id)}; ri = ${f2(rs)};`,`Wo = ${f2(Wo)}; Do = ${f2(Do)}; Ho = ${f2(Ho)}; cx = ${f2(cx)}; cy = ${f2(cy)};`,``,
+    `wand = ${f2(t)}; rueck = ${f2(tb)}; iw = ${f2(iw)}; id = ${f2(id)}; ri = ${f2(rs)};`,`Wo = ${f2(Wo)}; Do = ${f2(Do)}; Ho = ${f2(Ho)}; cx = ${f2(cx)}; cy = ${f2(cy)};`,``,
     `module rr(w, d, rad) { if (rad > 0.05) offset(r = rad) square([max(w - 2*rad, 0.02), max(d - 2*rad, 0.02)], center = true); else square([w, d], center = true); }`,``,
     `difference() {`,`  linear_extrude(Ho) union() { translate([cx, cy]) rr(Wo, Do, ri + wand); square([Wo, cy]); }`,
     `  translate([0, 0, wand]) linear_extrude(Ho) translate([cx, cy]) rr(iw, id, ri);`];
   if(win) L.push(`  // Sichtfenster vorne, Lippe ${f2(lip)} mm`,`  translate([cx - ${f2(iw/2-m)}, cy, wand + ${f2(lip)}]) cube([${f2(iw-2*m)}, Do, Ho]);`);
-  L.push(...screwSCAD(holes,sc,"cy + 1","wand"));
+  L.push(...screwSCAD(holes,sc,"cy + 1","rueck","cy - rueck"));
   if(p.slot) L.push(`  // Kabelschlitz`,`  translate([cx - ${f2(cw/2)}, cy - ${f2(id*0.15)}, -1]) cube([${f2(cw)}, Do, wand + 1.01]);`);
   L.push(`}`);
   const ghost=[{k:"rr",cx,cy,w:p.B,d:p.T,r:Math.max(0,ri-p.s),z0:t,z1:t+p.H}];
-  return {f,bb:[0,Wo,0,Do,0,Ho],dims:[Wo,Do,Ho],scad:L.join("\n"),ghost,dir:"Boden unten",warn,screw:plan};
+  return {f,bb:[0,Wo,0,Dt,0,Ho],dims:[Wo,Dt,Ho],scad:L.join("\n"),ghost,dir:"Boden unten",warn,screw:plan};
 }

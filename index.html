@@ -7,7 +7,7 @@
 <meta name="description" content="Wandhalterungen für den 3D-Drucker erzeugen: Maße eintragen oder Foto hochladen, in 3D ansehen, als STL und OpenSCAD speichern.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="css/style.css?v=32">
+<link rel="stylesheet" href="css/style.css?v=33">
 </head>
 <body>
 
@@ -60,33 +60,33 @@
         <span class="status" id="status" role="status"></span>
       </div>
       <textarea id="scad" readonly hidden aria-label="OpenSCAD-Code"></textarea>
-      <details class="info note"><summary>Hinweise zu Datei und Schrauben</summary><p>Die STL wird in feinerer Auflösung als die Vorschau berechnet. Kanten sind dabei leicht gebrochen. Die OpenSCAD-Datei enthält die exakte Geometrie und lässt sich in OpenSCAD weiter anpassen. Die Löcher in der Rückwand passen zur gewählten Schraube (Loch 0,5 mm größer). 4-mm-Schrauben passen zu 6er-Dübeln, 5-mm-Schrauben zu 8er-Dübeln.</p></details>
+      <details class="info note"><summary>Hinweise zu Datei und Schrauben</summary><p>Die STL wird in feinerer Auflösung als die Vorschau berechnet. Kanten sind dabei leicht gebrochen. Die OpenSCAD-Datei enthält die exakte Geometrie und lässt sich in OpenSCAD weiter anpassen. Die Löcher in der Rückwand sind für Senkkopfschrauben gemacht, damit kein Schraubenkopf in die Halterung ragt. Das Loch ist 0,5 mm größer als die Schraube. 4-mm-Schrauben passen zu 6er-Dübeln, 5-mm-Schrauben zu 8er-Dübeln.</p></details>
     </section>
   </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <!-- Rechnen: Formen, Dreiecksnetz, Foto-Erkennung -->
-<script src="js/geometrie/formen.js?v=32"></script>
-<script src="js/geometrie/netz.js?v=32"></script>
-<script src="js/foto/erkennung.js?v=32"></script>
+<script src="js/geometrie/formen.js?v=33"></script>
+<script src="js/geometrie/netz.js?v=33"></script>
+<script src="js/foto/erkennung.js?v=33"></script>
 <!-- Halterungsarten: neue Art = neue Datei + eine Zeile hier -->
-<script src="js/halterungen/register.js?v=32"></script>
-<script src="js/halterungen/schrauben.js?v=32"></script>
-<script src="js/halterungen/koecher.js?v=32"></script>
-<script src="js/halterungen/ablage.js?v=32"></script>
-<script src="js/halterungen/leiste.js?v=32"></script>
-<script src="js/halterungen/individuell.js?v=32"></script>
+<script src="js/halterungen/register.js?v=33"></script>
+<script src="js/halterungen/schrauben.js?v=33"></script>
+<script src="js/halterungen/koecher.js?v=33"></script>
+<script src="js/halterungen/ablage.js?v=33"></script>
+<script src="js/halterungen/leiste.js?v=33"></script>
+<script src="js/halterungen/individuell.js?v=33"></script>
 <!-- Export -->
-<script src="js/export/stl.js?v=32"></script>
-<script src="js/export/zip.js?v=32"></script>
-<script src="js/export/download.js?v=32"></script>
+<script src="js/export/stl.js?v=33"></script>
+<script src="js/export/zip.js?v=33"></script>
+<script src="js/export/download.js?v=33"></script>
 <!-- Oberfläche -->
-<script src="js/ui/dom.js?v=32"></script>
-<script src="js/ui/vorschau3d.js?v=32"></script>
-<script src="js/zustand.js?v=32"></script>
-<script src="js/ui/foto.js?v=32"></script>
-<script src="js/ui/formular.js?v=32"></script>
-<script src="js/main.js?v=32"></script>
+<script src="js/ui/dom.js?v=33"></script>
+<script src="js/ui/vorschau3d.js?v=33"></script>
+<script src="js/zustand.js?v=33"></script>
+<script src="js/ui/foto.js?v=33"></script>
+<script src="js/ui/formular.js?v=33"></script>
+<script src="js/main.js?v=33"></script>
 </body>
 </html>

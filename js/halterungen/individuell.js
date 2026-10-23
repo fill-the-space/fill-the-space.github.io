@@ -28,7 +28,7 @@ function buildIndividuell(p,seg){
 
   if(mode==="stellen"){
     const zFill=g.zLow+Math.min(p.fill,g.zHigh-g.zLow), [q0,q1]=hullBelow(g,zFill);
-    const m=buildKoecher({shape:"abgerundet",B:q1-q0,T,H:g.zHigh-g.zLow,r:4,hs:p.fill,lip:p.lip,t:p.t,s,holes:p.holes,sd:p.sd,sk:p.sk,sn:p.sn,slot:false});
+    const m=buildKoecher({shape:"abgerundet",B:q1-q0,T,H:g.zHigh-g.zLow,r:4,hs:p.fill,lip:p.lip,t:p.t,s,holes:p.holes,sd:p.sd,sn:p.sn,slot:false});
     m.ghost=[ghostOf(p.t+s-q0,p.t+s,p.t-g.zLow)];
     m.scad=m.scad.replace("Köcher (abgerundet)","Individuell, Schale zum Hineinstellen");
     m.warn=warn.concat(m.warn); m.mode="stellen";
@@ -38,11 +38,12 @@ function buildIndividuell(p,seg){
   }
 
   // Einhängen: Ablage mit Schlitz für den schmalen Teil, die breite Stelle liegt auf
-  const P=Math.max(3,p.P), front=p.insert!=="oben";
+  const sc=screwSpec(p), P=Math.max(3,p.P,p.holes?screwWall(sc):0), front=p.insert!=="oben";
+  if(P>Math.max(3,p.P)) warn.push(`Stärke auf ${mmDE(P)} mm erhöht, damit der Senkkopf ganz in der Rückwand verschwindet.`);
   const nw=sh.n1-sh.n0+2*s, supL=Math.min(sh.availL,30), supR=Math.min(sh.availR,30);
   if(Math.min(supL,supR)<3) warn.push("Das Bauteil liegt nur auf einer Seite auf und kann kippen. Prüfe, ob der Schwerpunkt über der Auflage liegt.");
   const armL=Math.max(supL,P+12), armR=Math.max(supR,P+12), W=armL+nw+armR;
-  const sc=screwSpec(p,P,warn), rim=6, D=P+T+2*s+rim, th=Math.max(4,P), Hp=th+Math.max(40,p.holes?screwMinPlate(sc):0), ridge=front?4:0;
+  const rim=6, D=P+T+2*s+rim, th=Math.max(4,P), Hp=th+Math.max(40,p.holes?screwMinPlate(sc):0), ridge=front?4:0;
   const sx0=armL, sx1=armL+nw, sy0=P, sy1=front?D+6:D-rim;
   const Dg=D*0.75, Hg=Math.min(Hp-th,D*0.75), gx=[2,W-2-P], tri=[[0,Hp-th],[Dg,Hp-th],[0,Hp-th-Hg]];
   const plan=screwPlan(p,sc,0,W,0,Hp-th,warn), holes=plan.pts;

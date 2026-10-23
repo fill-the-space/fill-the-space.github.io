@@ -14,13 +14,14 @@ HALTERUNGEN.ablage = {
 
 /* ---------- Ablage mit Schlitz/Ring ---------- */
 function buildAblage(p,ghostKind){
-  const warn=[]; const s=p.s, P=p.P, ring=p.ap==="ring", N=p.N, half=N/2+s;
+  const warn=[], sc=screwSpec(p); const s=p.s, P=Math.max(p.P,p.holes?screwWall(sc):0), ring=p.ap==="ring", N=p.N, half=N/2+s;
+  if(P>p.P) warn.push(`Stärke auf ${mmDE(P)} mm erhöht, damit der Senkkopf ganz in der Rückwand verschwindet.`);
   let W=p.W, Dp=p.Dp, Hp=p.Hp, L=Math.min(p.L,p.Dp);
   const rim=Math.max(P*1.5,8);
   const minW=N+2*s+2*(P+12); if(W<minW){W=minW;warn.push(`Breite auf ${f2(W)} mm erhöht, damit Stützen neben die Aussparung passen.`);}
   if(ring){ const minD=N+2*s+rim+P+5; if(Dp<minD){Dp=minD;warn.push(`Ablagetiefe auf ${f2(Dp)} mm erhöht, damit der Ring Platz hat.`);} }
   else { if(L<half+5){L=half+5;} if(Dp<L+15){Dp=L+15;warn.push(`Ablagetiefe auf ${f2(Dp)} mm erhöht, damit hinter dem Schlitz genug Material bleibt.`);} }
-  const sc=screwSpec(p,P,warn), hMin=Math.max(30,p.holes?screwMinPlate(sc):0);
+  const hMin=Math.max(30,p.holes?screwMinPlate(sc):0);
   if(Hp<P+hMin){Hp=P+hMin;warn.push(`Plattenhöhe auf ${mmDE(Hp)} mm erhöht, damit die Schrauben ${RAND} mm Abstand zum Rand haben.`);}
   const cx=W/2, yc= ring ? Dp-rim-half : Dp-L+half;
   const Dg=Dp*0.75, Hg=Math.min(Hp-P,Dp*0.75), z0=Hp-P;

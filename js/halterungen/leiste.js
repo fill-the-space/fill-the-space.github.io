@@ -15,14 +15,15 @@ HALTERUNGEN.leiste = {
 
 /* ---------- Leiste mit Löchern ---------- */
 function buildLeiste(p){
-  const warn=[]; const s=p.s, P=Math.max(4,p.P), n=Math.max(1,Math.round(p.n)), r=p.d/2+s;
+  const warn=[], sc=screwSpec(p); const s=p.s, P=Math.max(4,p.P,p.holes?screwWall(sc):0), n=Math.max(1,Math.round(p.n)), r=p.d/2+s;
+  if(P>Math.max(4,p.P)) warn.push(`Stärke auf ${mmDE(P)} mm erhöht, damit der Senkkopf ganz in der Rückwand verschwindet.`);
   let a=p.a, wd=p.wd;
   if(a<p.d+2*s+3){a=p.d+2*s+3;warn.push(`Lochabstand auf ${f2(a)} mm erhöht, damit Stege zwischen den Löchern bleiben.`);}
   if(wd<P+r+2){wd=P+r+2;warn.push(`Wandabstand auf ${f2(wd)} mm erhöht.`);}
   const th= p.blind ? p.depth+3 : P;
   const margin=Math.max(a/2, r+P+6), W=(n-1)*a+2*margin;
   // Platte nur für Schrauben erhöhen, wenn sie auch in der Breite Platz haben
-  const sc=screwSpec(p,P,warn), forScrews=p.holes&&W>=screwMinPlate(sc), hMin=Math.max(25,forScrews?screwMinPlate(sc):0);
+  const forScrews=p.holes&&W>=screwMinPlate(sc), hMin=Math.max(25,forScrews?screwMinPlate(sc):0);
   let Hp=p.Hp; if(Hp<th+hMin){Hp=th+hMin;warn.push(`Plattenhöhe auf ${mmDE(Hp)} mm erhöht${forScrews?`, damit die Schrauben ${RAND} mm Abstand zum Rand haben`:""}.`);}
   const rim=Math.max(6,P), Dp=wd+r+rim, z0=Hp-th;
   const xs=[...Array(n)].map((_,i)=>margin+i*a);
