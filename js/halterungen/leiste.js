@@ -40,7 +40,7 @@ function buildLeiste(p){
     d=Math.max(d,-ext(hyp(x-xs[i],y-wd)-r,z,hz0,Hp+5));
     d=screwCut(d,x,y,z,holes,sc,-5,P+5,P);
     return d; };
-  const S=[`// Halterungs-Generator – Leiste mit ${n} ${p.blind?"Sacklöchern":"Löchern"}`,`$fn = 64;`,
+  const S=[`// FILL THE SPACE – Leiste mit ${n} ${p.blind?"Sacklöchern":"Löchern"}`,`$fn = 64;`,
     `W = ${f2(W)}; Dp = ${f2(Dp)}; P = ${f2(P)}; Hp = ${f2(Hp)}; dicke = ${f2(th)};`,`loch = ${f2(2*r)}; abstand = ${f2(a)}; rand = ${f2(margin)}; wandabstand = ${f2(wd)};`,``,
     `module leiste2d() { hull() { square([W, 1]); translate([6, Dp - 6]) circle(6); translate([W - 6, Dp - 6]) circle(6); } }`,
     `module stuetze() { rotate([90, 0, 90]) linear_extrude(P) polygon([[0, Hp - dicke], [${f2(Dg)}, Hp - dicke], [0, Hp - dicke - ${f2(Hg)}]]); }`,``,

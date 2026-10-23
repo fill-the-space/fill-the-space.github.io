@@ -40,7 +40,7 @@ function buildKonsole(p){
     for(const g of gx) d=Math.min(d,ext(poly2(y,z,tri),x,g,g+P));
     d=screwCut(d,x,y,z,holes,sc,-5,P+5,P);
     return d; };
-  const S=[`// Halterungs-Generator – Konsole (L-Form) mit ${ring?"Ring":"Schlitz"}`,`$fn = 96;`,
+  const S=[`// FILL THE SPACE – Konsole (L-Form) mit ${ring?"Ring":"Schlitz"}`,`$fn = 96;`,
     `W = ${f2(W)}; Dp = ${f2(Dp)}; P = ${f2(P)}; Hp = ${f2(Hp)};`,`cx = ${f2(cx)}; yc = ${f2(yc)}; ap = ${f2(2*half)};  // Aussparung inkl. Spiel`,``,
     `module konsole2d() { hull() { square([W, 1]); translate([6, Dp - 6]) circle(6); translate([W - 6, Dp - 6]) circle(6); } }`,
     ring ? `module aussparung2d() { translate([cx, yc]) circle(d = ap); }`

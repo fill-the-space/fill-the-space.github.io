@@ -45,7 +45,7 @@ function buildKoecher(p){
     if(p.slot) d=Math.max(d,-box3(x,y,z,cx-cw/2,cx+cw/2,cy-id*0.15,Do+5,-5,t+0.01));
     return d; };
   const rs=Math.max(0.01,Math.min(ri,Math.min(iw,id)/2-0.01));
-  const L=[`// Halterungs-Generator – Köcher (${p.shape==="eckig"?"eckig":"abgerundet"})`,`// Bauteil ${f2(p.B)} x ${f2(p.T)} x ${f2(p.H)} mm, Spiel ${f2(p.s)} mm`,`$fn = 96;`,
+  const L=[`// FILL THE SPACE – Köcher (${p.shape==="eckig"?"eckig":"abgerundet"})`,`// Bauteil ${f2(p.B)} x ${f2(p.T)} x ${f2(p.H)} mm, Spiel ${f2(p.s)} mm`,`$fn = 96;`,
     `wand = ${f2(t)}; rueck = ${f2(tb)}; iw = ${f2(iw)}; id = ${f2(id)}; ri = ${f2(rs)};`,`Wo = ${f2(Wo)}; Do = ${f2(Do)}; Ho = ${f2(Ho)}; cx = ${f2(cx)}; cy = ${f2(cy)};`,``,
     `module rr(w, d, rad) { if (rad > 0.05) offset(r = rad) square([max(w - 2*rad, 0.02), max(d - 2*rad, 0.02)], center = true); else square([w, d], center = true); }`,``,
     `difference() {`,`  linear_extrude(Ho) union() { translate([cx, cy]) rr(Wo, Do, ri + wand); square([Wo, cy]); }`,

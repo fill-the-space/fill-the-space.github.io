@@ -55,7 +55,7 @@ function buildIndividuell(p,seg){
     for(const gg of gx) d=Math.min(d,ext(poly2(y,z,tri),x,gg,gg+P));
     d=screwCut(d,x,y,z,holes,sc,-5,P+5,P);
     return d; };
-  const S=[`// Halterungs-Generator – Individuell, zum Einhängen (${front?"von vorne":"von oben"})`,`$fn = 64;`,
+  const S=[`// FILL THE SPACE – Individuell, zum Einhängen (${front?"von vorne":"von oben"})`,`$fn = 64;`,
     `W = ${f2(W)}; D = ${f2(D)}; P = ${f2(P)}; dicke = ${f2(th)}; Hp = ${f2(Hp)};`,`// Schlitz für den schmalen Teil des Bauteils inkl. Spiel`,
     `sx0 = ${f2(sx0)}; sx1 = ${f2(sx1)}; sy0 = ${f2(sy0)}; sy1 = ${f2(sy1)};`,``,
     `module konsole2d() { hull() { square([W, 1]); translate([6, D - 6]) circle(6); translate([W - 6, D - 6]) circle(6); } }`,

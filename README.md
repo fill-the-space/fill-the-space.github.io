@@ -1,4 +1,6 @@
-# Halterungs-Generator
+# FILL THE SPACE
+
+Der Halterungs-Generator heißt jetzt „FILL THE SPACE“. Das Repository und die Adresse behalten den alten Namen.
 
 Erzeugt Wandhalterungen für den 3D-Drucker: Halterungsart wählen, Maße mit Schiebereglern und Feldern einstellen (alle Längen in Millimetern), Halterung in 3D ansehen und als STL-Datei speichern.
 

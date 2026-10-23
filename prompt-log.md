@@ -1140,3 +1140,22 @@ const acc = win ? {x0:cx-(iw/2-m)+sc.dk/2+2, x1:cx+(iw/2-m)-sc.dk/2-2, z0:t+lip+
 **Screenshot:** prompt-log-bilder/57-nachher.jpg
 
 **Commit-Nachricht:** Prompt 57: Hakenstärke folgt der Wandstärke
+
+---
+
+## Prompt 58 – Neuer Name: FILL THE SPACE (23.10.2026)
+
+**Prompt:**
+> Ich würde die App gerne umbenennen in FILL THE SPACE
+
+**Was sich geändert hat:**
+- Die App heißt jetzt „FILL THE SPACE“: im Titel-Aufkleber oben, im Browser-Tab, im Kopf jeder STL-Datei, in den Kommentaren der OpenSCAD-Datei, in der README und in der CLAUDE.md.
+- Gleich geblieben sind das GitHub-Repository „halterungs-generator“, die Internetadresse lioba-source.github.io/halterungs-generator und die Dateinamen beim Speichern (z. B. halterung-konsole.stl). Eine Umbenennung des Repositorys würde die Adresse ändern, deshalb hat Claude das nicht ohne Rückfrage gemacht. In der README steht ein Hinweis auf den alten Namen.
+- Die Überschrift dieses Protokolls bleibt „Halterungs-Generator“, weil sie die ganze Entstehungsgeschichte beschreibt.
+- Geprüft: Der Name passt auch auf dem Handy (375 px) in eine Zeile, es gibt kein seitliches Scrollen.
+
+**Betroffene Dateien:** index.html (Versionsnummer 58), js/export/stl.js, js/halterungen/koecher.js, konsole.js, leiste.js, individuell.js, README.md, CLAUDE.md
+
+**Screenshot:** prompt-log-bilder/58-vorher.jpg / 58-nachher.jpg
+
+**Commit-Nachricht:** Prompt 58: App heißt jetzt FILL THE SPACE

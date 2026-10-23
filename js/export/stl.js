@@ -1,7 +1,7 @@
 /* ---------- STL (binär) ---------- */
 function stl(m){
   const nt=m.idx.length/3, buf=new ArrayBuffer(84+nt*50), dv=new DataView(buf), p=m.pos, t=m.idx;
-  const head="Halterungs-Generator"; for(let i=0;i<head.length;i++) dv.setUint8(i,head.charCodeAt(i));
+  const head="FILL THE SPACE"; for(let i=0;i<head.length;i++) dv.setUint8(i,head.charCodeAt(i));
   dv.setUint32(80,nt,true); let o=84;
   for(let q=0;q<t.length;q+=3){ const a=3*t[q],b=3*t[q+1],c=3*t[q+2];
     const ux=p[b]-p[a],uy=p[b+1]-p[a+1],uz=p[b+2]-p[a+2],vx=p[c]-p[a],vy=p[c+1]-p[a+1],vz=p[c+2]-p[a+2];

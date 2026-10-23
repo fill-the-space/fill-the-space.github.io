@@ -1,4 +1,4 @@
-# Halterungs-Generator – Hinweise für Claude
+# FILL THE SPACE (Halterungs-Generator) – Hinweise für Claude
 
 Web-App ohne Build-Schritt: `index.html` lädt die Skripte aus `js/` der Reihe nach (klassische `<script>`-Tags, keine Module), damit sie per Doppelklick und auf GitHub Pages läuft. Aufbau und „Neue Halterungsart hinzufügen“ stehen in der README.
 
