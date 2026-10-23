@@ -338,3 +338,21 @@ function saveFile(name,blob){
 **Betroffene Dateien:** prompt-log.md
 
 **Commit-Nachricht:** Prompt 13–18: Repository umbenannt, Pages eingeschaltet
+
+**Nachtrag zu Prompt 18:**
+- Fehler: Claude konnte nicht pushen, weil auf dem Mac keine GitHub-Anmeldung für die Kommandozeile gespeichert ist. Die Anmeldung kennt nur GitHub Desktop.
+- Ursache aller bisherigen Commit- und Push-Probleme gefunden: GitHub Desktop kannte den Projektordner gar nicht. In seiner Liste stand nur ein anderes Projekt (stl-parametrisch). Commits und Pushes landeten deshalb nie in diesem Ordner. Lösung: den Ordner in GitHub Desktop über „File → Add Local Repository…“ hinzufügen.
+
+---
+
+## Prompt 19 – Claude öffnet den Ordner in GitHub Desktop (23.10.2026)
+
+**Prompt:**
+> kannst du das machen
+
+**Entscheidung:**
+- Claude kann in dieser Sitzung keine Desktop-Programme fernsteuern. GitHub Desktop bringt aber einen eigenen Befehl mit, der einen Ordner öffnet. Damit hat Claude den Projektordner an GitHub Desktop übergeben und den Nachtrag selbst committet. Den Push muss Lioba in GitHub Desktop auslösen, weil nur dort ihre GitHub-Anmeldung gespeichert ist.
+
+**Betroffene Dateien:** prompt-log.md
+
+**Commit-Nachricht:** Prompt 18–19: Nachtrag Push-Problem
