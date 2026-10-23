@@ -534,3 +534,10 @@ const SCHRAUB_FELDER=[
 **Screenshot:** prompt-log-bilder/29-vorher.jpg / 29-nachher.jpg
 
 **Commit-Nachricht:** Prompt 29: Schraubengröße, Kopfform und Anzahl wählbar
+
+**Nachtrag zu Prompt 29:**
+- Fehler beim Online-Test gefunden: Der Browser hatte die neue Schrauben-Datei geladen, die vier Halterungsdateien aber noch aus dem Zwischenspeicher genommen. Die Schrauben-Auswahl fehlte deshalb online, obwohl GitHub schon die neue Version auslieferte. Lösung: Jede Datei wird jetzt mit einer Versionsnummer geladen (z. B. `ablage.js?v=29`). Nach jeder Änderung wird die Nummer erhöht, und der Browser holt alle Dateien gemeinsam neu. Die Regel steht in der CLAUDE.md.
+
+**Betroffene Dateien:** index.html, CLAUDE.md
+
+**Commit-Nachricht:** Prompt 29: Versionsnummer gegen gemischte Dateien im Browser
