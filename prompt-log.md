@@ -1300,3 +1300,23 @@ if(sel&&sel.type===state.type) sel.v=clone(v);
 **Screenshot:** prompt-log-bilder/63-stapel-3d.jpg / 63-stapel-oben.jpg
 
 **Commit-Nachricht:** Prompt 63: Kasten statt Schublade, Boxen stapeln
+
+---
+
+## Prompt 64 – Nur stapelbare Boxen stapeln (23.10.2026)
+
+**Prompt:**
+> die Boxen sollten sich nur übereinander stellen lassen, wenn sie auch Stapel Barr sind
+
+**Was sich geändert hat:**
+- Stapelbar ist eine Box mit Stapelfuß und ohne Deckel: die Stapelbox und der Sortierkasten, wenn „Stapelbar“ eingeschaltet ist. Die Deckelbox ist nicht stapelbar.
+- Bei einer nicht stapelbaren Box ist der Knopf „Stapeln“ ausgegraut, und die App sagt, warum: „Zum Stapeln im Formular „Stapelbar“ einschalten“ oder „Boxen mit Deckel lassen sich nicht stapeln“.
+- Gestapelt wird nur auf stapelbare Boxen. Gibt es keine passende, erscheint ein Hinweis, und die Box bleibt am Boden.
+- Wird eine Box später nicht stapelbar (z. B. „Stapelbar“ ausgeschaltet), steht sie wieder am Boden, und ein Hinweis erscheint.
+- Steht eine Box auf einer nicht stapelbaren Box, z. B. weil man sie dorthin geschoben hat, wird sie rot, und es kommt eine Warnung.
+
+**Betroffene Dateien:** index.html (Versionsnummer 64), js/ui/anordnung.js
+
+**Screenshot:** prompt-log-bilder/64-nicht-stapelbar.jpg
+
+**Commit-Nachricht:** Prompt 64: Nur stapelbare Boxen stapeln
