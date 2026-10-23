@@ -19,6 +19,9 @@ function update(){
     sc=currentSeg(v);
     if(!sc||!sc.seg){ drawPhoto(sc,null); const w=$("warn"); w.hidden=false; w.textContent="Auf dem Foto wurde kein Bauteil erkannt. Erkennungsschwelle senken oder ein Foto mit hellerem, ruhigem Hintergrund wählen."; return; }
   }
+  // Anordnung: Ist ein Teil ausgewählt, übernimmt es die Maße aus dem Formular
+  const P=state.plan[state.page], sel=P.on&&P.items.find(i=>i.id===P.sel);
+  if(sel&&sel.type===state.type) sel.v=clone(v);
   const model=build(state.type,v,null,sc&&sc.seg);
   if(sc){ if(sc.seg.touches) model.warn.unshift("Der Umriss berührt den Bildrand. Das Bauteil sollte ganz auf dem Foto sein.");
     drawPhoto(sc,model.info); $("detect").textContent=model.info.text;
@@ -39,7 +42,8 @@ function update(){
   $("outDir").textContent=model.dir;
   const w=$("warn"); w.hidden=!model.warn.length; w.textContent=model.warn.join(" ");
   current={model,area:st.area,h};
-  show(model,mesh);
+  if(P.on){ if(!model.plan&&!planCache.has(planKey(state.type,v))) planCache.set(planKey(state.type,v),{bb:model.bb,mesh}); drawPlan(); }
+  else show(model,mesh);
   try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){}
 }
 
@@ -76,6 +80,6 @@ for(const k of ["x","y","z"]){ const i=$("bed"+k.toUpperCase()); i.value=state.b
 
 // Zwischen den Seiten Halterungen und Boxen wechseln; jede Seite merkt sich ihre zuletzt gewählte Art
 for(const b of document.querySelectorAll("#pages button")) b.addEventListener("click",()=>{ const p=b.dataset.page; if(p===state.page) return;
-  state.last[state.page]=state.type; state.page=p; state.type=state.last[p]; view.zoom=1; renderAll(); });
+  state.last[state.page]=state.type; state.page=p; state.type=state.last[p]; planCamera(); renderAll(); });
 
-initGL(); renderAll();
+planCamera(); initGL(); renderAll();

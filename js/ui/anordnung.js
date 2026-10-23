@@ -1,0 +1,167 @@
+/* ---------- Anordnung: Teile an der Wand oder in der Schublade ----------
+   Jede Seite hat einen eigenen Platz: Halterungen hängen an einer Wand (von vorne gesehen: a = von links, b = von unten),
+   Boxen stehen in einer Schublade (von oben gesehen: a = von links, b = von vorne). Jedes Teil merkt sich Art und Maße.
+   Ist ein Teil ausgewählt, gelten Änderungen im Formular für dieses Teil. */
+const PLAN_ART={
+  halterung:{kind:"wand", name:"Wand", knopf:"An der Wand", ort:"an der Wand", size:[["W","Breite"],["H","Höhe"]], b:"von unten", gap:20, raster:100,
+    hint:"Trag ein, wie groß die freie Wandfläche ist. „Teil hinzufügen“ hängt die Halterung aus dem Formular an die Wand. Teile mit der Maus oder dem Finger verschieben, sie rasten an den Kanten der anderen Teile ein. Ein angetipptes Teil ist ausgewählt: Änderungen im Formular gelten dann nur für dieses Teil. Für eine weitere Halterung wieder „Teil hinzufügen“ oder „Duplizieren“ drücken und das neue Teil anpassen. Auf eine freie Stelle tippen hebt die Auswahl auf."},
+  box:{kind:"schublade", name:"Schublade", knopf:"In der Schublade", ort:"in der Schublade", size:[["L","Länge"],["B","Breite"],["H","Höhe"]], b:"von vorne", gap:0, raster:50,
+    hint:"Trag die Innenmaße deiner Schublade oder Kiste ein. „Teil hinzufügen“ stellt die Box aus dem Formular hinein, die Ansicht zeigt sie von oben, vorne ist unten. Boxen mit der Maus oder dem Finger verschieben, sie rasten an den Kanten der anderen Boxen ein. „Drehen“ dreht die ausgewählte Box um 90°. Ein angetipptes Teil ist ausgewählt: Änderungen im Formular gelten dann nur für diese Box. Auf eine freie Stelle tippen hebt die Auswahl auf."}
+};
+const planCache=new Map();
+const plan=()=>state.plan[state.page], planArt=()=>PLAN_ART[state.page];
+const planDims=()=>{ const P=plan(); return planArt().kind==="wand"?[P.W,P.H]:[P.L,P.B]; };
+const planKey=(type,v)=>type+JSON.stringify(v);
+const nameOf=t=>HALTERUNGEN[t].name.replace(/­/g,"");
+const clone=o=>JSON.parse(JSON.stringify(o));
+const mm=x=>x.toLocaleString("de-DE",{maximumFractionDigits:0});
+
+// Netz und Umriss eines Teils; für gleiche Maße nur einmal berechnet (Boxen mit geschlossenem Deckel)
+function planEntry(type,v){
+  const k=planKey(type,v); let e=planCache.get(k);
+  if(!e){ const m=build(type,v), g=m.plan||{f:m.f,bb:m.bb}, b=g.bb, vol=(b[1]-b[0]+4)*(b[3]-b[2]+4)*(b[5]-b[4]+4);
+    e={bb:b, mesh:polygonize(g.f,b,Math.max(1,Math.min(Math.cbrt(vol/120000),(v.t||v.P||3)*0.8)))}; planCache.set(k,e); }
+  return e;
+}
+// Umriss eines Teils in der Ansicht (Rechteck a, b, w, h in mm)
+function planRect(it){
+  const e=planEntry(it.type,it.v), b=e.bb, wand=planArt().kind==="wand";
+  let w=b[1]-b[0], h=wand?b[5]-b[4]:b[3]-b[2]; if(!wand&&it.rot) [w,h]=[h,w];
+  return {it,e,a:it.a,b:it.b,w,h};
+}
+const hit=(r,s)=>r.a<s.a+s.w-0.01&&s.a<r.a+r.w-0.01&&r.b<s.b+s.h-0.01&&s.b<r.b+r.h-0.01;
+// Freie Stelle: Wand von oben links, Schublade von vorne links, jeweils neben oder unter/hinter den vorhandenen Teilen
+function freeSpot(w,h,rects){
+  const [CW,CH]=planDims(), g=planArt().gap, wand=planArt().kind==="wand";
+  const as=[g,...rects.map(r=>r.a+r.w+g)].sort((x,y)=>x-y), bs=(wand?[CH-h-g,...rects.map(r=>r.b-h-g)]:[g,...rects.map(r=>r.b+r.h+g)]).sort((x,y)=>wand?y-x:x-y);
+  for(const b of bs) for(const a of as){ const r={a,b,w,h}; if(a>=0&&b>=0&&a+w<=CW+0.01&&b+h<=CH+0.01&&!rects.some(s=>hit(r,s))) return {a,b}; }
+  return {a:Math.max(0,Math.min(g,CW-w)), b:wand?Math.max(0,CH-h-g):g};
+}
+function clampItem(it){ const r=planRect(it), [CW,CH]=planDims(); it.a=Math.max(0,Math.min(it.a,CW-r.w)); it.b=Math.max(0,Math.min(it.b,CH-r.h)); }
+function savePlan(){ try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){} }
+
+/* ---------- Bedienung ---------- */
+function selectItem(id){
+  const P=plan(); P.sel=id; const it=P.items.find(i=>i.id===id);
+  if(it){ state.type=it.type; state.v[it.type]=clone(it.v); }
+  renderAll();
+}
+function addItem(it){
+  const P=plan(), rects=P.items.map(planRect), r=planRect({...it,a:0,b:0}), s=freeSpot(r.w,r.h,rects);
+  it.id=++P.n; it.a=s.a; it.b=s.b; P.items.push(it); selectItem(it.id);
+}
+$("planAdd").addEventListener("click",()=>addItem({type:state.type,v:clone(state.v[state.type]),rot:0}));
+$("planDup").addEventListener("click",()=>{ const P=plan(), it=P.items.find(i=>i.id===P.sel); if(it) addItem({type:it.type,v:clone(it.v),rot:it.rot||0}); });
+$("planRot").addEventListener("click",()=>{ const P=plan(), it=P.items.find(i=>i.id===P.sel); if(!it) return; it.rot=it.rot?0:1; clampItem(it); drawPlan(); savePlan(); });
+$("planDel").addEventListener("click",()=>{ const P=plan(); P.items=P.items.filter(i=>i.id!==P.sel); P.sel=null; renderAll(); });
+for(const b of document.querySelectorAll("#viewMode button")) b.addEventListener("click",()=>{ const P=plan(), on=b.dataset.mode==="plan"; if(P.on===on) return;
+  P.on=on; if(!on) P.sel=null; planCamera(); renderAll(); });
+
+// Blickwinkel: Einzelteil schräg von vorne, Wand von vorne, Schublade von vorne oben
+function planCamera(){
+  Object.assign(view, !plan().on ? {theta:-0.7,phi:1.05,zoom:1} : planArt().kind==="wand" ? {theta:Math.PI+0.4,phi:1.3,zoom:0.8} : {theta:-0.4,phi:0.8,zoom:0.85});
+}
+
+// Feste Teile des Bereichs (Größe, Position): nur bei Seiten- oder Ansichtswechsel neu aufbauen, damit man beim Tippen im Feld bleibt
+function numField(label,val,min,max,on){
+  const l=document.createElement("label"); l.className="num"; l.textContent=label;
+  const w=document.createElement("span"); w.className="inp"; w.dataset.u="mm";
+  const i=document.createElement("input"); i.type="number"; i.min=min; i.max=max; i.step=1; i.value=val; i.inputMode="decimal";
+  i.addEventListener("input",()=>{ const x=parseFloat(i.value); if(isFinite(x)&&x>=min) on(Math.min(max,x)); });
+  w.appendChild(i); l.appendChild(w); return l;
+}
+function renderPlanPanel(){
+  const P=plan(), A=planArt();
+  for(const b of document.querySelectorAll("#viewMode button")) b.setAttribute("aria-pressed",String((b.dataset.mode==="plan")===P.on));
+  $("planBtn").textContent=A.knopf; $("plan").hidden=!P.on;
+  // Legende der 3D-Vorschau: in der Anordnung ausgewähltes Teil und weitere Teile
+  $("legendGhostDot").style.background=P.on?"var(--placed)":"var(--ghost)"; $("legendGhostText").textContent=P.on?"Weitere Teile":"Bauteil";
+  if(P.on){ $("legendModel").textContent="Ausgewählt"; $("legendGhost").hidden=false; }
+  if(!P.on){ $("formSel").hidden=true; return; }
+  $("planTitle").textContent=A.name; $("planHint").textContent=A.hint; $("planRot").hidden=A.kind==="wand";
+  $("planSvg").setAttribute("aria-label",A.kind==="wand"?"Wand von vorne mit den Halterungen":"Schublade von oben mit den Boxen");
+  const sz=$("planSize"); sz.innerHTML=""; sz.className="nums"+(A.size.length===2?" two":"");
+  for(const [k,l] of A.size) sz.appendChild(numField(l,P[k],k==="H"&&A.kind!=="wand"?10:50,5000,x=>{ P[k]=x; drawPlan(); savePlan(); }));
+  const pos=$("planPos"); pos.innerHTML="";
+  pos.append(numField("von links",0,0,5000,x=>{ const it=P.items.find(i=>i.id===P.sel); if(it){ it.a=x; drawPlan(); savePlan(); } }),
+             numField(A.b,0,0,5000,x=>{ const it=P.items.find(i=>i.id===P.sel); if(it){ it.b=x; drawPlan(); savePlan(); } }));
+}
+
+/* ---------- Zeichnen: Ansicht von vorne bzw. oben, Liste, Hinweise und 3D ---------- */
+function drawPlan(){
+  const P=plan(), A=planArt(), wand=A.kind==="wand", [CW,CH]=planDims(), rects=P.items.map(planRect), bad=new Set(), warn=[];
+  const nr=it=>P.items.indexOf(it)+1;
+  // Prüfen: Überlappen, über den Rand, zu hoch für die Schublade
+  rects.forEach((r,i)=>{
+    for(let j=i+1;j<rects.length;j++) if(hit(r,rects[j])){ bad.add(r.it.id); bad.add(rects[j].it.id); warn.push(`Teil ${i+1} und Teil ${j+1} überlappen.`); }
+    if(r.a<-0.01||r.b<-0.01||r.a+r.w>CW+0.01||r.b+r.h>CH+0.01){ bad.add(r.it.id); warn.push(`Teil ${i+1} ragt über den Rand der ${A.name}.`); }
+    const hz=r.e.bb[5]-r.e.bb[4]; if(!wand&&hz>P.H+0.01){ bad.add(r.it.id); warn.push(`Teil ${i+1} ist ${mm(hz)} mm hoch, die Schublade nur ${mm(P.H)} mm.`); } });
+  const used=rects.reduce((s,r)=>s+Math.max(0,Math.min(r.a+r.w,CW)-Math.max(r.a,0))*Math.max(0,Math.min(r.b+r.h,CH)-Math.max(r.b,0)),0);
+  $("planSum").textContent=`${rects.length} ${rects.length===1?"Teil":"Teile"} · ${mm(100*used/(CW*CH))} % belegt`;
+
+  // Ansicht als SVG: y wächst nach unten, deshalb b von unten umrechnen
+  const svg=$("planSvg"), pad=Math.max(CW,CH)*0.02, fs0=Math.max(CW,CH)/22;
+  svg.setAttribute("viewBox",`${-pad} ${-pad} ${CW+2*pad} ${CH+2*pad}`);
+  let h=`<rect class="pl-box" x="0" y="0" width="${CW}" height="${CH}"/>`;
+  for(let x=A.raster;x<CW;x+=A.raster) h+=`<line class="pl-grid" x1="${x}" y1="0" x2="${x}" y2="${CH}"/>`;
+  for(let y=A.raster;y<CH;y+=A.raster) h+=`<line class="pl-grid" x1="0" y1="${CH-y}" x2="${CW}" y2="${CH-y}"/>`;
+  for(const r of rects){ const y=CH-r.b-r.h, fs=Math.min(fs0,Math.min(r.w,r.h)*0.6);
+    h+=`<rect class="pl-item${r.it.id===P.sel?" sel":""}${bad.has(r.it.id)?" bad":""}" x="${r.a}" y="${y}" width="${r.w}" height="${r.h}" rx="${Math.min(4,r.w/4)}"/>`+
+       `<text class="pl-nr" x="${r.a+r.w/2}" y="${y+r.h/2}" font-size="${fs}">${nr(r.it)}</text>`; }
+  svg.innerHTML=h;
+
+  // Liste der Teile: antippen wählt aus
+  const ul=$("planList"); ul.innerHTML="";
+  for(const r of rects){ const li=document.createElement("li"), b=document.createElement("button"); b.type="button"; b.setAttribute("aria-pressed",String(r.it.id===P.sel));
+    const hz=r.e.bb[5]-r.e.bb[4], tief=r.e.bb[3]-r.e.bb[2];
+    b.textContent=`${nr(r.it)} · ${nameOf(r.it.type)} · `+(wand?`${mm(r.w)} × ${mm(r.h)} mm, ${mm(tief)} mm tief`:`${mm(r.w)} × ${mm(r.h)} × ${mm(hz)} mm`);
+    b.addEventListener("click",()=>selectItem(r.it.id===P.sel?null:r.it.id)); li.appendChild(b); ul.appendChild(li); }
+  const w=$("planWarn"); w.innerHTML=""; for(const t of warn){ const p=document.createElement("p"); p.textContent=t; w.appendChild(p); }
+
+  // Auswahl: Knöpfe, Position und Hinweis im Formular
+  const it=P.items.find(i=>i.id===P.sel);
+  for(const id of ["planDup","planRot","planDel"]) $(id).disabled=!it;
+  $("planPos").hidden=!it;
+  if(it){ const ins=$("planPos").querySelectorAll("input"); [it.a,it.b].forEach((x,k)=>{ if(document.activeElement!==ins[k]) ins[k].value=Math.round(x); }); }
+  $("planSel").textContent = it ? `Teil ${nr(it)} ist ausgewählt. Änderungen im Formular gelten nur für dieses Teil. Zum Verschieben ziehen.` : P.items.length ? "Kein Teil ausgewählt. Ein Teil antippen, um es zu verschieben oder zu ändern." : `Noch leer. „Teil hinzufügen“ ${wand?"hängt die Halterung":"stellt die Box"} aus dem Formular ${A.ort}.`;
+  const fs=$("formSel"); fs.hidden=!it; if(it) fs.textContent=`Du bearbeitest Teil ${nr(it)} ${A.ort}.`;
+
+  // 3D: Netze aus dem Zwischenspeicher an ihre Stelle setzen
+  const parts=rects.map(r=>{ const b=r.e.bb; if(!r.e.geo&&renderer) r.e.geo=meshGeo(r.e.mesh);
+    const p={geo:r.e.geo, sel:r.it.id===P.sel, bad:bad.has(r.it.id), depth:b[3]};
+    // Wand: Von vorne gesehen zeigt die x-Achse der Halterungen nach links, deshalb von rechts her einsetzen
+    if(wand) Object.assign(p,{x:P.W-r.a-r.w-b[0],y:0,z:r.b-b[4]});
+    else if(r.it.rot) Object.assign(p,{x:r.a+b[3],y:r.b-b[0],z:-b[4],rot:1});
+    else Object.assign(p,{x:r.a-b[0],y:r.b-b[2],z:-b[4]});
+    return p; });
+  showPlan({kind:A.kind, W:P.W, H:P.H, L:P.L, B:P.B, parts});
+
+  // Zwischenspeicher klein halten: Netze, die kein Teil mehr braucht, wegwerfen
+  if(planCache.size>40){ const keep=new Set(Object.values(state.plan).flatMap(Q=>Q.items.map(i=>planKey(i.type,i.v))));
+    for(const [k,e] of planCache) if(!keep.has(k)){ e.geo&&e.geo.dispose(); planCache.delete(k); } }
+}
+
+/* ---------- Verschieben mit Maus oder Finger; rastet an Kanten ein ---------- */
+(()=>{
+  const svg=$("planSvg"); let drag=null;
+  const toMM=e=>{ const m=svg.getScreenCTM(), p=new DOMPoint(e.clientX,e.clientY).matrixTransform(m.inverse()); return {a:p.x, b:planDims()[1]-p.y, px:1/m.a}; };
+  svg.addEventListener("pointerdown",e=>{
+    const P=plan(), pt=toMM(e), rects=P.items.map(planRect);
+    const r=[...rects].reverse().find(r=>pt.a>=r.a&&pt.a<=r.a+r.w&&pt.b>=r.b&&pt.b<=r.b+r.h);
+    if(!r){ if(P.sel!=null) selectItem(null); return; }
+    if(P.sel!==r.it.id) selectItem(r.it.id);
+    drag={id:r.it.id, da:pt.a-r.a, db:pt.b-r.b}; svg.setPointerCapture(e.pointerId); e.preventDefault();
+  });
+  svg.addEventListener("pointermove",e=>{
+    if(!drag) return; const P=plan(), it=P.items.find(i=>i.id===drag.id); if(!it) return;
+    const pt=toMM(e), [CW,CH]=planDims(), me=planRect(it), others=P.items.filter(i=>i!==it).map(planRect), g=planArt().gap, tol=10*pt.px;
+    const snap=(x,len,edges,max)=>{ let best=null;
+      for(const s of edges) for(const c of [s,s-len]) if(Math.abs(x-c)<tol&&(best==null||Math.abs(x-c)<Math.abs(x-best))) best=c;
+      x=best!=null?best:Math.round(x/5)*5; return Math.max(0,Math.min(x,max-len)); };
+    it.a=snap(pt.a-drag.da,me.w,[0,CW,...others.flatMap(o=>[o.a,o.a+o.w,o.a-g,o.a+o.w+g])],CW);
+    it.b=snap(pt.b-drag.db,me.h,[0,CH,...others.flatMap(o=>[o.b,o.b+o.h,o.b-g,o.b+o.h+g])],CH);
+    drawPlan();
+  });
+  const end=()=>{ if(drag){ drag=null; savePlan(); } };
+  svg.addEventListener("pointerup",end); svg.addEventListener("pointercancel",end);
+})();

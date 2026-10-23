@@ -40,10 +40,13 @@ function ghostMesh(gs,mat){
     out.push(new THREE.Mesh(geo,mat)); }
   return out;
 }
+// Alte Darstellung entfernen; Netze aus dem Zwischenspeicher der Anordnung (keep) bleiben erhalten
+function clearGroup(){ while(group.children.length){const c=group.children.pop(); if(!c.userData.keep) c.geometry&&c.geometry.dispose(); c.material&&c.material.dispose();} }
+function meshGeo(mesh){ const geo=new THREE.BufferGeometry(); geo.setAttribute("position",new THREE.BufferAttribute(mesh.pos,3)); geo.setIndex(new THREE.BufferAttribute(mesh.idx,1)); geo.computeVertexNormals(); return geo; }
 function show(model,mesh){
   if(!renderer)return;
-  while(group.children.length){const c=group.children.pop(); c.geometry&&c.geometry.dispose(); c.material&&c.material.dispose();}
-  const geo=new THREE.BufferGeometry(); geo.setAttribute("position",new THREE.BufferAttribute(mesh.pos,3)); geo.setIndex(new THREE.BufferAttribute(mesh.idx,1)); geo.computeVertexNormals();
+  clearGroup();
+  const geo=meshGeo(mesh);
   group.add(new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:new THREE.Color(cssColor("--model")),roughness:0.6,metalness:0.02})));
   const gmat=new THREE.MeshStandardMaterial({color:new THREE.Color(cssColor("--ghost")),transparent:true,opacity:0.28,depthWrite:false,roughness:0.8});
   ghostMesh(model.ghost,gmat).forEach(m=>group.add(m));
@@ -52,5 +55,25 @@ function show(model,mesh){
   grid.rotation.x=Math.PI/2; grid.position.set(b[1]/2,b[3]/2,Math.min(0,...model.ghost.map(g=>g.z0))-0.1); group.add(grid);
   const box=new THREE.Box3().setFromObject(group.children[0]); model.ghost.length&&group.children.slice(1,-1).forEach(c=>box.expandByObject(c));
   box.getCenter(center); radius=box.getSize(new THREE.Vector3()).length()/2;
+  draw();
+}
+
+/* Anordnung: Wand (von vorne, Teile mit der Rückseite bei y = 0) oder Schublade (Boden bei z = 0, vorne bei y = 0).
+   parts: [{geo, x, y, z, rot, sel, bad}]; rot = 1 dreht das Teil um 90° */
+function showPlan(sp){
+  if(!renderer)return;
+  clearGroup();
+  const mat=c=>new THREE.MeshStandardMaterial({color:new THREE.Color(cssColor(c)),roughness:0.6,metalness:0.02});
+  const slab=(x0,x1,y0,y1,z0,z1,m)=>{ const g=new THREE.BoxGeometry(x1-x0,y1-y0,z1-z0); g.translate((x0+x1)/2,(y0+y1)/2,(z0+z1)/2); const o=new THREE.Mesh(g,m); group.add(o); return o; };
+  const wall=new THREE.MeshStandardMaterial({color:new THREE.Color(cssColor("--wall")),roughness:0.95});
+  let depth=0;
+  for(const p of sp.parts){ const m=new THREE.Mesh(p.geo,mat(p.bad?"--alert-bg":p.sel?"--model":"--placed")); m.userData.keep=true;
+    if(p.rot) m.rotation.z=Math.PI/2; m.position.set(p.x,p.y,p.z); group.add(m); depth=Math.max(depth,p.depth||0); }
+  if(sp.kind==="wand"){ slab(0,sp.W,-12,0,0,sp.H,wall);
+    center.set(sp.W/2,depth/2,sp.H/2); radius=Math.hypot(sp.W,sp.H,depth)/2; }
+  else { const t=8, glas=new THREE.MeshStandardMaterial({color:new THREE.Color(cssColor("--wall")),transparent:true,opacity:0.35,depthWrite:false,roughness:0.9});
+    slab(-t,sp.L+t,-t,sp.B+t,-t,0,wall);
+    slab(-t,0,-t,sp.B+t,0,sp.H,glas); slab(sp.L,sp.L+t,-t,sp.B+t,0,sp.H,glas); slab(0,sp.L,sp.B,sp.B+t,0,sp.H,glas); slab(0,sp.L,-t,0,0,sp.H,glas);
+    center.set(sp.L/2,sp.B/2,sp.H/3); radius=Math.hypot(sp.L,sp.B,sp.H)/2; }
   draw();
 }

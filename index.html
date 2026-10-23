@@ -7,7 +7,7 @@
 <meta name="description" content="Wandhalterungen für den 3D-Drucker erzeugen: Maße eintragen oder Foto hochladen, in 3D ansehen, als STL speichern.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="css/style.css?v=60">
+<link rel="stylesheet" href="css/style.css?v=61">
 </head>
 <body>
 
@@ -15,7 +15,7 @@
   <header>
     <h1>FILL THE SPACE</h1>
     <nav class="seg pages" id="pages" aria-label="Seite"><button type="button" data-page="halterung">Halterungen</button><button type="button" data-page="box">Boxen</button></nav>
-    <details class="info"><summary>So funktioniert’s</summary><p class="lead">Oben zwischen Halterungen und Boxen wechseln, dann die Art wählen und die Maße eintragen. Die Form wird live berechnet und lässt sich als druckfertige STL-Datei speichern.</p></details>
+    <details class="info"><summary>So funktioniert’s</summary><p class="lead">Oben zwischen Halterungen und Boxen wechseln, dann die Art wählen und die Maße eintragen. Die Form wird live berechnet und lässt sich als druckfertige STL-Datei speichern. Über der 3D-Vorschau lassen sich die Teile an einer Wand oder in einer Schublade anordnen.</p></details>
   </header>
 
   <div class="grid">
@@ -39,6 +39,7 @@
       </fieldset>
       <fieldset>
         <legend>Maße und Optionen</legend>
+        <p class="selnote" id="formSel" hidden></p>
         <div id="fields" style="display:flex;flex-direction:column;gap:12px"></div>
         <p class="warn" id="warn" hidden></p>
       </fieldset>
@@ -51,9 +52,26 @@
     </div>
 
     <section class="view">
+      <div class="seg viewmode" id="viewMode" role="group" aria-label="Ansicht"><button type="button" data-mode="teil">Einzelteil</button><button type="button" data-mode="plan" id="planBtn">An der Wand</button></div>
       <div class="bed" id="bed">
         <span class="tag" id="tag">Ziehen zum Drehen · Mausrad zum Zoomen</span>
-        <div class="legend"><span><i style="background:var(--model)"></i><b id="legendModel">Halterung</b></span><span id="legendGhost"><i style="background:var(--ghost)"></i>Bauteil</span></div>
+        <div class="legend"><span><i style="background:var(--model)"></i><b id="legendModel">Halterung</b></span><span id="legendGhost"><i id="legendGhostDot" style="background:var(--ghost)"></i><b id="legendGhostText">Bauteil</b></span></div>
+      </div>
+      <div class="plan" id="plan" hidden>
+        <div class="plan-head"><span class="plan-title" id="planTitle">Wand</span><span class="plan-sum" id="planSum"></span></div>
+        <div class="nums" id="planSize"></div>
+        <div class="plan-board"><svg id="planSvg" role="img" aria-label="Anordnung von vorne"></svg></div>
+        <div class="plan-actions">
+          <button class="btn small primary" type="button" id="planAdd">Teil hinzufügen</button>
+          <button class="btn small" type="button" id="planDup">Duplizieren</button>
+          <button class="btn small" type="button" id="planRot">Drehen</button>
+          <button class="btn small" type="button" id="planDel">Entfernen</button>
+        </div>
+        <div class="nums two" id="planPos"></div>
+        <p class="selnote" id="planSel"></p>
+        <ul class="plan-list" id="planList"></ul>
+        <div class="plan-warn" id="planWarn"></div>
+        <details class="info"><summary>So geht’s</summary><p class="hint" id="planHint"></p></details>
       </div>
       <div class="specs">
         <div class="spec"><span>Außenmaß B×T×H</span><b id="outDim">–</b></div>
@@ -73,34 +91,35 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <!-- Rechnen: Formen, Dreiecksnetz, Foto-Erkennung -->
-<script src="js/geometrie/formen.js?v=60"></script>
-<script src="js/geometrie/netz.js?v=60"></script>
-<script src="js/foto/erkennung.js?v=60"></script>
+<script src="js/geometrie/formen.js?v=61"></script>
+<script src="js/geometrie/netz.js?v=61"></script>
+<script src="js/foto/erkennung.js?v=61"></script>
 <!-- Halterungsarten: neue Art = neue Datei + eine Zeile hier -->
-<script src="js/halterungen/register.js?v=60"></script>
-<script src="js/halterungen/befestigung.js?v=60"></script>
-<script src="js/halterungen/schrauben.js?v=60"></script>
-<script src="js/halterungen/empfehlung.js?v=60"></script>
-<script src="js/halterungen/koecher.js?v=60"></script>
-<script src="js/halterungen/konsole.js?v=60"></script>
-<script src="js/halterungen/leiste.js?v=60"></script>
+<script src="js/halterungen/register.js?v=61"></script>
+<script src="js/halterungen/befestigung.js?v=61"></script>
+<script src="js/halterungen/schrauben.js?v=61"></script>
+<script src="js/halterungen/empfehlung.js?v=61"></script>
+<script src="js/halterungen/koecher.js?v=61"></script>
+<script src="js/halterungen/konsole.js?v=61"></script>
+<script src="js/halterungen/leiste.js?v=61"></script>
 <!-- Individuell (Foto) vorerst ausgeblendet; zum Wiedereinschalten diese Zeile zurückholen:
 <script src="js/halterungen/individuell.js"></script> -->
 <!-- Boxen: neue Art = neue Datei + eine Zeile hier -->
-<script src="js/boxen/grundform.js?v=60"></script>
-<script src="js/boxen/stapelbox.js?v=60"></script>
-<script src="js/boxen/deckelbox.js?v=60"></script>
-<script src="js/boxen/sortierkasten.js?v=60"></script>
+<script src="js/boxen/grundform.js?v=61"></script>
+<script src="js/boxen/stapelbox.js?v=61"></script>
+<script src="js/boxen/deckelbox.js?v=61"></script>
+<script src="js/boxen/sortierkasten.js?v=61"></script>
 <!-- Export -->
-<script src="js/export/stl.js?v=60"></script>
-<script src="js/export/vereinfachen.js?v=60"></script>
-<script src="js/export/download.js?v=60"></script>
+<script src="js/export/stl.js?v=61"></script>
+<script src="js/export/vereinfachen.js?v=61"></script>
+<script src="js/export/download.js?v=61"></script>
 <!-- Oberfläche -->
-<script src="js/ui/dom.js?v=60"></script>
-<script src="js/ui/vorschau3d.js?v=60"></script>
-<script src="js/zustand.js?v=60"></script>
-<script src="js/ui/foto.js?v=60"></script>
-<script src="js/ui/formular.js?v=60"></script>
-<script src="js/main.js?v=60"></script>
+<script src="js/ui/dom.js?v=61"></script>
+<script src="js/ui/vorschau3d.js?v=61"></script>
+<script src="js/zustand.js?v=61"></script>
+<script src="js/ui/foto.js?v=61"></script>
+<script src="js/ui/formular.js?v=61"></script>
+<script src="js/ui/anordnung.js?v=61"></script>
+<script src="js/main.js?v=61"></script>
 </body>
 </html>

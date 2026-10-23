@@ -1211,3 +1211,50 @@ HALTERUNGEN.stapelbox = { bereich:"box", name:"Stapelbox", …, build:p=>buildBo
 **Screenshot:** prompt-log-bilder/60-nachher-stapelbox.jpg / 60-nachher-handy.jpg
 
 **Commit-Nachricht:** Prompt 60: Neue Seite Boxen (Stapelbox, Deckelbox, Sortierkasten)
+
+---
+
+## Prompt 61 – Anordnung an der Wand und in der Schublade (23.10.2026)
+
+**Prompt:**
+> Jetzt soll die App jeweils für die Option Halterungen und für die Option Boxen eine Möglichkeit bereitstellen, dass man die generierten Boxen entweder an der Wand oder in einer Kiste/Schublade organisiert anzeigen lassen kann. Also im Prinzip ich produziere ein Bauteil, habe eine Vorgabe, wie groß meine Wand oder meine Box ist, und platziere es dort. Dann entwickel ich ein weiteres Bauteil oder sage duplizieren und gucke erneut, wie es an meiner gewählten Positionen an der Wand oder in der Box aussieht
+
+**Was sich geändert hat:**
+- Über der 3D-Vorschau gibt es einen neuen Umschalter: „Einzelteil“ und „An der Wand“ (Seite Halterungen) bzw. „In der Schublade“ (Seite Boxen).
+- In der Anordnung trägt man die Größe der Wand (Breite × Höhe) oder die Innenmaße der Schublade (Länge × Breite × Höhe) ein.
+- „Teil hinzufügen“ legt das Teil aus dem Formular an eine freie Stelle.
+- In einer Skizze lassen sich die Teile mit der Maus oder dem Finger verschieben. Die Wand ist von vorne zu sehen, die Schublade von oben. Die Teile rasten an den Kanten der anderen Teile ein.
+- Für genaue Positionen gibt es Felder „von links“ und „von unten“ bzw. „von vorne“.
+- Ein angetipptes Teil ist ausgewählt und grün markiert. Änderungen im Formular gelten dann nur für dieses Teil. Über dem Formular steht, welches Teil man gerade bearbeitet.
+- Weitere Knöpfe:
+  - „Duplizieren“
+  - „Entfernen“
+  - „Drehen“, nur bei Boxen: dreht die Box um 90°
+- Die 3D-Vorschau zeigt alle Teile an der Wand bzw. in der Schublade. Boxen mit Deckel erscheinen dort mit geschlossenem Deckel.
+- Die App zeigt, wie viel Prozent der Fläche belegt sind. Sie warnt, wenn Teile überlappen, über den Rand ragen oder zu hoch für die Schublade sind. Betroffene Teile werden rot.
+- Die Anordnung wird im Browser gemerkt, für jede Seite getrennt.
+- Fehler beim Testen, sofort behoben: In der 3D-Ansicht der Wand waren links und rechts vertauscht, weil man die Halterungen von vorne ansieht. Teil 1 stand links in der Skizze, aber rechts in 3D.
+
+**Betroffene Dateien:** neu: js/ui/anordnung.js. Geändert: index.html (Versionsnummer 61), css/style.css, js/ui/vorschau3d.js, js/ui/formular.js, js/zustand.js, js/main.js, js/boxen/grundform.js, README.md
+
+**Wichtigster Code-Ausschnitt:**
+```js
+// Ist ein Teil ausgewählt, übernimmt es die Maße aus dem Formular
+const P=state.plan[state.page], sel=P.on&&P.items.find(i=>i.id===P.sel);
+if(sel&&sel.type===state.type) sel.v=clone(v);
+```
+
+**Screenshot:** prompt-log-bilder/61-wand.jpg / 61-schublade.jpg / 61-handy.jpg
+
+**Commit-Nachricht:** Prompt 61: Anordnung an der Wand und in der Schublade
+
+### Etappe: Boxen und Anordnung (Prompts 60–61, 23.10.2026)
+
+**Ziel:** Neben Halterungen auch Boxen erzeugen und alle Teile an ihrem echten Platz planen.
+**Ergebnis:** Die App hat zwei Seiten, Halterungen und Boxen. Auf beiden Seiten lassen sich mehrere Teile an einer Wand oder in einer Schublade anordnen, verschieben, duplizieren und einzeln ändern.
+**Schlüssel-Prompt:** Nr. 61, weil die App damit vom Einzelteil-Generator zum Planungswerkzeug wird, passend zum Namen „FILL THE SPACE“.
+**Schwierigkeiten:**
+- Der Schalter „Sortierkasten“ wurde auf dem Handy abgeschnitten.
+- Die Wand war in 3D spiegelverkehrt.
+- Beides fiel erst beim Prüfen im Browser auf.
+**Präsentationstauglich:** ja. Gut eignen sich die Screenshots 61-wand und 61-schublade, live am besten mit Duplizieren und Verschieben.

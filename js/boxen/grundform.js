@@ -49,7 +49,11 @@ function buildBox(p,o){
     lidF=(x,y,z)=>{ const Y=y-oy; let d=box3(x,Y,z,0,lx,t-gd+c,t-gd+c+ly,0,th); d=Math.max(d,-box3(x,Y,z,6,9,t+4,t-gd+c+ly-4+0,th-0.6,th+1)); return d; };
     bb=[0,L,0,2*B+10,0,H]; }
   const fAll=lidF?(x,y,z)=>Math.min(f(x,y,z),lidF(x,y,z)):f;
+  // Für die Anordnung in der Schublade: Box mit geschlossenem Deckel statt Box und Deckel nebeneinander
+  let plan={f,bb:[0,L,0,B,0,H]};
+  if(lid==="steck"){ const ox=L+10, tp=Math.max(1.6,t); plan={f:(x,y,z)=>Math.min(f(x,y,z),lidF(x+ox,y,H+tp-z)),bb:[0,L,0,B,0,H+tp]}; }
+  if(lid==="schiebe"){ const oy=B+10; plan={f:(x,y,z)=>Math.min(f(x,y,z),lidF(x,y+oy,z-zg0-c)),bb:[0,L,0,B,0,H]}; }
 
   const innen=[L-2*t,B-2*t,H-z0], liter=Math.max(0,innen[0]*innen[1]*innen[2])/1e6;
-  return {f:fAll,bb,dims:[L,B,H],printDims:[bb[1]-bb[0],bb[3]-bb[2],bb[5]-bb[4]],scad:`// FILL THE SPACE – Box ${mmDE(L)} × ${mmDE(B)} × ${mmDE(H)} mm`,ghost:[],dir:"Boden unten",warn,box:{innen,liter,lid,stack:!!o.stack}};
+  return {f:fAll,bb,dims:[L,B,H],printDims:[bb[1]-bb[0],bb[3]-bb[2],bb[5]-bb[4]],scad:`// FILL THE SPACE – Box ${mmDE(L)} × ${mmDE(B)} × ${mmDE(H)} mm`,ghost:[],dir:"Boden unten",warn,plan,box:{innen,liter,lid,stack:!!o.stack}};
 }
