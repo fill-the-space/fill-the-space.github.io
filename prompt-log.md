@@ -1746,3 +1746,34 @@ if(sel&&sel.type===state.type) sel.v=clone(v);
 **Screenshot:** prompt-log-bilder/83-netlify.jpg
 
 **Commit-Nachricht:** Prompt 83: App läuft auf Netlify
+
+---
+
+## Prompt 84 – GitHub Pages abgeschaltet (23.10.2026)
+
+**Prompt:**
+> Ja, schalte GitHub Pages ab, damit die App nur noch unter fill-the-space.netlify.app läuft.
+
+**Was sich geändert hat:**
+- Claude hat GitHub Pages im Repository unter Settings → Pages abgeschaltet und als Quelle „None“ gespeichert.
+- Die Adresse lioba-source.github.io/fill-the-space mit dem Kontonamen liefert jetzt „nicht gefunden“ (404).
+- Die App läuft nur noch unter **https://fill-the-space.netlify.app/**. Geprüft: Netlify antwortet normal.
+- In CLAUDE.md steht jetzt, dass GitHub Pages bewusst abgeschaltet ist und nicht wieder eingeschaltet werden soll.
+- Das Repository auf GitHub bleibt öffentlich. Netlify holt sich von dort bei jedem Push die neuen Dateien.
+
+**Betroffene Dateien:** CLAUDE.md (die App selbst ist unverändert)
+
+**Screenshot:** prompt-log-bilder/84-pages-aus.jpg
+
+**Commit-Nachricht:** Prompt 84: GitHub Pages abgeschaltet
+
+### Etappe: Handy und eigene Adresse (Prompts 80–84, 23.10.2026)
+
+**Ziel:** Die App bequem auf dem Handy nutzen, unter einer Adresse ohne Kontonamen.
+**Ergebnis:** Die App lässt sich als Web-App mit eigenem Symbol installieren, funktioniert offline und läuft unter fill-the-space.netlify.app. Jeder Push wird automatisch veröffentlicht. Beim Bearbeiten bleibt die 3D-Vorschau sichtbar.
+**Schlüssel-Prompt:** Nr. 81, weil die App damit vom Webseiten-Werkzeug zur installierbaren App wird.
+**Schwierigkeiten:**
+- Nach dem Umbenennen funktionierte die alte Adresse sofort nicht mehr.
+- Netlify hatte zuerst einen Zugriffsschutz eingeschaltet, lieferte einen falschen Dateityp aus und blendet ein eigenes Feld ein, das den Knopf „3D“ verdeckt hätte.
+- Eine alte CSS-Regel verhinderte die mitlaufende Vorschau.
+**Präsentationstauglich:** ja, live auf dem Handy installieren und offline öffnen. Bild: 81-app-symbol.png.

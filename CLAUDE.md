@@ -1,9 +1,9 @@
 # FILL THE SPACE (Halterungs-Generator) – Hinweise für Claude
 
-Web-App ohne Build-Schritt: `index.html` lädt die Skripte aus `js/` der Reihe nach (klassische `<script>`-Tags, keine Module), damit sie per Doppelklick und auf GitHub Pages läuft. Aufbau und „Neue Halterungsart hinzufügen“ stehen in der README.
+Web-App ohne Build-Schritt: `index.html` lädt die Skripte aus `js/` der Reihe nach (klassische `<script>`-Tags, keine Module), damit sie per Doppelklick und auf Netlify läuft. Aufbau und „Neue Halterungsart hinzufügen“ stehen in der README.
 
 - Live: https://fill-the-space.netlify.app/ (Netlify, veröffentlicht bei jedem Push auf `main` automatisch; Einstellungen in `netlify.toml`)
-- Zusätzlich noch GitHub Pages: https://lioba-source.github.io/fill-the-space/ (enthält den Kontonamen, den Lioba nicht in der Adresse haben möchte)
+- GitHub Pages ist seit 23.10.2026 abgeschaltet (Quelle „None“), weil Lioba ihren Kontonamen nicht in der Adresse haben möchte. Nicht wieder einschalten.
 - Repository: https://github.com/lioba-source/fill-the-space (bis 23.10.2026 „halterungs-generator“; die alte Pages-Adresse funktioniert nicht mehr)
 - **Versionsnummer:** Alle eigenen Dateien werden in `index.html` mit `?v=<Prompt-Nr.>` geladen. Bei jeder Änderung an CSS oder JS die Nummer überall in `index.html` hochsetzen, sonst mischen Browser alte und neue Dateien aus dem Zwischenspeicher.
 - Die Seite muss außerhalb von Claude funktionieren: keine `window.claude`-Funktionen voraussetzen, Änderungen im Browser über einen lokalen Server testen (`.claude/launch.json`, Port 8766).
