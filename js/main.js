@@ -46,6 +46,7 @@ function update(){
   $("outDir").textContent=model.dir;
   const w=$("warn"); w.hidden=!model.warn.length; w.textContent=model.warn.join(" ");
   current={model,area:st.area,h};
+  renderFormat();
   if(P.on){ if(!model.plan&&!planCache.has(planKey(state.type,v))) planCache.set(planKey(state.type,v),{bb:model.bb,mesh,mount:model.mount,textMesh}); drawPlan(); }
   else show(model,mesh,textMesh);
   planLabels();
@@ -75,20 +76,23 @@ $("dl").addEventListener("click",async()=>{
     const mesh=simplifyMesh(fine,0.01);
     // Beschriftung fein für sich; STL: in dieselbe Datei, 3MF: als eigenes Teil mit eigener Farbe
     const text=m.text?simplifyMesh(snapToSurface(polygonize(m.text.f,m.text.bb,Math.max(0.08,Math.min(0.15,m.text.th/50))),m.text.f),0.005):null;
-    const name=SEITEN[state.page].datei+"-"+slug()+"."+state.format;
-    const file = state.format==="3mf"
+    const fmt=dateiFormat(), name=SEITEN[state.page].datei+"-"+slug()+"."+fmt;
+    const file = fmt==="3mf"
       ? dreiMF([{name:state.page==="box"?"Box":"Halterung",mesh,color:"#A4D63A"},...(text?[{name:"Beschriftung",mesh:text,color:"#111111"}]:[])])
       : new Blob([stl(text?netzeVerbinden(mesh,text):mesh)],{type:"model/stl"});
     if(d) await d.save({filename:name,data:file}); else saveFile(name,file);
     const nTri=(mesh.idx.length+(text?text.idx.length:0))/3;
-    st.textContent=`Gespeichert: ${name} (${(file.size/1e3).toLocaleString("de-DE",{maximumFractionDigits:0})} kB, ${nTri.toLocaleString("de-DE")} Dreiecke${state.format==="3mf"&&text?", Bauteil und Beschriftung als zwei Teile":""})`;
+    st.textContent=`Gespeichert: ${name} (${(file.size/1e3).toLocaleString("de-DE",{maximumFractionDigits:0})} kB, ${nTri.toLocaleString("de-DE")} Dreiecke${fmt==="3mf"&&text?", Bauteil und Beschriftung als zwei Teile":""})`;
   }catch(e){
     st.textContent = e&&e.code==="declined" ? "Speichern abgebrochen." : e&&e.code==="rate_limited" ? "Bitte kurz warten und erneut versuchen." : "Speichern ist hier nicht möglich.";
   }finally{ btn.disabled=false; }
 });
 // Dateiformat: STL (eine Farbe) oder 3MF (Beschriftung als eigenes Teil für eine zweite Farbe)
-function renderFormat(){ for(const b of document.querySelectorAll("#fmt button")) b.setAttribute("aria-pressed",String(b.dataset.fmt===state.format));
-  $("dl").textContent=state.format.toUpperCase()+" speichern"; }
+// Die Auswahl erscheint erst, wenn das Bauteil eine Beschriftung hat; sonst wird immer STL gespeichert
+const dateiFormat=()=>current&&current.model.text?state.format:"stl";
+function renderFormat(){ $("fmt").hidden=!(current&&current.model.text);
+  for(const b of document.querySelectorAll("#fmt button")) b.setAttribute("aria-pressed",String(b.dataset.fmt===dateiFormat()));
+  $("dl").textContent=dateiFormat().toUpperCase()+" speichern"; }
 for(const b of document.querySelectorAll("#fmt button")) b.addEventListener("click",()=>{ state.format=b.dataset.fmt; renderFormat(); try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){} });
 renderFormat();
 // Druckbett gilt für alle Halterungsarten und wird mit gemerkt

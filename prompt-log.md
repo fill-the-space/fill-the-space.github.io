@@ -1585,3 +1585,22 @@ if(sel&&sel.type===state.type) sel.v=clone(v);
 **Screenshot:** prompt-log-bilder/76-bild-und-text.jpg / 76-seite-schmal.png / 76-einstellungen-handy.jpg
 
 **Commit-Nachricht:** Prompt 76: Beschriftung – Fläche, Lage, Schriftarten, Bild
+
+---
+
+## Prompt 77 – 3MF nur mit Beschriftung (23.10.2026)
+
+**Prompt:**
+> Ich würde erst, wenn man eine Beschriftung hinzufügt, die Möglichkeit geben, dass man 3MF fehlen kann
+
+**Was sich geändert hat:**
+- Die Auswahl „STL / 3MF“ neben dem Speichern-Knopf erscheint erst, wenn das Bauteil wirklich eine Beschriftung hat. Dafür muss „Beschriftung“ eingeschaltet sein und ein Text oder Bild eingetragen.
+- Ohne Beschriftung gibt es nur „STL speichern“, wie früher.
+- Die Wahl wird gemerkt. Wer 3MF gewählt hat, die Beschriftung aus- und wieder einschaltet, hat wieder 3MF.
+- Geprüft: ohne Beschriftung, Beschriftung ohne Text, mit Text, Wechsel auf 3MF, aus- und wieder einschalten.
+
+**Betroffene Dateien:** index.html (Versionsnummer 77), js/main.js
+
+**Screenshot:** prompt-log-bilder/77-3mf-mit-beschriftung.jpg
+
+**Commit-Nachricht:** Prompt 77: 3MF nur mit Beschriftung
