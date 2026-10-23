@@ -23,7 +23,8 @@ function update(){
   const mesh=polygonize(model.f,b,h), st=meshStats(mesh);
   const fmt=x=>x.toLocaleString("de-DE",{maximumFractionDigits:0});
   $("outDim").textContent=model.dims.map(fmt).join("×");
-  $("outG").textContent=`≈ ${Math.round(st.vol/1000*1.24)} g`;
+  const use=filamentUse(st.vol,st.area,rec); $("outG").textContent=`≈ ${Math.round(use.g)} g`;
+  $("outGInfo").textContent=`${use.m.toLocaleString("de-DE",{maximumFractionDigits:1})} m ${rec.mat.kurz}`;
   $("outDir").textContent=model.dir;
   const w=$("warn"); w.hidden=!model.warn.length; w.textContent=model.warn.join(" ");
   current={model,area:st.area,h};

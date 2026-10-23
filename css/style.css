@@ -63,6 +63,7 @@ label.num input{font:500 15px var(--mono);font-variant-numeric:tabular-nums;colo
 .spec{background:var(--panel);padding:10px 12px;min-width:0}
 .spec span{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
 .spec b{font:500 16px var(--mono);font-variant-numeric:tabular-nums}
+.spec small{display:block;font-size:12px;color:var(--muted)}
 /* Warnhinweis: farbig, kurz, Einzelheiten zum Aufklappen */
 .alerts{display:flex;flex-direction:column;gap:8px}
 .alerts:empty{display:none}

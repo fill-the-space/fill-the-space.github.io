@@ -850,3 +850,21 @@ const acc = win ? {x0:cx-(iw/2-m)+sc.dk/2+2, x1:cx+(iw/2-m)-sc.dk/2-2, z0:t+lip+
 **Screenshot:** prompt-log-bilder/43-vorher.jpg / 43-nachher-zu.jpg / 43-nachher-offen.jpg
 
 **Commit-Nachricht:** Prompt 43: Warnhinweis kurz und farbig, ohne cm³
+
+---
+
+## Prompt 44 – Filamentverbrauch statt Gewicht (23.10.2026)
+
+**Prompt:**
+> Kleinigkeit: Gewicht in PLA ist dafür, und ich würde den Verbrauch des PLA anzeigen
+
+**Was sich geändert hat:**
+- Die Kennzahl „Gewicht in PLA“ hat das Gewicht eines massiven Drucks gezeigt. Das hat mit dem Druck wenig zu tun, weil im Slicer mit Füllung gedruckt wird. Jetzt steht dort „Filamentverbrauch“ in Gramm und darunter in Metern für 1,75-mm-Filament, z. B. „≈ 121 g · 40,7 m PLA“.
+- Die Schätzung nutzt die Einstellungen aus der Druckempfehlung: Die Außenhaut (Wände, Boden, Deckel) wird voll gerechnet, das Innere mit der empfohlenen Füllung. Wird PETG oder PA-CF empfohlen, rechnet die App mit dessen Dichte und schreibt das Material dazu. Stützmaterial ist nicht enthalten, das steht auch in den Hinweisen.
+- Beispiele mit Standardmaßen: Konsole 121 g statt 221 g massiv, Leiste 70 g statt 123 g. Beim Köcher bleibt es bei 33 g, weil seine dünnen Wände ohnehin ganz aus Außenhaut bestehen.
+
+**Betroffene Dateien:** js/halterungen/empfehlung.js, js/main.js, index.html (Versionsnummer 44), css/style.css
+
+**Screenshot:** prompt-log-bilder/44-vorher.jpg / 44-nachher.jpg
+
+**Commit-Nachricht:** Prompt 44: Filamentverbrauch nach Druckempfehlung
