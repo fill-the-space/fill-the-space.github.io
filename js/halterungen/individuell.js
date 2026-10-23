@@ -1,7 +1,7 @@
 HALTERUNGEN.individuell = {
   name:"Individuell",
   hint:"Foto vom Bauteil hochladen. Die App erkennt, wo es aufliegen kann, und baut eine einfache Halterung zum Einhängen oder Hineinstellen. Heiße Bauteile besser in PETG oder ASA drucken, PLA wird ab etwa 60 °C weich.",
-  defaults:{mode:"auto",insert:"vorne",refAxis:"w",ref:230,T:48,P:5,fill:60,lip:15,t:2.4,s:1,sens:60,rot:0,...SCHRAUB_STANDARD},
+  defaults:{mode:"auto",insert:"vorne",refAxis:"w",ref:230,T:48,P:5,fill:60,lip:15,t:2.4,s:1,sens:60,rot:0,...SCHRAUB_STANDARD,mass:500},
   fields:[
     {k:"mode",c:"seg",l:"Haltart",o:[["auto","Automatisch"],["haengen","Einhängen"],["stellen","Hineinstellen"]]},
     {k:"insert",c:"seg",l:"Einsetzen",o:[["vorne","Von vorne"],["oben","Von oben"]],show:()=>effMode==="haengen"},
@@ -28,7 +28,7 @@ function buildIndividuell(p,seg){
 
   if(mode==="stellen"){
     const zFill=g.zLow+Math.min(p.fill,g.zHigh-g.zLow), [q0,q1]=hullBelow(g,zFill);
-    const m=buildKoecher({shape:"abgerundet",B:q1-q0,T,H:g.zHigh-g.zLow,r:4,hs:p.fill,lip:p.lip,t:p.t,s,holes:p.holes,sd:p.sd,sn:p.sn,mount:p.mount,door:p.door,hookL:p.hookL,hookT:p.hookT,slot:false});
+    const m=buildKoecher({shape:"abgerundet",B:q1-q0,T,H:g.zHigh-g.zLow,r:4,hs:p.fill,lip:p.lip,t:p.t,s,holes:p.holes,sd:p.sd,sn:p.sn,mount:p.mount,mass:p.mass,door:p.door,hookL:p.hookL,hookT:p.hookT,slot:false});
     m.ghost=[ghostOf(p.t+s-q0,p.t+s,p.t-g.zLow)];
     m.scad=m.scad.replace("Köcher (abgerundet)","Individuell, Schale zum Hineinstellen");
     m.warn=warn.concat(m.warn); m.mode="stellen";

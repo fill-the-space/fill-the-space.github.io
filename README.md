@@ -26,6 +26,7 @@ js/foto/erkennung.js          Bauteil im Foto finden, Auflagekante suchen
 js/halterungen/register.js    Liste aller Halterungsarten
 js/halterungen/befestigung.js Befestigung: Schrauben, Haken über die Schranktür oder IKEA SKÅDIS
 js/halterungen/schrauben.js   Schraubengröße, Anzahl und Lage der Löcher (für alle Arten)
+js/halterungen/empfehlung.js  Druckempfehlung (Material, Wände, Füllung) nach Gewicht und Befestigung
 js/halterungen/koecher.js     je Halterungsart: Name, Standardmaße,
 js/halterungen/konsole.js     Eingabefelder und Berechnung der Form
 js/halterungen/leiste.js      (der OpenSCAD-Code wird intern noch erzeugt, aber nicht angeboten)

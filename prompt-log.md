@@ -767,3 +767,29 @@ const acc = win ? {x0:cx-(iw/2-m)+sc.dk/2+2, x1:cx+(iw/2-m)-sc.dk/2-2, z0:t+lip+
 **Screenshot:** prompt-log-bilder/39-vorher.jpg / 39-nachher-tuerhaken.jpg / 39-nachher-skadis.jpg
 
 **Commit-Nachricht:** Prompt 39: Befestigung wählbar – Schrauben, Türhaken, SKÅDIS
+
+---
+
+## Prompt 40 – Druckempfehlung nach Gewicht (23.10.2026)
+
+**Prompt:**
+> Wichtig wäre jetzt noch eine Empfehlung für Druckmaterial je nach Gewicht des Bauteils, was ein gehangen werden soll, beziehungsweise auf die Ablage gelegt werden soll. In einer großen Anzahl der der Szenarien wird es bei PLA bleiben, aber wenn man zum Beispiel einen Akkuschrauber in die Konsole ein hängt, wird das Gewicht schon ganz schön schwer. Und wenn dann die Kombination mit Cedes gewählt wird, ist das voraussichtlich nicht haltbar auf Dauer
+
+**Was sich geändert hat:**
+- Neues Feld „Gewicht des Bauteils (g)“ bei allen Halterungsarten. Die Standardwerte passen zum Beispiel-Bauteil, bei der Konsole z. B. 1.500 g für einen Akkuschrauber.
+- Unter den Kennzahlen steht jetzt ein Kasten „Druckempfehlung“ mit Material, Wänden und Füllung, z. B. „PLA · 3 Wände, 15 % Füllung“. Darunter steht die geschätzte Last und was die Befestigung in PLA dauerhaft trägt.
+- So rechnet die App (grobe Schätzung, keine Statik):
+  - Was die Befestigung in PLA dauerhaft trägt: etwa 4 kg pro Schraube, 1 kg pro SKÅDIS-Haken, 2,5 kg je 50 mm Breite beim Türhaken (bei 3 mm Stärke).
+  - Bauteile, die weit vor der Wand hängen, hebeln stärker: Konsole × 1,5, Individuell zum Einhängen × 1,3.
+  - Die App nimmt das schwächste Material, das höchstens 60 % der Tragkraft ausnutzt: PLA, sonst PETG (zäher, gibt unter Dauerlast weniger nach), sonst PA-CF. Wände und Füllung steigen mit der Auslastung.
+- Warnungen:
+  - Bei Haken, die in PLA nicht mehr reichen: „… halten die SKÅDIS-Haken in PLA auf Dauer voraussichtlich nicht. Entweder in … drucken oder ‚Schrauben‘ als Befestigung wählen.“
+  - Wenn selbst das stärkste Material an der Grenze ist, kommt der Rat zu Schrauben oder mehr Schrauben.
+- Liobas Beispiel geprüft: Ein Akkuschrauber (1,5 kg) an der Konsole ergibt mit Schrauben die Empfehlung PLA. Mit SKÅDIS-Haken erscheint die Warnung, dass PLA auf Dauer voraussichtlich nicht hält, mit dem Rat, Schrauben zu nehmen.
+- Unter „Hinweise zu Datei und Befestigung“ steht, dass es sich um eine Schätzung handelt, und was PLA, PETG und PA-CF unterscheidet.
+
+**Betroffene Dateien:** js/halterungen/empfehlung.js (neu), js/halterungen/befestigung.js, koecher.js, konsole.js, leiste.js, individuell.js, js/main.js, index.html (Versionsnummer 40), css/style.css, README.md
+
+**Screenshot:** prompt-log-bilder/40-vorher.jpg / 40-nachher.jpg
+
+**Commit-Nachricht:** Prompt 40: Druckempfehlung nach Gewicht und Befestigung

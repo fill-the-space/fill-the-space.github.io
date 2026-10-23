@@ -60,6 +60,8 @@ label.num input{font:500 15px var(--mono);font-variant-numeric:tabular-nums;colo
 .spec{background:var(--panel);padding:10px 12px;min-width:0}
 .spec span{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
 .spec b{font:500 16px var(--mono);font-variant-numeric:tabular-nums}
+.reco{border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px}
+.reco small{display:block;font-size:12px;color:var(--muted);margin-top:2px}
 .actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .btn{font:600 14px var(--body);border-radius:8px;padding:10px 16px;cursor:pointer;border:1px solid var(--ink);background:transparent;color:var(--ink)}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}

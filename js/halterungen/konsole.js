@@ -1,7 +1,7 @@
 HALTERUNGEN.konsole = {
   name:"Konsole",
   hint:"Konsole in L-Form. Das Bauteil steckt mit seinem schmalen Teil, z. B. dem Griff, in einem Schlitz oder Ring, der breitere Teil liegt oben auf. Z. B. ein Akkuschrauber oder ein Föhn.",
-  defaults:{ap:"schlitz",N:46,L:80,Dp:125,W:150,P:6,Hp:70,s:1,...SCHRAUB_STANDARD},
+  defaults:{ap:"schlitz",N:46,L:80,Dp:125,W:150,P:6,Hp:70,s:1,...SCHRAUB_STANDARD,mass:1500},
   fields:[
     {k:"ap",c:"seg",l:"Aussparung",o:[["schlitz","Schlitz, vorne offen"],["ring","Ring, geschlossen"]]},
     {row:[{k:"N",l:"Griffbreite",min:10,max:150,lab:v=>v.ap==="ring"?"Ring-Ø":"Griffbreite"},{k:"L",l:"Schlitztiefe",min:10,max:200,show:v=>v.ap!=="ring"},{k:"Dp",l:"Konsolentiefe",min:30,max:250}]},
