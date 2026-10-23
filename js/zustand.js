@@ -2,8 +2,8 @@
 const DEFAULTS={}; for(const k in HALTERUNGEN) DEFAULTS[k]=HALTERUNGEN[k].defaults;
 const STORE="halterung-v3";
 const state={page:"halterung", type:"koecher", last:{halterung:"koecher", box:"stapelbox"}, bed:{x:DRUCKBETT,y:DRUCKBETT,z:DRUCKBETT},
-  // Anordnung: Wand (Halterungen) und Schublade (Boxen) mit den platzierten Teilen; on = Ansicht eingeschaltet, sel = ausgewähltes Teil
-  plan:{halterung:{on:false,W:1000,H:600,items:[],sel:null,n:0}, box:{on:false,L:500,B:400,H:100,items:[],sel:null,n:0}}, v:JSON.parse(JSON.stringify(DEFAULTS))};
+  // Anordnung: Wand (Halterungen) und Kasten (Boxen) mit den platzierten Teilen; on = Ansicht eingeschaltet, sel = ausgewähltes Teil
+  plan:{halterung:{on:false,W:1000,H:600,items:[],sel:null,n:0}, box:{on:false,L:500,B:400,H:200,items:[],sel:null,n:0}}, v:JSON.parse(JSON.stringify(DEFAULTS))};
 try{ const sv=JSON.parse(localStorage.getItem(STORE)||"null"); if(sv&&sv.v){ if(HALTERUNGEN[sv.type]){ state.type=sv.type; state.page=bereichVon(sv.type); }
   if(sv.last) for(const p in state.last) if(HALTERUNGEN[sv.last[p]]&&bereichVon(sv.last[p])===p) state.last[p]=sv.last[p];
   // Druckbett: früher eine Zahl, jetzt Länge und Breite

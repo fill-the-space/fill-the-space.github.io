@@ -41,7 +41,7 @@ js/export/stl.js              STL-Datei erzeugen
 js/export/vereinfachen.js     Netz verkleinern (ebene Flächen mit wenigen Dreiecken)
 js/export/download.js         Datei in den Download-Ordner speichern
 js/ui/…                       3D-Vorschau, Foto-Anzeige, Formular
-js/ui/anordnung.js            Anordnung: Teile an der Wand oder in der Schublade platzieren und verschieben
+js/ui/anordnung.js            Anordnung: Teile an der Wand oder im Kasten platzieren, verschieben und stapeln
 js/zustand.js                 aktuelle Auswahl, wird im Browser gemerkt
 js/main.js                    verbindet alles
 archiv/halterung-demo.html    ursprüngliche Demo aus dem Chat

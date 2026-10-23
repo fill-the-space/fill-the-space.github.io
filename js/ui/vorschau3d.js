@@ -58,7 +58,7 @@ function show(model,mesh){
   draw();
 }
 
-/* Anordnung: Wand (von vorne, Teile mit der Rückseite bei y = 0) oder Schublade (Boden bei z = 0, vorne bei y = 0).
+/* Anordnung: Wand (von vorne, Teile mit der Rückseite bei y = 0) oder Kasten (Boden bei z = 0, vorne bei y = 0).
    parts: [{geo, x, y, z, rot, sel, bad}]; rot = 1 dreht das Teil um 90° */
 function showPlan(sp){
   if(!renderer)return;

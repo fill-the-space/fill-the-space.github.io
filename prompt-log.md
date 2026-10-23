@@ -1277,3 +1277,26 @@ if(sel&&sel.type===state.type) sel.v=clone(v);
 **Screenshot:** prompt-log-bilder/62-einzelteil.jpg / 62-vorschau-neu.jpg
 
 **Commit-Nachricht:** Prompt 62: Teil direkt aus der Einzelteil-Ansicht hinzufügen
+
+---
+
+## Prompt 63 – Kasten statt Schublade, Boxen stapeln (23.10.2026)
+
+**Prompt:**
+> anstatt Schublade würde ich Kasten sagen Denn es können ja auch andere Behältnisse sein, in der ich etwas ordnen Behältnisse seinen, den ich etwas ordnen möchte. Außerdem wär's gut, wenn es im Kasten die Möglichkeit gäbe, wenn man die Boxen stapeln könnte
+
+**Was sich geändert hat:**
+- Überall heißt es jetzt „Kasten“ statt „Schublade“: „Im Kasten“, „In den Kasten legen“, „ragt über den Rand des Kastens“. In der Beschreibung steht, dass ein Kasten z. B. eine Schublade, Kiste oder ein Regalfach sein kann. Die Höhe des Kastens ist jetzt auf 200 mm voreingestellt, damit Stapel hineinpassen.
+- Neuer Knopf „Stapeln“ für die ausgewählte Box. Er stellt die Box auf eine andere Box, auf der noch nichts steht, am liebsten auf eine gleich große. „Auf den Boden“ holt sie wieder herunter auf einen freien Platz.
+- Typischer Ablauf: Box auswählen, „Duplizieren“, „Stapeln“. Dann steht die Kopie genau auf dem Original.
+- Stapelboxen greifen mit ihrem Fuß 3 mm in die gleich große Box darunter. Der Stapel ist deshalb so hoch wie in echt.
+- In der Ansicht von oben ist jede gestapelte Box etwas kleiner gezeichnet und mit ▲ markiert. Zieht man die oberste Box, nimmt man sie vom Stapel. Greift man die untere Box am Rand, wandert der ganze Stapel mit.
+- In der Liste steht, worauf eine Box steht, z. B. „steht auf Teil 1“.
+- Die Warnung prüft jetzt die Höhe des ganzen Stapels gegen die Höhe des Kastens. Überlappen wird jetzt auch in der Höhe geprüft.
+- Die Prozentangabe zählt nur die Bodenfläche.
+
+**Betroffene Dateien:** index.html (Versionsnummer 63), js/ui/anordnung.js, js/zustand.js, README.md, Kommentare in css/style.css, js/ui/vorschau3d.js, js/boxen/grundform.js
+
+**Screenshot:** prompt-log-bilder/63-stapel-3d.jpg / 63-stapel-oben.jpg
+
+**Commit-Nachricht:** Prompt 63: Kasten statt Schublade, Boxen stapeln

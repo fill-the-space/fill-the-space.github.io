@@ -115,7 +115,7 @@ textarea#scad{width:100%;box-sizing:border-box;min-height:160px;font:12px var(--
 #types{border-radius:16px}
 @media (max-width:480px){#types button{font-size:10.5px;padding:10px 3px}}
 
-/* Anordnung: Umschalter Einzelteil / Wand bzw. Schublade, Ansicht von vorne oder oben, Liste der Teile */
+/* Anordnung: Umschalter Einzelteil / Wand bzw. Kasten, Ansicht von vorne oder oben, Liste der Teile */
 :root{--placed:#9d9d94;--wall:#d6d6ce}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--placed:#6c6c66;--wall:#2c2c2c}}
 :root[data-theme="dark"]{--placed:#6c6c66;--wall:#2c2c2c}
