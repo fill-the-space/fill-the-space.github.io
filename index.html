@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Halterungs-Generator</title>
+<meta name="description" content="Wandhalterungen für den 3D-Drucker erzeugen: Vorlage wählen oder Foto hochladen, in 3D ansehen, als STL und OpenSCAD speichern.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <h1>Halterungs-Generator</h1>
+    <p>Für Elektronik, Werkzeug und Kosmetik. Vorlage wählen oder Maße eintragen, die Wandhalterung wird live berechnet und lässt sich als druckfertige STL plus OpenSCAD-Datei speichern.</p>
+  </header>
+
+  <div class="grid">
+    <div class="panel">
+      <fieldset>
+        <legend>Halterungsart</legend>
+        <div class="seg" id="types" role="group" aria-label="Halterungsart"></div>
+        <p class="hint" id="typeHint"></p>
+      </fieldset>
+      <fieldset>
+        <legend><label for="presetSel">Vorlage</label></legend>
+        <div class="select-wrap"><select id="presetSel"></select></div>
+        <p class="hint" id="presetHint">Maße der Vorlagen sind Richtwerte. Vor dem Druck am echten Gerät nachmessen.</p>
+      </fieldset>
+      <fieldset id="konturPanel" hidden>
+        <legend>Foto und Erkennung</legend>
+        <div class="photo"><canvas id="photo" width="600" height="450" aria-label="Foto mit erkanntem Umriss"></canvas></div>
+        <div class="photo-actions">
+          <label class="btn small" for="file">Foto hochladen</label>
+          <input type="file" id="file" accept="image/*" hidden>
+          <button class="btn small icon" type="button" id="rotL" aria-label="Foto nach links drehen">↺</button>
+          <button class="btn small icon" type="button" id="rotR" aria-label="Foto nach rechts drehen">↻</button>
+        </div>
+        <p class="detect" id="detect" role="status"></p>
+        <p class="hint">Gerät von der Seite auf hellem, einfarbigem Untergrund fotografieren, Kamera senkrecht und mit Abstand. Oben im Bild ist oben in der Halterung. Die Linie zeigt die erkannte Auflagekante oder wie hoch die Schale reicht. Wird der Schatten mit erkannt, die Erkennungsschwelle erhöhen.</p>
+      </fieldset>
+      <fieldset>
+        <legend>Maße und Optionen</legend>
+        <div id="fields" style="display:flex;flex-direction:column;gap:12px"></div>
+        <p class="warn" id="warn" hidden></p>
+      </fieldset>
+    </div>
+
+    <section class="view">
+      <div class="bed" id="bed">
+        <span class="tag" id="tag">Ziehen zum Drehen · Mausrad zum Zoomen</span>
+        <div class="legend"><span><i style="background:var(--model)"></i>Halterung</span><span><i style="background:var(--ghost)"></i>Gerät</span></div>
+      </div>
+      <div class="specs">
+        <div class="spec"><span>Außenmaß B×T×H</span><b id="outDim">–</b></div>
+        <div class="spec"><span>Material</span><b id="outVol">–</b></div>
+        <div class="spec"><span>PLA bei 100 %</span><b id="outG">–</b></div>
+        <div class="spec"><span>Druckrichtung</span><b id="outDir">–</b></div>
+      </div>
+      <div class="actions">
+        <button class="btn primary" type="button" id="dl">STL + OpenSCAD speichern</button>
+        <button class="btn" type="button" id="copy">OpenSCAD-Code kopieren</button>
+        <span class="status" id="status" role="status"></span>
+      </div>
+      <textarea id="scad" readonly hidden aria-label="OpenSCAD-Code"></textarea>
+      <p class="note">Die STL wird in feinerer Auflösung als die Vorschau berechnet. Kanten sind dabei leicht gebrochen. Die OpenSCAD-Datei enthält die exakte Geometrie und lässt sich in OpenSCAD weiter anpassen. Löcher in der Rückwand passen für 4-mm-Schrauben.</p>
+    </section>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<!-- Rechnen: Formen, Dreiecksnetz, Foto-Erkennung -->
+<script src="js/geometrie/formen.js"></script>
+<script src="js/geometrie/netz.js"></script>
+<script src="js/foto/erkennung.js"></script>
+<!-- Halterungsarten: neue Art = neue Datei + eine Zeile hier -->
+<script src="js/halterungen/register.js"></script>
+<script src="js/halterungen/koecher.js"></script>
+<script src="js/halterungen/ablage.js"></script>
+<script src="js/halterungen/leiste.js"></script>
+<script src="js/halterungen/individuell.js"></script>
+<script src="js/vorlagen.js"></script>
+<!-- Export -->
+<script src="js/export/stl.js"></script>
+<script src="js/export/zip.js"></script>
+<script src="js/export/download.js"></script>
+<!-- Oberfläche -->
+<script src="js/ui/dom.js"></script>
+<script src="js/ui/vorschau3d.js"></script>
+<script src="js/zustand.js"></script>
+<script src="js/ui/foto.js"></script>
+<script src="js/ui/formular.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

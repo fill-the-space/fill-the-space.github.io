@@ -1,0 +1,33 @@
+# macOS
+.DS_Store
+._*
+.AppleDouble
+.LSOverride
+.Spotlight-V100
+.Trashes
+.fseventsd
+.TemporaryItems
+.DocumentRevisions-V100
+
+# Windows (falls jemand das Projekt dort öffnet)
+Thumbs.db
+desktop.ini
+
+# Editoren
+.vscode/
+.idea/
+*.swp
+*~
+
+# Persönliche Claude-Code-Einstellungen
+.claude/settings.local.json
+.claude/launch.json
+
+# Falls später Werkzeuge mit npm dazukommen
+node_modules/
+dist/
+*.log
+
+# Mit der App erzeugte Testdateien, die nur lokal liegen
+/downloads/
+*.zip
