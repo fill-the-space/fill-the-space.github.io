@@ -647,3 +647,21 @@ const sc=screwSpec(p), tb=Math.max(t,p.holes?screwWall(sc):0);
 **Screenshot:** prompt-log-bilder/34-vorher.jpg / 34-nachher.jpg
 
 **Commit-Nachricht:** Prompt 34: Ablage heißt Konsole, Beispiel-Bauteil liegt auf
+
+---
+
+## Prompt 35 – Köcher nur eckig oder abgerundet (23.10.2026)
+
+**Prompt:**
+> Beim Köcher würde ich nur zwischen eckig und abgerundet unterscheiden
+
+**Was sich geändert hat:**
+- Beim Köcher gibt es unter „Querschnitt“ nur noch „Eckig“ und „Abgerundet“. Die Option „Rund / oval“ ist weg.
+- Damit runde Bauteile wie Dosen trotzdem gut passen, lässt sich der Eckenradius jetzt bis 60 statt bis 30 mm einstellen. Ein großer Radius ergibt automatisch eine runde Schale.
+- Wer vorher „Rund“ gewählt hatte und die App neu öffnet, bekommt automatisch „Abgerundet“.
+
+**Betroffene Dateien:** js/halterungen/koecher.js, js/zustand.js, index.html (Versionsnummer 35)
+
+**Screenshot:** prompt-log-bilder/35-vorher.jpg / 35-nachher.jpg
+
+**Commit-Nachricht:** Prompt 35: Köcher nur eckig oder abgerundet
