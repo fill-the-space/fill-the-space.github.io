@@ -67,7 +67,8 @@ function showPlan(sp){
   const slab=(x0,x1,y0,y1,z0,z1,m)=>{ const g=new THREE.BoxGeometry(x1-x0,y1-y0,z1-z0); g.translate((x0+x1)/2,(y0+y1)/2,(z0+z1)/2); const o=new THREE.Mesh(g,m); group.add(o); return o; };
   const wall=new THREE.MeshStandardMaterial({color:new THREE.Color(cssColor("--wall")),roughness:0.95});
   let depth=0;
-  for(const p of sp.parts){ const m=new THREE.Mesh(p.geo,mat(p.bad?"--alert-bg":p.sel?"--model":"--placed")); m.userData.keep=true;
+  // ghost: neues Teil, das noch nicht hinzugefügt ist (durchscheinend)
+  for(const p of sp.parts){ const m=new THREE.Mesh(p.geo,p.ghost?new THREE.MeshStandardMaterial({color:new THREE.Color(cssColor("--model")),transparent:true,opacity:0.45,depthWrite:false,roughness:0.6}):mat(p.bad?"--alert-bg":p.sel?"--model":"--placed")); m.userData.keep=true;
     if(p.rot) m.rotation.z=Math.PI/2; m.position.set(p.x,p.y,p.z); group.add(m); depth=Math.max(depth,p.depth||0); }
   if(sp.kind==="wand"){ slab(0,sp.W,-12,0,0,sp.H,wall);
     center.set(sp.W/2,depth/2,sp.H/2); radius=Math.hypot(sp.W,sp.H,depth)/2; }

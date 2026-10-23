@@ -3,9 +3,9 @@
    Boxen stehen in einer Schublade (von oben gesehen: a = von links, b = von vorne). Jedes Teil merkt sich Art und Maße.
    Ist ein Teil ausgewählt, gelten Änderungen im Formular für dieses Teil. */
 const PLAN_ART={
-  halterung:{kind:"wand", name:"Wand", knopf:"An der Wand", ort:"an der Wand", size:[["W","Breite"],["H","Höhe"]], b:"von unten", gap:20, raster:100,
+  halterung:{kind:"wand", name:"Wand", knopf:"An der Wand", ort:"an der Wand", dazu:"An die Wand hängen", size:[["W","Breite"],["H","Höhe"]], b:"von unten", gap:20, raster:100,
     hint:"Trag ein, wie groß die freie Wandfläche ist. „Teil hinzufügen“ hängt die Halterung aus dem Formular an die Wand. Teile mit der Maus oder dem Finger verschieben, sie rasten an den Kanten der anderen Teile ein. Ein angetipptes Teil ist ausgewählt: Änderungen im Formular gelten dann nur für dieses Teil. Für eine weitere Halterung wieder „Teil hinzufügen“ oder „Duplizieren“ drücken und das neue Teil anpassen. Auf eine freie Stelle tippen hebt die Auswahl auf."},
-  box:{kind:"schublade", name:"Schublade", knopf:"In der Schublade", ort:"in der Schublade", size:[["L","Länge"],["B","Breite"],["H","Höhe"]], b:"von vorne", gap:0, raster:50,
+  box:{kind:"schublade", name:"Schublade", knopf:"In der Schublade", ort:"in der Schublade", dazu:"In die Schublade legen", size:[["L","Länge"],["B","Breite"],["H","Höhe"]], b:"von vorne", gap:0, raster:50,
     hint:"Trag die Innenmaße deiner Schublade oder Kiste ein. „Teil hinzufügen“ stellt die Box aus dem Formular hinein, die Ansicht zeigt sie von oben, vorne ist unten. Boxen mit der Maus oder dem Finger verschieben, sie rasten an den Kanten der anderen Boxen ein. „Drehen“ dreht die ausgewählte Box um 90°. Ein angetipptes Teil ist ausgewählt: Änderungen im Formular gelten dann nur für diese Box. Auf eine freie Stelle tippen hebt die Auswahl auf."}
 };
 const planCache=new Map();
@@ -54,6 +54,9 @@ $("planAdd").addEventListener("click",()=>addItem({type:state.type,v:clone(state
 $("planDup").addEventListener("click",()=>{ const P=plan(), it=P.items.find(i=>i.id===P.sel); if(it) addItem({type:it.type,v:clone(it.v),rot:it.rot||0}); });
 $("planRot").addEventListener("click",()=>{ const P=plan(), it=P.items.find(i=>i.id===P.sel); if(!it) return; it.rot=it.rot?0:1; clampItem(it); drawPlan(); savePlan(); });
 $("planDel").addEventListener("click",()=>{ const P=plan(); P.items=P.items.filter(i=>i.id!==P.sel); P.sel=null; renderAll(); });
+// Aus der Einzelteil-Ansicht: Teil hinzufügen und gleich zur Wand bzw. Schublade wechseln
+$("toPlan").addEventListener("click",()=>{ const P=plan(); P.on=true; planCamera(); $("bed").scrollIntoView({behavior:"smooth",block:"start"});
+  addItem({type:state.type,v:clone(state.v[state.type]),rot:0}); });
 for(const b of document.querySelectorAll("#viewMode button")) b.addEventListener("click",()=>{ const P=plan(), on=b.dataset.mode==="plan"; if(P.on===on) return;
   P.on=on; if(!on) P.sel=null; planCamera(); renderAll(); });
 
@@ -73,7 +76,8 @@ function numField(label,val,min,max,on){
 function renderPlanPanel(){
   const P=plan(), A=planArt();
   for(const b of document.querySelectorAll("#viewMode button")) b.setAttribute("aria-pressed",String((b.dataset.mode==="plan")===P.on));
-  $("planBtn").textContent=A.knopf; $("plan").hidden=!P.on;
+  $("planBtn").textContent=A.knopf+(P.items.length?` (${P.items.length})`:""); $("plan").hidden=!P.on;
+  $("toPlan").hidden=P.on; $("toPlan").textContent=A.dazu;
   // Legende der 3D-Vorschau: in der Anordnung ausgewähltes Teil und weitere Teile
   $("legendGhostDot").style.background=P.on?"var(--placed)":"var(--ghost)"; $("legendGhostText").textContent=P.on?"Weitere Teile":"Bauteil";
   if(P.on){ $("legendModel").textContent="Ausgewählt"; $("legendGhost").hidden=false; }
@@ -108,6 +112,11 @@ function drawPlan(){
   for(const r of rects){ const y=CH-r.b-r.h, fs=Math.min(fs0,Math.min(r.w,r.h)*0.6);
     h+=`<rect class="pl-item${r.it.id===P.sel?" sel":""}${bad.has(r.it.id)?" bad":""}" x="${r.a}" y="${y}" width="${r.w}" height="${r.h}" rx="${Math.min(4,r.w/4)}"/>`+
        `<text class="pl-nr" x="${r.a+r.w/2}" y="${y+r.h/2}" font-size="${fs}">${nr(r.it)}</text>`; }
+  // Ohne Auswahl: das Teil aus dem Formular gestrichelt dort zeigen, wo „Teil hinzufügen“ es hinlegen würde
+  const it0=P.items.find(i=>i.id===P.sel);
+  let neu=null;
+  if(!it0&&bereichVon(state.type)===state.page){ const r=planRect({type:state.type,v:state.v[state.type],a:0,b:0,rot:0}), s=freeSpot(r.w,r.h,rects); neu={...r,a:s.a,b:s.b};
+    const y=CH-neu.b-neu.h; h+=`<rect class="pl-new" x="${neu.a}" y="${y}" width="${neu.w}" height="${neu.h}" rx="${Math.min(4,neu.w/4)}"/><text class="pl-nr" x="${neu.a+neu.w/2}" y="${y+neu.h/2}" font-size="${Math.min(fs0,Math.min(neu.w,neu.h)*0.6)}">+</text>`; }
   svg.innerHTML=h;
 
   // Liste der Teile: antippen wählt aus
@@ -123,8 +132,9 @@ function drawPlan(){
   for(const id of ["planDup","planRot","planDel"]) $(id).disabled=!it;
   $("planPos").hidden=!it;
   if(it){ const ins=$("planPos").querySelectorAll("input"); [it.a,it.b].forEach((x,k)=>{ if(document.activeElement!==ins[k]) ins[k].value=Math.round(x); }); }
-  $("planSel").textContent = it ? `Teil ${nr(it)} ist ausgewählt. Änderungen im Formular gelten nur für dieses Teil. Zum Verschieben ziehen.` : P.items.length ? "Kein Teil ausgewählt. Ein Teil antippen, um es zu verschieben oder zu ändern." : `Noch leer. „Teil hinzufügen“ ${wand?"hängt die Halterung":"stellt die Box"} aus dem Formular ${A.ort}.`;
-  const fs=$("formSel"); fs.hidden=!it; if(it) fs.textContent=`Du bearbeitest Teil ${nr(it)} ${A.ort}.`;
+  $("planSel").textContent = it ? `Teil ${nr(it)} ist ausgewählt. Änderungen im Formular gelten nur für dieses Teil. Zum Verschieben ziehen.` : P.items.length ? "Kein Teil ausgewählt. Gestrichelt: das Teil aus dem Formular, das „Teil hinzufügen“ dort hinlegt. Ein Teil antippen, um es zu verschieben oder zu ändern." : `Noch leer. Gestrichelt siehst du, wo das Teil aus dem Formular hinkäme. Stell im Formular ${wand?"eine Halterung":"eine Box"} ein und drück „Teil hinzufügen“. Oder unter „Einzelteil“ das Teil ansehen und dort „${A.dazu}“ drücken.`;
+  const fs=$("formSel"); fs.hidden=false;
+  fs.textContent = it ? `Du bearbeitest Teil ${nr(it)} ${A.ort}.` : `Neues Teil: ${A.ort} gestrichelt zu sehen, bis du „Teil hinzufügen“ drückst.`;
 
   // 3D: Netze aus dem Zwischenspeicher an ihre Stelle setzen
   const parts=rects.map(r=>{ const b=r.e.bb; if(!r.e.geo&&renderer) r.e.geo=meshGeo(r.e.mesh);
@@ -134,6 +144,8 @@ function drawPlan(){
     else if(r.it.rot) Object.assign(p,{x:r.a+b[3],y:r.b-b[0],z:-b[4],rot:1});
     else Object.assign(p,{x:r.a-b[0],y:r.b-b[2],z:-b[4]});
     return p; });
+  if(neu){ const b=neu.e.bb; if(!neu.e.geo&&renderer) neu.e.geo=meshGeo(neu.e.mesh);
+    parts.push(wand?{geo:neu.e.geo,ghost:true,x:P.W-neu.a-neu.w-b[0],y:0,z:neu.b-b[4]}:{geo:neu.e.geo,ghost:true,x:neu.a-b[0],y:neu.b-b[2],z:-b[4]}); }
   showPlan({kind:A.kind, W:P.W, H:P.H, L:P.L, B:P.B, parts});
 
   // Zwischenspeicher klein halten: Netze, die kein Teil mehr braucht, wegwerfen

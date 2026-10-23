@@ -1258,3 +1258,22 @@ if(sel&&sel.type===state.type) sel.v=clone(v);
 - Die Wand war in 3D spiegelverkehrt.
 - Beides fiel erst beim Prüfen im Browser auf.
 **Präsentationstauglich:** ja. Gut eignen sich die Screenshots 61-wand und 61-schublade, live am besten mit Duplizieren und Verschieben.
+
+---
+
+## Prompt 62 – Teil direkt aus der Einzelteil-Ansicht hinzufügen (23.10.2026)
+
+**Prompt:**
+> das Konzept ist super so. Ich fand's etwas schwierig, gerade zu verstehen, wenn ich in der Schublade an der Wand bin, dass ich erst mal gar nichts sehe. Wenn ich der Nutzer wäre, würde ich wahrscheinlich erst mal bei Einzelteil das Bauteil konfigurieren und es dann in der Schublade hinzufügen oder an der Wand anfügen. Es müsste eigentlich bei Einzelteil irgendeinen Auswahlmöglichkeit geben, dass man das Teil zu der Schublade oder zur Wand hinzufügen kann. Diese Möglichkeit gibt's in der Schublade, aber da sehe ich zuerst das Teil nicht
+
+**Was sich geändert hat:**
+- In der Einzelteil-Ansicht steht neben „STL speichern“ ein neuer Knopf: „An die Wand hängen“ (Halterungen) bzw. „In die Schublade legen“ (Boxen). Er fügt das Teil hinzu und wechselt gleich in die Anordnung, das neue Teil ist dort ausgewählt.
+- Der Umschalter zeigt, wie viele Teile schon da sind, z. B. „In der Schublade (3)“.
+- Ist in der Anordnung kein Teil ausgewählt, sieht man das Teil aus dem Formular trotzdem. Es erscheint durchscheinend in 3D und gestrichelt in der Skizze, genau dort, wo „Teil hinzufügen“ es hinlegen würde. So ist die Ansicht nie leer.
+- Klarere Hinweistexte, was man gerade bearbeitet und wie man ein Teil dazubekommt.
+
+**Betroffene Dateien:** index.html (Versionsnummer 62), css/style.css, js/ui/anordnung.js, js/ui/vorschau3d.js
+
+**Screenshot:** prompt-log-bilder/62-einzelteil.jpg / 62-vorschau-neu.jpg
+
+**Commit-Nachricht:** Prompt 62: Teil direkt aus der Einzelteil-Ansicht hinzufügen
