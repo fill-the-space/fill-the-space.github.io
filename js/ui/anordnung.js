@@ -170,7 +170,7 @@ let shownArt=null;
 function renderPlanPanel(){
   const P=plan(), A=planArt(), S=planSize(); shownArt=A.art;
   for(const b of document.querySelectorAll("#viewMode button")) b.setAttribute("aria-pressed",String((b.dataset.mode==="plan")===P.on));
-  planLabels(); $("plan").hidden=!P.on; $("toPlan").hidden=P.on;
+  planLabels(); $("plan").hidden=!P.on; $("toPlan").hidden=P.on; document.body.classList.toggle("plan-on",P.on);
   // Legende der 3D-Vorschau: in der Anordnung ausgewähltes Teil und weitere Teile
   $("legendGhostDot").style.background=P.on?"var(--placed)":"var(--ghost)"; $("legendGhostText").textContent=P.on?"Weitere Teile":"Bauteil";
   if(P.on){ $("legendModel").textContent="Ausgewählt"; $("legendGhost").hidden=false; }

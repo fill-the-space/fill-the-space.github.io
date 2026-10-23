@@ -20,6 +20,19 @@ function initGL(){
   matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>schedule());
   new MutationObserver(()=>schedule()).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
 }
+/* Handy: Ist die 3D-Vorschau aus dem Bild gescrollt (z. B. beim Bearbeiten der Beschriftung), blendet der Knopf „3D“
+   sie als Leiste unten ein; × blendet sie wieder aus. Am Computer läuft die Vorschau stattdessen beim Scrollen mit (CSS). */
+(()=>{
+  const fab=$("bedFab"), close=$("bedClose"), view=document.querySelector(".view"), schmal=matchMedia("(max-width:820px)"), platz=document.createElement("div");
+  let schwebt=false, imBild=true;
+  const zeigen=()=>{ fab.hidden=!schmal.matches||schwebt||imBild; };
+  const setzen=on=>{ schwebt=on; if(on){ platz.style.height=bed.offsetHeight+"px"; bed.before(platz); } else platz.remove();
+    bed.classList.toggle("float",on); document.body.classList.toggle("bed-float",on); close.hidden=!on; zeigen(); };
+  new IntersectionObserver(e=>{ imBild=e[0].isIntersecting; zeigen(); }).observe(view);
+  schmal.addEventListener("change",()=>{ if(!schmal.matches&&schwebt) setzen(false); zeigen(); });
+  fab.addEventListener("click",()=>setzen(true));
+  close.addEventListener("pointerdown",e=>e.stopPropagation()); close.addEventListener("click",()=>setzen(false));
+})();
 function resize(){ if(!renderer)return; const w=bed.clientWidth,h=bed.clientHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); draw(); }
 // Abstand so, dass auch hohe oder breite Halterungen ganz ins Bild passen
 function draw(){ if(!renderer)return; const r=radius/Math.sin(camera.fov*Math.PI/360)*1.1*view.zoom;

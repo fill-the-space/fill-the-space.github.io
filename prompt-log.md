@@ -1644,3 +1644,22 @@ if(sel&&sel.type===state.type) sel.v=clone(v);
 **Screenshot:** prompt-log-bilder/79-ohne-standardknopf.jpg
 
 **Commit-Nachricht:** Prompt 79: Knopf „Als Standardschrift merken“ entfernt
+
+---
+
+## Prompt 80 – Vorschau beim Bearbeiten sichtbar (23.10.2026)
+
+**Prompt:**
+> Ich habe jetzt ein kleines Problem immer wenn ich eine Schrift bearbeiten möchte, kann ich nicht gleichzeitig das Bauteil sehen, weil die Beschreibung und die Eingabe dafür soweit unten im Bild ist. Gibt es hierfür eine bessere Lösung. Vielleicht ein Extra Bildschirm oder eine andere Lösung. Es soll alles auch nicht so überladen werden.
+
+**Was sich geändert hat:**
+- **Computer:** Die 3D-Vorschau läuft beim Scrollen mit. Scrollt man im Formular nach unten, z. B. zur Beschriftung, bleibt sie oben rechts stehen, und man sieht jede Änderung sofort. Neue Knöpfe gibt es dafür nicht.
+- In der Ansicht „An der Wand“ bzw. „Im Kasten“ läuft sie nicht mit, weil dort die Skizze unter der Vorschau gebraucht wird.
+- **Handy:** Ist die Vorschau aus dem Bild gescrollt, erscheint unten rechts ein runder Knopf „3D“. Er blendet die Vorschau als Leiste am unteren Rand ein, darüber lässt sich das Formular weiter bedienen. „ד blendet sie wieder aus. Ist die Vorschau ohnehin zu sehen, verschwindet der Knopf.
+- **Fehler beim Testen:** Am Computer lief die Vorschau zuerst nicht mit. Eine alte Regel gegen seitliches Scrollen (overflow-x: hidden) verhinderte das. Sie ist jetzt durch eine gleichwertige Regel ersetzt (overflow-x: clip), seitliches Scrollen gibt es weiterhin nicht.
+
+**Betroffene Dateien:** index.html (Versionsnummer 80), css/style.css, js/ui/vorschau3d.js, js/ui/anordnung.js
+
+**Screenshot:** prompt-log-bilder/80-mitlaufend.jpg / 80-handy-knopf.jpg / 80-handy-leiste.jpg
+
+**Commit-Nachricht:** Prompt 80: Vorschau beim Bearbeiten sichtbar

@@ -15,7 +15,7 @@
   --bg:#111111; --panel:#161616; --ink:#efefea; --muted:#a9a9a0; --line:#efefea; --soft:#232323;
   --accent:#b4e64a; --accent-ink:#111111; --bed:#1b1b1b; --model:#b4e64a; --ghost:#c9c9c0; --alert:#111111; --alert-bg:#ff8a6b; --shadow:#b4e64a; --grid:#3a3a3a; color-scheme:dark}
 [hidden]{display:none!important}
-html,body{overflow-x:hidden}
+html,body{overflow-x:clip}   /* clip statt hidden: sonst funktioniert die mitlaufende Vorschau (sticky) nicht */
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;font-variant-numeric:tabular-nums}
 .wrap{max-width:1180px;margin:0 auto;padding-block:28px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:22px}
 /* Kopfband über die ganze Fensterbreite */
@@ -158,3 +158,14 @@ label.num input[type=text]{font:500 15px var(--body)}
 .field-btn .btn{padding:8px 14px;font-size:12px;box-shadow:3px 3px 0 var(--shadow)}
 .img-mini{border:1.5px solid var(--line);border-radius:6px;padding:3px;background:var(--bg);max-height:42px}
 #fields .seg button[style]{font-size:15px;font-weight:700;padding-inline:2px}
+/* Computer: In der Einzelteil-Ansicht läuft die 3D-Vorschau beim Scrollen mit, damit man das Bauteil beim Bearbeiten sieht */
+@media (min-width:821px){
+  body:not(.plan-on) .view{align-self:stretch}
+  body:not(.plan-on) .bed{position:sticky;top:14px;z-index:3}
+}
+/* Handy: Knopf „3D“ unten rechts, Vorschau als Leiste unten */
+.bed-fab{position:fixed;right:16px;bottom:16px;z-index:59;padding:12px 18px}
+.bed.float{position:fixed;left:12px;right:12px;bottom:12px;z-index:60;aspect-ratio:auto;height:min(42vh,320px);box-shadow:5px 5px 0 var(--shadow)}
+.bed.float .legend{display:none}
+body.bed-float .wrap{padding-bottom:calc(min(42vh,320px) + 30px)}
+.bed-close{position:absolute;right:8px;top:6px;z-index:2;width:34px;height:34px;border-radius:50%;border:2px solid #111;background:var(--accent);color:#111;font:800 18px/1 var(--body);cursor:pointer}
