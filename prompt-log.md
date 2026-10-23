@@ -1343,3 +1343,22 @@ if(sel&&sel.type===state.type) sel.v=clone(v);
 **Screenshot:** prompt-log-bilder/65-einlegedeckel.jpg / 65-deckelbox-gestapelt.jpg
 
 **Commit-Nachricht:** Prompt 65: Nur Gleiches stapeln, Deckelbox stapelbar
+
+---
+
+## Prompt 66 – Neu anfangen (23.10.2026)
+
+**Prompt:**
+> Es wär gut, wenn es im Kasten mit an der Wand eine Art Reset Button gibt das, wenn man sich verzettelt hat, noch mal von vorne anfangen kann
+
+**Was sich geändert hat:**
+- An der Wand und im Kasten gibt es einen neuen Knopf „Neu anfangen“. Er ist orange und steht rechts neben den anderen Knöpfen.
+- Er fragt erst nach, z. B. „Alle 4 Teile im Kasten entfernen und neu anfangen? Die Größe des Kastens bleibt.“ Erst nach „OK“ werden alle Teile entfernt.
+- Die eingetragene Größe von Wand oder Kasten bleibt erhalten. Wand und Kasten werden getrennt zurückgesetzt.
+- Ist nichts platziert, ist der Knopf ausgegraut.
+
+**Betroffene Dateien:** index.html (Versionsnummer 66), css/style.css, js/ui/anordnung.js
+
+**Screenshot:** prompt-log-bilder/66-neu-anfangen.jpg
+
+**Commit-Nachricht:** Prompt 66: Neu anfangen

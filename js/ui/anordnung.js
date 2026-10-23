@@ -93,6 +93,10 @@ $("planStack").addEventListener("click",()=>{ const P=plan(), it=P.items.find(i=
       it.a=o.a+(o.w-me.w)/2; it.b=o.b+(o.h-me.h)/2; clampItem(it); }
     it.stack=true; it.so=++P.n; }
   drawPlan(); savePlan(); });
+// Neu anfangen: alle Teile entfernen (nach Rückfrage); die Größe von Wand bzw. Kasten bleibt
+$("planReset").addEventListener("click",()=>{ const P=plan(), A=planArt(); if(!P.items.length) return;
+  if(!confirm(`Alle ${P.items.length} Teile ${A.ort} entfernen und neu anfangen? Die Größe ${A.rand} bleibt.`)) return;
+  P.items=[]; P.sel=null; renderAll(); });
 $("planDel").addEventListener("click",()=>{ const P=plan(); P.items=P.items.filter(i=>i.id!==P.sel); P.sel=null; renderAll(); });
 // Aus der Einzelteil-Ansicht: Teil hinzufügen und gleich zur Wand bzw. in den Kasten wechseln
 $("toPlan").addEventListener("click",()=>{ const P=plan(); P.on=true; planCamera(); $("bed").scrollIntoView({behavior:"smooth",block:"start"});
@@ -177,6 +181,7 @@ function drawPlan(){
   // Auswahl: Knöpfe, Position und Hinweis im Formular
   const it=P.items.find(i=>i.id===P.sel);
   for(const id of ["planDup","planRot","planStack","planDel"]) $(id).disabled=!it;
+  $("planReset").disabled=!P.items.length;
   const meR=it&&rects.find(r=>r.it===it);
   $("planStack").textContent=it&&it.stack?"Auf den Boden":"Stapeln"; if(it&&!it.stack&&!stapelbar(meR)) $("planStack").disabled=true;
   $("planPos").hidden=!it;

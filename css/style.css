@@ -143,3 +143,4 @@ textarea#scad{width:100%;box-sizing:border-box;min-height:160px;font:12px var(--
 .plan-warn:empty{display:none}
 .plan-warn p{margin:0 0 4px;font-size:13px;background:var(--alert-bg);color:#111;border:2px solid #111;border-radius:8px;padding:5px 9px}
 .pl-new{fill:var(--model);fill-opacity:.35;stroke:var(--line);stroke-width:1.5;stroke-dasharray:6 4;vector-effect:non-scaling-stroke;pointer-events:none}
+.plan-actions .reset{margin-left:auto;background:var(--alert-bg);color:#111}

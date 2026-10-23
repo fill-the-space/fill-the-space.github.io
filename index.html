@@ -7,7 +7,7 @@
 <meta name="description" content="Wandhalterungen für den 3D-Drucker erzeugen: Maße eintragen oder Foto hochladen, in 3D ansehen, als STL speichern.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="css/style.css?v=65">
+<link rel="stylesheet" href="css/style.css?v=66">
 </head>
 <body>
 
@@ -67,6 +67,7 @@
           <button class="btn small" type="button" id="planRot">Drehen</button>
           <button class="btn small" type="button" id="planStack">Stapeln</button>
           <button class="btn small" type="button" id="planDel">Entfernen</button>
+          <button class="btn small reset" type="button" id="planReset">Neu anfangen</button>
         </div>
         <div class="nums two" id="planPos"></div>
         <p class="selnote" id="planSel"></p>
@@ -93,35 +94,35 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <!-- Rechnen: Formen, Dreiecksnetz, Foto-Erkennung -->
-<script src="js/geometrie/formen.js?v=65"></script>
-<script src="js/geometrie/netz.js?v=65"></script>
-<script src="js/foto/erkennung.js?v=65"></script>
+<script src="js/geometrie/formen.js?v=66"></script>
+<script src="js/geometrie/netz.js?v=66"></script>
+<script src="js/foto/erkennung.js?v=66"></script>
 <!-- Halterungsarten: neue Art = neue Datei + eine Zeile hier -->
-<script src="js/halterungen/register.js?v=65"></script>
-<script src="js/halterungen/befestigung.js?v=65"></script>
-<script src="js/halterungen/schrauben.js?v=65"></script>
-<script src="js/halterungen/empfehlung.js?v=65"></script>
-<script src="js/halterungen/koecher.js?v=65"></script>
-<script src="js/halterungen/konsole.js?v=65"></script>
-<script src="js/halterungen/leiste.js?v=65"></script>
+<script src="js/halterungen/register.js?v=66"></script>
+<script src="js/halterungen/befestigung.js?v=66"></script>
+<script src="js/halterungen/schrauben.js?v=66"></script>
+<script src="js/halterungen/empfehlung.js?v=66"></script>
+<script src="js/halterungen/koecher.js?v=66"></script>
+<script src="js/halterungen/konsole.js?v=66"></script>
+<script src="js/halterungen/leiste.js?v=66"></script>
 <!-- Individuell (Foto) vorerst ausgeblendet; zum Wiedereinschalten diese Zeile zurückholen:
 <script src="js/halterungen/individuell.js"></script> -->
 <!-- Boxen: neue Art = neue Datei + eine Zeile hier -->
-<script src="js/boxen/grundform.js?v=65"></script>
-<script src="js/boxen/stapelbox.js?v=65"></script>
-<script src="js/boxen/deckelbox.js?v=65"></script>
-<script src="js/boxen/sortierkasten.js?v=65"></script>
+<script src="js/boxen/grundform.js?v=66"></script>
+<script src="js/boxen/stapelbox.js?v=66"></script>
+<script src="js/boxen/deckelbox.js?v=66"></script>
+<script src="js/boxen/sortierkasten.js?v=66"></script>
 <!-- Export -->
-<script src="js/export/stl.js?v=65"></script>
-<script src="js/export/vereinfachen.js?v=65"></script>
-<script src="js/export/download.js?v=65"></script>
+<script src="js/export/stl.js?v=66"></script>
+<script src="js/export/vereinfachen.js?v=66"></script>
+<script src="js/export/download.js?v=66"></script>
 <!-- Oberfläche -->
-<script src="js/ui/dom.js?v=65"></script>
-<script src="js/ui/vorschau3d.js?v=65"></script>
-<script src="js/zustand.js?v=65"></script>
-<script src="js/ui/foto.js?v=65"></script>
-<script src="js/ui/formular.js?v=65"></script>
-<script src="js/ui/anordnung.js?v=65"></script>
-<script src="js/main.js?v=65"></script>
+<script src="js/ui/dom.js?v=66"></script>
+<script src="js/ui/vorschau3d.js?v=66"></script>
+<script src="js/zustand.js?v=66"></script>
+<script src="js/ui/foto.js?v=66"></script>
+<script src="js/ui/formular.js?v=66"></script>
+<script src="js/ui/anordnung.js?v=66"></script>
+<script src="js/main.js?v=66"></script>
 </body>
 </html>
