@@ -628,3 +628,22 @@ const sc=screwSpec(p), tb=Math.max(t,p.holes?screwWall(sc):0);
 **Screenshot:** prompt-log-bilder/33-vorher.jpg / 33-nachher.jpg
 
 **Commit-Nachricht:** Prompt 33: Immer Senkkopfschrauben, Wand automatisch dick genug
+
+---
+
+## Prompt 34 – Aus „Ablage“ wird „Konsole“, Beispiel liegt auf (23.10.2026)
+
+**Prompt:**
+> Die Halterung Ablage würde ich umbenennen. In Konsole eventuell wenn man's einfügen kann L-Form. Das Bauteil, was in dieser Halterung gezeigt wird, würde durchrutschen. Es liegt nicht auf. Da solltest du ein anderes Bauteil als Beispiel einfügen.
+
+**Was sich geändert hat:**
+- Die Halterungsart „Ablage“ heißt jetzt „Konsole“. Die Beschreibung beginnt mit „Konsole in L-Form“. Das Feld „Ablagetiefe“ heißt „Konsolentiefe“, und auch die Hinweise und die OpenSCAD-Datei sprechen von der Konsole.
+- Das Beispiel-Bauteil war ein einfacher Zylinder, genauso breit wie der Schlitz, und wäre durchgerutscht. Jetzt zeigt die Konsole beim Schlitz einen Akkuschrauber: Der Griff steckt im Schlitz, der breitere Körper liegt oben auf, und der Akku hängt darunter. Beim Ring steckt ein schmaler Teil im Ring, der breitere Teil liegt auf dem Ring auf, wie bei einem Föhn.
+- Getestet mit Schlitz und Ring bei 20 bis 120 mm Griffbreite: Der obere Teil ist immer breiter als die Aussparung und ragt nie in die Rückwand.
+- Die Programmdatei heißt jetzt konsole.js statt ablage.js.
+
+**Betroffene Dateien:** js/halterungen/konsole.js (vorher ablage.js), js/halterungen/individuell.js, index.html (Versionsnummer 34), README.md
+
+**Screenshot:** prompt-log-bilder/34-vorher.jpg / 34-nachher.jpg
+
+**Commit-Nachricht:** Prompt 34: Ablage heißt Konsole, Beispiel-Bauteil liegt auf

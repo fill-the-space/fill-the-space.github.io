@@ -11,7 +11,7 @@ Lokal ausprobieren: `index.html` im Finder doppelklicken.
 | Art | Wofür |
 |---|---|
 | Köcher | Bauteil steht in einer Schale, z. B. Fernbedienung, Smartphone, Haarspray |
-| Ablage | Bauteil hängt mit Griff oder Körper in einem Schlitz oder Ring, z. B. Akkuschrauber, Föhn |
+| Konsole | L-Form: Bauteil steckt mit dem schmalen Teil in einem Schlitz oder Ring, der breitere Teil liegt oben auf, z. B. Akkuschrauber, Föhn |
 | Leiste | Mehrere Löcher nebeneinander, z. B. Schraubendreher, Lippenstifte, Pinsel |
 | Individuell | Foto hochladen und ein bekanntes Maß angeben. Die App erkennt, wo das Bauteil aufliegen kann, und baut eine einfache Halterung zum Einhängen oder Hineinstellen |
 
@@ -26,7 +26,7 @@ js/foto/erkennung.js          Bauteil im Foto finden, Auflagekante suchen
 js/halterungen/register.js    Liste aller Halterungsarten
 js/halterungen/schrauben.js   Schraubengröße, Kopfform, Anzahl und Lage der Löcher (für alle Arten)
 js/halterungen/koecher.js     je Halterungsart: Name, Standardmaße,
-js/halterungen/ablage.js      Eingabefelder und Berechnung der Form
+js/halterungen/konsole.js     Eingabefelder und Berechnung der Form
 js/halterungen/leiste.js      samt OpenSCAD-Code
 js/halterungen/individuell.js
 js/export/stl.js, zip.js      Dateien zum Speichern erzeugen

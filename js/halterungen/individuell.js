@@ -37,7 +37,7 @@ function buildIndividuell(p,seg){
     return m;
   }
 
-  // Einhängen: Ablage mit Schlitz für den schmalen Teil, die breite Stelle liegt auf
+  // Einhängen: Konsole mit Schlitz für den schmalen Teil, die breite Stelle liegt auf
   const sc=screwSpec(p), P=Math.max(3,p.P,p.holes?screwWall(sc):0), front=p.insert!=="oben";
   if(P>Math.max(3,p.P)) warn.push(`Stärke auf ${mmDE(P)} mm erhöht, damit der Senkkopf ganz in der Rückwand verschwindet.`);
   const nw=sh.n1-sh.n0+2*s, supL=Math.min(sh.availL,30), supR=Math.min(sh.availR,30);
@@ -58,11 +58,11 @@ function buildIndividuell(p,seg){
   const S=[`// Halterungs-Generator – Individuell, zum Einhängen (${front?"von vorne":"von oben"})`,`$fn = 64;`,
     `W = ${f2(W)}; D = ${f2(D)}; P = ${f2(P)}; dicke = ${f2(th)}; Hp = ${f2(Hp)};`,`// Schlitz für den schmalen Teil des Bauteils inkl. Spiel`,
     `sx0 = ${f2(sx0)}; sx1 = ${f2(sx1)}; sy0 = ${f2(sy0)}; sy1 = ${f2(sy1)};`,``,
-    `module ablage2d() { hull() { square([W, 1]); translate([6, D - 6]) circle(6); translate([W - 6, D - 6]) circle(6); } }`,
+    `module konsole2d() { hull() { square([W, 1]); translate([6, D - 6]) circle(6); translate([W - 6, D - 6]) circle(6); } }`,
     front ? `module schlitz2d() { translate([sx0, sy0]) square([sx1 - sx0, sy1 - sy0]); }`
           : `module schlitz2d() { r = ${f2(Math.min(4,nw/2))}; translate([sx0 + r, sy0 + r]) offset(r = r) square([sx1 - sx0 - 2*r, sy1 - sy0 - 2*r]); }`,
     `module stuetze() { rotate([90, 0, 90]) linear_extrude(P) polygon([[0, Hp - dicke], [${f2(Dg)}, Hp - dicke], [0, Hp - dicke - ${f2(Hg)}]]); }`,``,
-    `difference() {`,`  union() {`,`    cube([W, P, Hp]);`,`    translate([0, 0, Hp - dicke]) linear_extrude(dicke) difference() { ablage2d(); schlitz2d(); }`,
+    `difference() {`,`  union() {`,`    cube([W, P, Hp]);`,`    translate([0, 0, Hp - dicke]) linear_extrude(dicke) difference() { konsole2d(); schlitz2d(); }`,
     ...(front?[`    // Kante vorne, damit das Bauteil nicht nach vorne rutscht`,`    translate([1, D - 4, Hp - 0.01]) cube([sx0 - 1, 4, ${ridge}]);`,`    translate([sx1, D - 4, Hp - 0.01]) cube([W - 1 - sx1, 4, ${ridge}]);`]:[]),
     ...gx.map(gg=>`    translate([${f2(gg)}, 0, 0]) stuetze();`),`  }`];
   S.push(...screwSCAD(holes,sc,"P + 2","P"));
