@@ -1102,3 +1102,22 @@ const acc = win ? {x0:cx-(iw/2-m)+sc.dk/2+2, x1:cx+(iw/2-m)-sc.dk/2-2, z0:t+lip+
 **Screenshot:** prompt-log-bilder/55-vorher.jpg / 55-nachher-hell.jpg / 55-nachher-dunkel.jpg
 
 **Commit-Nachricht:** Prompt 55: Design im Stil der Wrapped Party
+
+---
+
+## Prompt 56 – Türhaken bündig, Schraublöcher oben (23.10.2026)
+
+**Prompt:**
+> Bei der Tür Halterung fände ich es schön, wenn es keinen Absatz geben würde, der nach oben geht, sondern dass die Fläche geradeaus weiter durchgeht. Über die Tür drüber sozusagen. Und bei der Türhalterung hätte ich gerne, dass die Option gegeben wird, dass man oben noch Löcher mit seinen Kopf schrauben einsetzen kann.
+
+**Was sich geändert hat:**
+- **Kein Absatz mehr:** Die Brücke über die Tür saß bisher auf der Oberkante der Halterung und stand um die Hakenstärke (3 mm) nach oben über. Jetzt liegt sie bündig: Die Oberseite der Halterung läuft als gerade Fläche über die Tür weiter, das Bein greift wie bisher hinter die Tür. Die Halterung ist dadurch auch 3 mm niedriger, z. B. die Konsole 70 statt 73 mm.
+- **Neues Häkchen „Schraublöcher oben in die Türkante“** beim Türhaken: Es setzt Löcher für 3,5-mm-Senkkopfschrauben von oben mitten in die Türkante. Bei Halterungen ab 50 mm Breite sind es zwei, sonst eines. Die Senkung sitzt oben, die Köpfe liegen also bündig.
+- Damit die Senkköpfe ganz versenkt sind, wird der Haken bei Bedarf automatisch auf 3,2 mm verstärkt, mit Hinweis. Der Hinweis „Prüfe die Luft über der Tür“ kommt jetzt erst ab 3,5 mm Hakenstärke, damit er nicht bei jeder Schraubvariante erscheint.
+- Getestet: Konsole, Köcher und Leiste mit Türhaken, mit und ohne Schraublöcher. Die Oberkante ist überall bündig, die Löcher sind frei und daneben ist Material, und alle STL-Dateien sind geschlossen und druckbar.
+
+**Betroffene Dateien:** js/halterungen/befestigung.js, index.html (Versionsnummer 56)
+
+**Screenshot:** prompt-log-bilder/56-vorher.jpg (Seitenansicht mit Absatz) / 56-nachher-seite.jpg / 56-nachher-oben.jpg
+
+**Commit-Nachricht:** Prompt 56: Türhaken bündig, Schraublöcher oben
