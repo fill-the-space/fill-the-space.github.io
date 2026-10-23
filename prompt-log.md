@@ -1173,3 +1173,41 @@ const acc = win ? {x0:cx-(iw/2-m)+sc.dk/2+2, x1:cx+(iw/2-m)-sc.dk/2-2, z0:t+lip+
 **Betroffene Dateien:** keine Dateien der App
 
 **Commit-Nachricht:** Prompt 59: Entscheidung – Adresse bleibt
+
+---
+
+## Prompt 60 – Neue Seite Boxen (23.10.2026)
+
+**Prompt:**
+> Die App soll nun erweitert werden durch eine weitere Oberfläche. Die jetzige Oberfläche bleibt als Seite bestehen. Es gibt dann noch eine weitere Seite. Die weitere Seite beschäftigt sich mit Boxen. Hier hat man die Möglichkeit, 3-D Boxen zu erzeugen, die entweder Stapel Barr sind oder einen Deckel haben oder noch weitere Optionen, die dir einfallen. Der Aufbau soll genauso wie auf der ersten Seite sein man soll zwischen den zwei Seiten hin und her schalten können.
+
+**Was sich geändert hat:**
+- Unter dem Titel gibt es jetzt zwei Schalter: „Halterungen“ und „Boxen“. Die Halterungen-Seite ist unverändert. Jede Seite merkt sich, welche Art zuletzt gewählt war.
+- Die Boxen-Seite ist genauso aufgebaut: Auswahl der Boxenart, Maße und Optionen, 3D-Vorschau, Druckempfehlung und STL-Download (Dateiname z. B. box-stapelbox.stl).
+- Drei Boxenarten:
+  - **Stapelbox:** Unten ist ein schmalerer Fuß, der in die Box darunter passt.
+  - **Deckelbox:** Sie hat entweder einen Steckdeckel mit Rand oder einen Schiebedeckel, der in einer Nut läuft. Der Deckel liegt in derselben STL-Datei neben der Box.
+  - **Sortierkasten:** Er ist flach und hat viele Fächer.
+- Zusätzliche Optionen für alle Boxen:
+  - Fächer längs und quer
+  - Griffmulden an den Schmalseiten
+  - Beschriftungsfeld vorne
+  - Eckenradius, Wand- und Bodenstärke
+- Die Empfehlung nennt das Innenmaß und wie viel die Box fasst (in Litern). Sie warnt, wenn Box und Deckel zusammen nicht auf das eingestellte Druckbett passen.
+- Die Teile, die ineinanderpassen (Stapelfuß, Deckel, Schiebedeckel), haben 0,3 mm Luft. Alle vier Boxenvarianten ergeben geschlossene STL-Dateien.
+- Fehler beim Testen, beide sofort behoben:
+  - Im Dateinamen stand „sortier-kasten“, weil die Trennhilfe im Namen mitgezählt wurde.
+  - Auf dem Handy wurde „Sortierkasten“ an der runden Ecke der Auswahl abgeschnitten. Die Schrift ist dort jetzt kleiner und die Ecken weniger rund.
+
+**Betroffene Dateien:** neu: js/boxen/grundform.js, stapelbox.js, deckelbox.js, sortierkasten.js. Geändert: index.html (Versionsnummer 60), css/style.css, js/halterungen/register.js, empfehlung.js, js/zustand.js, js/ui/formular.js, js/main.js, README.md
+
+**Wichtigster Code-Ausschnitt:**
+```js
+const SEITEN={halterung:{name:"Halterungen",art:"Halterungsart",datei:"halterung"},
+              box:{name:"Boxen",art:"Boxenart",datei:"box"}};
+HALTERUNGEN.stapelbox = { bereich:"box", name:"Stapelbox", …, build:p=>buildBox(p,{stack:true, …}) };
+```
+
+**Screenshot:** prompt-log-bilder/60-nachher-stapelbox.jpg / 60-nachher-handy.jpg
+
+**Commit-Nachricht:** Prompt 60: Neue Seite Boxen (Stapelbox, Deckelbox, Sortierkasten)

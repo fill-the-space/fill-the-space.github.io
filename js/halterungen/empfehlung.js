@@ -20,7 +20,12 @@ function mountCapacity(model){
 
 /* Liefert {text, detail, mat, walls, infill} und legt Warnhinweise in model.alerts ab */
 function recommend(type,v,model){
-  const kg=(+v.mass||0)/1000, alerts=model.alerts=[], i=model.mount||{kind:"schrauben"}, haken=i.kind!=="schrauben";
+  const alerts=model.alerts=[];
+  // Boxen: keine Last an der Wand, PLA reicht; nur Druckraum prüfen und Innenmaß nennen
+  if(model.box){ bedAlert(model,alerts); const [a,b,h]=model.box.innen;
+    return {mat:MATERIALIEN[0], walls:3, infill:0.15, text:"PLA · 3 Wände, 15 % Füllung",
+      detail:`Innenmaß ${mmDE(a)} × ${mmDE(b)} × ${mmDE(h)} mm, fasst etwa ${model.box.liter.toLocaleString("de-DE",{maximumFractionDigits:model.box.liter<1?2:1})} l.${model.box.lid?" Box und Deckel liegen nebeneinander in einer Datei.":""}`}; }
+  const kg=(+v.mass||0)/1000, i=model.mount||{kind:"schrauben"}, haken=i.kind!=="schrauben";
   // Hebel: Je weiter das Bauteil vor der Wand hängt und je tiefer die Befestigung sitzt, desto stärker zieht es an ihr
   const pts=(model.screw&&model.screw.pts)||[], zFix=haken ? i.zFix : pts.length ? pts.reduce((a,q)=>a+q[1],0)/pts.length : 0;
   const hebel=Math.hypot(1,(model.arm||0)/Math.max(zFix,10)), last=kg*hebel, cap=mountCapacity(model);
@@ -48,11 +53,7 @@ function recommend(type,v,model){
   if(xs.length){ const spans=[2*xs[0],2*(W-xs[xs.length-1])].concat(xs.slice(1).map((x,k)=>x-xs[k]));
     if(Math.max(...spans)>300) alerts.push({id:"laenge",kurz:"Zu lang für die Schrauben", lang:`Die Halterung ist ${mmDE(W)} mm breit. Zwischen den Schrauben oder am Rand ist zu viel Abstand, dort hängt sie durch oder steht von der Wand ab. Mehr Schrauben wählen oder die Halterung kürzer machen.`}); }
   // Druckbett
-  // Druckraum in der empfohlenen Druckrichtung: Grundfläche a × b (auch um 90° gedreht) und Höhe c
-  const [dx,dy,dz]=model.dims, [a,b,c]=model.dir==="Boden unten"?[dx,dy,dz]:model.dir==="Rückwand unten"?[dx,dz,dy]:[dy,dz,dx], {x:L,y:B,z:Hd}=state.bed;
-  const flaeche=(a<=L&&b<=B)||(a<=B&&b<=L), hoehe=c<=Hd;
-  if(!flaeche||!hoehe) alerts.push({id:"bett",kurz:hoehe?"Größer als das Druckbett":flaeche?"Zu hoch für den Drucker":"Größer als der Drucker", lang:
-    `Beim Drucken (${model.dir.toLowerCase()}) braucht die Halterung eine Fläche von ${mmDE(a)} × ${mmDE(b)} mm und ist ${mmDE(c)} mm hoch. Dein Drucker ist auf ${mmDE(L)} × ${mmDE(B)} mm und ${mmDE(Hd)} mm Höhe eingestellt. Kleiner machen, in Teilen drucken oder unter „Drucker“ die Maße deines Druckers eintragen.`});
+  bedAlert(model,alerts);
 
   const traegt=(art[0].toUpperCase()+art.slice(1))+(art==="der Türhaken"?" trägt":" tragen");
   return {mat, walls, infill, text:`${mat.name} · ${druck}`, detail:`Geschätzte Last ${mmDE(last)} kg${hebel>1.05?" (mit Hebelwirkung)":""}. ${traegt} in PLA dauerhaft etwa ${mmDE(cap)} kg.`};
@@ -63,4 +64,13 @@ function recommend(type,v,model){
 function filamentUse(vol,area,rec){
   const shell=Math.min(vol,area*rec.walls*0.45), cm3=(shell+(vol-shell)*rec.infill)/1000;
   return {g:cm3*rec.mat.dichte, m:cm3*1000/(Math.PI*0.875*0.875)/1000};
+}
+
+/* Druckraum in der empfohlenen Druckrichtung: Grundfläche a × b (auch um 90° gedreht) und Höhe c.
+   printDims: was tatsächlich gedruckt wird (z. B. Box und Deckel nebeneinander) */
+function bedAlert(model,alerts){
+  const [dx,dy,dz]=model.printDims||model.dims, [a,b,c]=model.dir==="Boden unten"?[dx,dy,dz]:model.dir==="Rückwand unten"?[dx,dz,dy]:[dy,dz,dx], {x:L,y:B,z:Hd}=state.bed;
+  const flaeche=(a<=L&&b<=B)||(a<=B&&b<=L), hoehe=c<=Hd;
+  if(!flaeche||!hoehe) alerts.push({id:"bett",kurz:hoehe?"Größer als das Druckbett":flaeche?"Zu hoch für den Drucker":"Größer als der Drucker", lang:
+    `Beim Drucken (${model.dir.toLowerCase()}) braucht ${model.box?(model.box.lid?"die Box mit Deckel":"die Box"):"die Halterung"} eine Fläche von ${mmDE(a)} × ${mmDE(b)} mm und ist ${mmDE(c)} mm hoch. Dein Drucker ist auf ${mmDE(L)} × ${mmDE(B)} mm und ${mmDE(Hd)} mm Höhe eingestellt. Kleiner machen, in Teilen drucken oder unter „Drucker“ die Maße deines Druckers eintragen.`});
 }

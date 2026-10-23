@@ -41,7 +41,8 @@ legend,.group-label{font-family:var(--display);font-weight:700;font-size:13px;te
 .seg button:first-child{border-left:0}
 .seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
 .seg-label{font-size:12px;color:var(--muted)}
-#types button{font:800 13px var(--display);padding:12px 6px;text-transform:uppercase}
+#types button{font:800 13px var(--display);padding:12px 6px;text-transform:uppercase;hyphens:manual;overflow-wrap:normal;line-height:1.15}
+.legend b{font-weight:inherit}
 .photo{background:var(--bed);border:1px solid var(--line);border-radius:2px;overflow:hidden}
 .photo canvas{display:block;width:100%;height:auto;max-width:100%}
 .photo-actions{display:flex;gap:8px;flex-wrap:wrap}
@@ -106,3 +107,10 @@ textarea#scad{width:100%;box-sizing:border-box;min-height:160px;font:12px var(--
 
 .btn:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--shadow)}
 .btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--shadow)}
+
+/* Seitenumschalter Halterungen / Boxen im Kopf */
+.pages{position:relative;z-index:1;display:grid;width:fit-content;min-width:min(340px,100%);margin-top:18px;background:var(--panel)}
+.pages button{font:800 13px var(--display);text-transform:uppercase;padding:10px 18px}
+/* Auswahl der Art: weniger runde Ecken, damit zweizeilige Namen nicht abgeschnitten werden; auf dem Handy kleiner */
+#types{border-radius:16px}
+@media (max-width:480px){#types button{font-size:10.5px;padding:10px 3px}}

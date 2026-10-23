@@ -7,20 +7,21 @@
 <meta name="description" content="Wandhalterungen für den 3D-Drucker erzeugen: Maße eintragen oder Foto hochladen, in 3D ansehen, als STL speichern.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="css/style.css?v=58">
+<link rel="stylesheet" href="css/style.css?v=60">
 </head>
 <body>
 
 <div class="wrap">
   <header>
     <h1>FILL THE SPACE</h1>
-    <details class="info"><summary>So funktioniert’s</summary><p class="lead">Halterungsart wählen und die Maße des Bauteils eintragen. Die Wandhalterung wird live berechnet und lässt sich als druckfertige STL-Datei speichern.</p></details>
+    <nav class="seg pages" id="pages" aria-label="Seite"><button type="button" data-page="halterung">Halterungen</button><button type="button" data-page="box">Boxen</button></nav>
+    <details class="info"><summary>So funktioniert’s</summary><p class="lead">Oben zwischen Halterungen und Boxen wechseln, dann die Art wählen und die Maße eintragen. Die Form wird live berechnet und lässt sich als druckfertige STL-Datei speichern.</p></details>
   </header>
 
   <div class="grid">
     <div class="panel">
       <fieldset>
-        <legend>Halterungsart</legend>
+        <legend id="typesLegend">Halterungsart</legend>
         <div class="seg" id="types" role="group" aria-label="Halterungsart"></div>
         <details class="info"><summary>Beschreibung</summary><p class="hint" id="typeHint"></p></details>
       </fieldset>
@@ -52,7 +53,7 @@
     <section class="view">
       <div class="bed" id="bed">
         <span class="tag" id="tag">Ziehen zum Drehen · Mausrad zum Zoomen</span>
-        <div class="legend"><span><i style="background:var(--model)"></i>Halterung</span><span><i style="background:var(--ghost)"></i>Bauteil</span></div>
+        <div class="legend"><span><i style="background:var(--model)"></i><b id="legendModel">Halterung</b></span><span id="legendGhost"><i style="background:var(--ghost)"></i>Bauteil</span></div>
       </div>
       <div class="specs">
         <div class="spec"><span>Außenmaß B×T×H</span><b id="outDim">–</b></div>
@@ -72,29 +73,34 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <!-- Rechnen: Formen, Dreiecksnetz, Foto-Erkennung -->
-<script src="js/geometrie/formen.js?v=58"></script>
-<script src="js/geometrie/netz.js?v=58"></script>
-<script src="js/foto/erkennung.js?v=58"></script>
+<script src="js/geometrie/formen.js?v=60"></script>
+<script src="js/geometrie/netz.js?v=60"></script>
+<script src="js/foto/erkennung.js?v=60"></script>
 <!-- Halterungsarten: neue Art = neue Datei + eine Zeile hier -->
-<script src="js/halterungen/register.js?v=58"></script>
-<script src="js/halterungen/befestigung.js?v=58"></script>
-<script src="js/halterungen/schrauben.js?v=58"></script>
-<script src="js/halterungen/empfehlung.js?v=58"></script>
-<script src="js/halterungen/koecher.js?v=58"></script>
-<script src="js/halterungen/konsole.js?v=58"></script>
-<script src="js/halterungen/leiste.js?v=58"></script>
+<script src="js/halterungen/register.js?v=60"></script>
+<script src="js/halterungen/befestigung.js?v=60"></script>
+<script src="js/halterungen/schrauben.js?v=60"></script>
+<script src="js/halterungen/empfehlung.js?v=60"></script>
+<script src="js/halterungen/koecher.js?v=60"></script>
+<script src="js/halterungen/konsole.js?v=60"></script>
+<script src="js/halterungen/leiste.js?v=60"></script>
 <!-- Individuell (Foto) vorerst ausgeblendet; zum Wiedereinschalten diese Zeile zurückholen:
 <script src="js/halterungen/individuell.js"></script> -->
+<!-- Boxen: neue Art = neue Datei + eine Zeile hier -->
+<script src="js/boxen/grundform.js?v=60"></script>
+<script src="js/boxen/stapelbox.js?v=60"></script>
+<script src="js/boxen/deckelbox.js?v=60"></script>
+<script src="js/boxen/sortierkasten.js?v=60"></script>
 <!-- Export -->
-<script src="js/export/stl.js?v=58"></script>
-<script src="js/export/vereinfachen.js?v=58"></script>
-<script src="js/export/download.js?v=58"></script>
+<script src="js/export/stl.js?v=60"></script>
+<script src="js/export/vereinfachen.js?v=60"></script>
+<script src="js/export/download.js?v=60"></script>
 <!-- Oberfläche -->
-<script src="js/ui/dom.js?v=58"></script>
-<script src="js/ui/vorschau3d.js?v=58"></script>
-<script src="js/zustand.js?v=58"></script>
-<script src="js/ui/foto.js?v=58"></script>
-<script src="js/ui/formular.js?v=58"></script>
-<script src="js/main.js?v=58"></script>
+<script src="js/ui/dom.js?v=60"></script>
+<script src="js/ui/vorschau3d.js?v=60"></script>
+<script src="js/zustand.js?v=60"></script>
+<script src="js/ui/foto.js?v=60"></script>
+<script src="js/ui/formular.js?v=60"></script>
+<script src="js/main.js?v=60"></script>
 </body>
 </html>

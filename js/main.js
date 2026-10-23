@@ -51,7 +51,7 @@ function showAlerts(list){
     const p=document.createElement("p"); p.textContent=a.lang; d.append(s,p); if(open.has(d.dataset.id)) d.open=true; box.appendChild(d); }
 }
 
-function slug(){ return HALTERUNGEN[state.type].name.toLowerCase().replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue").replace(/ß/g,"ss").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,""); }
+function slug(){ return HALTERUNGEN[state.type].name.replace(/\u00ad/g,"").toLowerCase().replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue").replace(/ß/g,"ss").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,""); }
 // Innerhalb von Claude speichert die Vorschau über claude.use, sonst normaler Browser-Download
 let dlReady=(async()=>{ try{ return window.claude?.use ? await claude.use("downloads") : null; }catch(e){ return null; } })();
 $("dl").addEventListener("click",async()=>{
@@ -63,7 +63,7 @@ $("dl").addEventListener("click",async()=>{
     const m=current.model, hE=Math.min(current.h, Math.max(0.4, Math.sqrt(2*current.area/400000)));
     const fine=snapToSurface(polygonize(m.f,m.bb,hE),m.f);
     st.textContent="Datei wird verkleinert …"; await new Promise(r=>setTimeout(r,30));
-    const mesh=simplifyMesh(fine,0.01), name="halterung-"+slug()+".stl", file=new Blob([stl(mesh)],{type:"model/stl"});
+    const mesh=simplifyMesh(fine,0.01), name=SEITEN[state.page].datei+"-"+slug()+".stl", file=new Blob([stl(mesh)],{type:"model/stl"});
     if(d) await d.save({filename:name,data:file}); else saveFile(name,file);
     st.textContent=`Gespeichert: ${name} (${(file.size/1e3).toLocaleString("de-DE",{maximumFractionDigits:0})} kB, ${(mesh.idx.length/3).toLocaleString("de-DE")} Dreiecke)`;
   }catch(e){
@@ -73,5 +73,9 @@ $("dl").addEventListener("click",async()=>{
 // Druckbett gilt für alle Halterungsarten und wird mit gemerkt
 for(const k of ["x","y","z"]){ const i=$("bed"+k.toUpperCase()); i.value=state.bed[k];
   i.addEventListener("input",()=>{ const x=parseFloat(i.value); if(isFinite(x)&&x>=50){ state.bed[k]=Math.min(1000,x); schedule(); } }); }
+
+// Zwischen den Seiten Halterungen und Boxen wechseln; jede Seite merkt sich ihre zuletzt gewählte Art
+for(const b of document.querySelectorAll("#pages button")) b.addEventListener("click",()=>{ const p=b.dataset.page; if(p===state.page) return;
+  state.last[state.page]=state.type; state.page=p; state.type=state.last[p]; view.zoom=1; renderAll(); });
 
 initGL(); renderAll();

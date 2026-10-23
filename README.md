@@ -25,7 +25,7 @@ css/style.css                 Aussehen
 js/geometrie/formen.js        Grundformen (Kasten, Rundung, Schraubloch)
 js/geometrie/netz.js          Form in ein Dreiecksnetz umrechnen
 js/foto/erkennung.js          Bauteil im Foto finden, Auflagekante suchen
-js/halterungen/register.js    Liste aller Halterungsarten
+js/halterungen/register.js    Liste aller Halterungs- und Boxenarten, die zwei Seiten
 js/halterungen/befestigung.js Befestigung: Schrauben, Haken über die Schranktür oder IKEA SKÅDIS
 js/halterungen/schrauben.js   Schraubengröße, Anzahl und Lage der Löcher (für alle Arten)
 js/halterungen/empfehlung.js  Druckempfehlung (Material, Wände, Füllung) nach Gewicht und Befestigung
@@ -33,6 +33,10 @@ js/halterungen/koecher.js     je Halterungsart: Name, Standardmaße,
 js/halterungen/konsole.js     Eingabefelder und Berechnung der Form
 js/halterungen/leiste.js      (der OpenSCAD-Code wird intern noch erzeugt, aber nicht angeboten)
 js/halterungen/individuell.js
+js/boxen/grundform.js         Seite „Boxen“: gemeinsame Form (Wände, Fächer, Stapelfuß, Deckel, Griffmulden)
+js/boxen/stapelbox.js         je Boxenart: Name, Standardmaße, Eingabefelder
+js/boxen/deckelbox.js
+js/boxen/sortierkasten.js
 js/export/stl.js              STL-Datei erzeugen
 js/export/vereinfachen.js     Netz verkleinern (ebene Flächen mit wenigen Dreiecken)
 js/export/download.js         Datei in den Download-Ordner speichern
@@ -44,6 +48,9 @@ prompt-log.md                 Prompt-Protokoll für die Präsentation
 ```
 
 ### Neue Halterungsart hinzufügen
+
+Eine neue Boxenart funktioniert genauso, nur in `js/boxen/` mit `bereich:"box"` und `build:p=>buildBox(p,{…})`.
+
 
 1. Neue Datei in `js/halterungen/`, z. B. `haken.js`, nach dem Muster der anderen: `HALTERUNGEN.haken = { name, hint, defaults, fields, build }`. Für die Wandbefestigung `...SCHRAUB_STANDARD` in `defaults` und `...SCHRAUB_FELDER` in `fields` übernehmen und in `build` `screwSpec`, `screwLayout`, `screwCut` und `screwSCAD` nutzen.
 2. In `index.html` eine Zeile `<script src="js/halterungen/haken.js"></script>` unter den anderen Halterungsarten ergänzen.
