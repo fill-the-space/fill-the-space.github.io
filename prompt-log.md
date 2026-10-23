@@ -356,3 +356,59 @@ function saveFile(name,blob){
 **Betroffene Dateien:** prompt-log.md
 
 **Commit-Nachricht:** Prompt 18–19: Nachtrag Push-Problem
+
+---
+
+## Prompt 20 – Die App ist online (23.10.2026)
+
+**Prompt:**
+> Ich habe in GitHub Desktop auf Push origin geklickt. Prüf bitte, ob die App online läuft, und schreib die Etappen-Zusammenfassung.
+
+**Was sich geändert hat:**
+- Der Push ist angekommen, und die App läuft jetzt unter https://lioba-source.github.io/halterungs-generator/. Claude hat sie dort getestet: Alle 16 Vorlagen werden berechnet, die 3D-Ansicht funktioniert, das Speichern liefert eine ZIP-Datei (Föhn: 263.720 Dreiecke), und die Konsole zeigt keine Fehler.
+- Fehler beim Online-Test gefunden und behoben: Der Bereich „Foto und Erkennung“ war auch bei Köcher, Ablage und Leiste zu sehen. Eine Gestaltungsregel hat das Ausblenden überstimmt. Innerhalb von Claude fiel das nicht auf, weil Claude die Seite in ein eigenes Grundgerüst mit passender Regel einbettet. Eine zusätzliche Zeile im Stylesheet behebt das. Lokal getestet, online erst nach dem nächsten Push.
+
+**Betroffene Dateien:** css/style.css, prompt-log-bilder/20-vorher.jpg, prompt-log-bilder/20-nachher.jpg
+
+**Wichtigster Code-Ausschnitt:** (css/style.css)
+```css
+[hidden]{display:none!important}
+```
+
+**Screenshot:** prompt-log-bilder/20-vorher.jpg / 20-nachher.jpg
+
+**Commit-Nachricht:** Prompt 20–22: Foto-Bereich bei anderen Halterungsarten ausblenden
+
+### Etappe: Vom Chat-Prototyp zum Online-Projekt (Prompts 7–20, 23.10.2026)
+
+**Ziel:** Aus der einzelnen Demo-Datei ein sauber aufgeteiltes Projekt machen, das auf GitHub liegt und über GitHub Pages im Browser erreichbar ist.
+**Ergebnis:** Der Code ist auf 17 kleine JavaScript-Dateien verteilt, jede Halterungsart hat ihre eigene Datei. Das Speichern funktioniert in jedem Browser. Die App liegt im Repository „halterungs-generator“ und läuft online unter lioba-source.github.io/halterungs-generator.
+**Schlüssel-Prompt:** Nr. 9, weil dort die Aufteilung entstand. Claude hat alle 16 Vorlagen in alter und neuer Version verglichen, um sicherzugehen, dass nichts kaputtgegangen ist.
+**Schwierigkeiten:** Der größte Umweg kam nicht vom Code, sondern vom Werkzeug. Commits und Pushes aus GitHub Desktop kamen viermal nicht an, weil der Projektordner dort gar nicht eingetragen war. Gefunden wurde das erst in Prompt 18. Außerdem gab es eine Anmeldung im falschen Browser (Prompt 15) und zwei Fehler, die nur außerhalb von Claude sichtbar wurden: das Speichern (Prompt 10) und der Foto-Bereich (Prompt 20).
+**Präsentationstauglich:** ja. Gut zeigen lassen sich die Live-Adresse, die Ordnerstruktur in der README und der Vorher-nachher-Vergleich 20-vorher/20-nachher. Die Lehre aus der Git-Odyssee: Nach jedem Schritt das Ergebnis prüfen, nicht nur die Meldung „erledigt“.
+
+---
+
+## Prompt 21 – Korrektur noch nicht angekommen (23.10.2026)
+
+**Prompt:**
+> Ich habe die Korrektur committet und gepusht. Prüf bitte kurz, ob der Foto-Bereich online jetzt richtig ausgeblendet wird.
+
+**Entscheidung:**
+- Fehler: Die Korrektur war weder committet noch hochgeladen. Online erschien der Foto-Bereich deshalb weiterhin bei allen Halterungsarten. Vermutlich fehlte der Klick auf „Commit to main“, sodass „Push origin“ nichts hochzuladen hatte.
+
+**Betroffene Dateien:** keine
+
+---
+
+## Prompt 22 – Claude committet die Korrektur (23.10.2026)
+
+**Prompt:**
+> Ja, committe du die Korrektur lokal. Ich klicke dann in GitHub Desktop auf Push origin.
+
+**Entscheidung:**
+- Claude hat die Korrektur aus Prompt 20 samt Screenshots und Protokoll lokal committet. Lioba lädt sie mit „Push origin“ hoch. Diese Arbeitsteilung hatte in Prompt 20 schon funktioniert.
+
+**Betroffene Dateien:** css/style.css, prompt-log.md, prompt-log-bilder/20-vorher.jpg, prompt-log-bilder/20-nachher.jpg
+
+**Commit-Nachricht:** Prompt 20–22: Foto-Bereich bei anderen Halterungsarten ausblenden

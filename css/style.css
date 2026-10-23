@@ -12,6 +12,7 @@
 :root[data-theme="dark"]{
   --bg:#161b18; --panel:#1e2420; --ink:#e7ebe6; --muted:#9aa69e; --line:#333c36;
   --accent:#f0a52b; --accent-ink:#161b18; --bed:#222924; --model:#f0a52b; --ghost:#7fb3d4; color-scheme:dark}
+[hidden]{display:none!important}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5}
 .wrap{max-width:1180px;margin:0 auto;padding-block:28px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:22px}
 header h1{font-family:var(--display);font-weight:700;font-size:clamp(28px,4.5vw,42px);line-height:1.05;margin:0;letter-spacing:.01em;text-wrap:balance}
