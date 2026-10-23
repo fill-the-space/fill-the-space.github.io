@@ -1627,3 +1627,20 @@ if(sel&&sel.type===state.type) sel.v=clone(v);
 **Screenshot:** prompt-log-bilder/78-auswahl.jpg / 78-vertieft-export.png / 78-eingelegt.png
 
 **Commit-Nachricht:** Prompt 78: Schrift eingelegt oder vertieft
+
+---
+
+## Prompt 79 – Knopf „Als Standardschrift merken“ entfernt (23.10.2026)
+
+**Prompt:**
+> Der Button als Standard merken kann weg
+
+**Was sich geändert hat:**
+- Der Knopf „Als Standardschrift merken“ ist entfernt, ebenso die dazugehörige Logik: Eine neue Beschriftung übernimmt keine gemerkte Schrift mehr.
+- Jede Bauteilart merkt sich ihre Schrifteinstellungen weiter für sich, wie die übrigen Maße auch.
+
+**Betroffene Dateien:** index.html (Versionsnummer 79), css/style.css, js/geometrie/schrift.js, js/ui/formular.js, js/zustand.js
+
+**Screenshot:** prompt-log-bilder/79-ohne-standardknopf.jpg
+
+**Commit-Nachricht:** Prompt 79: Knopf „Als Standardschrift merken“ entfernt

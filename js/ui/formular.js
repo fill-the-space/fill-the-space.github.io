@@ -32,9 +32,6 @@ function renderFields(){
       w.append(l,s);
       const nt=f.note&&f.note(v); if(nt){ const p=document.createElement("p"); p.className="hint"; p.textContent=nt; w.appendChild(p); }
       return w; }
-    // Knopf mit Rückmeldung daneben, z. B. „Als Standardschrift merken“
-    if(f.c==="button"){ const w=document.createElement("div"); w.className="field-btn"; const b=document.createElement("button"); b.type="button"; b.className="btn small"; b.textContent=f.l;
-      const msg=document.createElement("span"); msg.className="hint"; b.addEventListener("click",()=>{ msg.textContent=f.tun(v)||""; try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){} }); w.append(b,msg); return w; }
     // Bild hochladen (GIF, PNG …): wird zur Schwarz-Weiß-Maske für das Relief
     if(f.c==="image"){ const w=document.createElement("div"); w.className="field-btn"; const inp=document.createElement("input"); inp.type="file"; inp.accept="image/gif,image/png,image/*"; inp.id=id; inp.hidden=true;
       const lab=document.createElement("label"); lab.className="btn small"; lab.htmlFor=id; lab.textContent=v[f.k]?"Bild ersetzen":"Bild hinzufügen (GIF, PNG)";

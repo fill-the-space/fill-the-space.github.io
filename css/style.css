@@ -153,7 +153,7 @@ textarea#scad{width:100%;box-sizing:border-box;min-height:160px;font:12px var(--
 .fmt{min-width:120px}
 .fmt button{font:800 12px var(--display);padding:10px 12px}
 label.num input[type=text]{font:500 15px var(--body)}
-/* Beschriftung: Knöpfe mit Rückmeldung, kleine Bildvorschau */
+/* Beschriftung: Bild-Knöpfe, kleine Bildvorschau */
 .field-btn{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
 .field-btn .btn{padding:8px 14px;font-size:12px;box-shadow:3px 3px 0 var(--shadow)}
 .img-mini{border:1.5px solid var(--line);border-radius:6px;padding:3px;background:var(--bg);max-height:42px}

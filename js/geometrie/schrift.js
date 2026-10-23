@@ -18,8 +18,7 @@ const SCHRIFTEN={
 function textFelder(flaechen){
   const an=v=>v.txt;
   return [
-    // Beim Einschalten ohne Text und Bild: gemerkte Standardschrift übernehmen
-    {k:"txt",c:"check",l:"Beschriftung",on:v=>{ if(v.txt&&!(v.text||"").trim()&&!v.img) Object.assign(v,state.textStd||{}); }},
+    {k:"txt",c:"check",l:"Beschriftung"},
     {k:"text",c:"text",l:"Text",ph:"z. B. Schrauben",max:30,show:an},
     {k:"img",c:"image",l:"Bild",show:an},
     {k:"font",c:"seg",l:"Schriftart",o:Object.entries(SCHRIFTEN).map(([k,s])=>[k,s.name]),oStyle:val=>`"${SCHRIFTEN[val].css}"`,show:an},
@@ -29,8 +28,7 @@ function textFelder(flaechen){
       note:v=>v.relief==="eingelegt"?"Die Schrift liegt bündig im Bauteil. Sichtbar wird sie nur zweifarbig: als 3MF speichern und der Beschriftung eine zweite Farbe geben.":v.relief==="vertieft"?"Die Schrift wird bis 1 mm tief eingraviert, gut für einfarbigen Druck.":"Die Schrift steht 1 mm vor."},
     {k:"th",c:"range",l:"Schriftgröße",u:"mm",min:3,max:30,step:0.5,show:an,fmt:x=>`${mmDE(x)} mm (Höhe der Großbuchstaben)`},
     {k:"flaeche",c:"seg",l:"Fläche",o:flaechen,show:an},
-    {k:"lage",c:"range",l:"Lage auf der Fläche",u:"mm",min:-40,max:40,step:0.5,show:an,fmt:x=>x>0?`${mmDE(x)} mm höher`:x<0?`${mmDE(-x)} mm tiefer`:"Mitte"},
-    {c:"button",l:"Als Standardschrift merken",show:an,tun:v=>{ state.textStd={font:v.font,fett:v.fett,kursiv:v.kursiv,th:v.th}; return "Gemerkt: Neue Beschriftungen starten mit dieser Schrift."; }}
+    {k:"lage",c:"range",l:"Lage auf der Fläche",u:"mm",min:-40,max:40,step:0.5,show:an,fmt:x=>x>0?`${mmDE(x)} mm höher`:x<0?`${mmDE(-x)} mm tiefer`:"Mitte"}
   ];
 }
 const TEXT_STANDARD={txt:false,text:"",th:8,font:"grotesk",fett:true,kursiv:false,relief:"erhaben",flaeche:"vorne",lage:0,img:null};
