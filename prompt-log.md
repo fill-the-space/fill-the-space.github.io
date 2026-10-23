@@ -1435,3 +1435,21 @@ if(sel&&sel.type===state.type) sel.v=clone(v);
 **Screenshot:** prompt-log-bilder/69-nachher.jpg (vorher) / 70-nachher.jpg / 70-nachher-handy.jpg
 
 **Commit-Nachricht:** Prompt 70: Banner etwas kleiner und höher
+
+---
+
+## Prompt 71 – Banner auf dem Handy wieder größer (23.10.2026)
+
+**Prompt:**
+> in der app ansicht nicht um 20 % kleiner
+
+**Was sich geändert hat:**
+- Rückfrage von Claude, weil der Satz zwei Bedeutungen haben konnte. Lioba meinte: Auf dem Handy soll das Banner so groß bleiben wie in Prompt 69.
+- Auf schmalen Bildschirmen bis 620 px ist das Banner jetzt wieder so groß wie in Prompt 69. Am Computer bleibt es 20 % kleiner wie in Prompt 70. Die höhere Position aus Prompt 70 bleibt überall.
+- Geprüft auf 375 px Breite: gleiche Größe wie in Prompt 69, kein seitliches Scrollen.
+
+**Betroffene Dateien:** index.html (Versionsnummer 71), css/style.css
+
+**Screenshot:** prompt-log-bilder/71-handy.jpg
+
+**Commit-Nachricht:** Prompt 71: Banner auf dem Handy wieder größer
