@@ -1051,3 +1051,27 @@ const acc = win ? {x0:cx-(iw/2-m)+sc.dk/2+2, x1:cx+(iw/2-m)-sc.dk/2-2, z0:t+lip+
 **Screenshot:** prompt-log-bilder/53-nachher.jpg
 
 **Commit-Nachricht:** Prompt 53: Druckraum mit Höhe, Hinweis auch bei Haken
+
+---
+
+## Prompt 54 – Design nach Vorbild TEAM 7 (23.10.2026)
+
+**Prompt:**
+> https://www.team7-home.com/de/de/stores/deutschland/koeln/?gad_source=1&gad_campaignid=23908788881&gbraid=0AAAAADC-rhh8dpDKA5sXKAWzWaOfosMJa&gclid=CjwKCAjwi-zWBhAdEiwAqlRf-NuVUnpfQdEXrfzWU8ZGWCxLr05dT6GXewFQrGr2lnsOMyd0uL8PXRoC8-wQAvD_BwE Ich würde lieber Team sieben als Design Vorlage nehmen für die App
+
+**Was sich geändert hat:**
+- Claude hat die Seite aufgerufen, ohne die Werbe-Kennungen aus dem Link (gclid usw.). Optionale Cookies hat Claude nicht zugelassen. Typisch für den Stil: warmes Off-White und Beige, ein gedecktes Olivgrün als Akzent, eine sehr leichte Schrift mit Überschriften in Großbuchstaben, schlichte eckige Knöpfe mit dünnem Rand und viel Ruhe.
+- Übertragen auf die App (ersetzt das CAD-Design aus Prompt 52):
+  - **Kopf:** hell statt dunkel, Titel „HALTERUNGS-GENERATOR“ in Großbuchstaben, leicht und luftig, darunter eine feine Linie.
+  - **Farben:** Off-White und Beige. Olivgrün für ausgewählte Umschalter, Regler, Häkchen und den Speichern-Knopf. Die Halterung in der 3D-Ansicht hat jetzt einen Holzton, das Bauteil ein helles Grau-Grün. Warnhinweise sind in einem gedeckten Rostrot.
+  - **Formen:** fast eckig statt pillenförmig. Der Speichern-Knopf und die Halterungsarten stehen in Großbuchstaben mit etwas Abstand zwischen den Buchstaben.
+  - **Schrift:** „Hanken Grotesk“, eine frei verfügbare, leichte Schrift, die der Vorlage nahekommt.
+  - **Dunkler Modus:** warmes Anthrazit mit hellem Olivgrün.
+- **Bewusst nicht übernommen:** Logo, Markenname und die lizenzpflichtige Schrift der Firma.
+- Geprüft: hell, dunkel und Handybreite (375 px, kein seitliches Scrollen, Knöpfe passen). Die Konsole zeigt keine Fehler.
+
+**Betroffene Dateien:** css/style.css, index.html (Versionsnummer 54)
+
+**Screenshot:** prompt-log-bilder/54-vorher.jpg / 54-nachher-hell.jpg / 54-nachher-dunkel.jpg
+
+**Commit-Nachricht:** Prompt 54: Design nach Vorbild TEAM 7
