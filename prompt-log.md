@@ -1830,3 +1830,33 @@ Danach: „zeig mir zuerst eine Skizze“ (Claude hat zwei Handy-Bildschirme ski
 **Screenshot:** prompt-log-bilder/86-bild-knopf.jpg
 
 **Commit-Nachricht:** Prompt 86: Bild-Knopf ohne Formatangabe, SVG möglich
+
+---
+
+## Prompt 87 – Handy: Einzelteil-Ansicht und Wischen (24.10.2026)
+
+**Prompt:**
+> Ich habe bei mir auf dem Handy gerade die App getestet. Mein optisch sieht schon sehr gut aus. Problematisch ist im Moment, dass man nur die Ansicht zieht wo die Teile in der Box liegen oder an der Wand hängen. So habe ich natürlich keine Möglichkeit genau zu sehen wie ein Teil aufgebaut ist. Die Einzelteile Ansicht fehlt. Außerdem funktioniert das wischen in der unteren Zeile nicht. Die Buttons sind bei mir starr.
+
+**Was sich geändert hat:**
+- **Fehler 1 (aus Prompt 85):** Der Umschalter „Einzelteil / Im Kasten“ bzw. „An der Wand“ war auf dem Handy nur im Werkzeug „Wand/Kasten“ zu finden. Wer einmal in der Anordnung war, kam kaum zurück zur Einzelteil-Ansicht.
+  - Jetzt liegt der Umschalter klein oben links direkt auf der 3D-Vorschau und ist immer sichtbar.
+  - Die Legende ist dafür nach unten gerutscht.
+- Tippt man auf das Werkzeug „Wand“ bzw. „Kasten“, schaltet die Vorschau gleich auf die Anordnung um. Wechselt man oben zurück auf „Einzelteil“, springt die Leiste wieder auf „Maße“. So ist das Menü nie leer.
+- **Fehler 2:** Auf Liobas iPhone ließ sich die Werkzeugleiste nicht wischen. Am Computer im Handy-Modus hatte Claude das Wischen nicht wirklich ausprobiert, nur das Aussehen geprüft.
+  - Die Leiste ist jetzt ausdrücklich als waagerecht wischbar markiert.
+  - Zusätzlich lässt sie sich mit dem Finger ziehen. Das verschiebt sie per Programm, auch wenn das Gerät von sich aus nicht scrollt.
+  - Nach dem Ziehen zählt das Loslassen nicht als Tippen auf einen Knopf.
+- **Fehler 3 beim Testen:** Lokal lieferte der Offline-Speicher (aus Prompt 81) noch alte Dateien aus, sodass eine Änderung nicht ankam. Der Offline-Speicher ist jetzt nur noch auf der veröffentlichten Seite (https) aktiv, nicht beim lokalen Testen.
+- **Geprüft in iPhone-12-Größe (390 × 844):**
+  - Umschalter auf der Vorschau.
+  - Wechsel Einzelteil ↔ Kasten.
+  - Ziehen der Leiste mit der Maus: sie verschiebt sich, ohne ein Werkzeug auszuwählen.
+  - Am Computer ist alles unverändert.
+- **Noch offen:** Ob das Wischen auf dem echten iPhone jetzt geht, muss Lioba ausprobieren.
+
+**Betroffene Dateien:** index.html (Versionsnummer 87), css/style.css, js/ui/werkzeuge.js, js/ui/anordnung.js, js/main.js
+
+**Screenshot:** prompt-log-bilder/87-handy-einzelteil.jpg / 87-handy-leiste-gewischt.jpg
+
+**Commit-Nachricht:** Prompt 87: Handy – Einzelteil-Ansicht und Wischen

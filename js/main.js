@@ -105,5 +105,5 @@ for(const b of document.querySelectorAll("#pages button")) b.addEventListener("c
   state.last[state.page]=state.type; state.page=p; state.type=state.last[p]; planCamera(); renderAll(); });
 
 planCamera(); initGL(); renderAll();
-// Web-App: Offline-Speicher anmelden (nur über https oder lokal; beim Öffnen als Datei geht es ohne)
-if("serviceWorker" in navigator&&(location.protocol==="https:"||location.hostname==="localhost")) navigator.serviceWorker.register("sw.js").catch(()=>{});
+// Web-App: Offline-Speicher anmelden (nur auf der veröffentlichten Seite über https; lokal beim Testen nicht, sonst kämen alte Dateien aus dem Speicher)
+if("serviceWorker" in navigator&&location.protocol==="https:") navigator.serviceWorker.register("sw.js").catch(()=>{});
