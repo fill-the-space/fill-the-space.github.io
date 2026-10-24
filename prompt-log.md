@@ -2045,3 +2045,18 @@ Nachgeschoben: „Sie müssen aber weiterhin vom gleichen Typ sein, um Stapel Ba
 **Betroffene Dateien:** index.html (Versionsnummer 94), js/ui/anordnung.js, js/boxen/grundform.js
 
 **Commit-Nachricht:** Prompt 94: Stapeln – Höhe darf verschieden sein
+
+### Etappe: Handy-Bedienung und Feinschliff (Prompts 85–94, 24.10.2026)
+
+**Ziel:** Die App auf dem Handy so übersichtlich machen wie einen Küchenplaner und letzte Unklarheiten beseitigen.
+**Ergebnis:**
+- Auf dem Handy bleibt der Kopf, darunter steht die 3D-Vorschau fest oben mit eingebettetem Umschalter Einzelteil/Wand bzw. Kasten. Darunter liegt eine wischbare Werkzeugleiste, jedes Werkzeug zeigt nur seine Einstellungen.
+- In der Anordnung zeigt das Handy nur die Anordnung, mit „Teil bearbeiten“ und „Fertig“.
+- Dazu kamen eine Farbwahl für 3MF, SVG-Bilder für die Beschriftung, „Abmessungen“ statt „MASSE“, ein Test in sechs Bildschirmgrößen und die genaue Stapelregel (gleiche Art, Länge und Breite, Höhe frei, Fuß muss passen).
+**Schlüssel-Prompt:** Nr. 85, weil Lioba die Bedienidee vom IKEA-Küchenplaner übernommen hat. Erst eine Skizze, dann ihr Wunsch, den Kopf zu behalten, dann der Umbau.
+**Schwierigkeiten:**
+- Was im Handy-Modus am Computer gut aussah, scheiterte auf dem echten iPhone: Die Leiste ließ sich nicht wischen, und der Weg zurück zur Einzelteil-Ansicht fehlte. Erst Liobas Test auf dem Gerät brachte das ans Licht (Prompt 87).
+- Der Offline-Speicher lieferte beim lokalen Testen alte Dateien.
+- Großbuchstaben machen aus „ß“ ein „SS“, und die Schriften haben kein großes ẞ.
+- Die erste Fuß-Prüfung beim Stapeln rechnete die Ecken falsch.
+**Präsentationstauglich:** ja. Gut eignen sich die Skizze aus Prompt 85 und die Handy-Screenshots 85–90, am besten live auf dem iPhone vorgeführt.
