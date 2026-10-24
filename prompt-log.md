@@ -1889,3 +1889,25 @@ Nachgeschoben: „Das geht auch nur für das Handy wieder“
 **Screenshot:** prompt-log-bilder/88-handy-nur-anordnung.jpg
 
 **Commit-Nachricht:** Prompt 88: Handy – in der Anordnung nur die Anordnung
+
+---
+
+## Prompt 89 – „Abmessungen“ statt „MASSE“ (24.10.2026)
+
+**Prompt:**
+> Das perfekt so. Eine Änderung für beide Sachen im Browser und im Handy. Du schreibst Masse meinst aber Maße das ist sehr missverständlich denn Masse würde auf das Gewicht hindeuten. Es geht aber um die Abmessungen und die werden mit ß geschrieben.
+
+**Was sich geändert hat:**
+- **Ursache:** Im Programm stand überall richtig „Maße“. An Stellen in Großbuchstaben (Überschriften, Werkzeugleiste, Kennzahlen) macht der Browser aus „ß“ aber automatisch „SS“, so wurde „MASSE“ daraus. Das große ẞ fehlt in beiden App-Schriften (Unbounded und Space Grotesk), Claude hat das im Browser geprüft.
+- **Lösung:** An diesen Großbuchstaben-Stellen steht jetzt „Abmessungen“:
+  - Überschrift „ABMESSUNGEN UND OPTIONEN“ (Computer)
+  - Werkzeug „ABMESSUNGEN“ (Handy)
+  - Kennzahl „ABMESSUNGEN B×T×H“ statt „AUSSENMASS“
+- In normaler Schreibweise bleibt „Maße“ bzw. „Außenmaße der Box“, das wird richtig mit ß angezeigt.
+- Geprüft: Auf der ganzen Seite gibt es am Computer und auf dem Handy keine Stelle mehr, an der ein ß in Großbuchstaben erscheint.
+
+**Betroffene Dateien:** index.html (Versionsnummer 89), css/style.css (Hinweis für später)
+
+**Screenshot:** prompt-log-bilder/89-abmessungen.jpg / 89-abmessungen-handy.jpg
+
+**Commit-Nachricht:** Prompt 89: „Abmessungen“ statt „MASSE“

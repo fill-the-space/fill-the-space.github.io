@@ -16,7 +16,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Bebas+Neue&family=Roboto+Slab:wght@400;700&family=Nunito:wght@400;800&display=swap">
-<link rel="stylesheet" href="css/style.css?v=88">
+<link rel="stylesheet" href="css/style.css?v=89">
 </head>
 <body>
 
@@ -29,7 +29,7 @@
   <div class="grid">
     <!-- Handy: Werkzeugleiste unter der 3D-Vorschau; jedes Werkzeug zeigt nur seine Einstellungen (siehe js/ui/werkzeuge.js) -->
     <nav class="tools" id="tools" aria-label="Werkzeuge">
-      <button type="button" data-w="art">Art</button><button type="button" data-w="masse">Maße</button><button type="button" data-w="befestigung">Befestigung</button><button type="button" data-w="text">Beschriftung</button><button type="button" data-w="plan" id="wPlan">Wand</button><button type="button" data-w="drucker">Drucker</button><button type="button" data-w="speichern">Speichern</button>
+      <button type="button" data-w="art">Art</button><button type="button" data-w="masse">Abmessungen</button><button type="button" data-w="befestigung">Befestigung</button><button type="button" data-w="text">Beschriftung</button><button type="button" data-w="plan" id="wPlan">Wand</button><button type="button" data-w="drucker">Drucker</button><button type="button" data-w="speichern">Speichern</button>
     </nav>
     <div class="panel">
       <fieldset data-tool="art">
@@ -50,7 +50,7 @@
         <details class="info"><summary>Tipps zum Foto</summary><p class="hint">Bauteil von der Seite auf hellem, einfarbigem Untergrund fotografieren, Kamera senkrecht und mit Abstand. Oben im Bild ist oben in der Halterung. Die Linie zeigt die erkannte Auflagekante oder wie hoch die Schale reicht. Wird der Schatten mit erkannt, die Erkennungsschwelle erhöhen.</p></details>
       </fieldset>
       <fieldset data-tool="masse befestigung text">
-        <legend>Maße und Optionen</legend>
+        <legend>Abmessungen und Optionen</legend>
         <p class="selnote" id="formSel" hidden></p>
         <div id="fields" style="display:flex;flex-direction:column;gap:12px"></div>
         <p class="warn" id="warn" hidden></p>
@@ -89,7 +89,7 @@
         <details class="info"><summary>So geht’s</summary><p class="hint" id="planHint"></p></details>
       </div>
       <div class="specs" data-tool="speichern">
-        <div class="spec"><span>Außenmaß B×T×H</span><b id="outDim">–</b></div>
+        <div class="spec"><span>Abmessungen B×T×H</span><b id="outDim">–</b></div>
         <div class="spec"><span>Filamentverbrauch</span><b id="outG">–</b><small id="outGInfo"></small></div>
         <div class="spec"><span>Druckrichtung</span><b id="outDir">–</b></div>
       </div>
@@ -108,38 +108,38 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <!-- Rechnen: Formen, Dreiecksnetz, Foto-Erkennung -->
-<script src="js/geometrie/formen.js?v=88"></script>
-<script src="js/geometrie/netz.js?v=88"></script>
-<script src="js/geometrie/schrift.js?v=88"></script>
-<script src="js/foto/erkennung.js?v=88"></script>
+<script src="js/geometrie/formen.js?v=89"></script>
+<script src="js/geometrie/netz.js?v=89"></script>
+<script src="js/geometrie/schrift.js?v=89"></script>
+<script src="js/foto/erkennung.js?v=89"></script>
 <!-- Halterungsarten: neue Art = neue Datei + eine Zeile hier -->
-<script src="js/halterungen/register.js?v=88"></script>
-<script src="js/halterungen/befestigung.js?v=88"></script>
-<script src="js/halterungen/schrauben.js?v=88"></script>
-<script src="js/halterungen/empfehlung.js?v=88"></script>
-<script src="js/halterungen/koecher.js?v=88"></script>
-<script src="js/halterungen/konsole.js?v=88"></script>
-<script src="js/halterungen/leiste.js?v=88"></script>
+<script src="js/halterungen/register.js?v=89"></script>
+<script src="js/halterungen/befestigung.js?v=89"></script>
+<script src="js/halterungen/schrauben.js?v=89"></script>
+<script src="js/halterungen/empfehlung.js?v=89"></script>
+<script src="js/halterungen/koecher.js?v=89"></script>
+<script src="js/halterungen/konsole.js?v=89"></script>
+<script src="js/halterungen/leiste.js?v=89"></script>
 <!-- Individuell (Foto) vorerst ausgeblendet; zum Wiedereinschalten diese Zeile zurückholen:
 <script src="js/halterungen/individuell.js"></script> -->
 <!-- Boxen: neue Art = neue Datei + eine Zeile hier -->
-<script src="js/boxen/grundform.js?v=88"></script>
-<script src="js/boxen/stapelbox.js?v=88"></script>
-<script src="js/boxen/deckelbox.js?v=88"></script>
-<script src="js/boxen/sortierkasten.js?v=88"></script>
+<script src="js/boxen/grundform.js?v=89"></script>
+<script src="js/boxen/stapelbox.js?v=89"></script>
+<script src="js/boxen/deckelbox.js?v=89"></script>
+<script src="js/boxen/sortierkasten.js?v=89"></script>
 <!-- Export -->
-<script src="js/export/stl.js?v=88"></script>
-<script src="js/export/vereinfachen.js?v=88"></script>
-<script src="js/export/dreimf.js?v=88"></script>
-<script src="js/export/download.js?v=88"></script>
+<script src="js/export/stl.js?v=89"></script>
+<script src="js/export/vereinfachen.js?v=89"></script>
+<script src="js/export/dreimf.js?v=89"></script>
+<script src="js/export/download.js?v=89"></script>
 <!-- Oberfläche -->
-<script src="js/ui/dom.js?v=88"></script>
-<script src="js/ui/vorschau3d.js?v=88"></script>
-<script src="js/zustand.js?v=88"></script>
-<script src="js/ui/foto.js?v=88"></script>
-<script src="js/ui/formular.js?v=88"></script>
-<script src="js/ui/anordnung.js?v=88"></script>
-<script src="js/ui/werkzeuge.js?v=88"></script>
-<script src="js/main.js?v=88"></script>
+<script src="js/ui/dom.js?v=89"></script>
+<script src="js/ui/vorschau3d.js?v=89"></script>
+<script src="js/zustand.js?v=89"></script>
+<script src="js/ui/foto.js?v=89"></script>
+<script src="js/ui/formular.js?v=89"></script>
+<script src="js/ui/anordnung.js?v=89"></script>
+<script src="js/ui/werkzeuge.js?v=89"></script>
+<script src="js/main.js?v=89"></script>
 </body>
 </html>
