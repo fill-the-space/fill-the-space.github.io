@@ -1931,3 +1931,40 @@ Nachgeschoben: „Das geht auch nur für das Handy wieder“
 **Screenshot:** prompt-log-bilder/90-handy-umschalter.jpg / 90-handy-umschalter-gescrollt.jpg
 
 **Commit-Nachricht:** Prompt 90: Handy – Umschalter in die Vorschau eingebettet
+
+---
+
+## Prompt 91 – Test auf verschiedenen Bildschirmgrößen (24.10.2026)
+
+**Prompt:**
+> Das sieht sehr gut aus. Gibt es denn jetzt noch die Möglichkeit, das für andere Browser und andere Handy, Größen und Arten zu testen?
+
+(Claude hat drei Wege genannt: selbst testen in verschiedenen Größen, im Safari-/Chrome-Entwicklermodus am Mac oder auf echten Geräten bzw. bei Online-Diensten. Lioba hat „1“ gewählt.)
+
+**Was getestet wurde:** Claude hat die App in sechs Größen durchgesehen, alle Werkzeuge und die Wand-Ansicht. Geprüft wurden seitliches Scrollen, Teile über dem Rand, abgeschnittene Beschriftungen, Vorschau und Werkzeugleiste:
+- iPhone SE (320 × 568)
+- Android (360 × 740)
+- iPhone Pro Max (430 × 932)
+- iPad hoch (768 × 1024)
+- Handy quer (844 × 390)
+- iPad quer (1024 × 768)
+
+**Ergebnis:**
+- In fünf Größen war alles in Ordnung.
+- Handy quer und iPad quer zeigen die Computer-Ansicht mit mitlaufender Vorschau. Das passt, weil dort genug Breite da ist.
+- Probleme gab es nur beim kleinsten iPhone (320 px):
+  - Der Titel „FILL THE SPACE“ brach in zwei Zeilen um, der Kopf wurde dadurch hoch.
+  - „Gewicht des Bauteils“ wurde abgeschnitten.
+
+**Was sich geändert hat:**
+- Unter 360 px wird der Titel etwas kleiner und passt wieder in eine Zeile.
+- Lange Feldnamen dürfen dort umbrechen.
+- Alle anderen Größen sind unverändert.
+
+**Grenzen des Tests:** Claudes Browser arbeitet wie Chrome. Eigenheiten von Safari (WebKit, auf dem iPhone in allen Browsern) und Firefox sind damit nicht abgedeckt. Das iPhone hat Lioba selbst getestet.
+
+**Betroffene Dateien:** index.html (Versionsnummer 91), css/style.css
+
+**Screenshot:** prompt-log-bilder/91-vorher-320.jpg / 91-nachher-320.jpg / 91-360-android.jpg / 91-430-promax.jpg / 91-ipad-hoch.jpg / 91-handy-quer.jpg / 91-ipad-quer.jpg
+
+**Commit-Nachricht:** Prompt 91: Test auf verschiedenen Bildschirmgrößen

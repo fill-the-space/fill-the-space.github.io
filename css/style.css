@@ -193,3 +193,8 @@ label.num input[type=text]{font:500 15px var(--body)}
   .bed .tag{display:none}
   .bed .legend{top:auto;bottom:8px}
 }
+/* Sehr kleine Handys (iPhone SE, 320 px): Titel in einer Zeile, lange Feldnamen dürfen umbrechen */
+@media (max-width:360px){
+  header h1{font-size:7.4vw}
+  label.num{white-space:normal}
+}
