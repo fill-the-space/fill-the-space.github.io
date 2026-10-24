@@ -1911,3 +1911,23 @@ Nachgeschoben: „Das geht auch nur für das Handy wieder“
 **Screenshot:** prompt-log-bilder/89-abmessungen.jpg / 89-abmessungen-handy.jpg
 
 **Commit-Nachricht:** Prompt 89: „Abmessungen“ statt „MASSE“
+
+---
+
+## Prompt 90 – Handy: Umschalter in die Vorschau eingebettet (24.10.2026)
+
+**Prompt:**
+> Ich bin erst mal zufrieden, so wie es ist und wird im Moment so lassen. Nur für das Handy hätte ich noch eine kleine Änderung, falls es möglich ist. Die Buttons ist Einzelteil und an der Wand oder im in der Box sind sehr an den oberen Rand des Bildschirm angeklagt. Das sieht nicht sehr schön aus. Gibt es da eine bessere Lösung für Kann man die Backen vielleicht besser in diesen Bildschirm einbetten, dass sie nicht eine Extraumrandung haben oder vielleicht hast du eine bessere Lösung
+
+**Was sich geändert hat (nur auf dem Handy):**
+- Der Umschalter „Einzelteil / Im Kasten“ bzw. „An der Wand“ hat keinen schwarzen Rahmen mehr. Er ist jetzt eine ruhige hellgraue Pille in der Vorschau, die gewählte Seite ist grün hinterlegt.
+- Er sitzt immer 10 Pixel vom oberen und linken Rand der Vorschau entfernt, beim Öffnen wie beim Scrollen.
+- Die Vorschau klebt beim Scrollen nicht mehr ganz oben am Bildschirmrand, sondern hält 6 Pixel Abstand. Ein unsichtbarer Streifen in Hintergrundfarbe verhindert, dass in diesem Spalt Inhalt durchscheint.
+- Die Werkzeugleiste rückt entsprechend mit.
+- Geprüft in iPhone-12-Größe: oben und gescrollt sitzt der Umschalter jeweils 10 Pixel innerhalb der Vorschau. Am Computer ist alles unverändert.
+
+**Betroffene Dateien:** index.html (Versionsnummer 90), css/style.css
+
+**Screenshot:** prompt-log-bilder/90-handy-umschalter.jpg / 90-handy-umschalter-gescrollt.jpg
+
+**Commit-Nachricht:** Prompt 90: Handy – Umschalter in die Vorschau eingebettet
