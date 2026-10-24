@@ -47,6 +47,7 @@ js/export/dreimf.js           3MF-Datei: Bauteil und Beschriftung als zwei Teile
 js/export/download.js         Datei in den Download-Ordner speichern
 js/ui/…                       3D-Vorschau, Foto-Anzeige, Formular
 js/ui/anordnung.js            Anordnung: Teile an Wand, SKÅDIS-Lochplatte, Schranktür oder im Kasten platzieren, verschieben und stapeln
+js/ui/werkzeuge.js            Handy: Werkzeugleiste unter der 3D-Vorschau, zeigt nur die Einstellungen des gewählten Werkzeugs
 js/zustand.js                 aktuelle Auswahl, wird im Browser gemerkt
 js/main.js                    verbindet alles
 archiv/halterung-demo.html    ursprüngliche Demo aus dem Chat

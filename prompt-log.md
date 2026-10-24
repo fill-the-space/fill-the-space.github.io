@@ -1777,3 +1777,34 @@ if(sel&&sel.type===state.type) sel.v=clone(v);
 - Netlify hatte zuerst einen Zugriffsschutz eingeschaltet, lieferte einen falschen Dateityp aus und blendet ein eigenes Feld ein, das den Knopf „3D“ verdeckt hätte.
 - Eine alte CSS-Regel verhinderte die mitlaufende Vorschau.
 **Präsentationstauglich:** ja, live auf dem Handy installieren und offline öffnen. Bild: 81-app-symbol.png.
+
+---
+
+## Prompt 85 – Handy-Ansicht mit Werkzeugleiste (24.10.2026)
+
+**Prompt:**
+> Die App im Browser funktioniert schon ganz gut. Wir müssen aber noch die App im Handy optimieren. Dort ist die Übersicht sehr schwer. Ich habe mir mal auf dem Handy den IKEA Küchenplaner angeschaut. Dort wird es so gehandhabt, dass die Planung oben im Bildschirm stattfindet in 3-D und das da drunter man zwischen den Tools von rechts nach links durch scrollen kann und immer wenn man drauf tippt, ein neues Menü aufgeht was wo man dann Einstellungen machen kann. Die Frage ist ob das was für das Handy mit diesem Anwendungen wäre.
+
+Danach: „zeig mir zuerst eine Skizze“ (Claude hat zwei Handy-Bildschirme skizziert) und:
+
+> Ich finde es schade, wenn der Hedda komplett verschwinden würde. So wie er jetzt ist, können wir den so beibehalten und den Rest dafür umbauen. Also Files Space oben die Buttons da drunter und die Grafik rechts mit den Kreisen
+
+**Was sich geändert hat (nur auf dem Handy, am Computer bleibt alles gleich):**
+- **Kopf bleibt:** Banner „FILL THE SPACE“, darunter Halterungen/Boxen und rechts die Kreise, so wie bisher.
+- **3D-Vorschau darunter:** Sie bleibt beim Scrollen oben am Bildschirm stehen, so sieht man jede Änderung sofort.
+- **Werkzeugleiste zum Wischen** direkt unter der Vorschau: Art · Maße · Befestigung (nur bei Halterungen) · Beschriftung · Wand bzw. Kasten · Drucker · Speichern. Das gewählte Werkzeug ist grün.
+- **Antippen zeigt nur die Einstellungen dieses Werkzeugs,** z. B. bei „Beschriftung“ nur Text, Schrift, Größe und Fläche. Unter „Speichern“ stehen Maße, Filament, Druckempfehlung, Warnhinweise und der Speichern-Knopf.
+- Gibt es einen Warnhinweis, bekommt „Speichern“ einen kleinen orangen Punkt.
+- Der Knopf „3D“ unten links aus Prompt 80 ist entfernt, weil die Vorschau jetzt immer zu sehen ist. Der Hinweis „Ziehen zum Drehen · Mausrad zum Zoomen“ ist auf dem Handy ausgeblendet, weil er dort die Legende überdeckte.
+- **Geprüft auf 375 px Breite:**
+  - Alle Werkzeuge zeigen die richtigen Einstellungen.
+  - Vorschau und Leiste bleiben beim Scrollen oben stehen.
+  - Auf der Boxen-Seite ist „Befestigung“ ausgeblendet, das Werkzeug heißt dort „Kasten“.
+  - Es gibt kein seitliches Scrollen und keine Fehler.
+  - Am Computer sieht alles aus wie vorher.
+
+**Betroffene Dateien:** neu: js/ui/werkzeuge.js. Geändert: index.html (Versionsnummer 85), css/style.css, js/ui/formular.js, js/ui/vorschau3d.js, js/main.js, README.md
+
+**Screenshot:** prompt-log-bilder/85-handy-masse.jpg / 85-handy-beschriftung.jpg / 85-handy-kasten.jpg
+
+**Commit-Nachricht:** Prompt 85: Handy-Ansicht mit Werkzeugleiste

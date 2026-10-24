@@ -55,6 +55,7 @@ function update(){
 
 /* Warnhinweise: kurz und farbig, Einzelheiten erst nach Antippen. Geöffnete bleiben beim Neuberechnen offen. */
 function showAlerts(list){
+  document.querySelector('#tools [data-w="speichern"]').classList.toggle("dot",list.length>0);
   const box=$("alerts"), open=new Set([...box.querySelectorAll("details[open]")].map(d=>d.dataset.id));
   box.innerHTML="";
   for(const a of list){ const d=document.createElement("details"); d.className="alert"; d.dataset.id=a.id||a.kurz; const s=document.createElement("summary"); s.textContent=a.kurz;

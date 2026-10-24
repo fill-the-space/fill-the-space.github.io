@@ -16,7 +16,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Bebas+Neue&family=Roboto+Slab:wght@400;700&family=Nunito:wght@400;800&display=swap">
-<link rel="stylesheet" href="css/style.css?v=83">
+<link rel="stylesheet" href="css/style.css?v=85">
 </head>
 <body>
 
@@ -27,13 +27,17 @@
   </header>
 
   <div class="grid">
+    <!-- Handy: Werkzeugleiste unter der 3D-Vorschau; jedes Werkzeug zeigt nur seine Einstellungen (siehe js/ui/werkzeuge.js) -->
+    <nav class="tools" id="tools" aria-label="Werkzeuge">
+      <button type="button" data-w="art">Art</button><button type="button" data-w="masse">Maße</button><button type="button" data-w="befestigung">Befestigung</button><button type="button" data-w="text">Beschriftung</button><button type="button" data-w="plan" id="wPlan">Wand</button><button type="button" data-w="drucker">Drucker</button><button type="button" data-w="speichern">Speichern</button>
+    </nav>
     <div class="panel">
-      <fieldset>
+      <fieldset data-tool="art">
         <legend id="typesLegend">Halterungsart</legend>
         <div class="seg" id="types" role="group" aria-label="Halterungsart"></div>
         <details class="info"><summary>Beschreibung</summary><p class="hint" id="typeHint"></p></details>
       </fieldset>
-      <fieldset id="konturPanel" hidden>
+      <fieldset id="konturPanel" data-tool="masse" hidden>
         <legend>Foto und Erkennung</legend>
         <div class="photo"><canvas id="photo" width="600" height="450" aria-label="Foto mit erkanntem Umriss"></canvas></div>
         <div class="photo-actions">
@@ -45,13 +49,13 @@
         <p class="detect" id="detect" role="status"></p>
         <details class="info"><summary>Tipps zum Foto</summary><p class="hint">Bauteil von der Seite auf hellem, einfarbigem Untergrund fotografieren, Kamera senkrecht und mit Abstand. Oben im Bild ist oben in der Halterung. Die Linie zeigt die erkannte Auflagekante oder wie hoch die Schale reicht. Wird der Schatten mit erkannt, die Erkennungsschwelle erhöhen.</p></details>
       </fieldset>
-      <fieldset>
+      <fieldset data-tool="masse befestigung text">
         <legend>Maße und Optionen</legend>
         <p class="selnote" id="formSel" hidden></p>
         <div id="fields" style="display:flex;flex-direction:column;gap:12px"></div>
         <p class="warn" id="warn" hidden></p>
       </fieldset>
-      <fieldset>
+      <fieldset data-tool="drucker">
         <legend>Drucker</legend>
         <span class="seg-label">Druckraum</span>
         <div class="nums"><label class="num">Länge<span class="inp" data-u="mm"><input type="number" id="bedX" min="50" max="1000" step="10" inputmode="decimal"></span></label><label class="num">Breite<span class="inp" data-u="mm"><input type="number" id="bedY" min="50" max="1000" step="10" inputmode="decimal"></span></label><label class="num">Höhe<span class="inp" data-u="mm"><input type="number" id="bedZ" min="50" max="1000" step="10" inputmode="decimal"></span></label></div>
@@ -60,13 +64,12 @@
     </div>
 
     <section class="view">
-      <div class="seg viewmode" id="viewMode" role="group" aria-label="Ansicht"><button type="button" data-mode="teil">Einzelteil</button><button type="button" data-mode="plan" id="planBtn">An der Wand</button></div>
+      <div class="seg viewmode" data-tool="plan" id="viewMode" role="group" aria-label="Ansicht"><button type="button" data-mode="teil">Einzelteil</button><button type="button" data-mode="plan" id="planBtn">An der Wand</button></div>
       <div class="bed" id="bed">
-        <button type="button" class="bed-close" id="bedClose" hidden aria-label="Vorschau ausblenden">×</button>
         <span class="tag" id="tag">Ziehen zum Drehen · Mausrad zum Zoomen</span>
         <div class="legend"><span><i style="background:var(--model)"></i><b id="legendModel">Halterung</b></span><span id="legendGhost"><i id="legendGhostDot" style="background:var(--ghost)"></i><b id="legendGhostText">Bauteil</b></span></div>
       </div>
-      <div class="plan" id="plan" hidden>
+      <div class="plan" id="plan" data-tool="plan" hidden>
         <div class="plan-head"><span class="plan-title" id="planTitle">Wand</span><span class="plan-sum" id="planSum"></span></div>
         <div class="nums" id="planSize"></div>
         <div class="plan-board"><svg id="planSvg" role="img" aria-label="Anordnung von vorne"></svg></div>
@@ -84,59 +87,58 @@
         <div class="plan-warn" id="planWarn"></div>
         <details class="info"><summary>So geht’s</summary><p class="hint" id="planHint"></p></details>
       </div>
-      <div class="specs">
+      <div class="specs" data-tool="speichern">
         <div class="spec"><span>Außenmaß B×T×H</span><b id="outDim">–</b></div>
         <div class="spec"><span>Filamentverbrauch</span><b id="outG">–</b><small id="outGInfo"></small></div>
         <div class="spec"><span>Druckrichtung</span><b id="outDir">–</b></div>
       </div>
-      <div id="alerts" class="alerts"></div>
-      <div class="spec reco"><span>Druckempfehlung</span><b id="outRec">–</b><small id="outRecInfo"></small></div>
-      <div class="actions">
+      <div id="alerts" class="alerts" data-tool="speichern"></div>
+      <div class="spec reco" data-tool="speichern"><span>Druckempfehlung</span><b id="outRec">–</b><small id="outRecInfo"></small></div>
+      <div class="actions" data-tool="speichern">
         <div class="seg fmt" id="fmt" role="group" aria-label="Dateiformat" hidden><button type="button" data-fmt="stl">STL</button><button type="button" data-fmt="3mf">3MF</button></div>
         <button class="btn primary" type="button" id="dl">STL speichern</button>
         <button class="btn" type="button" id="toPlan">An die Wand hängen</button>
         <span class="status" id="status" role="status"></span>
       </div>
-      <details class="info note"><summary>Hinweise zu Datei und Befestigung</summary><p>Die STL wird fein berechnet und danach verkleinert: Ebene Flächen bestehen aus wenigen großen Dreiecken, Rundungen bleiben fein. Fast die ganze Oberfläche liegt dabei weniger als 0,1 mm neben der berechneten Form, Kanten sind leicht gebrochen. Die Löcher in der Rückwand sind für Senkkopfschrauben gemacht, damit kein Schraubenkopf in die Halterung ragt. Das Loch ist 0,5 mm größer als die Schraube. 4-mm-Schrauben passen zu 6er-Dübeln, 5-mm-Schrauben zu 8er-Dübeln.</p><p>Der Türhaken legt sich über die Oberkante einer Schranktür, die Oberseite der Halterung läuft dabei bündig weiter. Auf Wunsch gibt es oben Löcher für 3,5-mm-Senkkopfschrauben in die Türkante. Über der Tür muss so viel Luft sein, wie der Haken dick ist, sonst schließt die Tür nicht. Die SKÅDIS-Haken passen in die Schlitze der IKEA-Lochplatte (5 × 15 mm, 40 mm Abstand, Platte 5 mm dick): Haken waagerecht einstecken und die Halterung absenken. Am besten zuerst einen Probedruck machen.</p><p>Dateiformat: STL enthält alles in einem Teil und passt für jeden Drucker. 3MF enthält Bauteil und Beschriftung als zwei getrennte Teile mit eigener Farbe, für den Druck mit zwei Filamenten (z. B. mit AMS oder MMU). Im Slicer beim Öffnen „als ein Objekt mit mehreren Teilen laden“ bestätigen und der Beschriftung das zweite Filament zuweisen. Die Schrift steht 1 mm vor.</p><p>Der Filamentverbrauch gilt für die empfohlenen Einstellungen (Wände und Füllung), ohne Stützmaterial. Die Druckempfehlung ist eine grobe Schätzung aus dem Gewicht des Bauteils, der Befestigung und der Hebelwirkung, keine Statikberechnung. PLA gibt unter Dauerlast mit der Zeit nach und wird ab etwa 60 °C weich. PETG ist zäher und hält mehr Wärme aus. PA-CF (Nylon mit Carbonfasern) ist am stärksten, braucht aber einen gehärteten Druckkopf.</p></details>
+      <details class="info note" data-tool="speichern"><summary>Hinweise zu Datei und Befestigung</summary><p>Die STL wird fein berechnet und danach verkleinert: Ebene Flächen bestehen aus wenigen großen Dreiecken, Rundungen bleiben fein. Fast die ganze Oberfläche liegt dabei weniger als 0,1 mm neben der berechneten Form, Kanten sind leicht gebrochen. Die Löcher in der Rückwand sind für Senkkopfschrauben gemacht, damit kein Schraubenkopf in die Halterung ragt. Das Loch ist 0,5 mm größer als die Schraube. 4-mm-Schrauben passen zu 6er-Dübeln, 5-mm-Schrauben zu 8er-Dübeln.</p><p>Der Türhaken legt sich über die Oberkante einer Schranktür, die Oberseite der Halterung läuft dabei bündig weiter. Auf Wunsch gibt es oben Löcher für 3,5-mm-Senkkopfschrauben in die Türkante. Über der Tür muss so viel Luft sein, wie der Haken dick ist, sonst schließt die Tür nicht. Die SKÅDIS-Haken passen in die Schlitze der IKEA-Lochplatte (5 × 15 mm, 40 mm Abstand, Platte 5 mm dick): Haken waagerecht einstecken und die Halterung absenken. Am besten zuerst einen Probedruck machen.</p><p>Dateiformat: STL enthält alles in einem Teil und passt für jeden Drucker. 3MF enthält Bauteil und Beschriftung als zwei getrennte Teile mit eigener Farbe, für den Druck mit zwei Filamenten (z. B. mit AMS oder MMU). Im Slicer beim Öffnen „als ein Objekt mit mehreren Teilen laden“ bestätigen und der Beschriftung das zweite Filament zuweisen. Die Schrift steht 1 mm vor.</p><p>Der Filamentverbrauch gilt für die empfohlenen Einstellungen (Wände und Füllung), ohne Stützmaterial. Die Druckempfehlung ist eine grobe Schätzung aus dem Gewicht des Bauteils, der Befestigung und der Hebelwirkung, keine Statikberechnung. PLA gibt unter Dauerlast mit der Zeit nach und wird ab etwa 60 °C weich. PETG ist zäher und hält mehr Wärme aus. PA-CF (Nylon mit Carbonfasern) ist am stärksten, braucht aber einen gehärteten Druckkopf.</p></details>
     </section>
   </div>
 </div>
 
-<button type="button" class="btn primary bed-fab" id="bedFab" hidden aria-label="3D-Vorschau einblenden">3D</button>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <!-- Rechnen: Formen, Dreiecksnetz, Foto-Erkennung -->
-<script src="js/geometrie/formen.js?v=83"></script>
-<script src="js/geometrie/netz.js?v=83"></script>
-<script src="js/geometrie/schrift.js?v=83"></script>
-<script src="js/foto/erkennung.js?v=83"></script>
+<script src="js/geometrie/formen.js?v=85"></script>
+<script src="js/geometrie/netz.js?v=85"></script>
+<script src="js/geometrie/schrift.js?v=85"></script>
+<script src="js/foto/erkennung.js?v=85"></script>
 <!-- Halterungsarten: neue Art = neue Datei + eine Zeile hier -->
-<script src="js/halterungen/register.js?v=83"></script>
-<script src="js/halterungen/befestigung.js?v=83"></script>
-<script src="js/halterungen/schrauben.js?v=83"></script>
-<script src="js/halterungen/empfehlung.js?v=83"></script>
-<script src="js/halterungen/koecher.js?v=83"></script>
-<script src="js/halterungen/konsole.js?v=83"></script>
-<script src="js/halterungen/leiste.js?v=83"></script>
+<script src="js/halterungen/register.js?v=85"></script>
+<script src="js/halterungen/befestigung.js?v=85"></script>
+<script src="js/halterungen/schrauben.js?v=85"></script>
+<script src="js/halterungen/empfehlung.js?v=85"></script>
+<script src="js/halterungen/koecher.js?v=85"></script>
+<script src="js/halterungen/konsole.js?v=85"></script>
+<script src="js/halterungen/leiste.js?v=85"></script>
 <!-- Individuell (Foto) vorerst ausgeblendet; zum Wiedereinschalten diese Zeile zurückholen:
 <script src="js/halterungen/individuell.js"></script> -->
 <!-- Boxen: neue Art = neue Datei + eine Zeile hier -->
-<script src="js/boxen/grundform.js?v=83"></script>
-<script src="js/boxen/stapelbox.js?v=83"></script>
-<script src="js/boxen/deckelbox.js?v=83"></script>
-<script src="js/boxen/sortierkasten.js?v=83"></script>
+<script src="js/boxen/grundform.js?v=85"></script>
+<script src="js/boxen/stapelbox.js?v=85"></script>
+<script src="js/boxen/deckelbox.js?v=85"></script>
+<script src="js/boxen/sortierkasten.js?v=85"></script>
 <!-- Export -->
-<script src="js/export/stl.js?v=83"></script>
-<script src="js/export/vereinfachen.js?v=83"></script>
-<script src="js/export/dreimf.js?v=83"></script>
-<script src="js/export/download.js?v=83"></script>
+<script src="js/export/stl.js?v=85"></script>
+<script src="js/export/vereinfachen.js?v=85"></script>
+<script src="js/export/dreimf.js?v=85"></script>
+<script src="js/export/download.js?v=85"></script>
 <!-- Oberfläche -->
-<script src="js/ui/dom.js?v=83"></script>
-<script src="js/ui/vorschau3d.js?v=83"></script>
-<script src="js/zustand.js?v=83"></script>
-<script src="js/ui/foto.js?v=83"></script>
-<script src="js/ui/formular.js?v=83"></script>
-<script src="js/ui/anordnung.js?v=83"></script>
-<script src="js/main.js?v=83"></script>
+<script src="js/ui/dom.js?v=85"></script>
+<script src="js/ui/vorschau3d.js?v=85"></script>
+<script src="js/zustand.js?v=85"></script>
+<script src="js/ui/foto.js?v=85"></script>
+<script src="js/ui/formular.js?v=85"></script>
+<script src="js/ui/anordnung.js?v=85"></script>
+<script src="js/ui/werkzeuge.js?v=85"></script>
+<script src="js/main.js?v=85"></script>
 </body>
 </html>
