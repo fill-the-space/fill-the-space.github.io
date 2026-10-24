@@ -2015,3 +2015,33 @@ Nachgeschoben: „Das geht auch nur für das Handy wieder“
 **Screenshot:** prompt-log-bilder/93-leiste-ohne-kasten.jpg
 
 **Commit-Nachricht:** Prompt 93: Handy – Reiter Wand/Kasten aus der Leiste entfernt
+
+---
+
+## Prompt 94 – Stapeln: Höhe darf verschieden sein (24.10.2026)
+
+**Prompt:**
+> Eine Sache ist mir generell noch aufgefallen. Wir haben zwischendurch mal festgelegt, dass nur Boxen gestapelt werden können, die die gleichen Abma haben. Und die Stapel Barr sind. Ich würde das ein bisschen ändern. D.h. wenn Boxen die gleichen Längen und breiten Maße haben, dann können Sie gestapelt werden, wenn sie Stapel Barr sind. Aber die Höhe spielt aber keine Rolle die kann unterschiedlich sein.
+
+Nachgeschoben: „Sie müssen aber weiterhin vom gleichen Typ sein, um Stapel Barr zu sein“
+
+**Was sich geändert hat:**
+- **Die Regel lautet jetzt ausdrücklich:** stapelbar, gleiche Art, gleiche Länge und Breite, genau übereinander. Die Höhe darf verschieden sein.
+  - Die Höhe spielte in der Berechnung schon vorher keine Rolle.
+  - Die Hinweise sagten aber „gleich große Boxen“ und klangen danach, als müsse auch die Höhe gleich sein. Alle Hinweistexte nennen jetzt die genaue Regel.
+- **Neu: Der Fuß muss wirklich passen.** Auch bei gleicher Art kann man Wandstärke und Eckenradius verschieden einstellen.
+  - Die App prüft jetzt, ob der Fuß der oberen Box an den geraden Seiten und an den abgerundeten Ecken in die Öffnung der unteren Box passt.
+  - Passt er nicht, wird die obere Box rot, mit dem Hinweis „Der Fuß von Teil 2 passt nicht in Teil 1 … Bei der oberen Box Wandstärke oder Eckenradius erhöhen.“
+- **Fehler beim Testen:**
+  - Claude hatte die Art-Prüfung kurz herausgenommen, Lioba hat sofort klargestellt, dass sie bleiben muss.
+  - Die erste Fassung der Fuß-Prüfung rechnete die Ecken falsch und lehnte deshalb sogar zwei gleiche Stapelboxen ab.
+  - Beides wurde vor dem Veröffentlichen korrigiert.
+- **Geprüft mit zwei Stapelboxen 160 × 110 mm:**
+  - 80 und 50 mm hoch → gestapelt, der Fuß greift 3 mm ein.
+  - Obere Wand 1,6 statt 2 mm oder Eckenradius 2 statt 6 mm → Warnung.
+  - Obere Wand 3 mm oder Radius 12 mm → passt.
+  - Ein Sortierkasten gleicher Größe lässt sich nicht auf eine Stapelbox stellen (andere Art).
+
+**Betroffene Dateien:** index.html (Versionsnummer 94), js/ui/anordnung.js, js/boxen/grundform.js
+
+**Commit-Nachricht:** Prompt 94: Stapeln – Höhe darf verschieden sein

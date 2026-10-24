@@ -70,5 +70,5 @@ function buildBox(p,o){
     hinten:{ax:"y",dir:1,p:B,t,u0:r+2,u1:L-r-2,z0:sh+2,z1:H-3},
     links:{ax:"x",dir:-1,p:0,t,u0:r+2,u1:B-r-2,z0:sh+2,z1:H-3,avoid:links}, rechts:{ax:"x",dir:1,p:L,t,u0:r+2,u1:B-r-2,z0:sh+2,z1:H-3,avoid:seiteFrei}};
   const innen=[L-2*t,B-2*t,H-z0], liter=Math.max(0,innen[0]*innen[1]*innen[2])/1e6;
-  return {f:fAll,bb,dims:[L,B,H],printDims:[bb[1]-bb[0],bb[3]-bb[2],bb[5]-bb[4]],scad:`// FILL THE SPACE – Box ${mmDE(L)} × ${mmDE(B)} × ${mmDE(H)} mm`,ghost:[],dir:"Boden unten",warn,plan,schilder,box:{innen,liter,lid,stack:!!o.stack}};
+  return {f:fAll,bb,dims:[L,B,H],printDims:[bb[1]-bb[0],bb[3]-bb[2],bb[5]-bb[4]],scad:`// FILL THE SPACE – Box ${mmDE(L)} × ${mmDE(B)} × ${mmDE(H)} mm`,ghost:[],dir:"Boden unten",warn,plan,schilder,box:{innen,liter,lid,stack:!!o.stack,t,r}};
 }

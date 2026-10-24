@@ -10,7 +10,7 @@ const PLAN_ART={
   halterung:{kind:"wand", b:"von unten", gap:20, raster:100,
     hint:"Teile mit der Maus oder dem Finger verschieben, sie rasten an den Kanten der anderen Teile ein. Ein angetipptes Teil ist ausgewählt: Änderungen im Formular gelten dann nur für dieses Teil. Für eine weitere Halterung wieder „Teil hinzufügen“ oder „Duplizieren“ drücken und das neue Teil anpassen. Auf eine freie Stelle tippen hebt die Auswahl auf. Mit „Neu anfangen“ lässt sich eine andere Wandart beginnen."},
   box:{kind:"kasten", name:"Kasten", knopf:"Im Kasten", ort:"im Kasten", rand:"des Kastens", dazu:"In den Kasten legen", size:[["L","Länge"],["B","Breite"],["H","Höhe"]], b:"von vorne", gap:0, raster:50,
-    hint:"Trag die Innenmaße deines Kastens ein, z. B. einer Schublade, Kiste oder eines Regalfachs. „Teil hinzufügen“ stellt die Box aus dem Formular hinein, die Ansicht zeigt sie von oben, vorne ist unten. Boxen mit der Maus oder dem Finger verschieben, sie rasten an den Kanten der anderen Boxen ein. „Drehen“ dreht die ausgewählte Box um 90°. „Stapeln“ stellt die ausgewählte Box auf eine andere, am liebsten auf eine gleich große. Das geht nur mit stapelbaren Boxen (Stapelbox, Sortierkasten und Deckelbox mit „Stapelbar“) und nur mit gleich großen Boxen der gleichen Art, genau übereinander. Am einfachsten: Box auswählen, „Duplizieren“, dann „Stapeln“. In der Ansicht von oben ist jede gestapelte Box etwas kleiner gezeichnet und mit ▲ markiert: Wer die oberste Box zieht, nimmt sie vom Stapel; wer die untere Box am Rand greift, verschiebt den ganzen Stapel. Stapelboxen greifen mit ihrem Fuß in die Box darunter, wenn beide gleich groß sind. Ein angetipptes Teil ist ausgewählt: Änderungen im Formular gelten dann nur für diese Box. Auf eine freie Stelle tippen hebt die Auswahl auf."}
+    hint:"Trag die Innenmaße deines Kastens ein, z. B. einer Schublade, Kiste oder eines Regalfachs. „Teil hinzufügen“ stellt die Box aus dem Formular hinein, die Ansicht zeigt sie von oben, vorne ist unten. Boxen mit der Maus oder dem Finger verschieben, sie rasten an den Kanten der anderen Boxen ein. „Drehen“ dreht die ausgewählte Box um 90°. „Stapeln“ stellt die ausgewählte Box auf eine andere, am liebsten auf eine gleich große. Das geht nur mit stapelbaren Boxen (Stapelbox, Sortierkasten und Deckelbox mit „Stapelbar“) und nur mit Boxen der gleichen Art und gleicher Länge und Breite, genau übereinander; die Höhe darf verschieden sein. Am einfachsten: Box auswählen, „Duplizieren“, dann „Stapeln“. In der Ansicht von oben ist jede gestapelte Box etwas kleiner gezeichnet und mit ▲ markiert: Wer die oberste Box zieht, nimmt sie vom Stapel; wer die untere Box am Rand greift, verschiebt den ganzen Stapel. Stapelboxen greifen mit ihrem Fuß in die Box darunter, wenn beide gleich groß sind. Ein angetipptes Teil ist ausgewählt: Änderungen im Formular gelten dann nur für diese Box. Auf eine freie Stelle tippen hebt die Auswahl auf."}
 };
 // Wandarten nach Befestigung
 const WAND_ART={
@@ -59,11 +59,20 @@ function freeSpot(w,h,rects){
   return {a:Math.max(0,Math.min(g,CW-w)), b:wand?Math.max(0,CH-h-g):g};
 }
 /* Stapel im Kasten: Höhe z jeder Box und auf welchen Boxen sie steht (rest). Erst alle Boxen am Boden, dann die gestapelten
-   in der Reihenfolge, in der sie gestapelt wurden. Gestapelt werden nur gleich große Boxen der gleichen Art, genau übereinander;
-   der Fuß der oberen Box greift in den Rand der unteren. */
+   in der Reihenfolge, in der sie gestapelt wurden. Gestapelt werden stapelbare Boxen der gleichen Art mit gleicher Länge und
+   Breite, genau übereinander; die Höhe darf verschieden sein. Der Fuß der oberen Box greift in den Rand der unteren, dafür
+   darf die untere Box keine dickere Wand und keine engeren Ecken haben als der Fuß (fussPasst). */
 const hoehe=r=>r.e.bb[5]-r.e.bb[4];
 const gleich=(r,o)=>r.it.type===o.it.type&&Math.abs(r.w-o.w)<0.5&&Math.abs(r.h-o.h)<0.5;
-const greift=(r,o)=>stapelbar(r)&&stapelbar(o)&&gleich(r,o)&&Math.abs(r.a-o.a)<0.5&&Math.abs(r.b-o.b)<0.5;
+// Fuß (Umriss der oberen Box, um Wand + Spiel nach innen versetzt) muss ganz in der Öffnung der unteren Box liegen:
+// an den geraden Seiten und an den abgerundeten Ecken (Ecke in kleinen Schritten nachgeprüft)
+const fussPasst=(r,o)=>{ const u=r.e.box, d=o.e.box; if(!u||!d||u.t==null||d.t==null) return true;
+  const hx=r.w/2, hy=r.h/2, a=u.t+BOX_SPIEL, rf=Math.max(0,u.r-a), b=d.t, rc=Math.max(0,d.r-b);
+  if(a<b-0.01) return false;
+  const cx=hx-a-rf, cy=hy-a-rf;
+  for(let i=0;i<=12;i++){ const w=i/12*Math.PI/2; if(rr2(cx+rf*Math.cos(w),cy+rf*Math.sin(w),0,0,hx-b,hy-b,rc)>0.01) return false; }
+  return true; };
+const greift=(r,o)=>stapelbar(r)&&stapelbar(o)&&gleich(r,o)&&fussPasst(r,o)&&Math.abs(r.a-o.a)<0.5&&Math.abs(r.b-o.b)<0.5;
 // Stapelbar: Box mit Stapelfuß (Stapelbox, Sortierkasten und Deckelbox mit „Stapelbar“). Nur solche Boxen kommen auf andere,
 // und nur auf solche wird gestapelt. Eine nicht stapelbare Box mit stack steht am Boden.
 const stapelbar=r=>!!(r.e.box&&r.e.box.stack);
@@ -130,8 +139,8 @@ $("planStack").addEventListener("click",()=>{ const P=plan(), it=P.items.find(i=
   const rects=P.items.map(planRect), me=rects.find(r=>r.it===it), others=rects.filter(r=>r.it!==it);
   if(it.stack){ it.stack=false; const floor=others.filter(r=>!r.it.stack); if(floor.some(o=>hit(me,o))){ const s=freeSpot(me.w,me.h,floor); it.a=s.a; it.b=s.b; } }
   else { if(!stapelbar(me)) return;
-    const L=planLayout(rects), frei=others.filter(o=>stapelbar(o)&&gleich(me,o)&&![...L].some(([k,l])=>k!==it.id&&l.rest.includes(o.it.id)));
-    if(!others.some(o=>hit(me,o))&&!frei.length){ planMsg="Gestapelt werden nur gleich große Boxen der gleichen Art, und hier ist keine frei. Am einfachsten: „Duplizieren“ und dann die Kopie „Stapeln“."; drawPlan(); return; }
+    const L=planLayout(rects), frei=others.filter(o=>stapelbar(o)&&gleich(me,o)&&fussPasst(me,o)&&![...L].some(([k,l])=>k!==it.id&&l.rest.includes(o.it.id)));
+    if(!others.some(o=>hit(me,o))&&!frei.length){ planMsg="Gestapelt werden stapelbare Boxen der gleichen Art mit gleicher Länge und Breite (die Höhe darf anders sein), und hier ist keine passende frei. Am einfachsten: „Duplizieren“, die Höhe ändern und die Kopie „Stapeln“."; drawPlan(); return; }
     if(!others.some(o=>hit(me,o))){ const gleich=o=>Math.abs(o.w-me.w)<0.5&&Math.abs(o.h-me.h)<0.5;
       const o=frei.find(gleich)||frei.sort((x,y)=>L.get(y.it.id).z-L.get(x.it.id).z)[0];
       it.a=o.a+(o.w-me.w)/2; it.b=o.b+(o.h-me.h)/2; clampItem(it); }
@@ -204,8 +213,9 @@ function drawPlan(){
     if(!passt){ bad.add(r.it.id); warn.push(`Teil ${i+1} hat die Befestigung „${MOUNT_NAME[r.it.v.mount||"schrauben"]}“ und passt nicht an ${A.akk}. Im Formular „${A.mount}“ wählen oder das Teil entfernen.`); }
     if(passt&&(r.a<-0.01||r.b<-0.01||r.a+r.w>CW+0.01||r.b+r.h>CH+ueber+0.01)){ bad.add(r.it.id); warn.push(`Teil ${i+1} ragt über den Rand ${A.rand}.`); }
     if(!wand&&r.it.stack&&!stapelbar(r)) warn.push(`Teil ${i+1} ist nicht stapelbar und steht deshalb am Boden.`);
-    const unter=Z(r).rest.map(id=>rects.find(o=>o.it.id===id)), falsch=unter.filter(o=>!stapelbar(o)).map(o=>o.it.id), schief=unter.filter(o=>stapelbar(o)&&!greift(r,o));
-    if(schief.length){ bad.add(r.it.id); warn.push(`Teil ${i+1} passt nicht genau auf Teil ${schief.map(o=>nr(o.it)).join(" und ")}. Gestapelt werden nur gleich große Boxen der gleichen Art, genau übereinander.`); }
+    const unter=Z(r).rest.map(id=>rects.find(o=>o.it.id===id)), falsch=unter.filter(o=>!stapelbar(o)).map(o=>o.it.id), schief=unter.filter(o=>stapelbar(o)&&!greift(r,o)), fussZu=schief.filter(o=>gleich(r,o)&&!fussPasst(r,o)), versetzt=schief.filter(o=>!fussZu.includes(o));
+    if(versetzt.length){ bad.add(r.it.id); warn.push(`Teil ${i+1} passt nicht genau auf Teil ${versetzt.map(o=>nr(o.it)).join(" und ")}. Gestapelt werden Boxen der gleichen Art mit gleicher Länge und Breite, genau übereinander; die Höhe darf anders sein.`); }
+    if(fussZu.length){ bad.add(r.it.id); warn.push(`Der Fuß von Teil ${i+1} passt nicht in Teil ${fussZu.map(o=>nr(o.it)).join(" und ")}: Die untere Box hat eine dickere Wand oder engere Ecken. Bei der oberen Box Wandstärke oder Eckenradius erhöhen.`); }
     if(falsch.length){ bad.add(r.it.id); warn.push(`Teil ${i+1} steht auf Teil ${falsch.map(id=>P.items.findIndex(x=>x.id===id)+1).join(" und ")}, ${falsch.length>1?"die nicht stapelbar sind":"das nicht stapelbar ist"}.`); }
     const top=Z(r).z+hoehe(r); if(!wand&&top>CH0+0.01){ bad.add(r.it.id); warn.push(Z(r).z>0?`Der Stapel mit Teil ${i+1} ist ${mm(top)} mm hoch, der Kasten nur ${mm(CH0)} mm.`:`Teil ${i+1} ist ${mm(top)} mm hoch, der Kasten nur ${mm(CH0)} mm.`); } });
   const boden=rects.filter(r=>Z(r).z===0), used=boden.reduce((s,r)=>s+Math.max(0,Math.min(r.a+r.w,CW)-Math.max(r.a,0))*Math.max(0,Math.min(r.b+r.h,CH)-Math.max(r.b,0)),0);
