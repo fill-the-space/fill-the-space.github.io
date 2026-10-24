@@ -1860,3 +1860,32 @@ Danach: „zeig mir zuerst eine Skizze“ (Claude hat zwei Handy-Bildschirme ski
 **Screenshot:** prompt-log-bilder/87-handy-einzelteil.jpg / 87-handy-leiste-gewischt.jpg
 
 **Commit-Nachricht:** Prompt 87: Handy – Einzelteil-Ansicht und Wischen
+
+---
+
+## Prompt 88 – Handy: in der Anordnung nur die Anordnung (24.10.2026)
+
+**Prompt:**
+> Was ich jetzt noch verwirrend finde, ist, wenn ich auf die Ansicht Kasten oder Wand gehe, dass ich unten alle Auswahlmöglichkeiten habe. Ich würde in der Ansicht Kasten oder Wand die Auswahl unten umstellen auf die Anordnung im Kasten und dass ich dann auch den Button habe Teile hinzuzufügen in den Kasten, weil sonst ist das ein bisschen überflüssig. Die anderen Buttons freizuschalten für diese Ansicht aus meiner Sicht.
+
+Nachgeschoben: „Das geht auch nur für das Handy wieder“
+
+**Was sich geändert hat (nur auf dem Handy):**
+- In der Ansicht „Im Kasten“ bzw. „An der Wand“ verschwindet die Werkzeugleiste. Unter der 3D-Vorschau steht nur noch die Anordnung: Größe, Skizze und die Knöpfe „Teil hinzufügen“, „Duplizieren“, „Drehen“, „Stapeln“, „Entfernen“, „Neu anfangen“.
+- Zurück zu allen Werkzeugen geht es über „Einzelteil“ oben auf der Vorschau.
+- **Neuer Knopf „Teil bearbeiten“:** Weil das Formular in der Anordnung jetzt fehlt, gibt es diesen Knopf für ein angetipptes Teil.
+  - Er wechselt in die Einzelteil-Ansicht mit allen Werkzeugen. Oben steht „Du bearbeitest Teil 1 im Kasten“.
+  - Jede Änderung gilt für dieses Teil.
+  - Unter „Speichern“ bringt „Fertig – zurück in den Kasten“ (bzw. „zur Wand“) zurück, das Teil bleibt ausgewählt.
+- **Am Computer** bleibt alles wie bisher: Dort steht das Formular neben der Anordnung, „Teil bearbeiten“ wird nicht gebraucht und ist ausgeblendet.
+- **Geprüft in iPhone-12-Größe:**
+  - In der Anordnung keine Werkzeugleiste, „Teil hinzufügen“ sichtbar.
+  - „Teil bearbeiten“ → Länge auf 180 mm geändert → das Teil im Kasten hat 180 mm.
+  - „Fertig“ → zurück in den Kasten mit ausgewähltem Teil.
+  - Am Computer ist alles unverändert, und es gibt keine Fehler.
+
+**Betroffene Dateien:** index.html (Versionsnummer 88), css/style.css, js/ui/anordnung.js, js/ui/werkzeuge.js, js/ui/formular.js, js/main.js, js/zustand.js
+
+**Screenshot:** prompt-log-bilder/88-handy-nur-anordnung.jpg
+
+**Commit-Nachricht:** Prompt 88: Handy – in der Anordnung nur die Anordnung

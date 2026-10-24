@@ -141,14 +141,17 @@ $("planStack").addEventListener("click",()=>{ const P=plan(), it=P.items.find(i=
 function wandLeeren(grund){ const P=plan(), A=planArt(); if(!P.items.length) return;
   const n=P.items.length===1?"das Teil":`alle ${P.items.length} Teile`;
   if(!confirm(grund?`${grund} ${P.items.length===1?"wird":"werden"} ${n} ${A.ort} entfernt. Weiter?`:`${n[0].toUpperCase()+n.slice(1)} ${A.ort} entfernen und neu anfangen? Die Größe ${A.rand} bleibt.`)) return;
-  P.items=[]; P.sel=null; renderAll(); }
+  P.items=[]; P.sel=null; P.edit=null; renderAll(); }
 $("planReset").addEventListener("click",()=>wandLeeren());
 $("planDel").addEventListener("click",()=>{ const P=plan(); P.items=P.items.filter(i=>i.id!==P.sel); P.sel=null; renderAll(); });
 // Aus der Einzelteil-Ansicht: Teil hinzufügen und gleich zur Wand bzw. in den Kasten wechseln
 $("toPlan").addEventListener("click",()=>{ const P=plan(); P.on=true; planCamera(); $("bed").scrollIntoView({behavior:"smooth",block:"start"});
+  // Nach „Teil bearbeiten“: zurück in die Anordnung, das Teil bleibt ausgewählt
+  if(P.edit!=null){ P.sel=P.edit; P.edit=null; renderAll(); return; }
   addItem({type:state.type,v:clone(state.v[state.type]),rot:0}); });
+$("planEdit").addEventListener("click",()=>{ const P=plan(); if(P.sel==null) return; const id=P.sel; P.edit=id; P.on=false; werkzeug="masse"; planCamera(); selectItem(id); });
 for(const b of document.querySelectorAll("#viewMode button")) b.addEventListener("click",()=>{ const P=plan(), on=b.dataset.mode==="plan"; if(P.on===on) return;
-  P.on=on; if(!on){ P.sel=null; if(werkzeug==="plan") werkzeug="masse"; } planCamera(); renderAll(); });
+  P.on=on; if(!on){ P.sel=null; if(werkzeug==="plan") werkzeug="masse"; } else if(P.edit!=null){ P.sel=P.edit; P.edit=null; } planCamera(); renderAll(); });
 
 // Blickwinkel: Einzelteil schräg von vorne, Wand von vorne, Kasten von vorne oben
 function planCamera(){
@@ -165,7 +168,7 @@ function numField(label,val,min,max,on){
 }
 // Beschriftung der Knöpfe; ändert sich mit der Wandart, deshalb bei jedem Neuberechnen
 function planLabels(){ const P=plan(), A=planArt();
-  $("planBtn").textContent=A.knopf+(P.items.length?` (${P.items.length})`:""); $("toPlan").textContent=A.dazu; }
+  $("planBtn").textContent=A.knopf+(P.items.length?` (${P.items.length})`:""); $("toPlan").textContent=P.edit!=null?`Fertig – zurück ${A.ort.startsWith("im")?"in den Kasten":"zur "+A.name}`:A.dazu; }
 let shownArt=null;
 function renderPlanPanel(){
   const P=plan(), A=planArt(), S=planSize(); shownArt=A.art;
@@ -174,7 +177,9 @@ function renderPlanPanel(){
   // Legende der 3D-Vorschau: in der Anordnung ausgewähltes Teil und weitere Teile
   $("legendGhostDot").style.background=P.on?"var(--placed)":"var(--ghost)"; $("legendGhostText").textContent=P.on?"Weitere Teile":"Bauteil";
   if(P.on){ $("legendModel").textContent="Ausgewählt"; $("legendGhost").hidden=false; }
-  if(!P.on){ $("formSel").hidden=true; return; }
+  // Handy: Teil aus der Anordnung in der Einzelteil-Ansicht bearbeiten
+  const ed=P.edit!=null&&P.items.find(i=>i.id===P.edit);
+  if(!P.on){ $("formSel").hidden=!ed; if(ed) $("formSel").textContent=`Du bearbeitest Teil ${P.items.indexOf(ed)+1} ${A.ort}. „Fertig“ unter „Speichern“ bringt dich zurück.`; return; }
   $("planTitle").textContent=A.name; $("planHint").textContent=(A.kind==="wand"?WAND_ART[A.art].hint+" ":"")+A.hint; $("planRot").hidden=$("planStack").hidden=A.kind==="wand";
   $("planSvg").setAttribute("aria-label",A.kind==="wand"?"Wand von vorne mit den Halterungen":"Kasten von oben mit den Boxen");
   const sz=$("planSize"); sz.innerHTML=""; sz.className="nums"+(A.size.length===2?" two":"");
@@ -237,7 +242,7 @@ function drawPlan(){
 
   // Auswahl: Knöpfe, Position und Hinweis im Formular
   const it=P.items.find(i=>i.id===P.sel);
-  for(const id of ["planDup","planRot","planStack","planDel"]) $(id).disabled=!it;
+  for(const id of ["planDup","planRot","planStack","planEdit","planDel"]) $(id).disabled=!it;
   $("planReset").disabled=!P.items.length;
   const meR=it&&rects.find(r=>r.it===it);
   $("planStack").textContent=it&&it.stack?"Auf den Boden":"Stapeln"; if(it&&!it.stack&&!stapelbar(meR)) $("planStack").disabled=true;

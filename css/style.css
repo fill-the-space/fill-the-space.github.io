@@ -164,6 +164,8 @@ label.num input[type=text]{font:500 15px var(--body)}
   body:not(.plan-on) .bed{position:sticky;top:14px;z-index:3}
 }
 
+/* „Teil bearbeiten“ gibt es nur auf dem Handy (am Computer steht das Formular daneben) */
+@media (min-width:821px){.mob-only{display:none!important}}
 /* Handy: Kopf bleibt; darunter 3D-Vorschau fest oben, Werkzeugleiste zum Wischen, darunter nur das gewählte Werkzeug */
 .tools{display:none}
 @media (max-width:820px){
@@ -177,6 +179,8 @@ label.num input[type=text]{font:500 15px var(--body)}
   .tools button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);box-shadow:3px 3px 0 var(--shadow)}
   .tools button.dot::after{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--alert-bg);border:1.5px solid #111;margin-left:6px;vertical-align:1px}
   .mob-off{display:none!important}
+  /* In der Anordnung zeigt das Handy nur die Anordnung, ohne Werkzeugleiste */
+  body.plan-on .tools{display:none}
   .panel fieldset legend{display:none}
   .grid fieldset{padding:0 2px}
   /* Umschalter Einzelteil / Wand bzw. Kasten liegt klein oben links auf der Vorschau, damit man jederzeit wechseln kann */

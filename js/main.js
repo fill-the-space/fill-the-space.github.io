@@ -22,7 +22,8 @@ function update(){
     if(!sc||!sc.seg){ drawPhoto(sc,null); const w=$("warn"); w.hidden=false; w.textContent="Auf dem Foto wurde kein Bauteil erkannt. Erkennungsschwelle senken oder ein Foto mit hellerem, ruhigem Hintergrund wählen."; return; }
   }
   // Anordnung: Ist ein Teil ausgewählt, übernimmt es die Maße aus dem Formular
-  const P=state.plan[state.page], sel=P.on&&P.items.find(i=>i.id===P.sel);
+  // (in der Anordnung das ausgewählte Teil, auf dem Handy auch das Teil, das gerade über „Teil bearbeiten“ geändert wird)
+  const P=state.plan[state.page], selId=P.on?P.sel:P.edit, sel=(P.on||P.edit!=null)&&P.items.find(i=>i.id===selId);
   if(sel&&sel.type===state.type) sel.v=clone(v);
   const model=build(state.type,v,null,sc&&sc.seg);
   if(sc){ if(sc.seg.touches) model.warn.unshift("Der Umriss berührt den Bildrand. Das Bauteil sollte ganz auf dem Foto sein.");

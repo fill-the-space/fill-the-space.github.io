@@ -13,5 +13,5 @@ try{ const sv=JSON.parse(localStorage.getItem(STORE)||"null"); if(sv&&sv.v){ if(
     // Wand: Größe je Wandart (Wand, SKÅDIS-Lochplatte, Schranktür); früher nur W und H
     if(state.plan[p].dims){ P.dims={...state.plan[p].dims,...(sv.plan[p].dims||{})}; if(sv.plan[p].W&&!sv.plan[p].dims) P.dims.wand={W:sv.plan[p].W,H:sv.plan[p].H}; delete P.W; delete P.H; }
     P.items=(P.items||[]).filter(i=>HALTERUNGEN[i.type]&&bereichVon(i.type)===p).map(i=>({...i,v:{...DEFAULTS[i.type],...i.v}}));
-    if(!P.items.some(i=>i.id===P.sel)) P.sel=null; state.plan[p]=P; }
+    if(!P.items.some(i=>i.id===P.sel)) P.sel=null; if(!P.items.some(i=>i.id===P.edit)) P.edit=null; state.plan[p]=P; }
   for(const k in DEFAULTS) state.v[k]={...DEFAULTS[k],...(sv.v[k]||{})}; if(state.v.koecher.shape==="rund") state.v.koecher.shape="abgerundet"; } }catch(e){}

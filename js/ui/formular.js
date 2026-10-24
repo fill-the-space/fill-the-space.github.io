@@ -8,7 +8,7 @@ function renderTypes(){
   $("typesLegend").textContent=SEITEN[state.page].art; box.setAttribute("aria-label",SEITEN[state.page].art);
   $("legendModel").textContent=state.page==="box"?"Box":"Halterung"; $("legendGhost").hidden=state.page==="box";
   for(const k in HALTERUNGEN){ if(bereichVon(k)!==state.page) continue; const b=document.createElement("button"); b.type="button"; b.id="ty-"+k; b.textContent=HALTERUNGEN[k].name; b.setAttribute("aria-pressed",String(state.type===k));
-    b.addEventListener("click",()=>{ if(state.type===k) return; state.type=k; state.plan[state.page].sel=null; renderAll(); }); box.appendChild(b); }
+    b.addEventListener("click",()=>{ if(state.type===k) return; state.type=k; state.plan[state.page].sel=null; state.plan[state.page].edit=null; renderAll(); }); box.appendChild(b); }
   $("typeHint").textContent=HALTERUNGEN[state.type].hint;
 }
 // Grenzen der Regler, die von anderen Maßen abhängen; ändern sie sich, wird das Formular neu gezeichnet

@@ -13,8 +13,9 @@ function werkzeugeZeigen(){
   for(const b of document.querySelectorAll("#tools button")){ b.setAttribute("aria-pressed",String(b.dataset.w===werkzeug)); }
   document.querySelector('#tools [data-w="befestigung"]').hidden=!halter;
   $("wPlan").textContent=halter?"Wand":"Kasten";
-  // mob-off blendet nur auf dem Handy aus (siehe CSS)
-  for(const el of document.querySelectorAll("[data-tool]")) el.classList.toggle("mob-off",!el.dataset.tool.split(" ").includes(werkzeug));
+  // mob-off blendet nur auf dem Handy aus (siehe CSS). In der Anordnung zählt nur die Anordnung.
+  const zeigt=plan().on?"plan":werkzeug;
+  for(const el of document.querySelectorAll("[data-tool]")) el.classList.toggle("mob-off",!el.dataset.tool.split(" ").includes(zeigt));
 }
 // Wischen: Die Leiste scrollt normalerweise von selbst. Falls ein Gerät das nicht tut, verschiebt Ziehen sie per Hand;
 // nach dem Ziehen zählt das Loslassen nicht als Tippen auf einen Knopf.
