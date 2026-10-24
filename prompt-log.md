@@ -1968,3 +1968,28 @@ Nachgeschoben: „Das geht auch nur für das Handy wieder“
 **Screenshot:** prompt-log-bilder/91-vorher-320.jpg / 91-nachher-320.jpg / 91-360-android.jpg / 91-430-promax.jpg / 91-ipad-hoch.jpg / 91-handy-quer.jpg / 91-ipad-quer.jpg
 
 **Commit-Nachricht:** Prompt 91: Test auf verschiedenen Bildschirmgrößen
+
+---
+
+## Prompt 92 – Farbwahl für 3MF (24.10.2026)
+
+**Prompt:**
+> Bei dem 3MF dateiformat sind die Farben ja eigentlich schon vorgegeben. Kann man hier noch eine Farbauswahl treffen?
+
+**Was sich geändert hat:**
+- Ist 3MF gewählt, erscheinen neben dem Speichern-Knopf zwei Farbfelder: **„Bauteil“** und **„Beschriftung“**. Antippen öffnet die Farbauswahl des Geräts, am Computer und auf dem Handy.
+- Die gewählten Farben kommen als Teil-Farben in die 3MF-Datei, statt fest Grün und Schwarz.
+- Die 3D-Vorschau zeigt das Teil gleich in den gewählten Farben, auch der Farbpunkt in der Legende passt sich an. Bei STL bleibt die Vorschau in den App-Farben.
+- Die Farben werden gemerkt.
+- Hinweis unter „Hinweise zu Datei und Befestigung“: Die Farben in der Datei helfen beim Zuordnen, welches Filament wirklich gedruckt wird, legt man im Slicer fest.
+- **Nebenbei behoben:** Auf schmalen Handys stand neben „Druckrichtung“ ein leeres schwarzes Feld. Die dritte Kennzahl geht jetzt über die ganze Breite.
+- **Geprüft:**
+  - Blau für das Bauteil und Weiß für die Schrift stehen in der gespeicherten Datei als „#2B6CB0FF“ und „#FFFFFFFF“.
+  - Die Vorschau ist blau mit weißer Schrift.
+  - Die Farbfelder sind nur bei 3MF zu sehen, auf dem Handy unter „Speichern“.
+
+**Betroffene Dateien:** index.html (Versionsnummer 92), css/style.css, js/main.js, js/zustand.js, js/ui/vorschau3d.js
+
+**Screenshot:** prompt-log-bilder/92-farben-vorschau.jpg / 92-farben-handy.jpg
+
+**Commit-Nachricht:** Prompt 92: Farbwahl für 3MF

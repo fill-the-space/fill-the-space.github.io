@@ -80,7 +80,7 @@ $("dl").addEventListener("click",async()=>{
     const text=m.text?simplifyMesh(snapToSurface(polygonize(m.text.f,m.text.bb,Math.max(0.08,Math.min(0.15,m.text.th/50))),m.text.f),0.005):null;
     const fmt=dateiFormat(), name=SEITEN[state.page].datei+"-"+slug()+"."+fmt;
     const file = fmt==="3mf"
-      ? dreiMF([{name:state.page==="box"?"Box":"Halterung",mesh,color:"#A4D63A"},...(text?[{name:"Beschriftung",mesh:text,color:"#111111"}]:[])])
+      ? dreiMF([{name:state.page==="box"?"Box":"Halterung",mesh,color:state.farben.teil.toUpperCase()},...(text?[{name:"Beschriftung",mesh:text,color:state.farben.text.toUpperCase()}]:[])])
       : new Blob([stl(text?netzeVerbinden(mesh,text):mesh)],{type:"model/stl"});
     if(d) await d.save({filename:name,data:file}); else saveFile(name,file);
     const nTri=(mesh.idx.length+(text?text.idx.length:0))/3;
@@ -92,10 +92,13 @@ $("dl").addEventListener("click",async()=>{
 // Dateiformat: STL (eine Farbe) oder 3MF (Beschriftung als eigenes Teil für eine zweite Farbe)
 // Die Auswahl erscheint erst, wenn das Bauteil eine Beschriftung hat; sonst wird immer STL gespeichert
 const dateiFormat=()=>current&&current.model.text?state.format:"stl";
-function renderFormat(){ $("fmt").hidden=!(current&&current.model.text);
+function renderFormat(){ $("fmt").hidden=!(current&&current.model.text); $("farben").hidden=dateiFormat()!=="3mf";
   for(const b of document.querySelectorAll("#fmt button")) b.setAttribute("aria-pressed",String(b.dataset.fmt===dateiFormat()));
   $("dl").textContent=dateiFormat().toUpperCase()+" speichern"; }
-for(const b of document.querySelectorAll("#fmt button")) b.addEventListener("click",()=>{ state.format=b.dataset.fmt; renderFormat(); try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){} });
+for(const b of document.querySelectorAll("#fmt button")) b.addEventListener("click",()=>{ state.format=b.dataset.fmt; renderFormat(); schedule(); try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){} });
+// Farben für den zweifarbigen Druck (3MF): stehen in der Datei und färben die 3D-Vorschau
+for(const [id,k] of [["farbeTeil","teil"],["farbeText","text"]]){ const i=$(id); i.value=state.farben[k];
+  i.addEventListener("input",()=>{ state.farben[k]=i.value; schedule(); }); }
 renderFormat();
 // Druckbett gilt für alle Halterungsarten und wird mit gemerkt
 for(const k of ["x","y","z"]){ const i=$("bed"+k.toUpperCase()); i.value=state.bed[k];

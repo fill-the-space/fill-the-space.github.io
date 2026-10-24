@@ -47,9 +47,12 @@ function show(model,mesh,textMesh){
   if(!renderer)return;
   clearGroup();
   const geo=meshGeo(mesh);
-  group.add(new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:new THREE.Color(cssColor("--model")),roughness:0.6,metalness:0.02})));
+  // Bei 3MF die gewählten Druckfarben zeigen, sonst die Farben der App
+  const zwei=typeof dateiFormat==="function"&&dateiFormat()==="3mf";
+  document.querySelector(".legend i").style.background=zwei?state.farben.teil:"var(--model)";
+  group.add(new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:new THREE.Color(zwei?state.farben.teil:cssColor("--model")),roughness:0.6,metalness:0.02})));
   // Beschriftung in der zweiten Farbe (am Ende eingefügt, damit die Kamera weiter am Bauteil ausgerichtet wird)
-  const textObj=textMesh?new THREE.Mesh(meshGeo(textMesh),new THREE.MeshStandardMaterial({color:new THREE.Color(cssColor("--ink")),roughness:0.5})):null;
+  const textObj=textMesh?new THREE.Mesh(meshGeo(textMesh),new THREE.MeshStandardMaterial({color:new THREE.Color(zwei?state.farben.text:cssColor("--ink")),roughness:0.5})):null;
   const gmat=new THREE.MeshStandardMaterial({color:new THREE.Color(cssColor("--ghost")),transparent:true,opacity:0.28,depthWrite:false,roughness:0.8});
   ghostMesh(model.ghost,gmat).forEach(m=>group.add(m));
   const b=model.bb, size=Math.max(b[1],b[3])*1.8, div=Math.max(4,Math.round(size/10));
