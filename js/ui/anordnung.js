@@ -9,16 +9,16 @@
 const PLAN_ART={
   halterung:{kind:"wand", b:"von unten", gap:20, raster:100,
     hint:"Teile mit der Maus oder dem Finger verschieben, sie rasten an den Kanten der anderen Teile ein. Ein angetipptes Teil ist ausgewählt: Änderungen im Formular gelten dann nur für dieses Teil. Für eine weitere Halterung wieder „Teil hinzufügen“ oder „Duplizieren“ drücken und das neue Teil anpassen. Auf eine freie Stelle tippen hebt die Auswahl auf. Mit „Neu anfangen“ lässt sich eine andere Wandart beginnen."},
-  box:{kind:"kasten", name:"Kasten", knopf:"Im Kasten", ort:"im Kasten", rand:"des Kastens", dazu:"In den Kasten legen", size:[["L","Länge"],["B","Breite"],["H","Höhe"]], b:"von vorne", gap:0, raster:50,
+  box:{kind:"kasten", name:"Kasten", knopf:"Im Kasten", kurz:"Kasten", ort:"im Kasten", rand:"des Kastens", dazu:"In den Kasten legen", size:[["L","Länge"],["B","Breite"],["H","Höhe"]], b:"von vorne", gap:0, raster:50,
     hint:"Trag die Innenmaße deines Kastens ein, z. B. einer Schublade, Kiste oder eines Regalfachs. „Teil hinzufügen“ stellt die Box aus dem Formular hinein, die Ansicht zeigt sie von oben, vorne ist unten. Boxen mit der Maus oder dem Finger verschieben, sie rasten an den Kanten der anderen Boxen ein. „Drehen“ dreht die ausgewählte Box um 90°. „Stapeln“ stellt die ausgewählte Box auf eine andere, am liebsten auf eine gleich große. Das geht nur mit stapelbaren Boxen (Stapelbox, Sortierkasten und Deckelbox mit „Stapelbar“) und nur mit Boxen der gleichen Art und gleicher Länge und Breite, genau übereinander; die Höhe darf verschieden sein. Am einfachsten: Box auswählen, „Duplizieren“, dann „Stapeln“. In der Ansicht von oben ist jede gestapelte Box etwas kleiner gezeichnet und mit ▲ markiert: Wer die oberste Box zieht, nimmt sie vom Stapel; wer die untere Box am Rand greift, verschiebt den ganzen Stapel. Stapelboxen greifen mit ihrem Fuß in die Box darunter, wenn beide gleich groß sind. Ein angetipptes Teil ist ausgewählt: Änderungen im Formular gelten dann nur für diese Box. Auf eine freie Stelle tippen hebt die Auswahl auf."}
 };
 // Wandarten nach Befestigung
 const WAND_ART={
-  wand:{name:"Wand", knopf:"An der Wand", dazu:"An die Wand hängen", ort:"an der Wand", rand:"der Wand", akk:"die Wand", mount:"Schrauben", size:[["W","Breite"],["H","Höhe"]],
+  wand:{name:"Wand", knopf:"An der Wand", kurz:"Wand", dazu:"An die Wand hängen", ort:"an der Wand", rand:"der Wand", akk:"die Wand", mount:"Schrauben", size:[["W","Breite"],["H","Höhe"]],
     hint:"Halterungen mit Schrauben lassen sich frei an der Wand platzieren. Trag ein, wie groß die freie Wandfläche ist."},
-  skadis:{name:"SKÅDIS-Lochplatte", knopf:"An der SKÅDIS-Platte", dazu:"An die SKÅDIS-Platte hängen", ort:"an der Lochplatte", rand:"der Lochplatte", akk:"die SKÅDIS-Lochplatte", mount:"SKÅDIS", size:[["W","Plattenbreite"],["H","Plattenhöhe"]],
+  skadis:{name:"SKÅDIS-Lochplatte", knopf:"An der SKÅDIS-Platte", kurz:"SKÅDIS", dazu:"An die SKÅDIS-Platte hängen", ort:"an der Lochplatte", rand:"der Lochplatte", akk:"die SKÅDIS-Lochplatte", mount:"SKÅDIS", size:[["W","Plattenbreite"],["H","Plattenhöhe"]],
     hint:"An der IKEA-SKÅDIS-Lochplatte sitzen die Haken immer genau in einem Schlitz: Beim Ziehen springt das Teil von Schlitz zu Schlitz. Es passen nur Halterungen mit SKÅDIS-Haken. Trag die Größe deiner Platte ein, z. B. 560 × 560 mm."},
-  tuer:{name:"Schranktür", knopf:"An der Tür", dazu:"An die Tür hängen", ort:"an der Tür", rand:"der Tür", akk:"die Schranktür", mount:"Türhaken", size:[["W","Türbreite"],["H","Türhöhe"]],
+  tuer:{name:"Schranktür", knopf:"An der Tür", kurz:"Tür", dazu:"An die Tür hängen", ort:"an der Tür", rand:"der Tür", akk:"die Schranktür", mount:"Türhaken", size:[["W","Türbreite"],["H","Türhöhe"]],
     hint:"An der Schranktür hängen die Halterungen mit ihrem Haken oben an der Türkante. Sie lassen sich deshalb nur nach links und rechts verschieben. Es passen nur Halterungen mit Türhaken."}
 };
 const MOUNT_NAME={schrauben:"Schrauben",skadis:"SKÅDIS",tuer:"Türhaken"};
@@ -177,7 +177,9 @@ function numField(label,val,min,max,on){
 }
 // Beschriftung der Knöpfe; ändert sich mit der Wandart, deshalb bei jedem Neuberechnen
 function planLabels(){ const P=plan(), A=planArt();
-  $("planBtn").textContent=A.knopf+(P.items.length?` (${P.items.length})`:""); $("toPlan").textContent=P.edit!=null?`Fertig – zurück ${A.ort.startsWith("im")?"in den Kasten":"zur "+A.name}`:A.dazu; }
+  // Auf dem Handy steht ein kurzer Name, damit der Umschalter in eine Zeile passt (z. B. „SKÅDIS“ statt „An der SKÅDIS-Platte“)
+  const n=P.items.length?` (${P.items.length})`:"";
+  $("planBtn").innerHTML=`<span class="lang"></span><span class="kurz"></span>`; $("planBtn").firstChild.textContent=A.knopf+n; $("planBtn").lastChild.textContent=A.kurz+n; $("toPlan").textContent=P.edit!=null?`Fertig – zurück ${A.ort.startsWith("im")?"in den Kasten":"zur "+A.name}`:A.dazu; }
 let shownArt=null;
 function renderPlanPanel(){
   const P=plan(), A=planArt(), S=planSize(); shownArt=A.art;

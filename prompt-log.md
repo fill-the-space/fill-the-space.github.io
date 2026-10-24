@@ -2060,3 +2060,22 @@ Nachgeschoben: „Sie müssen aber weiterhin vom gleichen Typ sein, um Stapel Ba
 - Großbuchstaben machen aus „ß“ ein „SS“, und die Schriften haben kein großes ẞ.
 - Die erste Fuß-Prüfung beim Stapeln rechnete die Ecken falsch.
 **Präsentationstauglich:** ja. Gut eignen sich die Skizze aus Prompt 85 und die Handy-Screenshots 85–90, am besten live auf dem iPhone vorgeführt.
+
+---
+
+## Prompt 95 – Handy: kurzer Name im Umschalter (24.10.2026)
+
+**Prompt:**
+> Es gibt noch eine Kleinigkeit auf der Handy Ansicht. Wenn man bei Halterungen Skana  wählt ist die Ansicht oben im 3-D Fenster viel zu groß, weil an der Skana platte in zwei Zeilen rutscht das irritiert beim Bauen sehr, weil das im Weg ist
+
+**Was sich geändert hat (nur auf dem Handy):**
+- Der Umschalter oben auf der Vorschau zeigt jetzt kurze Namen: **Wand**, **SKÅDIS**, **Tür** und **Kasten**, ggf. mit der Anzahl der Teile, z. B. „SKÅDIS (1)“. Vorher stand dort z. B. „An der SKÅDIS-Platte“, das in zwei Zeilen umbrach und die Vorschau verdeckte.
+- Zusätzlich darf der Umschalter nicht mehr umbrechen.
+- Am Computer bleiben die langen Namen („An der SKÅDIS-Platte“).
+- Geprüft: Selbst auf dem kleinsten iPhone (320 px) bleibt der Umschalter bei allen vier Wandarten einzeilig (36 px hoch), ebenso auf dem iPhone 12. Am Computer steht weiter der lange Name.
+
+**Betroffene Dateien:** index.html (Versionsnummer 95), css/style.css, js/ui/anordnung.js
+
+**Screenshot:** prompt-log-bilder/95-handy-skadis-kurz.jpg
+
+**Commit-Nachricht:** Prompt 95: Handy – kurzer Name im Umschalter
