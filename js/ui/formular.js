@@ -32,9 +32,9 @@ function renderFields(){
       w.append(l,s);
       const nt=f.note&&f.note(v); if(nt){ const p=document.createElement("p"); p.className="hint"; p.textContent=nt; w.appendChild(p); }
       return w; }
-    // Bild hochladen (GIF, PNG …): wird zur Schwarz-Weiß-Maske für das Relief
-    if(f.c==="image"){ const w=document.createElement("div"); w.className="field-btn"; const inp=document.createElement("input"); inp.type="file"; inp.accept="image/gif,image/png,image/*"; inp.id=id; inp.hidden=true;
-      const lab=document.createElement("label"); lab.className="btn small"; lab.htmlFor=id; lab.textContent=v[f.k]?"Bild ersetzen":"Bild hinzufügen (GIF, PNG)";
+    // Bild hochladen (z. B. SVG, PNG, GIF): wird zur Schwarz-Weiß-Maske für das Relief
+    if(f.c==="image"){ const w=document.createElement("div"); w.className="field-btn"; const inp=document.createElement("input"); inp.type="file"; inp.accept="image/*,.svg"; inp.id=id; inp.hidden=true;
+      const lab=document.createElement("label"); lab.className="btn small"; lab.htmlFor=id; lab.textContent=v[f.k]?"Bild ersetzen":"Bild hinzufügen";
       const msg=document.createElement("span"); msg.className="hint";
       inp.addEventListener("change",async()=>{ const file=inp.files[0]; if(!file) return; msg.textContent="Bild wird gelesen …";
         try{ const m=await bildMaske(file); if(!m){ msg.textContent="Im Bild wurde kein Motiv gefunden. Am besten ein dunkles Motiv auf hellem oder durchsichtigem Hintergrund."; return; } v[f.k]=m; renderFields(); schedule(); }

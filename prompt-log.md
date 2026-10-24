@@ -1808,3 +1808,25 @@ Danach: „zeig mir zuerst eine Skizze“ (Claude hat zwei Handy-Bildschirme ski
 **Screenshot:** prompt-log-bilder/85-handy-masse.jpg / 85-handy-beschriftung.jpg / 85-handy-kasten.jpg
 
 **Commit-Nachricht:** Prompt 85: Handy-Ansicht mit Werkzeugleiste
+
+---
+
+## Prompt 86 – Bild-Knopf ohne Formatangabe, SVG möglich (24.10.2026)
+
+**Prompt:**
+> Eine kleine Änderung noch für beide Versionen, sowohl für die Desktop als auch fürs Handy. Ich hab mich gestern vertan mit dem Daten von Matt für die Bilder zum hinzufügen. Ich würde einfach gar keine Hinweise in den Button darauf geben, was für ein Datenformat die Bilder haben müssen. Standardmäßig nutzen Leute für den 3-D Druck SVG aber gestern hab ich's mit PNG ausprobiert in der App da funktionierte es sehr gut
+
+**Was sich geändert hat:**
+- Der Knopf heißt jetzt nur noch „Bild hinzufügen“, ohne „(GIF, PNG)“. Das gilt am Computer und auf dem Handy, weil beide denselben Knopf nutzen.
+- Die Dateiauswahl lässt jetzt ausdrücklich auch SVG zu, neben PNG, GIF, JPG usw.
+- SVG-Dateien ohne eingetragene Größe funktionieren auch. Die App nimmt dann das Seitenverhältnis aus der Zeichnung.
+- Geprüft:
+  - Ein SVG-Stern mit Größenangabe und ein SVG-Rechteck ohne Größenangabe werden beide richtig als Relief übernommen (2:1-Seitenverhältnis bleibt erhalten).
+  - Der Knopf wechselt danach auf „Bild ersetzen“.
+  - Es gibt keine Fehler.
+
+**Betroffene Dateien:** index.html (Versionsnummer 86), js/ui/formular.js, js/geometrie/schrift.js
+
+**Screenshot:** prompt-log-bilder/86-bild-knopf.jpg
+
+**Commit-Nachricht:** Prompt 86: Bild-Knopf ohne Formatangabe, SVG möglich

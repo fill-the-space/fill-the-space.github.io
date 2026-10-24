@@ -84,12 +84,13 @@ function bildFeld(img){
   for(let y=0;y<img.h;y++) for(let x=0;x<img.w;x++){ const i=y*img.w+x; if(bin.charCodeAt(i>>3)&(128>>(i&7))) ink[(y+pad)*W+x+pad]=1; }
   e={w:img.w/img.h, h:1, d:maskenFeld(ink,W,H,pad+img.w/2,pad+img.h/2,img.h)}; schriftCache.set(key,e); return e;
 }
-/* Hochgeladenes Bild (GIF, PNG …) in eine Schwarz-Weiß-Maske umwandeln: dunkle, nicht durchsichtige Pixel werden zum Relief.
-   Bei GIF-Animationen zählt das erste Bild. Höchstens 200 Pixel, auf den Inhalt zugeschnitten. */
+/* Hochgeladenes Bild (z. B. SVG, PNG, GIF) in eine Schwarz-Weiß-Maske umwandeln: dunkle, nicht durchsichtige Pixel werden zum Relief.
+   Bei GIF-Animationen zählt das erste Bild. SVG ohne eigene Größe wird quadratisch angenommen. Höchstens 200 Pixel, auf den Inhalt zugeschnitten. */
 async function bildMaske(file){
   const url=URL.createObjectURL(file), im=new Image();
   try{ await new Promise((ok,err)=>{ im.onload=ok; im.onerror=err; im.src=url; }); } finally{ URL.revokeObjectURL(url); }
-  const s=200/Math.max(im.width,im.height), W=Math.max(1,Math.round(im.width*s)), H=Math.max(1,Math.round(im.height*s));
+  const iw=im.naturalWidth||im.width||300, ih=im.naturalHeight||im.height||300;
+  const s=200/Math.max(iw,ih), W=Math.max(1,Math.round(iw*s)), H=Math.max(1,Math.round(ih*s));
   const c=document.createElement("canvas").getContext("2d"); c.canvas.width=W; c.canvas.height=H; c.drawImage(im,0,0,W,H);
   const p=c.getImageData(0,0,W,H).data, ink=new Uint8Array(W*H); let n=0;
   for(let i=0;i<W*H;i++){ const a=p[4*i+3], lum=0.3*p[4*i]+0.59*p[4*i+1]+0.11*p[4*i+2]; if(a>=128&&lum<140){ ink[i]=1; n++; } }
