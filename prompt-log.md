@@ -1993,3 +1993,25 @@ Nachgeschoben: „Das geht auch nur für das Handy wieder“
 **Screenshot:** prompt-log-bilder/92-farben-vorschau.jpg / 92-farben-handy.jpg
 
 **Commit-Nachricht:** Prompt 92: Farbwahl für 3MF
+
+---
+
+## Prompt 93 – Handy: Reiter Wand/Kasten aus der Leiste entfernt (24.10.2026)
+
+**Prompt:**
+> Das finde ich super. Bei der Handy Ansicht würde ich noch dazu übergehen unten aus der Scroll Barre Leiste den Reiterkasten und Wand rauszunehmen, denn man kann ja oben umschalten.
+
+**Was sich geändert hat (nur auf dem Handy):**
+- Der Reiter „Wand“ bzw. „Kasten“ ist aus der Werkzeugleiste entfernt. In die Anordnung kommt man über den Umschalter oben auf der 3D-Vorschau.
+- Die Leiste hat jetzt bei Halterungen sechs Reiter: Art · Abmessungen · Befestigung · Beschriftung · Drucker · Speichern. Bei Boxen sind es fünf, ohne Befestigung.
+- Der Code für den alten Reiter ist mit entfernt.
+- Geprüft:
+  - Beide Seiten zeigen die richtigen Reiter.
+  - Der Umschalter wechselt in die Anordnung (ohne Leiste) und zurück (mit Leiste, „Abmessungen“ gewählt).
+  - Es gibt keine Fehler.
+
+**Betroffene Dateien:** index.html (Versionsnummer 93), js/ui/werkzeuge.js, js/ui/anordnung.js
+
+**Screenshot:** prompt-log-bilder/93-leiste-ohne-kasten.jpg
+
+**Commit-Nachricht:** Prompt 93: Handy – Reiter Wand/Kasten aus der Leiste entfernt

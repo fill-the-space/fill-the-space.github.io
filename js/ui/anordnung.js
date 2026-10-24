@@ -151,7 +151,7 @@ $("toPlan").addEventListener("click",()=>{ const P=plan(); P.on=true; planCamera
   addItem({type:state.type,v:clone(state.v[state.type]),rot:0}); });
 $("planEdit").addEventListener("click",()=>{ const P=plan(); if(P.sel==null) return; const id=P.sel; P.edit=id; P.on=false; werkzeug="masse"; planCamera(); selectItem(id); });
 for(const b of document.querySelectorAll("#viewMode button")) b.addEventListener("click",()=>{ const P=plan(), on=b.dataset.mode==="plan"; if(P.on===on) return;
-  P.on=on; if(!on){ P.sel=null; if(werkzeug==="plan") werkzeug="masse"; } else if(P.edit!=null){ P.sel=P.edit; P.edit=null; } planCamera(); renderAll(); });
+  P.on=on; if(!on){ P.sel=null; } else if(P.edit!=null){ P.sel=P.edit; P.edit=null; } planCamera(); renderAll(); });
 
 // Blickwinkel: Einzelteil schräg von vorne, Wand von vorne, Kasten von vorne oben
 function planCamera(){

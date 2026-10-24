@@ -1,6 +1,6 @@
 /* ---------- Handy: Werkzeugleiste ----------
    Auf schmalen Bildschirmen bleibt der Kopf wie er ist; darunter steht die 3D-Vorschau fest oben, darunter eine Leiste mit
-   Werkzeugen zum Wischen. Antippen zeigt nur die Einstellungen dieses Werkzeugs. Welche Teile der Seite zu welchem Werkzeug
+   Werkzeugen zum Wischen (Art, Abmessungen, Befestigung, Beschriftung, Drucker, Speichern). Antippen zeigt nur die Einstellungen dieses Werkzeugs. Welche Teile der Seite zu welchem Werkzeug
    gehören, steht in index.html (data-tool); die Felder im Formular ordnet feldWerkzeug() zu. Am Computer ändert sich nichts. */
 let werkzeug="masse";
 const BEFESTIGUNG_FELDER=new Set(["mass","mount","door","hookL","hookT","doorScrews","sd","sn"]);
@@ -12,7 +12,6 @@ function werkzeugeZeigen(){
   if(!halter&&werkzeug==="befestigung") werkzeug="masse";
   for(const b of document.querySelectorAll("#tools button")){ b.setAttribute("aria-pressed",String(b.dataset.w===werkzeug)); }
   document.querySelector('#tools [data-w="befestigung"]').hidden=!halter;
-  $("wPlan").textContent=halter?"Wand":"Kasten";
   // mob-off blendet nur auf dem Handy aus (siehe CSS). In der Anordnung zählt nur die Anordnung.
   const zeigt=plan().on?"plan":werkzeug;
   for(const el of document.querySelectorAll("[data-tool]")) el.classList.toggle("mob-off",!el.dataset.tool.split(" ").includes(zeigt));
@@ -25,9 +24,8 @@ function werkzeugeZeigen(){
   const ende=()=>{ start=null; }; t.addEventListener("pointerup",ende); t.addEventListener("pointercancel",ende); t.addEventListener("pointerleave",ende);
   t.addEventListener("click",e=>{ if(gezogen){ e.stopPropagation(); e.preventDefault(); gezogen=false; } },true);
 })();
-for(const b of document.querySelectorAll("#tools button")) b.addEventListener("click",()=>{ werkzeug=b.dataset.w;
-  // „Wand“ bzw. „Kasten“ schaltet die Vorschau gleich auf die Anordnung um
-  if(werkzeug==="plan"&&!plan().on){ plan().on=true; planCamera(); renderAll(); } else werkzeugeZeigen();
+// Wand bzw. Kasten wird über den Umschalter auf der Vorschau gewählt, nicht über die Leiste
+for(const b of document.querySelectorAll("#tools button")) b.addEventListener("click",()=>{ werkzeug=b.dataset.w; werkzeugeZeigen();
   b.scrollIntoView({inline:"nearest",block:"nearest",behavior:"smooth"});
   // Nach dem Wechsel zum Anfang der Einstellungen, damit man nicht mitten im Menü landet
   const t=$("tools"); if(t.getBoundingClientRect().top<=parseFloat(getComputedStyle(t).top)+1) window.scrollTo({top:t.offsetTop-parseFloat(getComputedStyle(t).top),behavior:"smooth"}); });
