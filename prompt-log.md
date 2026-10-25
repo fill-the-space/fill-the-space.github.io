@@ -2245,3 +2245,25 @@ Nachgeschoben: „Vielleicht konnte man die Reihenfolge der Button anders machen
 **Commit-Nachricht:** Prompt 101: Umzug zu fill-the-space.github.io
 
 Nachtrag zu Prompt 101: Neue Organisationen sperren Deploy Keys standardmäßig, deshalb ging der erste Push nicht durch. Lioba hat unter Organisation → Settings → Deploy keys „Enabled“ gewählt und gespeichert. Ein erster Versuch über „Member privileges“ war die falsche Seite. Danach klappt der Push wieder, und GitHub Pages veröffentlicht nach etwa 30 Sekunden.
+
+### Etappe: Probedruck und neue Adresse (Prompts 95–101, 24.–25.10.2026)
+
+**Ziel:** Die Fehler aus dem ersten echten Druck beheben und die App dauerhaft unter einer eigenen Adresse ohne Kontonamen veröffentlichen.
+**Ergebnis:**
+- Wände gehen jetzt bis 1 mm.
+- Box und Deckel werden getrennt und fein genug gerechnet, das Raster liegt mittig, deshalb sind links und rechts identisch.
+- Der Schiebedeckel hat eine Nut mit 45°-Dach, die hinten der Rundung folgt. Vorne ist die Box eckig.
+- Eingelegte und vertiefte Schrift funktionieren auch bei dünnen Wänden.
+- Text und Bild gehen jetzt auch auf den Deckel.
+- In 3MF bleiben Bauteil und Beschriftung als ein Objekt zusammen.
+- Am Computer läuft die ganze rechte Spalte mit, die Knöpfe stehen unter der Vorschau.
+- Die App läuft unter fill-the-space.github.io, kostenlos und ohne Begrenzung beim Veröffentlichen.
+**Schlüssel-Prompt:** Nr. 96, weil erst der echte Probedruck Fehler zeigte, die in der Vorschau nicht auffielen.
+**Schwierigkeiten:**
+- Mehrere Fehler brauchten zwei oder drei Anläufe. Die erste Korrektur am Schiebedeckel machte die obere Kante messerscharf, und die eigentliche Ursache waren die runden Ecken (Prompt 97).
+- Die Lücke nur rechts entstand durch ein zu grobes, einseitig angesetztes Raster (Prompt 98).
+- Ein Rundungsfehler (1,2 − 0,8 = 0,3999…) ließ eingelassene Schrift verschwinden.
+- Netlify stoppte, weil das kostenlose Guthaben aufgebraucht war.
+- Die neue GitHub-Organisation sperrte zuerst den Push-Zugang.
+- Liobas genaue Rückmeldungen mit Screenshots („nur rechts“) waren der Schlüssel zu den Lösungen.
+**Präsentationstauglich:** ja. Gute Vorher-nachher-Bilder sind 97-vorher-loecher.webp / 97-schiebedeckel-neu.png und 98-vorher-rechts.webp / 98-nachher.png. Dazu kommt die Geschichte „Vorschau sieht gut aus, Druck zeigt die Wahrheit“.
