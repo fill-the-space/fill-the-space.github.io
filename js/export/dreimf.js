@@ -1,6 +1,7 @@
 /* ---------- 3MF: mehrere Teile mit eigener Farbe in einer Datei ----------
-   3MF ist ein ZIP-Archiv mit einer XML-Beschreibung der Netze. Jedes Teil (Bauteil, Beschriftung) wird ein eigenes Objekt
-   mit eigener Farbe; im Slicer lassen sie sich zu einem Objekt mit zwei Teilen zusammenfassen und zwei Filamenten zuordnen.
+   3MF ist ein ZIP-Archiv mit einer XML-Beschreibung der Netze. Jedes Teil (Bauteil, Beschriftung) wird ein eigenes Netz
+   mit eigener Farbe; ein gemeinsames Objekt fasst sie als Bauteile zusammen. So lädt der Slicer ein Objekt mit zwei Teilen,
+   die an ihrem Platz zueinander bleiben, und jedem Teil lässt sich ein eigenes Filament zuordnen.
    Das ZIP wird ohne Komprimierung geschrieben, das reicht und braucht keine Bibliothek. */
 const CRC_TAB=(()=>{ const t=new Uint32Array(256); for(let n=0;n<256;n++){ let c=n; for(let k=0;k<8;k++) c=c&1?0xEDB88320^(c>>>1):c>>>1; t[n]=c>>>0; } return t; })();
 function crc32(u){ let c=0xFFFFFFFF; for(let i=0;i<u.length;i++) c=CRC_TAB[(c^u[i])&255]^(c>>>8); return (c^0xFFFFFFFF)>>>0; }
@@ -31,7 +32,9 @@ function dreiMF(teile){
     x.push(`</vertices><triangles>`);
     for(let k=0;k<idx.length;k+=3) x.push(`<triangle v1="${idx[k]}" v2="${idx[k+1]}" v3="${idx[k+2]}"/>`);
     x.push(`</triangles></mesh></object>\n`); });
-  x.push(`</resources>\n<build>${teile.map((t,i)=>`<item objectid="${i+2}"/>`).join("")}</build>\n</model>\n`);
+  const gruppe=teile.length+2;
+  x.push(`<object id="${gruppe}" type="model" name="FILL THE SPACE"><components>${teile.map((t,i)=>`<component objectid="${i+2}"/>`).join("")}</components></object>\n`);
+  x.push(`</resources>\n<build><item objectid="${gruppe}"/></build>\n</model>\n`);
   return zipOhneKompression([
     {name:"[Content_Types].xml",data:enc.encode(`<?xml version="1.0" encoding="UTF-8"?>\n<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="model" ContentType="application/vnd.ms-package.3dmanufacturing-3dmodel+xml"/></Types>`)},
     {name:"_rels/.rels",data:enc.encode(`<?xml version="1.0" encoding="UTF-8"?>\n<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Target="/3D/3dmodel.model" Id="rel0" Type="http://schemas.microsoft.com/3dmanufacturing/2013/01/3dmodel"/></Relationships>`)},

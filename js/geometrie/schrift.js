@@ -141,6 +141,7 @@ function schriftModel(model,p,warn){
     const cut=(x,y,z)=>{ if(x<cb[0]||x>cb[1]||y<cb[2]||y>cb[3]||z<cb[4]||z>cb[5]) return 1e3; const [d,s]=lage(x,y,z); return ext(d,s,-dep,1); };
     model.schnitt=th;   // Export rechnet dann feiner, damit die eingelassene Schrift scharf bleibt
     const f0=model.f; model.f=(x,y,z)=>Math.max(f0(x,y,z),-cut(x,y,z));
+    if(model.teile){ const t0=model.teile[0].f; model.teile[0]={...model.teile[0],f:(x,y,z)=>Math.max(t0(x,y,z),-cut(x,y,z))}; }
     if(model.plan){ const g0=model.plan.f; model.plan={...model.plan,f:(x,y,z)=>Math.max(g0(x,y,z),-cut(x,y,z))}; } }
   // Vertieft: kein eigener Körper; in der Vorschau trotzdem dunkel zeigen, damit man die Schrift sieht
   if(art==="vertieft") model.textPreview={f,th,bb}; else model.text={f,th,bb};

@@ -10,8 +10,8 @@ const BOX_MASSE={row:[{k:"L",l:"Länge",min:30,max:400},{k:"B",l:"Breite",min:20
 const BOX_FAECHER={row:[{k:"fx",l:"Fächer längs",u:"",min:1,max:10,step:1},{k:"fy",l:"Fächer quer",u:"",min:1,max:10,step:1}],l:"Fächer"};
 const BOX_WAND=[
   {k:"r",c:"range",l:"Eckenradius",u:"mm",min:0,max:30,step:0.5},
-  {k:"t",c:"range",l:"Wandstärke",u:"mm",min:1.2,max:5,step:0.2},
-  {k:"tb",c:"range",l:"Bodenstärke",u:"mm",min:1.2,max:5,step:0.2}
+  {k:"t",c:"range",l:"Wandstärke",u:"mm",min:1,max:5,step:0.2},
+  {k:"tb",c:"range",l:"Bodenstärke",u:"mm",min:1,max:5,step:0.2}
 ];
 
 function buildBox(p,o){
@@ -39,7 +39,9 @@ function buildBox(p,o){
     for(const xi of xs) d=Math.min(d,Math.max(box3(x,y,z,xi-td/2,xi+td/2,t-0.5,B-t+0.5,z0-0.5,top),shape(x,y,0)));
     for(const yi of ys) d=Math.min(d,Math.max(box3(x,y,z,t-0.5,L-t+0.5,yi-td/2,yi+td/2,z0-0.5,top),shape(x,y,0)));
     if(lid==="einlege"){ const di=shape(x,y,t); d=Math.min(d,Math.max(-le-di,z-zl,(zl-le-di-z)*0.7071,z0-z,shape(x,y,0))); }
-    if(lid==="schiebe"){ d=Math.max(d,-box3(x,y,z,-1,L-t+gd,t-gd,B-t+gd,zg0,zg1)); d=Math.max(d,-box3(x,y,z,-1,t+0.01,t-gd,B-t+gd,zg0,H+1)); }
+    // Nut mit 45°-Dach: Die Kante über der Nut hängt sonst waagerecht in der Luft und lässt sich nicht sauber drucken
+    if(lid==="schiebe"){ const dr=rr2(x,y,(L-t+gd-1)/2,cy,(L-t+gd+1)/2,B/2-t+gd,0), di=Math.max(0,rr2(x,y,cx,cy,L/2-t,B/2-t,0));
+      d=Math.max(d,-Math.max(dr,zg0-z,(z-zg1-gd+di)*0.7071)); d=Math.max(d,-box3(x,y,z,-1,t+0.01,t-gd,B-t+gd,zg0,H+1)); }
     if(o.grips){ const g=ext(rr2(y,z,cy,H,gw/2,gh,Math.min(gw/2,gh)),x,-1,t+1), g2=ext(rr2(y,z,cy,H,gw/2,gh,Math.min(gw/2,gh)),x,L-t-1,L+1); d=Math.max(d,-g,-g2); }
     if(o.label) d=Math.max(d,-box3(x,y,z,cx-lw/2,cx+lw/2,-1,0.6,H-6-lh,H-6));
     return d; };
@@ -58,6 +60,12 @@ function buildBox(p,o){
     lidF=(x,y,z)=>{ const X=x-ox; return Math.max(ext(shape(X,y,t+c),z,0,tp),-(hyp(X-cx,y-gy)-8)); };
     bb=[0,2*L+10,0,B,0,H]; }
   const fAll=lidF?(x,y,z)=>Math.min(f(x,y,z),lidF(x,y,z)):f;
+  // Box und Deckel als getrennte Teile, damit jedes für sich fein genug gerechnet wird (dünne Wände bekommen sonst Löcher)
+  const teile=[{f,bb:[0,L,0,B,0,H]}];
+  if(lid==="steck") teile.push({f:lidF,bb:[L+10,2*L+10,0,B,0,Math.max(1.6,t)+BOX_STECK]});
+  if(lid==="schiebe"){ const oy=B+10; teile.push({f:lidF,bb:[0,L-t+gd-c,oy+t-gd+c,oy+B-t+gd-c,0,tl-c]}); }
+  if(lid==="einlege") teile.push({f:lidF,bb:[L+10,2*L+10,0,B,0,tp]});
+  const minWand=Math.min(t,tb,lid==="schiebe"?tl-c:lid?Math.max(1.6,t):99);
   // Für die Anordnung im Kasten: Box mit geschlossenem Deckel statt Box und Deckel nebeneinander
   let plan={f,bb:[0,L,0,B,0,H]};
   if(lid==="steck"){ const ox=L+10, tp=Math.max(1.6,t); plan={f:(x,y,z)=>Math.min(f(x,y,z),lidF(x+ox,y,H+tp-z)),bb:[0,L,0,B,0,H+tp]}; }
@@ -70,5 +78,5 @@ function buildBox(p,o){
     hinten:{ax:"y",dir:1,p:B,t,u0:r+2,u1:L-r-2,z0:sh+2,z1:H-3},
     links:{ax:"x",dir:-1,p:0,t,u0:r+2,u1:B-r-2,z0:sh+2,z1:H-3,avoid:links}, rechts:{ax:"x",dir:1,p:L,t,u0:r+2,u1:B-r-2,z0:sh+2,z1:H-3,avoid:seiteFrei}};
   const innen=[L-2*t,B-2*t,H-z0], liter=Math.max(0,innen[0]*innen[1]*innen[2])/1e6;
-  return {f:fAll,bb,dims:[L,B,H],printDims:[bb[1]-bb[0],bb[3]-bb[2],bb[5]-bb[4]],scad:`// FILL THE SPACE – Box ${mmDE(L)} × ${mmDE(B)} × ${mmDE(H)} mm`,ghost:[],dir:"Boden unten",warn,plan,schilder,box:{innen,liter,lid,stack:!!o.stack,t,r}};
+  return {f:fAll,bb,dims:[L,B,H],printDims:[bb[1]-bb[0],bb[3]-bb[2],bb[5]-bb[4]],scad:`// FILL THE SPACE – Box ${mmDE(L)} × ${mmDE(B)} × ${mmDE(H)} mm`,ghost:[],dir:"Boden unten",warn,plan,teile,minWand,schilder,box:{innen,liter,lid,stack:!!o.stack,t,r}};
 }

@@ -35,9 +35,11 @@ function update(){
   const rec=recommend(state.type,v,model); $("outRec").textContent=rec.text; $("outRecInfo").textContent=rec.detail;
   showAlerts(model.alerts||[]);
   const b=model.bb, vol=(b[1]-b[0]+4)*(b[3]-b[2]+4)*(b[5]-b[4]+4);
-  const wall=v.t||v.P||3;
-  const h=Math.max(0.8,Math.min(Math.cbrt(vol/260000),wall*0.7));
-  const mesh=polygonize(model.f,b,h), st=meshStats(mesh);
+  const wall=model.minWand||v.t||v.P||3;
+  const h=Math.max(Math.min(0.8,wall*0.6),Math.min(Math.cbrt(vol/260000),wall*0.7));
+  // Teile (z. B. Box und Deckel) einzeln rechnen, sonst wird das Raster durch den Platz dazwischen unnötig grob
+  const teile=model.teile||[{f:model.f,bb:b}];
+  const mesh=teile.map(t=>polygonize(t.f,t.bb,h)).reduce((a,m)=>a?netzeVerbinden(a,m):m,null), st=meshStats(mesh);
   // Beschriftung: eigener Körper, feiner gerechnet, weil die Buchstaben klein sind
   const tx=model.text||model.textPreview, textMesh=tx?polygonize(tx.f,tx.bb,Math.max(0.12,Math.min(0.3,tx.th/30))):null;
   const fmt=x=>x.toLocaleString("de-DE",{maximumFractionDigits:0});
@@ -72,10 +74,12 @@ $("dl").addEventListener("click",async()=>{
   try{
     const d=await dlReady;
     // Fein rechnen (bis etwa 400.000 Dreiecke), Punkte auf die echte Oberfläche schieben, dann ebene Flächen zusammenfassen
-    const m=current.model, hE=Math.min(current.h, Math.max(0.4, Math.sqrt(2*current.area/400000)), m.schnitt?Math.max(0.4,m.schnitt/16):1e9);
-    const fine=snapToSurface(polygonize(m.f,m.bb,hE),m.f);
+    // Dünne Wände: Raster höchstens 45 % der dünnsten Wand, damit keine Löcher entstehen (aber nicht feiner als der Speicher erlaubt)
+    const m=current.model, teile=m.teile||[{f:m.f,bb:m.bb}];
+    const hE0=Math.min(current.h, Math.max(0.4, Math.sqrt(2*current.area/400000)), m.schnitt?Math.max(0.4,m.schnitt/16):1e9, m.minWand?Math.max(0.3,m.minWand*0.45):1e9);
+    const netze=teile.map(t=>{ const b=t.bb, v=(b[1]-b[0]+2)*(b[3]-b[2]+2)*(b[5]-b[4]+2), h=Math.max(hE0,Math.cbrt(v/30e6)); return snapToSurface(polygonize(t.f,b,h),t.f); });
     st.textContent="Datei wird verkleinert …"; await new Promise(r=>setTimeout(r,30));
-    const mesh=simplifyMesh(fine,0.01);
+    const mesh=netze.map(n=>simplifyMesh(n,0.01)).reduce((a,n)=>a?netzeVerbinden(a,n):n,null);
     // Beschriftung fein für sich; STL: in dieselbe Datei, 3MF: als eigenes Teil mit eigener Farbe
     const text=m.text?simplifyMesh(snapToSurface(polygonize(m.text.f,m.text.bb,Math.max(0.08,Math.min(0.15,m.text.th/50))),m.text.f),0.005):null;
     const fmt=dateiFormat(), name=SEITEN[state.page].datei+"-"+slug()+"."+fmt;

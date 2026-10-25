@@ -2079,3 +2079,31 @@ Nachgeschoben: „Sie müssen aber weiterhin vom gleichen Typ sein, um Stapel Ba
 **Screenshot:** prompt-log-bilder/95-handy-skadis-kurz.jpg
 
 **Commit-Nachricht:** Prompt 95: Handy – kurzer Name im Umschalter
+
+---
+
+## Prompt 96 – Erkenntnisse aus dem Probedruck (25.10.2026)
+
+**Prompt:**
+> Wir sind ein paar Sachen aufgefallen, als ich gerade versucht habe, die Bauteile zu drucken. Zum einen kann man teilweise die Wandstärke nicht genug reduzieren. Ich finde diese Option sollte bis zu 1 mm möglich sein teilweise. Zum andern habe ich bei den Boxen gemerkt, dass teilweise leere Flächen entstehen. Vor allem, wenn die Wandstärke zu gering ist, weil der Deckel direkt daneben liegt. Dann hat man ein Loch im Boden. Bei dem Schiedeck ist mir aufgefallen, dass eine Seite bei der Einzeltisch Miebachs dicke der Wandstärke in der Luft hängt. Da scheint der einschieben Mechanismus nicht symmetrisch zu funktionieren. Bei drei MF ist mir aufgefallen, dass bei der Option eingelegt das Bild oder der Text nicht mit dem Bauteil verbunden ist und der Drucker das Bild und die Bauteilart selber als zwei verschiedene Objekte erkennt. Eine Einfärbung ist dann zwar möglich in zwei Farben, aber die Objekte sind nicht mehr nach dem importieren in den Drucker am selben Platz
+
+**Was sich geändert hat:**
+1. **Wandstärke ab 1 mm:** Bei allen Boxen (Wand und Boden) und beim Köcher geht der Regler jetzt bis 1 mm, vorher ab 1,2 bzw. 1,6 mm. Konsole und Leiste tragen Gewicht, ihre „Stärke“ bleibt bei mindestens 3 bzw. 4 mm. Beim Schiebedeckel braucht die Nut weiterhin 2 mm Wand.
+2. **Löcher bei dünnen Wänden:**
+   - Ursache: Box und Deckel wurden zusammen in einem Raster berechnet. Weil der Deckel daneben liegt, war der Bereich doppelt so groß und das Raster gröber. Dünne Wände und Böden konnten dabei durchfallen.
+   - Jetzt rechnet die App Box und Deckel getrennt, jedes in seinem eigenen Bereich. Das Raster ist höchstens 45 % der dünnsten Wand, damit immer genug Messpunkte in jeder Wand liegen.
+   - Claude hat einen Bodentest gebaut: Er prüft an über 300 Stellen, ob der Boden unten und oben eine Fläche hat. Der erste Test meldete falsche Treffer an den Trennwänden. Bereinigt fand er beim alten Weg vereinzelte Löcher (Sortierkasten, 1 mm Boden), beim neuen keine.
+   - Ehrlich: Die genaue Stelle aus Liobas Druck ließ sich nicht sicher nachstellen. Der Einlegedeckel hat außerdem absichtlich ein rundes Griffloch.
+   - Speichern dauert bei 1-mm-Wänden länger, etwa 7–20 Sekunden.
+3. **Schiebedeckel:**
+   - Über der Nut stand innen eine 1,2 mm breite Kante waagerecht in der Luft. Beim Drucken hat sie keinen Halt, das war die „in der Luft hängende“ Wandkante.
+   - Die Nut hat jetzt oben ein 45°-Dach. Die Kante darüber druckt ohne Stütze, der Deckel wird an der tiefsten Stelle der Nut weiter gehalten.
+   - Nachgeprüft im Querschnitt durch die Wand: Beide Seiten sind gleich.
+4. **3MF – alles bleibt an seinem Platz:**
+   - Bauteil und Beschriftung stehen jetzt als ein Objekt mit zwei Teilen in der Datei, vorher waren es zwei getrennte Objekte. Der Slicer setzt dadurch nicht mehr jedes Teil für sich auf die Druckplatte, beide bleiben übereinander.
+   - Jedes Teil behält seine eigene Farbe.
+   - Geprüft: Die Datei enthält „Box“, „Beschriftung“ und eine Gruppe „FILL THE SPACE“, die beide zusammenfasst. Ein Test im echten Slicer steht noch aus.
+
+**Betroffene Dateien:** index.html (Versionsnummer 96), js/boxen/grundform.js, js/halterungen/koecher.js, js/geometrie/schrift.js, js/export/dreimf.js, js/main.js
+
+**Commit-Nachricht:** Prompt 96: Erkenntnisse aus dem Probedruck

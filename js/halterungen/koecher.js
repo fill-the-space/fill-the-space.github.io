@@ -9,7 +9,7 @@ HALTERUNGEN.koecher = {
     // Standard: Schale so hoch wie das Bauteil und wandert mit, solange man sie nicht selbst verstellt; niedriger oder höher geht auch
     {k:"hs",c:"range",l:"Höhe der Schale",u:"mm",min:()=>10,max:v=>v.H+100,step:1,follow:"H"},
     {k:"lip",c:"range",l:"Lippe vorne",u:"mm",min:4,max:80,step:1,show:v=>v.mount==="schrauben"||!v.closed},
-    {k:"t",c:"range",l:"Wandstärke",u:"mm",min:1.6,max:4,step:0.2},
+    {k:"t",c:"range",l:"Wandstärke",u:"mm",min:1,max:4,step:0.2},
     {k:"s",c:"range",l:"Spiel pro Seite",u:"mm",min:0,max:2,step:0.1},
     // Ohne Schrauben muss man nicht durch die Vorderseite an die Rückwand, dann darf sie ganz zu sein
     {k:"closed",c:"check",l:"Vorne ganz geschlossen",show:v=>v.mount!=="schrauben"},
@@ -59,5 +59,5 @@ function buildKoecher(p){
   // Flächen für die Beschriftung: vorne auf der Lippe (bzw. der ganzen Vorderwand, wenn sie geschlossen ist) oder seitlich
   const sy1=cy+Do/2-(ri+t)-1.5, schilder={vorne:{ax:"y",dir:1,p:Dt,u0:Math.max(1.5,ri+t),u1:Wo-Math.max(1.5,ri+t),z0:1.5,z1:(win?t+lip:Ho)-1.5,t},
     links:{ax:"x",dir:-1,p:0,u0:1.5,u1:sy1,z0:1.5,z1:Ho-1.5,t}, rechts:{ax:"x",dir:1,p:Wo,u0:1.5,u1:sy1,z0:1.5,z1:Ho-1.5,t}};
-  return mountApply({f,bb:[0,Wo,0,Dt,0,Ho],dims:[Wo,Dt,Ho],scad:L.join("\n"),ghost,dir:"Boden unten",warn,screw:plan,arm:cy,schilder},mountParts(p,0,Wo,Ho,tb,warn,cy));
+  return mountApply({f,bb:[0,Wo,0,Dt,0,Ho],dims:[Wo,Dt,Ho],scad:L.join("\n"),ghost,dir:"Boden unten",warn,screw:plan,arm:cy,schilder,minWand:t},mountParts(p,0,Wo,Ho,tb,warn,cy));
 }
