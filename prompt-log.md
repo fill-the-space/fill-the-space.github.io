@@ -2243,3 +2243,5 @@ Nachgeschoben: „Vielleicht konnte man die Reihenfolge der Button anders machen
 **Betroffene Dateien:** README.md, CLAUDE.md (die App selbst ist unverändert; Prompt 100 kommt mit diesem Push online)
 
 **Commit-Nachricht:** Prompt 101: Umzug zu fill-the-space.github.io
+
+Nachtrag zu Prompt 101: Neue Organisationen sperren Deploy Keys standardmäßig, deshalb ging der erste Push nicht durch. Lioba hat unter Organisation → Settings → Deploy keys „Enabled“ gewählt und gespeichert. Ein erster Versuch über „Member privileges“ war die falsche Seite. Danach klappt der Push wieder, und GitHub Pages veröffentlicht nach etwa 30 Sekunden.
