@@ -41,7 +41,7 @@ function planEntry(type,v){
   const k=planKey(type,v); let e=planCache.get(k);
   if(!e){ const m=build(type,v), g=m.plan||{f:m.f,bb:m.bb}, b=g.bb, vol=(b[1]-b[0]+4)*(b[3]-b[2]+4)*(b[5]-b[4]+4);
     e={bb:b, box:m.box, mount:m.mount, mesh:polygonize(g.f,b,Math.max(1,Math.min(Math.cbrt(vol/120000),(v.t||v.P||3)*0.8))),
-      textMesh:(m.text||m.textPreview)?polygonize((m.text||m.textPreview).f,(m.text||m.textPreview).bb,Math.max(0.15,Math.min(0.4,(m.text||m.textPreview).th/20))):null}; planCache.set(k,e); }
+      textMesh:(()=>{ const tx=m.textPlan||m.text||m.textPreview; return tx?polygonize(tx.f,tx.bb,Math.max(0.15,Math.min(0.4,tx.th/20))):null; })()}; planCache.set(k,e); }
   return e;
 }
 // Umriss eines Teils in der Ansicht (Rechteck a, b, w, h in mm)

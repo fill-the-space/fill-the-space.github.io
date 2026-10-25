@@ -4,7 +4,9 @@
    in ein Dreiecksnetz umrechnen. Erhaben: Das Relief steht 1 mm vor und ragt 0,3 mm ins Bauteil, damit beides fest verbunden ist.
    Eingelegt: Die Schrift füllt eine Vertiefung bündig aus (sichtbar nur zweifarbig). Vertieft: nur eingraviert, kein eigener Körper.
    Die Tiefe ist höchstens 1 mm und lässt hinter der Schrift mindestens 0,6 mm Wand stehen (t = Wandstärke hinter der Fläche).
-   Jede Bauteilart gibt in model.schilder die Flächen an, auf denen Platz ist:
+   Jede Bauteilart gibt in model.schilder die Flächen an, auf denen Platz ist (ax "z": waagerechte Fläche, z. B. ein Deckel;
+   gelesen von oben mit der Vorderseite der Box unten; teil: Nummer des Teils in model.teile; zuPlan: Umrechnung vom
+   geschlossenen Zustand in die Drucklage, für die Anordnung im Kasten; nurEingelassen: Fläche liegt beim Drucken unten):
    {ax: "y" oder "x" (Richtung der Flächennormalen), dir: +1/−1, p: Lage der Fläche, u0..u1: waagerechter Bereich
     (x bei ax "y", y bei ax "x"), z0..z1: senkrechter Bereich, t: Wandstärke dahinter, avoid: [{u0,u1,z0,z1}] freizuhaltende Stellen, z. B. Schraublöcher} */
 const SCHRIFTEN={
@@ -128,22 +130,28 @@ function schriftModel(model,p,warn){
   const e2=(u,v)=>{ let d=1e9; if(B) d=B.d((u-uB)/bh,v/bh)*bh; if(T) d=Math.min(d,T.d(u-uT,v)); return d; };
   // Von vorne gelesen: rechts ist bei einer Fläche nach +y die −x-Richtung, nach −y +x, nach +x +y, nach −x −y
   const sgn=S.ax==="y"?-S.dir:S.dir, P=S.p, dir=S.dir, art=p.relief||"erhaben";
+  if(S.nurEingelassen&&art==="erhaben"){ warn.push("Diese Fläche liegt beim Drucken unten auf der Druckplatte, erhabene Schrift geht dort nicht. „Eingelegt“ oder „Vertieft“ wählen."); return; }
   // Abstand in der Fläche (mm) und Abstand vor der Fläche (positiv = nach außen)
-  const lage=S.ax==="y" ? (x,y,z)=>[e2(sgn*(x-uc)/th,(z-zc)/th)*th,dir*(y-P)] : (x,y,z)=>[e2(sgn*(y-uc)/th,(z-zc)/th)*th,dir*(x-P)];
+  const lage=S.ax==="y" ? (x,y,z)=>[e2(sgn*(x-uc)/th,(z-zc)/th)*th,dir*(y-P)]
+    : S.ax==="z" ? (x,y,z)=>[e2((x-uc)/th,(y-zc)/th)*th,dir*(z-P)]
+    : (x,y,z)=>[e2(sgn*(y-uc)/th,(z-zc)/th)*th,dir*(x-P)];
   // Tiefe höchstens 1 mm, dahinter mindestens 0,6 mm Wand (Zahlen gerundet, sonst ergibt z. B. 1,2 − 0,6 knapp zu wenig)
   const dep=Math.round(Math.min(1,(S.t??2)-0.6)*100)/100;
   if(art!=="erhaben"&&dep<0.3){ warn.push("Die Wand ist hier zu dünn, um die Schrift einzulassen. „Erhaben“ wählen oder die Wand dicker machen."); return; }
   const lo=art==="erhaben"?-SCHRIFT_TIEF:-dep, hi=art==="erhaben"?SCHRIFT_HOCH:0;
   const f=(x,y,z)=>{ const [d,s]=lage(x,y,z); return ext(d,s,lo,hi); };
   const n0=dir>0?P+lo:P-hi, n1=dir>0?P+hi:P-lo, a0=uc-tw/2-0.5, a1=uc+tw/2+0.5, z0=zc-thh/2-0.5, z1=zc+thh/2+0.5;
-  const bb=S.ax==="y"?[a0,a1,n0,n1,z0,z1]:[n0,n1,a0,a1,z0,z1];
+  const bb=S.ax==="y"?[a0,a1,n0,n1,z0,z1]:S.ax==="z"?[a0,a1,z0,z1,n0,n1]:[n0,n1,a0,a1,z0,z1];
   // Eingelegt und vertieft: Vertiefung aus dem Bauteil schneiden (außerhalb des Schriftbereichs nichts rechnen)
-  if(art!=="erhaben"){ const c0=dir>0?P-dep:P-1, c1=dir>0?P+1:P+dep, cb=S.ax==="y"?[a0,a1,c0,c1,z0,z1]:[c0,c1,a0,a1,z0,z1];
+  if(art!=="erhaben"){ const c0=dir>0?P-dep:P-1, c1=dir>0?P+1:P+dep, cb=S.ax==="y"?[a0,a1,c0,c1,z0,z1]:S.ax==="z"?[a0,a1,z0,z1,c0,c1]:[c0,c1,a0,a1,z0,z1];
     const cut=(x,y,z)=>{ if(x<cb[0]||x>cb[1]||y<cb[2]||y>cb[3]||z<cb[4]||z>cb[5]) return 1e3; const [d,s]=lage(x,y,z); return ext(d,s,-dep,1); };
     model.schnitt=th;   // Export rechnet dann feiner, damit die eingelassene Schrift scharf bleibt
     const f0=model.f; model.f=(x,y,z)=>Math.max(f0(x,y,z),-cut(x,y,z));
-    if(model.teile){ const t0=model.teile[0].f; model.teile[0]={...model.teile[0],f:(x,y,z)=>Math.max(t0(x,y,z),-cut(x,y,z))}; }
-    if(model.plan){ const g0=model.plan.f; model.plan={...model.plan,f:(x,y,z)=>Math.max(g0(x,y,z),-cut(x,y,z))}; } }
+    const ti=S.teil||0; if(model.teile){ const t0=model.teile[ti].f; model.teile[ti]={...model.teile[ti],f:(x,y,z)=>Math.max(t0(x,y,z),-cut(x,y,z))}; }
+    if(model.plan){ const g0=model.plan.f, cutP=S.zuPlan?(x,y,z)=>cut(...S.zuPlan.map(x,y,z)):cut; model.plan={...model.plan,f:(x,y,z)=>Math.max(g0(x,y,z),-cutP(x,y,z))}; } }
   // Vertieft: kein eigener Körper; in der Vorschau trotzdem dunkel zeigen, damit man die Schrift sieht
   if(art==="vertieft") model.textPreview={f,th,bb}; else model.text={f,th,bb};
+  // Für die Anordnung: Schrift auf dem geschlossenen Deckel statt neben der Box
+  if(S.zuPlan) model.textPlan={f:(x,y,z)=>f(...S.zuPlan.map(x,y,z)),th,bb:S.zuPlan.bb(bb)};
+  if(S.nurEingelassen) warn.push("Die Schrift sitzt auf der Unterseite des Steckdeckels, die beim Drucken auf der Druckplatte liegt und bei geschlossener Box oben ist. In der Vorschau sieht man sie von unten oder in der Ansicht „Im Kasten“.");
 }

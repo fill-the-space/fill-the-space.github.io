@@ -2165,3 +2165,29 @@ Nachgeschoben: „Sie müssen aber weiterhin vom gleichen Typ sein, um Stapel Ba
 **Screenshot:** prompt-log-bilder/98-vorher-rechts.webp (Liobas Bild) / 98-nachher.png
 
 **Commit-Nachricht:** Prompt 98: Schiebedeckel – Lücke nur rechts
+
+---
+
+## Prompt 99 – Beschriftung auf dem Deckel (25.10.2026)
+
+**Prompt:**
+> Schön wäre, wenn man bei Box mit Deckel das Bild und in den Text doch auf den Deckel schreiben könnte
+
+**Was sich geändert hat:**
+- Bei der Deckelbox gibt es unter „Fläche“ jetzt zusätzlich **„Deckel“**. Text und Bild stehen dann auf der Fläche, die bei geschlossener Box oben liegt. Gelesen wird von oben, mit der Vorderseite der Box unten.
+- **Je nach Deckelart:**
+  - **Schiebedeckel** und **Einlegedeckel:** Die Oberseite liegt auch beim Drucken oben. Erhaben, eingelegt und vertieft gehen alle. Beim Einlegedeckel weicht die Schrift dem Griffloch aus, beim Schiebedeckel der Griffrille.
+  - **Steckdeckel:** Er wird mit der Platte nach unten gedruckt, die sichtbare Seite liegt also auf der Druckplatte. Dort gehen nur „Eingelegt“ und „Vertieft“. Bei „Erhaben“ erklärt ein Hinweis, warum das nicht geht. Eingelegt ist hier besonders schön für zwei Farben: Die Schrift entsteht in der allerersten Schicht.
+- In der **Ansicht „Im Kasten“** steht die Schrift auf dem geschlossenen Deckel, auch beim Steckdeckel richtig herum lesbar.
+- Die „Lage auf der Fläche“ schiebt die Schrift auf dem Deckel nach hinten (höher) oder nach vorne (tiefer).
+- **Technik:** Neu ist eine waagerechte Fläche für die Schrift. Für die Anordnung kennt jeder Deckel die Umrechnung von der Drucklage in die geschlossene Lage.
+- **Geprüft:**
+  - Alle drei Deckelarten mit allen drei Schriftarten.
+  - Im Kasten mit Schiebe- und Steckdeckel.
+  - Die 3MF-Datei enthält „Box“, „Beschriftung“ und die Gruppe „FILL THE SPACE“.
+
+**Betroffene Dateien:** index.html (Versionsnummer 99), js/geometrie/schrift.js, js/boxen/grundform.js, js/boxen/deckelbox.js, js/ui/anordnung.js
+
+**Screenshot:** prompt-log-bilder/99-schiebedeckel-schrift.png / 99-im-kasten-schiebe.png / 99-im-kasten-steck.png
+
+**Commit-Nachricht:** Prompt 99: Beschriftung auf dem Deckel

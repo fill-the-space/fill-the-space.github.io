@@ -83,6 +83,15 @@ function buildBox(p,o){
   const schilder={vorne:o.label?{ax:"y",dir:-1,p:0.6,t:t-0.6,u0:cx-lw/2+1.5,u1:cx+lw/2-1.5,z0:H-6-lh+1,z1:H-7}:{ax:"y",dir:-1,p:0,t,u0:r+2,u1:L-r-2,z0:sh+2,z1:H-3},
     hinten:{ax:"y",dir:1,p:B,t,u0:r+2,u1:L-r-2,z0:sh+2,z1:H-3},
     links:{ax:"x",dir:-1,p:0,t,u0:r+2,u1:B-r-2,z0:sh+2,z1:H-3,avoid:links}, rechts:{ax:"x",dir:1,p:L,t,u0:r+2,u1:B-r-2,z0:sh+2,z1:H-3,avoid:seiteFrei}};
+  // Deckel: Schrift auf der Fläche, die bei geschlossener Box oben liegt. Beim Steckdeckel ist das die Unterseite in der Drucklage
+  if(lid){ const oxL=L+10, oyL=B+10, tpL=Math.max(1.6,t), rr=Math.max(3,r);
+    if(lid==="steck") schilder.deckel={ax:"z",dir:-1,p:0,t:tpL,teil:1,nurEingelassen:true,u0:oxL+rr,u1:oxL+L-rr,z0:rr,z1:B-rr,
+      zuPlan:{map:(x,y,z)=>[x+oxL,y,H+tpL-z],bb:b=>[b[0]-oxL,b[1]-oxL,b[2],b[3],H+tpL-b[5],H+tpL-b[4]]}};
+    if(lid==="schiebe"){ const zO=zg0+c, e=t-gd+c; schilder.deckel={ax:"z",dir:1,p:tl-c,t:tl-c,teil:1,u0:12,u1:L-t+gd-c-4,z0:oyL+e+3,z1:oyL+B-e-3,
+      zuPlan:{map:(x,y,z)=>[x,y+oyL,z-zO],bb:b=>[b[0],b[1],b[2]-oyL,b[3]-oyL,b[4]+zO,b[5]+zO]}}; }
+    if(lid==="einlege"){ const gy=t+c+12; schilder.deckel={ax:"z",dir:1,p:tp,t:tp,teil:1,u0:oxL+t+c+3,u1:oxL+L-t-c-3,z0:t+c+3,z1:B-t-c-3,
+      avoid:[{u0:oxL+cx-10,u1:oxL+cx+10,z0:gy-10,z1:gy+10}],
+      zuPlan:{map:(x,y,z)=>[x+oxL,y,z-zl],bb:b=>[b[0]-oxL,b[1]-oxL,b[2],b[3],b[4]+zl,b[5]+zl]}}; } }
   const innen=[L-2*t,B-2*t,H-z0], liter=Math.max(0,innen[0]*innen[1]*innen[2])/1e6;
   return {f:fAll,bb,dims:[L,B,H],printDims:[bb[1]-bb[0],bb[3]-bb[2],bb[5]-bb[4]],scad:`// FILL THE SPACE – Box ${mmDE(L)} × ${mmDE(B)} × ${mmDE(H)} mm`,ghost:[],dir:"Boden unten",warn,plan,teile,minWand,schilder,box:{innen,liter,lid,stack:!!o.stack,t,r}};
 }
