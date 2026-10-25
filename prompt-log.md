@@ -2107,3 +2107,33 @@ Nachgeschoben: „Sie müssen aber weiterhin vom gleichen Typ sein, um Stapel Ba
 **Betroffene Dateien:** index.html (Versionsnummer 96), js/boxen/grundform.js, js/halterungen/koecher.js, js/geometrie/schrift.js, js/export/dreimf.js, js/main.js
 
 **Commit-Nachricht:** Prompt 96: Erkenntnisse aus dem Probedruck
+
+---
+
+## Prompt 97 – Löcher am Schiebedeckel und eingelassene Schrift (25.10.2026)
+
+**Prompt:**
+> Es gibt weiterhin Löcher siehe Bild. Außerdem kann man jetzt bei Beschriftung nur noch bei erhaben drei MF auswählen. Bei den beiden anderen Optionen sieht man gar nichts von der Beschriftung beziehungsweise Bild und man kann nur STL auswählen
+
+(Mit zwei Screenshots: Deckelbox mit Schiebedeckel, Pfeile auf die oberen hinteren Ecken; Köcher mit 1,2 mm Wand, Bild „eingelegt“ ohne sichtbares Bild.)
+
+**Was sich geändert hat:**
+- **Löcher an der Schiebedeckel-Box – eigentliche Ursache gefunden:**
+  - Die Nut für den Deckel war rechteckig, die Box hat aber runde Ecken. An den hinteren Ecken lief die Nut deshalb durch die Außenwand, genau an den Stellen der Pfeile.
+  - In Prompt 96 hatte Claude zusätzlich die Schräge über der Nut bis ganz nach oben gezogen. Dadurch wurde die obere Kante messerscharf.
+  - Jetzt folgen Nut und Deckel hinten der Rundung der Box. An den Ecken bleibt genauso viel Wand stehen wie an den geraden Seiten (geprüft: 1 mm).
+  - Vorne, wo der Deckel hineingeschoben wird, hat die Box jetzt eckige Ecken. Sonst würde der Deckel dort seitlich aus der Rundung ragen.
+  - Über der Nut bleiben 0,8 mm volle Wand stehen, darunter kommt die 45°-Schräge.
+  - Geprüft: Der eingeschobene Deckel überschneidet sich an keiner Stelle mit der Box (über 700.000 Prüfpunkte).
+- **Eingelegt/Vertieft zeigte nichts (Fehler aus Prompt 78):**
+  - Bei 1,2 mm Wand rechnet der Computer 1,2 − 0,8 = 0,3999…, also knapp unter der Grenze von 0,4 mm. Deshalb wurde die Schrift als „Wand zu dünn“ abgelehnt, und es gab keine Beschriftung und kein 3MF.
+  - Jetzt wird gerundet. Hinter der Schrift bleiben mindestens 0,6 mm Wand, so geht „eingelegt“ und „vertieft“ auch bei 1 mm Wand (0,4 mm tief).
+  - Geprüft am Köcher aus Liobas Bild:
+    - Erhaben und eingelegt: Bild sichtbar, 3MF wählbar.
+    - Vertieft: Bild sichtbar, nur STL. Das ist gewollt, weil es dort nur eine Farbe gibt.
+
+**Betroffene Dateien:** index.html (Versionsnummer 97), js/boxen/grundform.js, js/geometrie/schrift.js
+
+**Screenshot:** prompt-log-bilder/97-vorher-loecher.webp / 97-vorher-koecher.webp (Liobas Bilder) / 97-schiebedeckel-neu.png / 97-koecher-eingelegt.png
+
+**Commit-Nachricht:** Prompt 97: Löcher am Schiebedeckel und eingelassene Schrift

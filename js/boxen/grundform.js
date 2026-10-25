@@ -20,11 +20,14 @@ function buildBox(p,o){
   const tb=p.tb, r=Math.max(0,Math.min(p.r,L/2-t-1,B/2-t-1)), cx=L/2, cy=B/2;
   const sh=o.stack?BOX_FUSS:0, z0=sh+tb;                       // Innenboden
   if(H<z0+5){ warn.push(`Die Box ist zu niedrig für Boden${sh?" und Stapelfuß":""}. Mindestens ${mmDE(z0+5)} mm Höhe wählen.`); }
-  const shape=(x,y,inset)=>rr2(x,y,cx,cy,L/2-inset,B/2-inset,Math.max(0,r-inset));
+  // Schiebedeckel: vorne (Einschubseite x = 0) eckige Ecken, damit Nut und Deckel dort nicht durch die runde Ecke laufen
+  const rEcke=x=>lid==="schiebe"&&x<cx?0:r;
+  const shape=(x,y,inset)=>rr2(x,y,cx,cy,L/2-inset,B/2-inset,Math.max(0,rEcke(x)-inset));
   // Stapelbar mit Deckel: Der Deckel liegt so tief, dass über ihm der Fuß der nächsten Box Platz hat
   const frei=o.stack&&lid?BOX_FUSS+0.4:0;
   // Schiebedeckel: Nut in den Längswänden, vorne (x = 0) offen
-  const tl=2, gd=Math.min(1.2,t-0.8), zg1=H-1.2-frei, zg0=zg1-tl-c;
+  // Über der Nut bleiben 0,8 mm volle Wand stehen, die 45°-Schräge darunter endet also nicht in einer scharfen Kante
+  const tl=2, gd=Math.min(1.2,t-0.8), zg1=H-gd-0.8-frei, zg0=zg1-tl-c;
   // Einlegedeckel: flache Platte liegt innen auf einem schmalen Absatz (unten 45° schräg, druckt ohne Stützen)
   const tp=Math.max(1.6,t), le=1.5, zl=H-frei-tp;
   // Fächer: Trennwände bis knapp unter den Rand (Platz für Deckelrand oder Stapelfuß der nächsten Box)
@@ -40,7 +43,8 @@ function buildBox(p,o){
     for(const yi of ys) d=Math.min(d,Math.max(box3(x,y,z,t-0.5,L-t+0.5,yi-td/2,yi+td/2,z0-0.5,top),shape(x,y,0)));
     if(lid==="einlege"){ const di=shape(x,y,t); d=Math.min(d,Math.max(-le-di,z-zl,(zl-le-di-z)*0.7071,z0-z,shape(x,y,0))); }
     // Nut mit 45°-Dach: Die Kante über der Nut hängt sonst waagerecht in der Luft und lässt sich nicht sauber drucken
-    if(lid==="schiebe"){ const dr=rr2(x,y,(L-t+gd-1)/2,cy,(L-t+gd+1)/2,B/2-t+gd,0), di=Math.max(0,rr2(x,y,cx,cy,L/2-t,B/2-t,0));
+    // Nut folgt hinten der Rundung der Box (sonst läuft sie an den Ecken durch die Außenwand)
+    if(lid==="schiebe"){ const dr=shape(x,y,t-gd), di=Math.max(0,shape(x,y,t));
       d=Math.max(d,-Math.max(dr,zg0-z,(z-zg1-gd+di)*0.7071)); d=Math.max(d,-box3(x,y,z,-1,t+0.01,t-gd,B-t+gd,zg0,H+1)); }
     if(o.grips){ const g=ext(rr2(y,z,cy,H,gw/2,gh,Math.min(gw/2,gh)),x,-1,t+1), g2=ext(rr2(y,z,cy,H,gw/2,gh,Math.min(gw/2,gh)),x,L-t-1,L+1); d=Math.max(d,-g,-g2); }
     if(o.label) d=Math.max(d,-box3(x,y,z,cx-lw/2,cx+lw/2,-1,0.6,H-6-lh,H-6));
@@ -53,7 +57,8 @@ function buildBox(p,o){
     bb=[0,2*L+10,0,B,0,H]; }
   if(lid==="schiebe"){ const oy=B+10, lx=L-t+gd-c, ly=B-2*t+2*gd-2*c, th=tl-c;
     // Deckelplatte mit Griffrille vorne
-    lidF=(x,y,z)=>{ const Y=y-oy; let d=box3(x,Y,z,0,lx,t-gd+c,t-gd+c+ly,0,th); d=Math.max(d,-box3(x,Y,z,6,9,t+4,t-gd+c+ly-4+0,th-0.6,th+1)); return d; };
+    // Deckel hat hinten dieselbe Rundung wie die Nut, vorne schließt er bündig mit der Box ab
+    lidF=(x,y,z)=>{ const Y=y-oy; let d=ext(Math.max(shape(Math.max(x,t-gd+c+0.01),Y,t-gd+c),-x),z,0,th); d=Math.max(d,-box3(x,Y,z,6,9,t+4,t-gd+c+ly-4+0,th-0.6,th+1)); return d; };
     bb=[0,L,0,2*B+10,0,H]; }
   if(lid==="einlege"){ const ox=L+10, gy=t+c+12;
     // Platte mit Griffloch vorne

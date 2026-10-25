@@ -3,7 +3,7 @@
    Abstandsfeld (wie weit jeder Punkt vom Rand der Buchstaben entfernt ist), so lassen sie sich wie alle anderen Formen
    in ein Dreiecksnetz umrechnen. Erhaben: Das Relief steht 1 mm vor und ragt 0,3 mm ins Bauteil, damit beides fest verbunden ist.
    Eingelegt: Die Schrift füllt eine Vertiefung bündig aus (sichtbar nur zweifarbig). Vertieft: nur eingraviert, kein eigener Körper.
-   Die Tiefe ist höchstens 1 mm und lässt hinter der Schrift mindestens 0,8 mm Wand stehen (t = Wandstärke hinter der Fläche).
+   Die Tiefe ist höchstens 1 mm und lässt hinter der Schrift mindestens 0,6 mm Wand stehen (t = Wandstärke hinter der Fläche).
    Jede Bauteilart gibt in model.schilder die Flächen an, auf denen Platz ist:
    {ax: "y" oder "x" (Richtung der Flächennormalen), dir: +1/−1, p: Lage der Fläche, u0..u1: waagerechter Bereich
     (x bei ax "y", y bei ax "x"), z0..z1: senkrechter Bereich, t: Wandstärke dahinter, avoid: [{u0,u1,z0,z1}] freizuhaltende Stellen, z. B. Schraublöcher} */
@@ -130,8 +130,9 @@ function schriftModel(model,p,warn){
   const sgn=S.ax==="y"?-S.dir:S.dir, P=S.p, dir=S.dir, art=p.relief||"erhaben";
   // Abstand in der Fläche (mm) und Abstand vor der Fläche (positiv = nach außen)
   const lage=S.ax==="y" ? (x,y,z)=>[e2(sgn*(x-uc)/th,(z-zc)/th)*th,dir*(y-P)] : (x,y,z)=>[e2(sgn*(y-uc)/th,(z-zc)/th)*th,dir*(x-P)];
-  const dep=Math.min(1,(S.t??2)-0.8);
-  if(art!=="erhaben"&&dep<0.4){ warn.push("Die Wand ist hier zu dünn, um die Schrift einzulassen. „Erhaben“ wählen oder die Wand dicker machen."); return; }
+  // Tiefe höchstens 1 mm, dahinter mindestens 0,6 mm Wand (Zahlen gerundet, sonst ergibt z. B. 1,2 − 0,6 knapp zu wenig)
+  const dep=Math.round(Math.min(1,(S.t??2)-0.6)*100)/100;
+  if(art!=="erhaben"&&dep<0.3){ warn.push("Die Wand ist hier zu dünn, um die Schrift einzulassen. „Erhaben“ wählen oder die Wand dicker machen."); return; }
   const lo=art==="erhaben"?-SCHRIFT_TIEF:-dep, hi=art==="erhaben"?SCHRIFT_HOCH:0;
   const f=(x,y,z)=>{ const [d,s]=lage(x,y,z); return ext(d,s,lo,hi); };
   const n0=dir>0?P+lo:P-hi, n1=dir>0?P+hi:P-lo, a0=uc-tw/2-0.5, a1=uc+tw/2+0.5, z0=zc-thh/2-0.5, z1=zc+thh/2+0.5;
