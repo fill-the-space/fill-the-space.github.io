@@ -70,7 +70,8 @@ function buildBox(p,o){
   if(lid==="steck") teile.push({f:lidF,bb:[L+10,2*L+10,0,B,0,Math.max(1.6,t)+BOX_STECK]});
   if(lid==="schiebe"){ const oy=B+10; teile.push({f:lidF,bb:[0,L-t+gd-c,oy+t-gd+c,oy+B-t+gd-c,0,tl-c]}); }
   if(lid==="einlege") teile.push({f:lidF,bb:[L+10,2*L+10,0,B,0,tp]});
-  const minWand=Math.min(t,tb,lid==="schiebe"?tl-c:lid?Math.max(1.6,t):99);
+  // dünnste Stelle: beim Schiebedeckel die Wand neben der Nut (t − gd) und die Kante über der Nut (0,8 mm)
+  const minWand=Math.min(t,tb,lid==="schiebe"?Math.min(tl-c,t-gd,0.8):lid?Math.max(1.6,t):99);
   // Für die Anordnung im Kasten: Box mit geschlossenem Deckel statt Box und Deckel nebeneinander
   let plan={f,bb:[0,L,0,B,0,H]};
   if(lid==="steck"){ const ox=L+10, tp=Math.max(1.6,t); plan={f:(x,y,z)=>Math.min(f(x,y,z),lidF(x+ox,y,H+tp-z)),bb:[0,L,0,B,0,H+tp]}; }

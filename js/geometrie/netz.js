@@ -1,7 +1,9 @@
 /* ---------- Surface Nets: SDF -> geschlossenes Dreiecksnetz ---------- */
 function polygonize(f,bb,h){
-  const pad=2*h, X0=bb[0]-pad, Y0=bb[2]-pad, Z0=bb[4]-pad;
+  const pad=2*h;
   const nx=Math.ceil((bb[1]-bb[0]+2*pad)/h)+1, ny=Math.ceil((bb[3]-bb[2]+2*pad)/h)+1, nz=Math.ceil((bb[5]-bb[4]+2*pad)/h)+1;
+  // Raster mittig auf die Begrenzungsbox legen: Spiegelgleiche Stellen (z. B. linke und rechte Wand) liegen dann gleich im Raster
+  const X0=(bb[0]+bb[1])/2-(nx-1)*h/2, Y0=(bb[2]+bb[3])/2-(ny-1)*h/2, Z0=(bb[4]+bb[5])/2-(nz-1)*h/2;
   const V=new Float32Array(nx*ny*nz), sxy=nx*ny;
   for(let k=0;k<nz;k++){ const z=Z0+k*h; for(let j=0;j<ny;j++){ const y=Y0+j*h, o=k*sxy+j*nx; for(let i=0;i<nx;i++){ let v=f(X0+i*h,y,z); if(v===0) v=1e-6; V[o+i]=v; } } }
   const cx=nx-1, cy=ny-1, cz=nz-1, cxy=cx*cy;

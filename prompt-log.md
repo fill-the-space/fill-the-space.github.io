@@ -2137,3 +2137,31 @@ Nachgeschoben: „Sie müssen aber weiterhin vom gleichen Typ sein, um Stapel Ba
 **Screenshot:** prompt-log-bilder/97-vorher-loecher.webp / 97-vorher-koecher.webp (Liobas Bilder) / 97-schiebedeckel-neu.png / 97-koecher-eingelegt.png
 
 **Commit-Nachricht:** Prompt 97: Löcher am Schiebedeckel und eingelassene Schrift
+
+---
+
+## Prompt 98 – Schiebedeckel: Lücke nur rechts (25.10.2026)
+
+**Prompt:**
+> das Problem mit dem einschiebe Deckel ist immer noch nicht gelöst. Wenn man die Box vor sich hat und die den Deckel einschieben würde, ist auf der rechten Seite der einschieben Bereich nicht korrekt. Es entsteht eine Lücke. Das ist nur auf der rechten Seite. Auf der linken ist es in Ordnung.
+
+(Mit Screenshot der Deckelbox 80 × 80 × 30, Wand 2,2 mm.)
+
+**Was sich geändert hat:**
+- **Untersuchung:** Die berechnete Form ist links und rechts exakt gleich, an rund 100.000 Punkten nachgeprüft. Die Lücke entstand erst beim Umrechnen in Dreiecke:
+  - Neben der Nut bleibt nur 1 mm Wand, über der Nut 0,8 mm. Die App kannte aber nur die Wandstärke 2,2 mm als dünnste Stelle und rechnete die Vorschau mit einem 1,2-mm-Raster. Das ist gröber als die dünnen Stellen.
+  - Das Raster begann immer an der linken Kante der Box. Rechts fiel es deshalb anders auf die dünne Wand als links. An der rechten Ecke lagen 6 Netzpunkte, links 13.
+- **Behoben:**
+  1. Die Box meldet jetzt ihre wirklich dünnste Stelle (beim Schiebedeckel 0,8 mm). Vorschau und Export rechnen entsprechend fein: 0,56 mm Raster in der Vorschau, 0,36 mm beim Speichern.
+  2. Das Raster wird mittig auf jedes Bauteil gelegt. Spiegelgleiche Stellen liegen damit immer gleich im Raster. Das gilt für alle Bauteile.
+- **Geprüft:**
+  - Ecke rechts und links jeweils 77 Netzpunkte in der Vorschau und 194 im Export.
+  - Kein einziger der 96.858 Punkte ist ohne Spiegelpartner.
+  - Alle Netze sind geschlossen, auch bei Köcher, Konsole, Leiste, Stapelbox und Sortierkasten.
+- Ein Probedruck steht noch aus.
+
+**Betroffene Dateien:** index.html (Versionsnummer 98), js/geometrie/netz.js, js/boxen/grundform.js
+
+**Screenshot:** prompt-log-bilder/98-vorher-rechts.webp (Liobas Bild) / 98-nachher.png
+
+**Commit-Nachricht:** Prompt 98: Schiebedeckel – Lücke nur rechts
