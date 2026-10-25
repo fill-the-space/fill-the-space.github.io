@@ -159,10 +159,15 @@ label.num input[type=text]{font:500 15px var(--body)}
 .field-btn .btn{padding:8px 14px;font-size:12px;box-shadow:3px 3px 0 var(--shadow)}
 .img-mini{border:1.5px solid var(--line);border-radius:6px;padding:3px;background:var(--bg);max-height:42px}
 #fields .seg button[style]{font-size:15px;font-weight:700;padding-inline:2px}
-/* Computer: In der Einzelteil-Ansicht läuft die 3D-Vorschau beim Scrollen mit, damit man das Bauteil beim Bearbeiten sieht */
+/* Computer: In der Einzelteil-Ansicht läuft die ganze rechte Spalte beim Scrollen mit (Vorschau, Kennzahlen, Speichern),
+   damit nichts unter der Vorschau verschwindet. Die Vorschau nimmt den Platz, der übrig bleibt; wird es zu eng, scrollt die Spalte für sich. */
 @media (min-width:821px){
-  body:not(.plan-on) .view{align-self:stretch}
-  body:not(.plan-on) .bed{position:sticky;top:14px;z-index:3}
+  body:not(.plan-on) .view{position:sticky;top:14px;height:calc(100vh - 28px);overflow-y:auto;overflow-x:hidden;padding:0 6px 6px 0;scrollbar-width:thin}
+  body:not(.plan-on) .view>*{flex:none}
+  body:not(.plan-on) .bed{aspect-ratio:auto;flex:1 1 auto;min-height:260px;max-height:760px}
+  /* Knöpfe (Format, Farben, Speichern, An die Wand) direkt unter der Vorschau, Kennzahlen und Empfehlung darunter */
+  body:not(.plan-on) .view>.actions{order:1}
+  body:not(.plan-on) .view>.specs,body:not(.plan-on) .view>.alerts,body:not(.plan-on) .view>.reco,body:not(.plan-on) .view>.note{order:2}
 }
 
 /* „Teil bearbeiten“ gibt es nur auf dem Handy (am Computer steht das Formular daneben) */

@@ -2191,3 +2191,31 @@ Nachgeschoben: „Sie müssen aber weiterhin vom gleichen Typ sein, um Stapel Ba
 **Screenshot:** prompt-log-bilder/99-schiebedeckel-schrift.png / 99-im-kasten-schiebe.png / 99-im-kasten-steck.png
 
 **Commit-Nachricht:** Prompt 99: Beschriftung auf dem Deckel
+
+---
+
+## Prompt 100 – Computer: rechte Spalte läuft ganz mit, Knöpfe unter der Vorschau (25.10.2026)
+
+**Prompt:**
+> Ich hätte noch eine Änderungswunsch für den Browser auf dem PC. Das Ansichtsfenster mit dem Einzelteil bewegt sich ja jetzt mit, wenn man runter scrollt. Das hat zwar den Vorteil, dass ich auf der linken Seite jetzt immer sehe, was ich mache rechts aber der Nachteil ist, dass ich unten die Auswahl Button teilweise verdecke und ein bisschen hin und her schieben muss, damit ich sie drücken kann. Die warten unter dem 3-D Screen. Hast du dafür eine bessere Lösung damit man nicht so hin und her scrollen muss und verschiedene butten Drücken zu können
+
+Nachgeschoben: „Vielleicht konnte man die Reihenfolge der Button anders machen, dass die Backen direkt unter dem Fenster sind“
+
+**Was sich geändert hat (nur am Computer, Einzelteil-Ansicht):**
+- **Vorher (seit Prompt 80):** Nur die 3D-Vorschau lief beim Scrollen mit. Kennzahlen, Empfehlung und Knöpfe darunter scrollten unter die Vorschau und wurden verdeckt.
+- **Jetzt:**
+  - Die **ganze rechte Spalte** läuft mit: Umschalter, Vorschau, Knöpfe, Kennzahlen und Empfehlung.
+  - Die Vorschau nimmt nur den Platz, der übrig bleibt, und wird bei kleinen Fenstern kleiner, sodass alles gleichzeitig zu sehen ist. Reicht der Platz trotzdem nicht, z. B. bei vielen Warnungen, scrollt nur die rechte Spalte für sich.
+  - Nach Liobas Nachtrag stehen die **Knöpfe direkt unter der Vorschau**: STL/3MF, Farben, Speichern, An die Wand bzw. In den Kasten. Kennzahlen und Druckempfehlung folgen darunter.
+- In der Anordnung (Wand/Kasten) und auf dem Handy bleibt alles wie bisher.
+- **Geprüft bei drei Fensterhöhen:** Alles ist gleichzeitig sichtbar, ohne Scrollen in der Spalte. Die Vorschau ist dabei unterschiedlich hoch:
+  - 640 px: Vorschau 271 px hoch
+  - 800 px: Vorschau 431 px hoch
+  - 1000 px: Vorschau 631 px hoch
+- Auf dem Handy ist nichts verändert.
+
+**Betroffene Dateien:** index.html (Versionsnummer 100), css/style.css
+
+**Screenshot:** prompt-log-bilder/100-rechte-spalte.jpg
+
+**Commit-Nachricht:** Prompt 100: Computer – rechte Spalte läuft mit, Knöpfe unter der Vorschau
