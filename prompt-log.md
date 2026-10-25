@@ -2219,3 +2219,27 @@ Nachgeschoben: „Vielleicht konnte man die Reihenfolge der Button anders machen
 **Screenshot:** prompt-log-bilder/100-rechte-spalte.jpg
 
 **Commit-Nachricht:** Prompt 100: Computer – rechte Spalte läuft mit, Knöpfe unter der Vorschau
+
+---
+
+## Prompt 101 – Umzug zu fill-the-space.github.io (25.10.2026)
+
+**Prompt:**
+> Dann mach das alternativ fill-the-space.github.io
+
+**Vorgeschichte:**
+- Netlify hat Prompt 100 nicht mehr veröffentlicht, Lioba stellte fest: „Ich habe aktuell keine Credits mehr“. Im kostenlosen Netlify-Tarif kostet jede Veröffentlichung Guthaben. Nach etwa 20 Veröffentlichungen im Monat ist Schluss, und wir veröffentlichen nach jeder Änderung.
+- Lioba fragte nach einer Endung wie .de, .com oder .tech. Claude hat geprüft, dass fill-the-space.de und .com frei sind und .tech vermutlich auch.
+- Über das GitHub-Studentenpaket gibt es bei Name.com eine Domain ein Jahr gratis, allerdings nur bestimmte Endungen. Lioba hat sich dann für die kostenlose GitHub-Adresse entschieden.
+
+**Was sich geändert hat:**
+- Lioba hat auf GitHub die Organisation **fill-the-space** angelegt und sich im Browserfenster angemeldet. Claude legt keine Konten an und gibt keine Passwörter ein.
+- Claude hat das Repository in die Organisation verschoben und dabei in **fill-the-space.github.io** umbenannt. Danach hat er GitHub Pages eingeschaltet (Branch main, Ordner /).
+- Die App läuft jetzt unter **https://fill-the-space.github.io/**: kostenlos, ohne Begrenzung beim Veröffentlichen und ohne Kontonamen in der Adresse.
+- Die Git-Verbindungen (auch für GitHub Desktop), die README und die CLAUDE.md nennen jetzt die neue Adresse.
+- Netlify wird nicht mehr benutzt. Das Projekt dort kann Lioba löschen.
+- Auf dem iPhone muss die App einmal neu „Zum Home-Bildschirm“ hinzugefügt werden, weil sich die Adresse geändert hat.
+
+**Betroffene Dateien:** README.md, CLAUDE.md (die App selbst ist unverändert; Prompt 100 kommt mit diesem Push online)
+
+**Commit-Nachricht:** Prompt 101: Umzug zu fill-the-space.github.io

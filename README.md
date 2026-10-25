@@ -1,10 +1,10 @@
 # FILL THE SPACE
 
-Der Halterungs-Generator heißt jetzt „FILL THE SPACE“. Seit dem 23.10.2026 heißen auch Repository und Adresse „fill-the-space“ (vorher „halterungs-generator“).
+Der Halterungs-Generator heißt jetzt „FILL THE SPACE“. Seit dem 25.10.2026 liegt die App in der GitHub-Organisation „fill-the-space“ unter fill-the-space.github.io (vorher „halterungs-generator“, kurz auch auf Netlify).
 
 Erzeugt Wandhalterungen für den 3D-Drucker: Halterungsart wählen, Maße mit Schiebereglern und Feldern einstellen (alle Längen in Millimetern), Halterung in 3D ansehen und als STL-Datei speichern.
 
-**App öffnen:** https://fill-the-space.netlify.app/ (lässt sich auf dem Handy über „Zum Home-Bildschirm“ wie eine App installieren)
+**App öffnen:** https://fill-the-space.github.io/ (lässt sich auf dem Handy über „Zum Home-Bildschirm“ wie eine App installieren)
 
 Lokal ausprobieren: `index.html` im Finder doppelklicken.
 
