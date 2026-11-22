@@ -21,7 +21,7 @@ desktop.ini
 
 # Persönliche Claude-Code-Einstellungen
 .claude/settings.local.json
-.claude/launch.json
+# .claude/launch.json (Test-Server, Port 8766) liegt bewusst im Repository, damit er auch auf anderen Rechnern da ist
 
 # Falls später Werkzeuge mit npm dazukommen
 node_modules/

@@ -2267,3 +2267,25 @@ Nachtrag zu Prompt 101: Neue Organisationen sperren Deploy Keys standardmäßig,
 - Die neue GitHub-Organisation sperrte zuerst den Push-Zugang.
 - Liobas genaue Rückmeldungen mit Screenshots („nur rechts“) waren der Schlüssel zu den Lösungen.
 **Präsentationstauglich:** ja. Gute Vorher-nachher-Bilder sind 97-vorher-loecher.webp / 97-schiebedeckel-neu.png und 98-vorher-rechts.webp / 98-nachher.png. Dazu kommt die Geschichte „Vorschau sieht gut aus, Druck zeigt die Wahrheit“.
+
+---
+
+## Prompt 102 – Übergabe für einen anderen Rechner (22.11.2026)
+
+**Prompt:**
+> Kannst du mir ein Übergabe Dokument schreiben mit MD Dateien und alles was nötig ist? Ich möchte auf dem anderen Rechner mit dem Projekt weitermachen. Bitte auch weiter dokumentieren und die Dokumentation als Vorgabe weitergeben
+
+**Was sich geändert hat (nur Dokumentation, die App ist unverändert):**
+- **UEBERGABE.md** (neu): Stand des Projekts, was die App kann, offene Punkte und eine Schritt-für-Schritt-Anleitung ohne Terminal für den neuen Rechner. Sie umfasst GitHub Desktop, das Klonen, die Claude-App, den Protokoll-Skill, den Push-Zugang und den Test. Dazu kommt der bisherige Arbeitsablauf als Vorgabe.
+- **docs/DOKUMENTATION-VORGABE.md** (neu): die verbindliche Vorgabe für das Protokoll. Sie enthält Vorlagen für Prompt-Einträge und Etappen, Regeln (wörtliche Prompts, Fehler ehrlich, Screenshots), Commit, Präsentation und welche Dokumente mitgepflegt werden. So wird auch ohne den Skill „app-prompt-protokoll“ genauso weiter dokumentiert.
+- **docs/TECHNIK-NOTIZEN.md** (neu): wie die App aufgebaut ist (Formen als Abstandsfelder, Bauteil-Liste, Felder, Zustand), Konventionen und eine Tabelle mit allen bisher aufgetretenen Stolperfallen und ihren Lösungen.
+- **CLAUDE.md:** Sie verweist jetzt auf diese Dokumente und nennt das Protokoll als Vorgabe auch ohne Skill. Sie übernimmt Liobas Arbeitswünsche, die bisher nur im Gedächtnis von Claude auf dem alten Mac lagen (Spracheingabe, Chrome, keine Passwörter). Dazu kommt, wie auf einem neuen Rechner ein eigener Push-Schlüssel eingerichtet wird.
+- **README.md:** Die Beschreibung umfasst jetzt Boxen, Anordnung, Beschriftung, 3MF und Handy, dazu Links auf die neuen Dokumente.
+- **.claude/launch.json** (Test-Server) liegt jetzt im Repository, damit er auf dem neuen Rechner sofort da ist.
+- **Wichtig für den neuen Rechner:**
+  - Der Push-Schlüssel des alten Macs wird nicht mitgenommen. Auf dem neuen Rechner wird ein neuer Schlüssel erzeugt und auf GitHub eingetragen (UEBERGABE.md, Schritt 5), oder Lioba pusht selbst mit GitHub Desktop.
+  - Festgestellt: Für die Prompts 21–59 und 62–79 fehlen noch Etappen-Zusammenfassungen. Das ist als offener Punkt vermerkt.
+
+**Betroffene Dateien:** UEBERGABE.md, docs/DOKUMENTATION-VORGABE.md, docs/TECHNIK-NOTIZEN.md, CLAUDE.md, README.md, .gitignore, .claude/launch.json
+
+**Commit-Nachricht:** Prompt 102: Übergabe für einen anderen Rechner

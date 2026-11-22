@@ -2,7 +2,9 @@
 
 Der Halterungs-Generator heißt jetzt „FILL THE SPACE“. Seit dem 25.10.2026 liegt die App in der GitHub-Organisation „fill-the-space“ unter fill-the-space.github.io (vorher „halterungs-generator“, kurz auch auf Netlify).
 
-Erzeugt Wandhalterungen für den 3D-Drucker: Halterungsart wählen, Maße mit Schiebereglern und Feldern einstellen (alle Längen in Millimetern), Halterung in 3D ansehen und als STL-Datei speichern.
+Erzeugt Halterungen und Boxen für den 3D-Drucker: Art wählen, Maße einstellen (alle Längen in Millimetern), in 3D ansehen, an einer Wand bzw. in einem Kasten anordnen, beschriften und als STL- oder 3MF-Datei (zweifarbig) speichern. Läuft im Browser und auf dem Handy als installierbare Web-App.
+
+**Weitere Dokumentation:** [UEBERGABE.md](UEBERGABE.md) (Stand, Funktionen, neuer Rechner) · [docs/DOKUMENTATION-VORGABE.md](docs/DOKUMENTATION-VORGABE.md) (wie protokolliert wird) · [docs/TECHNIK-NOTIZEN.md](docs/TECHNIK-NOTIZEN.md) (Aufbau, Stolperfallen) · [prompt-log.md](prompt-log.md) (Protokoll für die Vorlesung)
 
 **App öffnen:** https://fill-the-space.github.io/ (lässt sich auf dem Handy über „Zum Home-Bildschirm“ wie eine App installieren)
 
@@ -52,6 +54,9 @@ js/zustand.js                 aktuelle Auswahl, wird im Browser gemerkt
 js/main.js                    verbindet alles
 archiv/halterung-demo.html    ursprüngliche Demo aus dem Chat
 prompt-log.md                 Prompt-Protokoll für die Präsentation
+UEBERGABE.md                  Übergabe: Stand, Funktionen, Einrichtung auf einem neuen Rechner
+docs/                         Dokumentations-Vorgabe und Technik-Notizen
+.claude/launch.json           lokaler Test-Server (Port 8766) für Claude
 ```
 
 ### Neue Halterungsart hinzufügen
