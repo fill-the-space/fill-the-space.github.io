@@ -2289,3 +2289,24 @@ Nachtrag zu Prompt 101: Neue Organisationen sperren Deploy Keys standardmäßig,
 **Betroffene Dateien:** UEBERGABE.md, docs/DOKUMENTATION-VORGABE.md, docs/TECHNIK-NOTIZEN.md, CLAUDE.md, README.md, .gitignore, .claude/launch.json
 
 **Commit-Nachricht:** Prompt 102: Übergabe für einen anderen Rechner
+
+---
+
+## Prompt 103 – Neuer Rechner (Windows) eingerichtet (22.11.2026)
+
+**Prompt:**
+> Lies-Übergabe.md und Claude.md und mach mit dem Projekt weiter.
+
+Claude fragte, ob ein neuer Push-Schlüssel erzeugt werden soll. Lioba: „Ja, Schlüssel erzeugen“, nach dem Eintragen auf GitHub: „Ja, eingetragen“.
+
+**Was sich geändert hat (Entscheidung und Einrichtung, die App ist unverändert):**
+- Das Projekt läuft jetzt auf einem **Windows-Rechner** weiter. Die Übergabe aus Prompt 102 hat funktioniert: Claude hat UEBERGABE.md und CLAUDE.md gelesen und kannte damit Stand, Arbeitsweise und Protokoll-Vorgabe.
+- **Test-Server:** Die Einstellung war für den Mac gemacht (`python3`). Unter Windows heißt das Programm `python`, deshalb gibt es jetzt einen zweiten Eintrag „halterung-windows“ in `.claude/launch.json`. Lioba hat diese Änderung selbst über GitHub Desktop committet („Update launch.json“).
+- **Git:** Auf dem Rechner ist Git nicht einzeln installiert. Claude benutzt das Git, das in GitHub Desktop steckt.
+- **Push-Zugang:** Claude hat einen neuen Deploy Key nur für dieses Repository erzeugt, Lioba hat ihn auf GitHub mit Schreibzugriff eingetragen. Damit pusht Claude wieder selbst.
+- **Geprüft:** App lokal geladen, keine Fehler in der Konsole; Verbindung zu GitHub über den neuen Schlüssel klappt; Push dieses Eintrags.
+- **Noch offen:** wie in UEBERGABE.md (Probedruck nach 96–98, 3MF im Slicer, fehlende Etappen 21–59 und 62–79).
+
+**Betroffene Dateien:** prompt-log.md, CLAUDE.md, UEBERGABE.md, docs/TECHNIK-NOTIZEN.md (.claude/launch.json schon im Commit „Update launch.json“)
+
+**Commit-Nachricht:** Prompt 103: Neuer Rechner (Windows) eingerichtet

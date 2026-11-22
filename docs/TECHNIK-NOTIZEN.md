@@ -43,7 +43,7 @@ Beschriftungsfelder: `textFelder([[fläche,Name],…])` aus `js/geometrie/schrif
 
 ## Testen
 
-- Lokaler Server: `.claude/launch.json` → `python3 -m http.server 8766` (im Repository enthalten). Im Browser-Bereich von Claude öffnen.
+- Lokaler Server: `.claude/launch.json` → `python3 -m http.server 8766` (im Repository enthalten). Im Browser-Bereich von Claude öffnen. Unter Windows den Eintrag `halterung-windows` nehmen (`python` statt `python3`, Letzteres öffnet dort nur den Microsoft Store).
 - Immer Desktop **und** Handygröße (390 × 844; kleinste 320 × 568) prüfen; Konsole auf Fehler prüfen.
 - Netze prüfen: geschlossen (jede Kante genau zweimal), bei dünnen Wänden Boden/Wand-Test, bei symmetrischen Teilen Spiegelprobe.
 - Echte Geräte (iPhone) und echte Drucke finden Fehler, die der Test im Browser nicht zeigt – Lioba berichtet sie mit Screenshots.
@@ -65,6 +65,7 @@ Beschriftungsfelder: `textFelder([[fläche,Name],…])` aus `js/geometrie/schrif
 | Werkzeugleiste auf iPhone nicht wischbar | – | `touch-action:pan-x` + Ziehen per Zeiger (87) |
 | Netlify veröffentlicht nicht mehr | kostenloses Guthaben (~20 Veröffentlichungen/Monat) aufgebraucht | Umzug zu GitHub Pages der Organisation (101) |
 | Push in die Organisation scheitert | neue Organisationen sperren Deploy Keys | Org → Settings → Deploy keys → Enabled (101) |
+| Test-Server startet unter Windows nicht | `python3` ist dort nur ein Store-Platzhalter; Git nicht im PATH | Eintrag `halterung-windows` mit `python`; Git aus GitHub Desktop (103) |
 | GitHub Desktop-Commits kamen nicht an | Ordner war in GitHub Desktop nicht eingebunden | Push-Zugang für Claude, nach jedem Push `git fetch` prüfen (früh) |
 
 ## Veröffentlichung

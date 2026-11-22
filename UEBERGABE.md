@@ -1,6 +1,6 @@
 # Übergabe: FILL THE SPACE auf einem neuen Rechner weiterentwickeln
 
-Stand: 22.11.2026 · letzter Protokoll-Eintrag: **Prompt 102** (diese Übergabe); der nächste Prompt bekommt die Nummer **103**
+Stand: 22.11.2026 · letzter Protokoll-Eintrag: **Prompt 103** (Windows-Rechner eingerichtet, eigener Deploy Key); der nächste Prompt bekommt die Nummer **104**
 
 Dieses Dokument ist für **Lioba** (Einrichten des neuen Rechners) und für **Claude** (wie weitergearbeitet und dokumentiert wird). Alles Nötige liegt im Repository, nichts muss vom alten Rechner kopiert werden – außer man möchte den alten Push-Zugang weiterverwenden (siehe Schritt 5).
 
@@ -40,7 +40,8 @@ Web-App für den 3D-Druck: Halterungen und Boxen entwerfen, in 3D ansehen, an ei
 1. **GitHub Desktop**: https://desktop.github.com → installieren → mit dem GitHub-Konto **lioba-source** anmelden.
 2. **Claude** (Desktop-App mit Claude Code): https://claude.ai/download → installieren → anmelden.
 3. **Google Chrome** (zum Anschauen der fertigen Seite).
-4. Nur macOS: **Python 3** ist für den Test-Server nötig. Auf neueren Macs fragt das System beim ersten Mal nach, ob die „Command Line Developer Tools“ installiert werden sollen → „Installieren“ klicken.
+4. Windows: Git kommt mit GitHub Desktop mit; Python muss installiert sein (z. B. Anaconda oder python.org), Test-Server-Eintrag „halterung-windows“.
+5. Nur macOS: **Python 3** ist für den Test-Server nötig. Auf neueren Macs fragt das System beim ersten Mal nach, ob die „Command Line Developer Tools“ installiert werden sollen → „Installieren“ klicken.
 
 ### Schritt 2 – Projekt herunterladen (klonen)
 1. GitHub Desktop → **File → Clone repository…**
@@ -106,4 +107,4 @@ Wichtig im Umgang:
 | `docs/DOKUMENTATION-VORGABE.md` | wie protokolliert wird: Vorlagen für Prompt-Einträge und Etappen, Regeln, Präsentation |
 | `docs/TECHNIK-NOTIZEN.md` | Aufbau im Detail, Konventionen, bekannte Stolperfallen und ihre Lösungen |
 | `README.md` | Überblick, Dateistruktur, neue Halterungs-/Boxenart hinzufügen |
-| `prompt-log.md` | das Protokoll für die Vorlesung (Prompts 1–101, Etappen) |
+| `prompt-log.md` | das Protokoll für die Vorlesung (Prompts 1–103, Etappen) |
