@@ -6,6 +6,12 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "8766"],
       "port": 8766
+    },
+    {
+      "name": "halterung-windows",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8766"],
+      "port": 8766
     }
   ]
 }
